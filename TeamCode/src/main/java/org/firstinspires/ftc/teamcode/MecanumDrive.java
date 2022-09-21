@@ -25,10 +25,21 @@ public abstract class MecanumDrive extends LinearOpMode {
         Left_Back = hardwareMap.get(DcMotor.class,"Left_Back");
 
         // Both right side motors should be going in one direction, and both left side motors going in the opposite direction
-        Right_Front.setDirection(DcMotorSimple.Direction.REVERSE); // TODO Test motor direction
-        Right_Back.setDirection(DcMotorSimple.Direction.REVERSE); // TODO Test motor direction
+        // FIXME Naming conventions from Hardware Map to TeleOp
+        Right_Front.setDirection(DcMotorSimple.Direction.FORWARD); // TODO Test motor direction
         Left_Front.setDirection(DcMotorSimple.Direction.REVERSE);// TODO Test motor direction
+        Right_Back.setDirection(DcMotorSimple.Direction.FORWARD); // TODO Test motor direction
         Left_Back.setDirection(DcMotorSimple.Direction.REVERSE); // TODO Test motor direction
+
+        /**
+         * From the Hardware Map
+
+        frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
+        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotor.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
+         */
+
 
         waitForStart();
 
