@@ -1,3 +1,7 @@
+/**
+ * FTC Gyro file
+ * Function(s) of the file: Its listed as TeleOp - is it an assisted TeleOp? or actually an Auton?
+ */
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
