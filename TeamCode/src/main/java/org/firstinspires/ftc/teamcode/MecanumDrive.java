@@ -7,20 +7,18 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+
 @TeleOp(name = "Mecanum Drive", group="Linear OpMode")
 public abstract class MecanumDrive extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime(); //Added from BasicOpLinear
 
     // renamed to match Driver Hub
-    // assigned 0 in Driver Hub
-    private DcMotor frontRightMotor = null;
-    // assigned 1 in Driver Hub
-    private DcMotor frontLeftMotor = null;
-    // assigned 2 in Driver Hub
-    private DcMotor backRightMotor = null;
-    // assigned 3 in Driver Hub
-    private DcMotor backLeftMotor = null;
+    private DcMotor frontRightMotor = null; // assigned 0 in Driver Hub
+    private DcMotor frontLeftMotor = null; // assigned 1 in Driver Hub
+    private DcMotor backRightMotor = null; // assigned 2 in Driver Hub
+    private DcMotor backLeftMotor = null; // assigned 3 in Driver Hub
+
 
     //this function is started when this Op Mode is selected from the drives station
 

@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name = "Gyro")
+// @TeleOp(name = "Gyro")
 public class Gyro extends LinearOpMode {
     /*
     the keyword 'extends' means to create a child class of LinearOpMode, or to let Gyro
