@@ -34,19 +34,19 @@ public class ScoyDrive extends LinearOpMode {
         telemetry.update(); //Added from BasicOpLinear
 
 
-        frontRightMotor = hardwareMap.get(DcMotor.class,"Front Right");
-        frontLeftMotor = hardwareMap.get(DcMotor.class,"Front Left");
-        backRightMotor = hardwareMap.get(DcMotor.class,"Back Right");
-        backLeftMotor = hardwareMap.get(DcMotor.class,"Back Left");
+        frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
+        frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
+        backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
+        backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
 
         // Both right side motors should be going in one direction, and both left side motors going in the opposite direction
         /* This appears to be set already in the hardware map
         */
 
-        frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);// TODO Test motor direction
-        backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD); // TODO Test motor direction
-        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE); // TODO Test motor direction
-        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE); // TODO Test motor direction
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);// TODO Test motor direction
+        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE); // TODO Test motor direction
+        frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD); // TODO Test motor direction
+        backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD); // TODO Test motor direction
 
 
         waitForStart();
@@ -69,10 +69,16 @@ public class ScoyDrive extends LinearOpMode {
             double pivot = gamepad1.right_stick_x; // Uses the right thumbstick to rotate robot movement
 
             // Variables for wheel motor power and inputs
+            /*
             double frontLeftPower = (vertical + horizontal + pivot);
             double backLeftPower = (vertical - horizontal + pivot);
             double frontRightPower = (vertical - horizontal - pivot);
             double backRightPower = (vertical + horizontal - pivot);
+            */
+            double frontLeftPower = (vertical + horizontal + pivot);
+            double backLeftPower = (vertical - horizontal - pivot);
+            double frontRightPower = (vertical - horizontal - pivot);
+            double backRightPower = (vertical + horizontal + pivot);
 
             // TODO Test these directional settings
             // Send calculated power to wheels
