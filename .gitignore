@@ -24,8 +24,8 @@ hs_err_pid*
 replay_pid*
 local.properties
 *.bin
-*.bin
-*.lock
 *.lock
 *.bin
 *.dex
+
+
