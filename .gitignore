@@ -86,4 +86,6 @@ lint/outputs/
 lint/tmp/
 # lint/reports/
 
+# Custom adds from Scoy
 local.properties
+.gradle/
