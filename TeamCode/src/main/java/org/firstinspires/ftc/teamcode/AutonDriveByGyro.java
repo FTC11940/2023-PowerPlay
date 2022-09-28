@@ -100,8 +100,7 @@ public class AutonDriveByGyro extends LinearOpMode {
     private DcMotor backRightMotor = null; // assigned 2 in Driver Hub
     private DcMotor backLeftMotor = null; // assigned 3 in Driver Hub
 
-    // TODO change to Gyro used by our team
-    private BNO055IMU       imu         = null;      // Control/Expansion Hub IMU
+    private BNO055IMU imu = null; // Control/Expansion Hub IMU
 
     private double          robotHeading  = 0;
     private double          headingOffset = 0;
