@@ -15,14 +15,12 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
     opModeInInit(): returns !isStarted() && !isStopRequested() and does not call idle().
  *****************************/
 
-@TeleOp(name = "Scoy Drive", group="Linear OpMode")
-public class ScoyDrive extends LinearOpMode {
+@TeleOp(name = "Mech Drive", group="Linear OpMode")
+public class MechDrive extends LinearOpMode {
 
     // private ElapsedTime runtime = new ElapsedTime(); //Added from BasicOpLinear
 
-    // renamed to match Driver Hub
-    /* Located in the Hardware file
-    */
+    // Located in the Hardware file and matches with the Drive Hub robot settings
     private DcMotor frontRightMotor = null; // assigned 0 in Driver Hub
     private DcMotor frontLeftMotor = null; // assigned 1 in Driver Hub
     private DcMotor backRightMotor = null; // assigned 2 in Driver Hub
@@ -42,11 +40,10 @@ public class ScoyDrive extends LinearOpMode {
         // Both right side motors should be going in one direction, and both left side motors going in the opposite direction
         /* This appears to be set already in the hardware map
         */
-
-        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);// TODO Test motor direction
-        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE); // TODO Test motor direction
-        frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD); // TODO Test motor direction
-        backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD); // TODO Test motor direction
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
 
         waitForStart();
