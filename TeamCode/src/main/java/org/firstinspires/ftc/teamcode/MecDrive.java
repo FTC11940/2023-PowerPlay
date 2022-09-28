@@ -16,7 +16,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
  *****************************/
 
 @TeleOp(name = "Mech Drive", group="Linear OpMode")
-public class MechDrive extends LinearOpMode {
+public class MecDrive extends LinearOpMode {
 
     // private ElapsedTime runtime = new ElapsedTime(); //Added from BasicOpLinear
 
