@@ -6,46 +6,45 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.GyroSensor;
-import com.qualcomm.robotcore.util.ElapsedTime;
+           import com.qualcomm.robotcore.hardware.DcMotorSimple;
+           import com.qualcomm.robotcore.hardware.GyroSensor;
+           import com.qualcomm.robotcore.util.ElapsedTime;
 
-// @TeleOp(name = "Gyro")
-public class Gyro extends LinearOpMode {
-    /*
-    the keyword 'extends' means to create a child class of LinearOpMode, or to let Gyro
-    inherit traits of LinearOpMode, it's parent class, like you might inherit your parents' things
-     */
+           // @TeleOp(name = "Gyro")
+           public class Gyro extends LinearOpMode {
+               /*
+               the keyword 'extends' means to create a child class of LinearOpMode, or to let Gyro
+               inherit traits of LinearOpMode, it's parent class, like you might inherit your parents' things
+                */
 
-    // creates variables we'll use later
-    private DcMotor left;
-    private DcMotor right;
-    private GyroSensor gyro;
-    private DcMotor BackLeft;
-    private DcMotor FrontLeft;
-    private DcMotor BackRight;
-    private DcMotor FrontRight;
+               // creates variables we'll use later
+               private DcMotor left;
+               private DcMotor right;
+               private GyroSensor gyro;
+               private DcMotor BackLeft;
+               private DcMotor FrontLeft;
+               private DcMotor BackRight;
+               private DcMotor FrontRight;
 
-    boolean onTarget;
-    ElapsedTime _7BholdTimeVariable_7D;
-    double steer;
-    double error;
-    double GYRO_ADJUSTMENT;
-    double COUNTS_PER_INCH;
-    double P_TURN_COEFF;
-    int HEADING_THRESHOLD;
-    double leftSpeed;
-    double rightSpeed;
-    double P_DRIVE_COEFF;
+               boolean onTarget;
+               ElapsedTime _7BholdTimeVariable_7D;
+               double steer;
+               double error;
+               double GYRO_ADJUSTMENT;
+               double COUNTS_PER_INCH;
+               double P_TURN_COEFF;
+               int HEADING_THRESHOLD;
+               double leftSpeed;
+               double rightSpeed;
+               double P_DRIVE_COEFF;
 
-    // this function is executed when this Op Mode is selected from the driver station
-    // the override keyword is used to override a parent class's traits inside a child class
-    @Override
-    public void runOpMode(){
-        int COUNTS_PER_MOTOR_REV;
-        int DRIVE_GEAR_REDUCTION;
+               // this function is executed when this Op Mode is selected from the driver station
+               // the override keyword is used to override a parent class's traits inside a child class
+               @Override
+               public void runOpMode(){
+                   int COUNTS_PER_MOTOR_REV;
+                   int DRIVE_GEAR_REDUCTION;
         int WHEEL_DIAMETER_INCHES;
         double DRIVE_SPEED;
         double TURN_SPEED;

@@ -15,8 +15,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
     opModeInInit(): returns !isStarted() && !isStopRequested() and does not call idle().
  *****************************/
 
-@TeleOp(name = "Mec Drive", group="Linear OpMode")
-public class MecDrive extends LinearOpMode {
+@TeleOp(name = "Mecanum Drive", group="Linear OpMode")
+public class MecanumDrive extends LinearOpMode {
 
     // private ElapsedTime runtime = new ElapsedTime(); //Added from BasicOpLinear
 

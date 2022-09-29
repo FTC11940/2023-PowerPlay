@@ -102,7 +102,6 @@ public class AutonDriveByGyro extends LinearOpMode {
 
     // TODO change to Gyro used by our team
     private BNO055IMU       imu         = null;      // Control/Expansion Hub IMU
-
     private double          robotHeading  = 0;
     private double          headingOffset = 0;
     private double          headingError  = 0;
@@ -127,9 +126,10 @@ public class AutonDriveByGyro extends LinearOpMode {
     // For gearing UP, use a gear ratio less than 1.0. Note this will affect the direction of wheel rotation.
 
     // TODO identify the actual motors, gear reductions, wheel diameters, and counts per inch
+    // DONE, following variables have the correct measurements
     static final double     COUNTS_PER_MOTOR_REV    = 537.7 ;   // eg: GoBILDA 312 RPM Yellow Jacket
     static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // No External Gearing.
-    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+    static final double     WHEEL_DIAMETER_INCHES   = 4.01575 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
                                                       (WHEEL_DIAMETER_INCHES * 3.1415);
 
@@ -151,7 +151,7 @@ public class AutonDriveByGyro extends LinearOpMode {
     public void runOpMode() {
 
         // Initialize the drive system variables.
-        // Should match our Teleop file
+        // Should match our TeleOp file
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
@@ -160,7 +160,7 @@ public class AutonDriveByGyro extends LinearOpMode {
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-        // Should be the same as Teleop
+        // Should be the same as TeleOp
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -168,7 +168,7 @@ public class AutonDriveByGyro extends LinearOpMode {
 
         // TODO find out Gyro specs
         // define initialization values for IMU, and then initialize it.
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+                BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();w
         parameters.angleUnit            = BNO055IMU.AngleUnit.DEGREES;
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
@@ -237,7 +237,7 @@ public class AutonDriveByGyro extends LinearOpMode {
     *  Method to drive in a straight line, on a fixed compass heading (angle), based on encoder counts.
     *  Move will stop if either of these conditions occur:
     *  1) Move gets to the desired position
-    *  2) Driver stops the opmode running.
+    *  2) Driver stops the OpMode running.
     *
     * @param maxDriveSpeed MAX Speed for forward/rev motion (range 0 to +1.0) .
     * @param distance   Distance (in inches) to move from current position.  Negative distance means move backward.
@@ -249,7 +249,7 @@ public class AutonDriveByGyro extends LinearOpMode {
                               double distance,
                               double heading) {
 
-        // Ensure that the opmode is still active
+        // Ensure that the OpMode is still active
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
@@ -305,7 +305,7 @@ public class AutonDriveByGyro extends LinearOpMode {
      *  Method to spin on central axis to point in a new direction.
      *  Move will stop if either of these conditions occur:
      *  1) Move gets to the heading (angle)
-     *  2) Driver stops the opmode running.
+     *  2) Driver stops the OpMode running.
      *
      * @param maxTurnSpeed Desired MAX speed of turn. (range 0 to +1.0)
      * @param heading Absolute Heading Angle (in Degrees) relative to last gyro reset.
