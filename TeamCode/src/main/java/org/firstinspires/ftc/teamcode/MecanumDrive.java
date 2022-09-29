@@ -15,8 +15,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
     opModeInInit(): returns !isStarted() && !isStopRequested() and does not call idle().
  *****************************/
 
-@TeleOp(name = "Mec Drive", group="Linear OpMode")
-public class MecDrive extends LinearOpMode {
+@TeleOp(name = "Mecanum Drive", group="Linear OpMode")
+public class MecanumDrive extends LinearOpMode {
 
     // private ElapsedTime runtime = new ElapsedTime(); //Added from BasicOpLinear
 
@@ -40,16 +40,15 @@ public class MecDrive extends LinearOpMode {
         // Both right side motors should be going in one direction, and both left side motors going in the opposite direction
         /* This appears to be set already in the hardware map
         */
-        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE); //
+        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE); //
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD); //
 
 
         waitForStart();
 
         if (isStopRequested()) return;
-
         while (opModeIsActive()) {
 
             /* This may not be optimal. Consider using
@@ -73,9 +72,9 @@ public class MecDrive extends LinearOpMode {
             double backRightPower = (vertical + horizontal - pivot);
             */
             double frontLeftPower = (vertical + horizontal + pivot);
-            double backLeftPower = (vertical - horizontal - pivot);
+            double backLeftPower = (vertical - horizontal + pivot);
             double frontRightPower = (vertical - horizontal - pivot);
-            double backRightPower = (vertical + horizontal + pivot);
+            double backRightPower = (vertical + horizontal - pivot);
 
             // TODO Test these directional settings
             // Send calculated power to wheels
