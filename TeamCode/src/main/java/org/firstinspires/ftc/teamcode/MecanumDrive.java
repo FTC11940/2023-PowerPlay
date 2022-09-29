@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /****************************
     runOpMode(): Code inside this method will run exactly once after you press the INIT button. This is where you should put all code for the OpMode.
@@ -25,6 +27,12 @@ public class MecanumDrive extends LinearOpMode {
     private DcMotor frontLeftMotor = null; // assigned 1 in Driver Hub
     private DcMotor backRightMotor = null; // assigned 2 in Driver Hub
     private DcMotor backLeftMotor = null; // assigned 3 in Driver Hub
+
+    Hardware grabby = new Hardware();
+    double grabberPosition = grabby.POS_HOME;
+    final double GRABBER_SPEED = 0.01;
+
+    grabby.init(HardwareMap);
 
     @Override
     public void runOpMode() {
@@ -94,6 +102,13 @@ public class MecanumDrive extends LinearOpMode {
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower); //Added from BasicOpLinear
             telemetry.update();
              */
+
+            // uses the buttons a and y to open and close
+            if (gamepad1.a){
+                grabberPosition += GRABBER_SPEED;
+            } else if (gamepad1.y) {
+                grabberPosition -= GRABBER_SPEED;
+            }
 
         }
     }
