@@ -73,9 +73,9 @@ public class Mark2 extends LinearOpMode {
             double backRightPower = (vertical + horizontal - pivot);
             */
             double frontLeftPower = (y + x + rot);
-            double backLeftPower = (y + x - rot);
+            double backLeftPower = (y + x - rot); // switched signs on both
             double frontRightPower = (y - x - rot);
-            double backRightPower = (y - x + rot);
+            double backRightPower = (y - x + rot); // switched signs on both
 
             // Send calculated power to wheels
             frontLeftMotor.setPower(frontLeftPower);
