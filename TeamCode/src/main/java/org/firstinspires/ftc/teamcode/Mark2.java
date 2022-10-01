@@ -53,6 +53,7 @@ public class Mark2 extends LinearOpMode {
 
             /* This may not be optimal. Consider using
             // Uses the left thumbstick for forward & backwards robot movement
+            // TODO
             double drive = -gamepad1.left_stick_y;
             double turn  =  gamepad1.right_stick_x;
             leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
@@ -76,10 +77,17 @@ public class Mark2 extends LinearOpMode {
             frontRightMotor.setPower(frontRightPower);
             backRightMotor.setPower(backRightPower);
 
-            // Show the elapsed game time and wheel power.
-            // Taking out for simplicity
+            /*
+            * Telemetry Data for Driver & Optimization
+            ** Show the elapsed game time
+            ** Show wheel power output during teleop TODO test to see if it works properly
+            ** TODO Show claw-grabber position for testing
+            ** TODO Show the lift motor position for testing
+            */
+
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Motors", "left (%.2f), right (%.2f)", frontLeftPower, frontRightPower, backLeftPower, backRightPower);
+            telemetry.addData("Motors", "Front left (%.2f), Front right (%.2f)", frontLeftPower, frontRightPower);
+            telemetry.addData("Motors", "Back left (%.2f), Back right (%.2f)", backLeftPower, backRightPower);
             telemetry.update();
 
         }
