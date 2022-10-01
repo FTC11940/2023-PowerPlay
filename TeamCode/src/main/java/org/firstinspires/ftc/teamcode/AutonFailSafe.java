@@ -89,9 +89,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  *  Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Auton Drive By Gyro", group="Robot")
+@Autonomous(name="Blue Failsafe 1", group="Robot")
 // @Disabled
-public class AutonDriveByGyro extends LinearOpMode {
+public class AutonFailSafe extends LinearOpMode {
 
     /* Declare OpMode members. */
     // Located in the Hardware file and matches with the Drive Hub robot settings
@@ -117,6 +117,8 @@ public class AutonDriveByGyro extends LinearOpMode {
     private double  rightSpeed    = 0;
     private int     leftTarget    = 0;
     private int     rightTarget   = 0;
+    private int     leftTargetBack = 0;
+    private int     rightTargetBack =0;
 
     // Calculate the COUNTS_PER_INCH for your specific drive train.
     // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
@@ -135,14 +137,15 @@ public class AutonDriveByGyro extends LinearOpMode {
 
     // These constants define the desired driving/control characteristics
     // They can/should be tweaked to suit the specific robot drive train.
-    static final double     DRIVE_SPEED             = 0.4;     // Max driving speed for better distance accuracy.
-    static final double     TURN_SPEED              = 0.2;     // Max Turn speed to limit turn rate
-    static final double     HEADING_THRESHOLD       = 1.0 ;    // How close must the heading get to the target before moving to next step.
-                                                               // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
-    // Define the Proportional control coefficient (or GAIN) for "heading control".
+    static final double     DRIVE_SPEED             = 0.4;   // Max driving speed for better distance accuracy.
+    static final double     TURN_SPEED              = 0.2;   // Max Turn speed to limit turn rate
+    static final double     HEADING_THRESHOLD       = 1.0 ;  // How close must the heading get to the target before moving to next step.
+    // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
+    /* Define the Proportional control coefficient (or GAIN) for "heading control".
     // We define one value when Turning (larger errors), and the other is used when Driving straight (smaller errors).
     // Increase these numbers if the heading does not corrects strongly enough (eg: a heavy robot or using tracks)
-    // Decrease these numbers if the heading does not settle on the correct value (eg: very agile robot with omni wheels)
+    Decrease these numbers if the heading does not settle on the correct value (eg: very agile robot with omni wheels)
+    */
     static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
     static final double     P_DRIVE_GAIN           = 0.03;     // Larger is more responsive, but also less stable
 
@@ -168,7 +171,7 @@ public class AutonDriveByGyro extends LinearOpMode {
 
         // TODO find out Gyro specs
         // define initialization values for IMU, and then initialize it.
-                BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit            = BNO055IMU.AngleUnit.DEGREES;
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
@@ -205,20 +208,22 @@ public class AutonDriveByGyro extends LinearOpMode {
         //          holdHeading() is used after turns to let the heading stabilize
         //          Add a sleep(2000) after any step to keep the telemetry data visible for review
 
+        // Autonomous Failsafe Blue 2
+        driveStraight(DRIVE_SPEED, 10.0, 45.0); // Turn to 45 Degrees to Face ground junction
+        // Inset Servo Release Code Here
+         driveStraight(DRIVE_SPEED, 45.20, -180.0); // Turn and Drive to Substation
+        // Insert Servo Code To Pickup Cone
+        driveStraight(DRIVE_SPEED, 35.0, 45.0); // turn back around to face forward
+        turnToHeading( TURN_SPEED,  -15.0); // turn to face junction
+        // Insert Lift Code up
+        // Inset Servo Release Code Here
+        // Insert Lift Code down Here
+        turnToHeading( TURN_SPEED,  15.0); // realignment
+        driveStraight(DRIVE_SPEED, 35.0, 180.0); // Turn Around And Park in Substation
 
-        driveStraight(DRIVE_SPEED, 24.0, 0.0);    // Drive Forward 24"
-        turnToHeading( TURN_SPEED, -45.0);               // Turn  CW to -45 Degrees
-        holdHeading( TURN_SPEED, -45.0, 0.5);   // Hold -45 Deg heading for a 1/2 second
 
-        driveStraight(DRIVE_SPEED, 17.0, -45.0);  // Drive Forward 17" at -45 degrees (12"x and 12"y)
-        turnToHeading( TURN_SPEED,  45.0);               // Turn  CCW  to  45 Degrees
-        holdHeading( TURN_SPEED,  45.0, 0.5);    // Hold  45 Deg heading for a 1/2 second
-
-        driveStraight(DRIVE_SPEED, 17.0, 45.0);  // Drive Forward 17" at 45 degrees (-12"x and 12"y)
-        turnToHeading( TURN_SPEED,   0.0);               // Turn  CW  to 0 Degrees
-        holdHeading( TURN_SPEED,   0.0, 1.0);    // Hold  0 Deg heading for 1 second
-
-        driveStraight(DRIVE_SPEED,-48.0, 0.0);    // Drive in Reverse 48" (should return to approx. staring position)
+        // REFERENCE ONLY
+        // holdHeading( TURN_SPEED,  45.0, 0.5);    // Hold  45 Deg heading for a 1/2 second
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -257,8 +262,9 @@ public class AutonDriveByGyro extends LinearOpMode {
             int moveCounts = (int)(distance * COUNTS_PER_INCH);
             leftTarget = frontLeftMotor.getCurrentPosition() + moveCounts;
             rightTarget = frontRightMotor.getCurrentPosition() + moveCounts;
-
-            /**
+            leftTargetBack = backLeftMotor.getCurrentPosition() + moveCounts;
+            rightTargetBack = backRightMotor.getCurrentPosition() + moveCounts;
+            /*
             frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -268,6 +274,8 @@ public class AutonDriveByGyro extends LinearOpMode {
             // Set Target FIRST, then turn on RUN_TO_POSITION
             frontLeftMotor.setTargetPosition(leftTarget);
             frontRightMotor.setTargetPosition(rightTarget);
+            backLeftMotor.setTargetPosition(leftTargetBack);
+            backRightMotor.setTargetPosition(rightTargetBack);
 
             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -434,6 +442,7 @@ public class AutonDriveByGyro extends LinearOpMode {
         if (straight) {
             telemetry.addData("Motion", "Drive Straight");
             telemetry.addData("Target Pos L:R",  "%7d:%7d",      leftTarget,  rightTarget);
+            telemetry.addData("Target Pos L:R",  "%7d:%7d",      leftTargetBack,  rightTargetBack);
             telemetry.addData("Actual Pos L:R",  "%7d:%7d",      frontLeftMotor.getCurrentPosition(),
                     frontRightMotor.getCurrentPosition());
         } else {
