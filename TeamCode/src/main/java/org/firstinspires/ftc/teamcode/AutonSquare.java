@@ -70,17 +70,19 @@ public class AutonSquare extends LinearOpMode {
 
     // These constants define the desired driving/control characteristics
     // They can/should be tweaked to suit the specific robot drive train.
-    static final double     DRIVE_SPEED             = 0.4;   // Max driving speed for better distance accuracy.
-    static final double     TURN_SPEED              = 0.2;   // Max Turn speed to limit turn rate
-    static final double     HEADING_THRESHOLD       = 1.0 ;  // How close must the heading get to the target before moving to next step.
+    static final double     DRIVE_SPEED             = 0.40;   // 0.4 Max driving speed for better distance accuracy.
+    static final double     TURN_SPEED              = 0.25;   // 0.25 Max Turn speed to limit turn rate
+    // How close must the heading get to the target before moving to next step.
+    static final double     HEADING_THRESHOLD       = 1.0 ; // 1.0
+
     // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
     /* Define the Proportional control coefficient (or GAIN) for "heading control".
     // We define one value when Turning (larger errors), and the other is used when Driving straight (smaller errors).
     // Increase these numbers if the heading does not corrects strongly enough (eg: a heavy robot or using tracks)
     Decrease these numbers if the heading does not settle on the correct value (eg: very agile robot with omni wheels)
     */
-    static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_GAIN           = 0.03;     // Larger is more responsive, but also less stable
+    static final double     P_TURN_GAIN            = 0.02;     // 0.02 Larger is more responsive, but also less stable
+    static final double     P_DRIVE_GAIN           = 0.00;     // 0.03 Larger is more responsive, but also less stable
 
     @Override
     public void runOpMode() {
@@ -150,7 +152,7 @@ public class AutonSquare extends LinearOpMode {
         turnToHeading(TURN_SPEED,  -90.0); // turn right
         driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive lateral to wall
         turnToHeading(TURN_SPEED,  -180.0); // turn right
-        driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive towards to wall
+        driveStraight(DRIVE_SPEED, 23.0, 0.0); // drive towards to wall
         turnToHeading(TURN_SPEED, -270.0); // turn right
         driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive lateral to wall
         turnToHeading(TURN_SPEED, -360.0); // turn right
