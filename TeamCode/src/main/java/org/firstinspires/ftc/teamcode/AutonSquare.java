@@ -89,9 +89,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  *  Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Blue Failsafe 2", group="Robot")
+@Autonomous(name="Square", group="Robot")
 // @Disabled
-public class AutonBlueFailSafe2 extends LinearOpMode {
+public class AutonSquare extends LinearOpMode {
 
     /* Declare OpMode members. */
     // Located in the Hardware file and matches with the Drive Hub robot settings
@@ -100,7 +100,6 @@ public class AutonBlueFailSafe2 extends LinearOpMode {
     private DcMotor backRightMotor = null; // assigned 2 in Driver Hub
     private DcMotor backLeftMotor = null; // assigned 3 in Driver Hub
 
-    // TODO change to Gyro used by our team
     private BNO055IMU       imu         = null;      // Control/Expansion Hub IMU
     private double          robotHeading  = 0;
     private double          headingOffset = 0;
@@ -209,18 +208,19 @@ public class AutonBlueFailSafe2 extends LinearOpMode {
         //          Add a sleep(2000) after any step to keep the telemetry data visible for review
 
         // Autonomous Failsafe Blue 2
-        driveStraight(DRIVE_SPEED, 10.0, 45.0); // Turn to 45 Degrees to Face ground junction
-        // Inset Servo Release Code Here
-         driveStraight(DRIVE_SPEED, 45.20, -180.0); // Turn and Drive to Substation
-        // Insert Servo Code To Pickup Cone
-        driveStraight(DRIVE_SPEED, 35.0, 45.0); // turn back around to face forward
-        turnToHeading( TURN_SPEED,  -15.0); // turn to face junction
-        // Insert Lift Code up
-        // Inset Servo Release Code Here
-        // Insert Lift Code down Here
-        turnToHeading( TURN_SPEED,  15.0); // realignment
-        driveStraight(DRIVE_SPEED, 35.0, 180.0); // Turn Around And Park in Substation
+        driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive away from wall
+        turnToHeading( TURN_SPEED,  -360.0); // turn right
+        driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive lateral to wall
+        turnToHeading( TURN_SPEED,  -180.0); // turn right
+        driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive lateral to wall
 
+        /*
+        turnToHeading( TURN_SPEED,  90.0); // turn towards the wall
+        driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive towards the wall
+        turnToHeading( TURN_SPEED,  90.0); // turn right
+        driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive lateral to wall
+        turnToHeading( TURN_SPEED,  90.0); // turn right for parking position
+        */
 
         // REFERENCE ONLY
         // holdHeading( TURN_SPEED,  45.0, 0.5);    // Hold  45 Deg heading for a 1/2 second
@@ -279,8 +279,7 @@ public class AutonBlueFailSafe2 extends LinearOpMode {
 
             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
             // Set the required driving speed  (must be positive for RUN_TO_POSITION)
             // Start driving straight, and then enter the control loop
             maxDriveSpeed = Math.abs(maxDriveSpeed);
@@ -308,8 +307,6 @@ public class AutonBlueFailSafe2 extends LinearOpMode {
             moveRobot(0, 0);
             frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
     }
 
@@ -433,8 +430,6 @@ public class AutonBlueFailSafe2 extends LinearOpMode {
 
         frontLeftMotor.setPower(leftSpeed);
         frontRightMotor.setPower(rightSpeed);
-        backLeftMotor.setPower(leftSpeed);
-        backRightMotor.setPower(rightSpeed);
     }
 
     /**
