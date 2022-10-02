@@ -1,36 +1,12 @@
-/* Copyright (c) 2022 FIRST. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted (subject to the limitations in the disclaimer below) provided that
- * the following conditions are met:
- *
- * Redistributions of source code must retain the above copyright notice, this list
- * of conditions and the following disclaimer.
- *
- * Redistributions in binary form must reproduce the above copyright notice, this
- * list of conditions and the following disclaimer in the documentation and/or
- * other materials provided with the distribution.
- *
- * Neither the name of FIRST nor the names of its contributors may be used to endorse or
- * promote products derived from this software without specific prior written permission.
- *
- * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
- * LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+/*
+ * Use this base auton file as a template for all other autonomous files for the 2022-2023 season
  */
 
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -42,83 +18,43 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-/**
- *  This file illustrates the concept of driving an autonomous path based on Gyro heading and encoder counts.
- *  The code is structured as a LinearOpMode
- *
- *  The path to be followed by the robot is built from a series of drive, turn or pause steps.
- *  Each step on the path is defined by a single function call, and these can be strung together in any order.
- *
- *  The code REQUIRES that you have encoders on the drive motors, otherwise you should use: RobotAutoDriveByTime;
- *
- *  This code ALSO requires that you have a BOSCH BNO055 IMU, otherwise you would use: RobotAutoDriveByEncoder;
- *  This IMU is found in REV Control/Expansion Hubs shipped prior to July 2022, and possibly also on later models.
- *  To run as written, the Control/Expansion hub should be mounted horizontally on a flat part of the robot chassis.
- *
- *  This sample requires that the drive Motors have been configured with names : left_drive and right_drive.
- *  It also requires that a positive power command moves both motors forward, and causes the encoders to count UP.
- *  So please verify that both of your motors move the robot forward on the first move.  If not, make the required correction.
- *  See the beginning of runOpMode() to set the FORWARD/REVERSE option for each motor.
- *
- *  This code uses RUN_TO_POSITION mode for driving straight, and RUN_USING_ENCODER mode for turning and holding.
- *  Note: You must call setTargetPosition() at least once before switching to RUN_TO_POSITION mode.
- *
- *  Notes:
- *
- *  All angles are referenced to the coordinate-frame that is set whenever resetHeading() is called.
- *  In this sample, the heading is reset when the Start button is touched on the Driver station.
- *  Note: It would be possible to reset the heading after each move, but this would accumulate steering errors.
- *
- *  The angle of movement/rotation is assumed to be a standardized rotation around the robot Z axis,
- *  which means that a Positive rotation is Counter Clockwise, looking down on the field.
- *  This is consistent with the FTC field coordinate conventions set out in the document:
- *  ftc_app\doc\tutorial\FTC_FieldCoordinateSystemDefinition.pdf
- *
- *  Control Approach.
- *
- *  To reach, or maintain a required heading, this code implements a basic Proportional Controller where:
- *
- *      Steering power = Heading Error * Proportional Gain.
- *
- *      "Heading Error" is calculated by taking the difference between the desired heading and the actual heading,
- *      and then "normalizing" it by converting it to a value in the +/- 180 degree range.
- *
- *      "Proportional Gain" is a constant that YOU choose to set the "strength" of the steering response.
- *
- *  Use Android Studio to Copy this Class, and Paste it into your "TeamCode" folder with a new name.
- *  Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
- */
 
-@Autonomous(name="Blue Failsafe 2", group="Robot")
+@Autonomous(name="Red-Failsafe 2", group="Robot")
 // @Disabled
-public class AutonBlueFailSafe2 extends LinearOpMode {
+public class AutonRedFailSafe2 extends LinearOpMode {
 
-    /* Declare OpMode members. */
-    // Located in the Hardware file and matches with the Drive Hub robot settings
-    private DcMotor frontRightMotor = null; // assigned 0 in Driver Hub
-    private DcMotor frontLeftMotor = null; // assigned 1 in Driver Hub
-    private DcMotor backRightMotor = null; // assigned 2 in Driver Hub
-    private DcMotor backLeftMotor = null; // assigned 3 in Driver Hub
+    /*
+    robot diagram
+    1-----2
+    |     |
+    3-----4
+    */
 
-    // TODO change to Gyro used by our team
+    // Declare OpMode members.
+    private DcMotor frontLeftMotor = null;
+    private DcMotor frontRightMotor = null;
+    private DcMotor backLeftMotor = null;
+    private DcMotor backRightMotor = null;
+
+    // Declare IMU and variables
     private BNO055IMU       imu         = null;      // Control/Expansion Hub IMU
     private double          robotHeading  = 0;
     private double          headingOffset = 0;
     private double          headingError  = 0;
 
     /*
-    These variable are declared here (as class members) so
-    they can be updated in various methods, but still be displayed by sendTelemetry()
+    These variable are declared here (as class members) so they can be updated in various methods,
+    but still be displayed by sendTelemetry()
      */
     private double  targetHeading = 0;
     private double  driveSpeed    = 0;
     private double  turnSpeed     = 0;
     private double  leftSpeed     = 0;
     private double  rightSpeed    = 0;
-    private int     leftTarget    = 0;
-    private int     rightTarget   = 0;
-    private int     leftTargetBack = 0;
-    private int     rightTargetBack =0;
+    private int     frontLeftTarget    = 0;
+    private int     frontRightTarget   = 0;
+    private int     backLeftTarget = 0;
+    private int     backRightTarget =0;
 
     // Calculate the COUNTS_PER_INCH for your specific drive train.
     // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
@@ -126,14 +62,11 @@ public class AutonBlueFailSafe2 extends LinearOpMode {
     // For example, use a value of 2.0 for a 12-tooth spur gear driving a 24-tooth spur gear.
     // This is gearing DOWN for less speed and more torque.
     // For gearing UP, use a gear ratio less than 1.0. Note this will affect the direction of wheel rotation.
-
-    // TODO identify the actual motors, gear reductions, wheel diameters, and counts per inch
-    // DONE, following variables have the correct measurements
-    static final double     COUNTS_PER_MOTOR_REV    = 537.7 ;   // eg: GoBILDA 312 RPM Yellow Jacket
-    static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // No External Gearing.
-    static final double     WHEEL_DIAMETER_INCHES   = 4.01575 ;     // For figuring circumference
-    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-                                                      (WHEEL_DIAMETER_INCHES * 3.1415);
+    static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
+    static final double DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
+    static final double WHEEL_DIAMETER_INCHES = 4.01575 ; // For figuring circumference
+    static final double COUNTS_PER_INCH =
+            (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
 
     // These constants define the desired driving/control characteristics
     // They can/should be tweaked to suit the specific robot drive train.
@@ -149,45 +82,38 @@ public class AutonBlueFailSafe2 extends LinearOpMode {
     static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
     static final double     P_DRIVE_GAIN           = 0.03;     // Larger is more responsive, but also less stable
 
-
     @Override
     public void runOpMode() {
 
         // Initialize the drive system variables.
-        // Should match our TeleOp file
-        frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
+        // Match our TeleOp file
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
-        backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
+        frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
+        backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
 
-        // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
-        // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
-        // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-        // Should be the same as TeleOp
+        // Match our TeleOp file
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        // TODO find out Gyro specs
-        // define initialization values for IMU, and then initialize it.
+        // Define initialization values for IMU, and then initialize it.
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit            = BNO055IMU.AngleUnit.DEGREES;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
 
-        // Ensure the robot is stationary.  Reset the encoders and set the motors to BRAKE mode
-
         // Stop and reset all drive motors
         frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // Brake all drive motors
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Wait for the game to start (Display Gyro value while waiting)
@@ -196,10 +122,12 @@ public class AutonBlueFailSafe2 extends LinearOpMode {
             telemetry.update();
         }
 
-        // Set the encoders for closed loop speed control, and reset the heading for all drive motors
+        /*  Set the encoders for closed loop speed control,
+            and reset the heading for all drive motors
+         */
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         resetHeading();
 
@@ -207,6 +135,16 @@ public class AutonBlueFailSafe2 extends LinearOpMode {
         // Notes:   Reverse movement is obtained by setting a negative distance (not speed)
         //          holdHeading() is used after turns to let the heading stabilize
         //          Add a sleep(2000) after any step to keep the telemetry data visible for review
+
+        /*
+
+        * AUTON NAME: Red FailSafe 2
+        * REFERENCE
+        // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
+        // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
+        // holdHeading( TURN_SPEED,  0.0, 0.5);     // action - hold last heading for a 1/2 second
+        * TODO Write autonomous actions below
+        */
 
         // Autonomous Failsafe Blue 2
         driveStraight(DRIVE_SPEED, 10.0, 45.0); // Turn to 45 Degrees to Face ground junction
@@ -220,11 +158,6 @@ public class AutonBlueFailSafe2 extends LinearOpMode {
         // Insert Lift Code down Here
         turnToHeading( TURN_SPEED,  15.0); // realignment
         driveStraight(DRIVE_SPEED, 35.0, 180.0); // Turn Around And Park in Substation
-
-
-        // REFERENCE ONLY
-        // holdHeading( TURN_SPEED,  45.0, 0.5);    // Hold  45 Deg heading for a 1/2 second
-
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.
@@ -240,17 +173,17 @@ public class AutonBlueFailSafe2 extends LinearOpMode {
     // **********  HIGH Level driving functions.  ********************
 
     /**
-    *  Method to drive in a straight line, on a fixed compass heading (angle), based on encoder counts.
-    *  Move will stop if either of these conditions occur:
-    *  1) Move gets to the desired position
-    *  2) Driver stops the OpMode running.
-    *
-    * @param maxDriveSpeed MAX Speed for forward/rev motion (range 0 to +1.0) .
-    * @param distance   Distance (in inches) to move from current position.  Negative distance means move backward.
-    * @param heading      Absolute Heading Angle (in Degrees) relative to last gyro reset.
-    *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
-    *                   If a relative angle is required, add/subtract from the current robotHeading.
-    */
+     *  Method to drive in a straight line, on a fixed compass heading (angle), based on encoder counts.
+     *  Move will stop if either of these conditions occur:
+     *  1) Move gets to the desired position
+     *  2) Driver stops the OpMode running.
+     *
+     * @param maxDriveSpeed MAX Speed for forward/rev motion (range 0 to +1.0) .
+     * @param distance   Distance (in inches) to move from current position.  Negative distance means move backward.
+     * @param heading      Absolute Heading Angle (in Degrees) relative to last gyro reset.
+     *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
+     *                   If a relative angle is required, add/subtract from the current robotHeading.
+     */
     public void driveStraight(double maxDriveSpeed,
                               double distance,
                               double heading) {
@@ -260,22 +193,22 @@ public class AutonBlueFailSafe2 extends LinearOpMode {
 
             // Determine new target position, and pass to motor controller
             int moveCounts = (int)(distance * COUNTS_PER_INCH);
-            leftTarget = frontLeftMotor.getCurrentPosition() + moveCounts;
-            rightTarget = frontRightMotor.getCurrentPosition() + moveCounts;
-            leftTargetBack = backLeftMotor.getCurrentPosition() + moveCounts;
-            rightTargetBack = backRightMotor.getCurrentPosition() + moveCounts;
-            /*
+            frontLeftTarget = frontLeftMotor.getCurrentPosition() + moveCounts;
+            frontRightTarget = frontRightMotor.getCurrentPosition() + moveCounts;
+            backLeftTarget = backLeftMotor.getCurrentPosition() + moveCounts;
+            backRightTarget = backRightMotor.getCurrentPosition() + moveCounts;
+
+            // This block was commented out
             frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            */
 
             // Set Target FIRST, then turn on RUN_TO_POSITION
-            frontLeftMotor.setTargetPosition(leftTarget);
-            frontRightMotor.setTargetPosition(rightTarget);
-            backLeftMotor.setTargetPosition(leftTargetBack);
-            backRightMotor.setTargetPosition(rightTargetBack);
+            frontLeftMotor.setTargetPosition(frontLeftTarget);
+            frontRightMotor.setTargetPosition(frontRightTarget);
+            backLeftMotor.setTargetPosition(backLeftTarget);
+            backRightMotor.setTargetPosition(backRightTarget);
 
             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -288,7 +221,7 @@ public class AutonBlueFailSafe2 extends LinearOpMode {
 
             // keep looping while we are still active, and BOTH motors are running.
             while (opModeIsActive() &&
-                   (frontLeftMotor.isBusy() && frontRightMotor.isBusy())) {
+                    (frontLeftMotor.isBusy() && frontRightMotor.isBusy())) { // TODO consider adding backLeftMotor and backRightMotor
 
                 // Determine required steering to keep on heading
                 turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
@@ -420,7 +353,7 @@ public class AutonBlueFailSafe2 extends LinearOpMode {
         driveSpeed = drive;     // save this value as a class member so it can be used by telemetry.
         turnSpeed  = turn;      // save this value as a class member so it can be used by telemetry.
 
-        leftSpeed  = drive - turn;
+        leftSpeed  = drive - turn; //TODO adjust for mecanum?
         rightSpeed = drive + turn;
 
         // Scale speeds down if either one exceeds +/- 1.0;
@@ -433,7 +366,7 @@ public class AutonBlueFailSafe2 extends LinearOpMode {
 
         frontLeftMotor.setPower(leftSpeed);
         frontRightMotor.setPower(rightSpeed);
-        backLeftMotor.setPower(leftSpeed);
+        backLeftMotor.setPower(leftSpeed); // TODO adjust for mecanum?
         backRightMotor.setPower(rightSpeed);
     }
 
@@ -446,8 +379,8 @@ public class AutonBlueFailSafe2 extends LinearOpMode {
 
         if (straight) {
             telemetry.addData("Motion", "Drive Straight");
-            telemetry.addData("Target Pos L:R",  "%7d:%7d",      leftTarget,  rightTarget);
-            telemetry.addData("Target Pos L:R",  "%7d:%7d",      leftTargetBack,  rightTargetBack);
+            telemetry.addData("Target Pos L:R",  "%7d:%7d",      frontLeftTarget,  frontRightTarget);
+            telemetry.addData("Target Pos L:R",  "%7d:%7d",      backLeftTarget,  backRightTarget);
             telemetry.addData("Actual Pos L:R",  "%7d:%7d",      frontLeftMotor.getCurrentPosition(),
                     frontRightMotor.getCurrentPosition());
         } else {
@@ -477,3 +410,32 @@ public class AutonBlueFailSafe2 extends LinearOpMode {
         robotHeading = 0;
     }
 }
+
+/* Copyright (c) 2022 FIRST. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted (subject to the limitations in the disclaimer below) provided that
+ * the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this list
+ * of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright notice, this
+ * list of conditions and the following disclaimer in the documentation and/or
+ * other materials provided with the distribution.
+ *
+ * Neither the name of FIRST nor the names of its contributors may be used to endorse or
+ * promote products derived from this software without specific prior written permission.
+ *
+ * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
+ * LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */

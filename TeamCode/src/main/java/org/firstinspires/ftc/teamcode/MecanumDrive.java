@@ -77,7 +77,6 @@ public class MecanumDrive extends LinearOpMode {
             double frontRightPower = (vertical - horizontal - pivot);
             double backRightPower = (vertical + horizontal + pivot);
 
-            // TODO Test these directional settings
             // Send calculated power to wheels
             frontLeftMotor.setPower(frontLeftPower);
             backLeftMotor.setPower(backLeftPower);
