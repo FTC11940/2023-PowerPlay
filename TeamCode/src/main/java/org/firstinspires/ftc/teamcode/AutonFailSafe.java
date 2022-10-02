@@ -89,7 +89,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  *  Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Blue Failsafe 1", group="Robot")
+@Autonomous(name="Blue Failsafe 2", group="Robot")
 // @Disabled
 public class AutonFailSafe extends LinearOpMode {
 
@@ -279,7 +279,8 @@ public class AutonFailSafe extends LinearOpMode {
 
             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
+            backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             // Set the required driving speed  (must be positive for RUN_TO_POSITION)
             // Start driving straight, and then enter the control loop
             maxDriveSpeed = Math.abs(maxDriveSpeed);
@@ -307,6 +308,8 @@ public class AutonFailSafe extends LinearOpMode {
             moveRobot(0, 0);
             frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
     }
 
@@ -430,6 +433,8 @@ public class AutonFailSafe extends LinearOpMode {
 
         frontLeftMotor.setPower(leftSpeed);
         frontRightMotor.setPower(rightSpeed);
+        backLeftMotor.setPower(leftSpeed);
+        backRightMotor.setPower(rightSpeed);
     }
 
     /**

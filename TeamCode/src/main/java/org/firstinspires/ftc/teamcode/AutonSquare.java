@@ -209,13 +209,18 @@ public class AutonSquare extends LinearOpMode {
 
         // Autonomous Failsafe Blue 2
         driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive away from wall
-        turnToHeading( TURN_SPEED,  90.0); // turn right
+        turnToHeading( TURN_SPEED,  -360.0); // turn right
         driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive lateral to wall
+        turnToHeading( TURN_SPEED,  -180.0); // turn right
+        driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive lateral to wall
+
+        /*
         turnToHeading( TURN_SPEED,  90.0); // turn towards the wall
         driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive towards the wall
         turnToHeading( TURN_SPEED,  90.0); // turn right
         driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive lateral to wall
         turnToHeading( TURN_SPEED,  90.0); // turn right for parking position
+        */
 
         // REFERENCE ONLY
         // holdHeading( TURN_SPEED,  45.0, 0.5);    // Hold  45 Deg heading for a 1/2 second
