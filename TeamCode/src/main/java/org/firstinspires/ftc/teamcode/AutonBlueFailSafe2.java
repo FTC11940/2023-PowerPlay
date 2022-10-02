@@ -89,9 +89,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  *  Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Blue Failsafe 1", group="Robot")
+@Autonomous(name="Blue Failsafe 2", group="Robot")
 // @Disabled
-public class AutonFailSafe extends LinearOpMode {
+public class AutonBlueFailSafe2 extends LinearOpMode {
 
     /* Declare OpMode members. */
     // Located in the Hardware file and matches with the Drive Hub robot settings
