@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.util.Range;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -29,10 +31,10 @@ public class MecanumDrive extends LinearOpMode {
     private DcMotor backLeftMotor = null; // assigned 3 in Driver Hub
 
     Hardware grabby = new Hardware();
-    double grabberPosition = grabby.POS_HOME;
-    final double GRABBER_SPEED = 0.01;
+    double grabberPosition = grabby.POS_HOME; // TODO test the servo
+    final double GRABBER_SPEED = 0.01; // TODO test the servo
 
-    grabby.init(HardwareMap);
+    //grabby.(HardwareMap); i don't know what this does but it might be useful later if the other servo code i wrote doesnt work
 
     @Override
     public void runOpMode() {
@@ -85,7 +87,6 @@ public class MecanumDrive extends LinearOpMode {
             double frontRightPower = (vertical - horizontal - pivot);
             double backRightPower = (vertical + horizontal + pivot);
 
-            // TODO Test these directional settings
             // Send calculated power to wheels
             frontLeftMotor.setPower(frontLeftPower);
             backLeftMotor.setPower(backLeftPower);
@@ -103,13 +104,28 @@ public class MecanumDrive extends LinearOpMode {
             telemetry.update();
              */
 
+            // TODO Test the servo code block
             // uses the buttons a and y to open and close
-            if (gamepad1.a){
-                grabberPosition += GRABBER_SPEED;
-            } else if (gamepad1.y) {
-                grabberPosition -= GRABBER_SPEED;
+            if (gamepad1.a){ // if the "a" button is being pressed on the gamepad, do this next line of code
+                grabberPosition += GRABBER_SPEED; // add to the servo position so it turns in the direction that opens the claw
+            } else if (gamepad1.y) { // if the "y" button is being pressed on the gamepad, do this next line of code.
+                grabberPosition -= GRABBER_SPEED; // subtracts from the servo position so that it turns in the opposite direction
             }
 
+            /*
+            // lift pseudocode
+            int rotations = how many rotations it takes to go up a notch;
+            if (VALUE.UP && currentPos < maxPos){ // if the controller says 'go up' the lift goes up one mode as long as that is possible
+            currentPos = currentPos + rotations;
+            telemetry.addData("lift", currentPos);
+            }
+
+            if (VALUE.DOWN && currentPos > minPos){ // if the controller says 'go up' the lift goes up one mode as long as that is possible
+            currentPos = currentPos - rotations;
+            telemetry.addData("lift", currentPos);
+                        */
+
+            telemetry.addData("claw", grabberPosition); // gives the servo values to the phone for viewing
         }
     }
 } // End of Class

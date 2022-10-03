@@ -168,7 +168,7 @@ public class AutonDriveByGyro extends LinearOpMode {
 
         // TODO find out Gyro specs
         // define initialization values for IMU, and then initialize it.
-                BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();w
+                BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit            = BNO055IMU.AngleUnit.DEGREES;
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);

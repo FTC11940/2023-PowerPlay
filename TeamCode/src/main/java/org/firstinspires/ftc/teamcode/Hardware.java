@@ -28,6 +28,10 @@ public class Hardware {
         initialize(hwMap);
     }
 
+    public Hardware() {
+
+    }
+
     private void initialize(HardwareMap hwMap){
         hardwareMap = hwMap;
 
