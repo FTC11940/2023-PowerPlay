@@ -13,7 +13,7 @@ public class Hardware {
     public DcMotor backLeftMotor = null;
 
     //create servo
-    public Servo randomServo = null;
+    public Servo gauntlet = null;
 
     //additional variables
     HardwareMap hardwareMap = null;
@@ -32,7 +32,7 @@ public class Hardware {
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
 
         //connect servo
-        randomServo = hardwareMap.get(Servo.class, "randomServo");
+        gauntlet = hardwareMap.get(Servo.class, "randomServo");
 
         //set up motor direction
         frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
