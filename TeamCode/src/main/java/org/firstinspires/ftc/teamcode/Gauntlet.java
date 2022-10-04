@@ -29,7 +29,6 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -48,9 +47,9 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-@TeleOp(name = "Concept: Scan Servo", group = "Concept")
+@TeleOp(name = "Gauntlet", group = "Concept")
 // @Disabled
-public class ConceptScanServo extends LinearOpMode {
+public class Gauntlet extends LinearOpMode {
 
 
     static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
@@ -59,8 +58,8 @@ public class ConceptScanServo extends LinearOpMode {
     static final double MIN_POS     =  0.0;     // Minimum rotational position
 
     // Define class members
-    Servo   servo;
-    double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
+    Servo gauntlet;
+    double  gauntletPosition = (MAX_POS - MIN_POS) / 2; // Start at halfway position
     boolean rampUp = true;
 
 
@@ -69,7 +68,7 @@ public class ConceptScanServo extends LinearOpMode {
 
         // Connect to servo (Assume Robot Left Hand)
         // Change the text in quotes to match any servo name on your robot.
-        servo = hardwareMap.get(Servo.class, "left_hand");
+        gauntlet = hardwareMap.get(Servo.class, "grabby");
 
         // Wait for the start button
         telemetry.addData(">", "Press Start to scan Servo." );
@@ -83,28 +82,28 @@ public class ConceptScanServo extends LinearOpMode {
             // slew the servo, according to the rampUp (direction) variable.
             if (rampUp) {
                 // Keep stepping up until we hit the max value.
-                position += INCREMENT ;
-                if (position >= MAX_POS ) {
-                    position = MAX_POS;
+                gauntletPosition += INCREMENT ;
+                if (gauntletPosition >= MAX_POS ) {
+                    gauntletPosition = MAX_POS;
                     rampUp = !rampUp;   // Switch ramp direction
                 }
             }
             else {
                 // Keep stepping down until we hit the min value.
-                position -= INCREMENT ;
-                if (position <= MIN_POS ) {
-                    position = MIN_POS;
+                gauntletPosition -= INCREMENT ;
+                if (gauntletPosition <= MIN_POS ) {
+                    gauntletPosition = MIN_POS;
                     rampUp = !rampUp;  // Switch ramp direction
                 }
             }
 
             // Display the current value
-            telemetry.addData("Servo Position", "%5.2f", position);
+            telemetry.addData("Servo Position", "%5.2f", gauntletPosition);
             telemetry.addData(">", "Press Stop to end test." );
             telemetry.update();
 
             // Set the servo to the new position and pause;
-            servo.setPosition(position);
+            gauntlet.setPosition(gauntletPosition);
             sleep(CYCLE_MS);
             idle();
         }
