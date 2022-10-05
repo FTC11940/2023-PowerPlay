@@ -72,9 +72,6 @@ public class Hardware {
         backRightMotor.setPower(0);
         backLeftMotor.setPower(0);
 
-        // define and initialize all installed servos
-        grabber = hwMap.servo.get("grabber"); // set equal to the name in the phone
-        grabber.setPosition(POS_HOME); // sets the position to the servo, upon awakening of the robot, to the home value
 
     }
 }

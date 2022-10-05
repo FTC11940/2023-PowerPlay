@@ -23,6 +23,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class MecanumDrive extends LinearOpMode {
 
     // private ElapsedTime runtime = new ElapsedTime(); //Added from BasicOpLinear
+    Servo grabby;
 
     // Located in the Hardware file and matches with the Drive Hub robot settings
     private DcMotor frontRightMotor = null; // assigned 0 in Driver Hub
@@ -30,16 +31,13 @@ public class MecanumDrive extends LinearOpMode {
     private DcMotor backRightMotor = null; // assigned 2 in Driver Hub
     private DcMotor backLeftMotor = null; // assigned 3 in Driver Hub
 
-    Hardware grabby = new Hardware();
-    double grabberPosition = grabby.POS_HOME; // TODO test the servo
-    final double GRABBER_SPEED = 0.01; // TODO test the servo
-
-    //grabby.(HardwareMap); i don't know what this does but it might be useful later if the other servo code i wrote doesnt work
-
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized"); //Added from BasicOpLinear
         telemetry.update(); //Added from BasicOpLinear
+
+        grabby = hardwareMap.servo.get("grabby");
+        grabby.setPosition(0.5);
 
 
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
@@ -56,11 +54,20 @@ public class MecanumDrive extends LinearOpMode {
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
 
-        waitForStart();
+    waitForStart();
 
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
+
+            if (gamepad1.y) {
+                grabby.setPosition(0.5);
+            }
+            if (gamepad1.a){
+                grabby.setPosition(0);
+            }
+
+            telemetry.update();
 
             /* This may not be optimal. Consider using
             // Uses the left thumbstick for forward & backwards robot movement
@@ -104,14 +111,6 @@ public class MecanumDrive extends LinearOpMode {
             telemetry.update();
              */
 
-            // TODO Test the servo code block
-            // uses the buttons a and y to open and close
-            if (gamepad1.a){ // if the "a" button is being pressed on the gamepad, do this next line of code
-                grabberPosition += GRABBER_SPEED; // add to the servo position so it turns in the direction that opens the claw
-            } else if (gamepad1.y) { // if the "y" button is being pressed on the gamepad, do this next line of code.
-                grabberPosition -= GRABBER_SPEED; // subtracts from the servo position so that it turns in the opposite direction
-            }
-
             /*
             // lift pseudocode
             int rotations = how many rotations it takes to go up a notch;
@@ -125,7 +124,6 @@ public class MecanumDrive extends LinearOpMode {
             telemetry.addData("lift", currentPos);
                         */
 
-            telemetry.addData("claw", grabberPosition); // gives the servo values to the phone for viewing
         }
     }
 } // End of Class
