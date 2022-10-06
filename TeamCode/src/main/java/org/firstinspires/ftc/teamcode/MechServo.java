@@ -1,12 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.util.Range;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /****************************
@@ -19,8 +16,8 @@ import com.qualcomm.robotcore.hardware.Servo;
     opModeInInit(): returns !isStarted() && !isStopRequested() and does not call idle().
  *****************************/
 
-@TeleOp(name = "Mecanum Drive", group="Linear OpMode")
-public class MecanumDrive extends LinearOpMode {
+@TeleOp(name = "Mecanum Drive Servo", group="Linear OpMode")
+public class MechServo extends LinearOpMode {
 
     // private ElapsedTime runtime = new ElapsedTime(); //Added from BasicOpLinear
     Servo grabby;
