@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /****************************
@@ -19,6 +20,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name = "Mark III.", group="Linear OpMode")
 public class Mark3 extends LinearOpMode {
 
+    Servo grabby;
+
     private ElapsedTime runtime = new ElapsedTime();
 
     // Located in the Hardware file and matches with the Drive Hub robot settings
@@ -32,6 +35,10 @@ public class Mark3 extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+        grabby = hardwareMap.servo.get("grabby");
+
+        // Set starting position of the grabby claw. 0.5 is open, 0.0 is closed
+        grabby.setPosition(0.5);
 
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
@@ -51,6 +58,15 @@ public class Mark3 extends LinearOpMode {
 
         if (isStopRequested()) return;
         while (opModeIsActive()) {
+
+            if (gamepad1.y) {
+                grabby.setPosition(0.5);
+            }
+            if (gamepad1.a){
+                grabby.setPosition(0);
+            }
+
+            telemetry.update();
 
             /* This may not be optimal. Consider using
             // Uses the left thumbstick for forward & backwards robot movement

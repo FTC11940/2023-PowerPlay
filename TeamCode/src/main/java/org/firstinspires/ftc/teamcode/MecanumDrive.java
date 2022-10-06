@@ -43,6 +43,8 @@ public class MecanumDrive extends LinearOpMode {
         telemetry.update();
 
         grabby = hardwareMap.servo.get("grabby");
+
+        // Set starting position of the grabby claw. 0.5 is open, 0.0 is closed
         grabby.setPosition(0.5);
 
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
@@ -57,7 +59,6 @@ public class MecanumDrive extends LinearOpMode {
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-
 
     waitForStart();
 

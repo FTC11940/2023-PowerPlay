@@ -4,30 +4,32 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /****************************
-    runOpMode():
-    Code inside this method will run exactly once after you press the INIT button.
-    This is where you should put all code for the OpMode.
-    waitForStart():
-    This method pauses the Op-Mode until you press the START button on the driver station.
-    isStarted():
-    returns true if the START button has been pressed, otherwise it returns false.
-    isStopRequested():
-    returns true if the STOP button has been pressed, otherwise it returns false.
-    idle():
-    calls Thread.yield, allowing other threads at the same priority level to run.
-    opModeIsActive():
-    returns isStarted() && !isStopRequested() and calls idle().
-    opModeInInit():
-    returns !isStarted() && !isStopRequested() and does not call idle().
+ runOpMode():
+ Code inside this method will run exactly once after you press the INIT button.
+ This is where you should put all code for the OpMode.
+ waitForStart():
+ This method pauses the Op-Mode until you press the START button on the driver station.
+ isStarted():
+ returns true if the START button has been pressed, otherwise it returns false.
+ isStopRequested():
+ returns true if the STOP button has been pressed, otherwise it returns false.
+ idle():
+ calls Thread.yield, allowing other threads at the same priority level to run.
+ opModeIsActive():
+ returns isStarted() && !isStopRequested() and calls idle().
+ opModeInInit():
+ returns !isStarted() && !isStopRequested() and does not call idle().
  *****************************/
 
 @TeleOp(name = "Mark II.", group="Linear OpMode")
 public class Mark2 extends LinearOpMode {
 
-    private ElapsedTime runtime = new ElapsedTime(); //Added from BasicOpLinear
+    Servo grabby;
+    private ElapsedTime runtime = new ElapsedTime();
 
     // Located in the Hardware file and matches with the Drive Hub robot settings
     private DcMotor frontLeftMotor = null; // assigned 1 in Driver Hub
@@ -40,6 +42,9 @@ public class Mark2 extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+        grabby = hardwareMap.servo.get("grabby");
+        grabby.setPosition(0.5);
+
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
@@ -47,7 +52,7 @@ public class Mark2 extends LinearOpMode {
 
         // Both right side motors should be going in one direction, and both left side motors going in the opposite direction
         /* This appears to be set already in the hardware map
-        */
+         */
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -58,6 +63,15 @@ public class Mark2 extends LinearOpMode {
 
         if (isStopRequested()) return;
         while (opModeIsActive()) {
+
+            if (gamepad1.y) {
+                grabby.setPosition(0.5);
+            }
+            if (gamepad1.a){
+                grabby.setPosition(0);
+            }
+
+            telemetry.update();
 
             /* This may not be optimal. Consider using
             // Uses the left thumbstick for forward & backwards robot movement
@@ -86,16 +100,29 @@ public class Mark2 extends LinearOpMode {
             backRightMotor.setPower(backRightPower);
 
             /*
-            * Telemetry Data for Driver & Optimization
-            ** Show the elapsed game time
-            ** Show wheel power output during teleop TODO test to see if it works properly
-            ** TODO Show claw-grabber position for testing
-            ** TODO Show the lift motor position for testing
-            */
+             * Telemetry Data for Driver & Optimization
+             ** Show the elapsed game time
+             ** Show wheel power output during teleop TODO test to see if it works properly
+             ** TODO Show claw-grabber position for testing
+             ** TODO Show the lift motor position for testing
+             */
+
+            /*
+            // lift pseudocode
+            int rotations = how many rotations it takes to go up a notch;
+            if (VALUE.UP && currentPos < maxPos){ // if the controller says 'go up' the lift goes up one mode as long as that is possible
+            currentPos = currentPos + rotations;
+            telemetry.addData("lift", currentPos);
+            }
+
+            if (VALUE.DOWN && currentPos > minPos){ // if the controller says 'go up' the lift goes up one mode as long as that is possible
+            currentPos = currentPos - rotations;
+            telemetry.addData("lift", currentPos);
+                        */
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Motors", "Front left (%.2f), Front right (%.2f)", frontLeftPower, frontRightPower);
-            telemetry.addData("Motors", "Back left (%.2f), Back right (%.2f)", backLeftPower, backRightPower);
+            telemetry.addData("Motors", "Front L (%.2f), Front R (%.2f)", frontLeftPower, frontRightPower);
+            telemetry.addData("Motors", "Back L (%.2f), Back R (%.2f)", backLeftPower, backRightPower);
             telemetry.update();
 
         }
