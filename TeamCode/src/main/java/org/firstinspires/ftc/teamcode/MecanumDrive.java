@@ -28,7 +28,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name = "Mecanum", group="Linear OpMode")
 public class MecanumDrive extends LinearOpMode {
 
-    private ElapsedTime runtime = new ElapsedTime(); //Added from BasicOpLinear
     Servo grabby;
     private ElapsedTime runtime = new ElapsedTime();
 
