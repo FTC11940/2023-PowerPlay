@@ -25,9 +25,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  returns !isStarted() && !isStopRequested() and does not call idle().
  *****************************/
 
-@TeleOp(name = "Mecanum Drive", group="Linear OpMode")
+@TeleOp(name = "Mecanum", group="Linear OpMode")
 public class MecanumDrive extends LinearOpMode {
 
+    private ElapsedTime runtime = new ElapsedTime(); //Added from BasicOpLinear
     Servo grabby;
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -124,6 +125,7 @@ public class MecanumDrive extends LinearOpMode {
             telemetry.addData("Motors", "Front L (%.2f), Front R (%.2f)", frontLeftPower, frontRightPower);
             telemetry.addData("Motors", "Back L (%.2f), Back R (%.2f)", backLeftPower, backRightPower);
             telemetry.update();
+
         }
     }
 } // End of Class
