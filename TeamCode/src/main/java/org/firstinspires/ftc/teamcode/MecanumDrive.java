@@ -26,16 +26,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *****************************/
 
 @TeleOp(name = "Mecanum Drive", group="Linear OpMode")
-public class Mecanum Drive extends LinearOpMode {
-
-    // private ElapsedTime runtime = new ElapsedTime(); //Added from BasicOpLinear
-    Servo grabby;
-=======
-@TeleOp(name = "Mecanum", group="Linear OpMode")
 public class MecanumDrive extends LinearOpMode {
 
-    private ElapsedTime runtime = new ElapsedTime(); //Added from BasicOpLinear
->>>>>>> main:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/MecanumDrive.java
+    Servo grabby;
+    private ElapsedTime runtime = new ElapsedTime();
 
     // Located in the Hardware file and matches with the Drive Hub robot settings
     private DcMotor frontLeftMotor = null; // assigned 1 in Driver Hub
@@ -48,14 +42,9 @@ public class MecanumDrive extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/MechServo.java
         grabby = hardwareMap.servo.get("grabby");
         grabby.setPosition(0.5);
 
-
-        frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
-=======
->>>>>>> main:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/MecanumDrive.java
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
@@ -118,7 +107,6 @@ public class MecanumDrive extends LinearOpMode {
              ** TODO Show the lift motor position for testing
              */
 
-<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/MechServo.java
             /*
             // lift pseudocode
             int rotations = how many rotations it takes to go up a notch;
@@ -131,13 +119,11 @@ public class MecanumDrive extends LinearOpMode {
             currentPos = currentPos - rotations;
             telemetry.addData("lift", currentPos);
                         */
-=======
+
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "Front L (%.2f), Front R (%.2f)", frontLeftPower, frontRightPower);
             telemetry.addData("Motors", "Back L (%.2f), Back R (%.2f)", backLeftPower, backRightPower);
             telemetry.update();
->>>>>>> main:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/MecanumDrive.java
-
         }
     }
 } // End of Class
