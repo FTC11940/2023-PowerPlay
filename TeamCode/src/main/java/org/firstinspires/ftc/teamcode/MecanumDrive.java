@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /****************************
@@ -28,6 +29,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class MecanumDrive extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime(); //Added from BasicOpLinear
+    Servo grabby;
+    private ElapsedTime runtime = new ElapsedTime();
 
     // Located in the Hardware file and matches with the Drive Hub robot settings
     private DcMotor frontLeftMotor = null; // assigned 1 in Driver Hub
@@ -39,6 +42,9 @@ public class MecanumDrive extends LinearOpMode {
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+
+        grabby = hardwareMap.servo.get("grabby");
+        grabby.setPosition(0.5);
 
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
@@ -54,10 +60,19 @@ public class MecanumDrive extends LinearOpMode {
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
 
-        waitForStart();
+    waitForStart();
 
         if (isStopRequested()) return;
         while (opModeIsActive()) {
+
+            if (gamepad1.y) {
+                grabby.setPosition(0.5);
+            }
+            if (gamepad1.a){
+                grabby.setPosition(0);
+            }
+
+            telemetry.update();
 
             /* This may not be optimal. Consider using
             // Uses the left thumbstick for forward & backwards robot movement
@@ -92,6 +107,19 @@ public class MecanumDrive extends LinearOpMode {
              ** TODO Show claw-grabber position for testing
              ** TODO Show the lift motor position for testing
              */
+
+            /*
+            // lift pseudocode
+            int rotations = how many rotations it takes to go up a notch;
+            if (VALUE.UP && currentPos < maxPos){ // if the controller says 'go up' the lift goes up one mode as long as that is possible
+            currentPos = currentPos + rotations;
+            telemetry.addData("lift", currentPos);
+            }
+
+            if (VALUE.DOWN && currentPos > minPos){ // if the controller says 'go up' the lift goes up one mode as long as that is possible
+            currentPos = currentPos - rotations;
+            telemetry.addData("lift", currentPos);
+                        */
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "Front L (%.2f), Front R (%.2f)", frontLeftPower, frontRightPower);

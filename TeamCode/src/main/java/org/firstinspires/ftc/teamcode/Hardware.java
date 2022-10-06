@@ -11,6 +11,11 @@ public class Hardware {
     public DcMotor frontLeftMotor = null;
     public DcMotor backRightMotor = null;
     public DcMotor backLeftMotor = null;
+    public Servo grabber = null;
+
+    public final static double POS_HOME = 0.0;
+    public final static double POS_MIN = -1.0;
+    public final static double POS_MAX = 1.0;
 
     //create servo
     public Servo randomServo = null;
@@ -23,45 +28,50 @@ public class Hardware {
         initialize(hwMap);
     }
 
+    public Hardware() {
+
+    }
+
     private void initialize(HardwareMap hwMap){
         hardwareMap = hwMap;
 
-        frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
-        backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
+        frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
+        backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
 
         //connect servo
         randomServo = hardwareMap.get(Servo.class, "randomServo");
 
         //set up motor direction
-        frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotor.Direction.FORWARD);
+        frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
+        backRightMotor.setDirection(DcMotor.Direction.FORWARD);
 
         //set motor mode
-        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //set zero power behavior
-        frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //set motors to use no power
-        frontRightMotor.setPower(0);
         frontLeftMotor.setPower(0);
-        backRightMotor.setPower(0);
+        frontRightMotor.setPower(0);
         backLeftMotor.setPower(0);
+        backRightMotor.setPower(0);
+
 
     }
 }
