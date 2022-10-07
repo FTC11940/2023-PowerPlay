@@ -59,6 +59,7 @@ public class Mark3 extends LinearOpMode {
         if (isStopRequested()) return;
         while (opModeIsActive()) {
 
+            // Controller Mapping
             if (gamepad1.y) {
                 grabby.setPosition(0.5);
             }
@@ -68,6 +69,12 @@ public class Mark3 extends LinearOpMode {
 
             telemetry.update();
 
+
+            // Drives the robot forward and backwards
+            double y = -gamepad1.left_stick_y; // Uses the left thumbstick for left and right robot movement
+            double x = gamepad1.left_stick_x; //*1.1 to counteract imperfect strafing
+            double rot = gamepad1.right_stick_x; // Uses the right thumbstick to rotate robot movement
+
             /* This may not be optimal. Consider using
             // Uses the left thumbstick for forward & backwards robot movement
             double drive = -gamepad1.left_stick_y;
@@ -75,12 +82,6 @@ public class Mark3 extends LinearOpMode {
             leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
             rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
             */
-
-
-            // Drives the robot forward and backwards
-            double y = -gamepad1.left_stick_y; // Uses the left thumbstick for left and right robot movement
-            double x = gamepad1.left_stick_x; //*1.1 to counteract imperfect strafing
-            double rot = gamepad1.right_stick_x; // Uses the right thumbstick to rotate robot movement
 
             // input: theta and power
             double theta = Math.atan2(y,x);
