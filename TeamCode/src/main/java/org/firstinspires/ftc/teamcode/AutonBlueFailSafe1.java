@@ -147,17 +147,21 @@ public class AutonBlueFailSafe1 extends LinearOpMode {
         * TODO Write autonomous actions below
         */
 
-        driveStraight(DRIVE_SPEED, 10.0, 45.0); // Turn to 45 Degrees to Face ground junction
-        // Inset Servo Release Code Here
-         driveStraight(DRIVE_SPEED, 45.20, -180.0); // Turn and Drive to Substation
-        // Insert Servo Code To Pickup Cone
-        driveStraight(DRIVE_SPEED, 35.0, 45.0); // turn back around to face forward
-        turnToHeading( TURN_SPEED,  -15.0); // turn to face junction
-        // Insert Lift Code up
-        // Inset Servo Release Code Here
-        // Insert Lift Code down Here
-        turnToHeading( TURN_SPEED,  15.0); // realignment
-        driveStraight(DRIVE_SPEED, 35.0, 180.0); // Turn Around And Park in Substation
+
+        driveStraight(DRIVE_SPEED, 15.0, 0.0); // Drive forward to get off the wall
+        turnToHeading( TURN_SPEED,  35.0);//Turn 35 to junction
+        // Inset servo release code here
+        turnToHeading( TURN_SPEED,  -215.0);// Turn to substation
+        driveStraight(DRIVE_SPEED, 48.00, 0.0); // Drive to substation
+        // Insert servo code to pickup cone
+        turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
+        driveStraight(DRIVE_SPEED, 60.0, 0.0); //
+        turnToHeading( TURN_SPEED,  -25.0); // Turn to face junction
+        // Insert lift code up
+        // Inset servo release code here
+        // Insert lift code down here
+        turnToHeading( TURN_SPEED,  0.0); // realignment
+        driveStraight(DRIVE_SPEED, -60.0, 0.0); // Park in Substation
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.
