@@ -30,6 +30,7 @@ public class MecanumDrive extends LinearOpMode {
 
     Servo grabby;
     private ElapsedTime runtime = new ElapsedTime();
+    DcMotor lift;
 
     // Located in the Hardware file and matches with the Drive Hub robot settings
     private DcMotor frontLeftMotor = null; // assigned 1 in Driver Hub
@@ -47,6 +48,9 @@ public class MecanumDrive extends LinearOpMode {
         // Set starting position of the grabby claw. 0.5 is open, 0.0 is closed
         grabby.setPosition(0.5);
 
+        lift = hardwareMap.dcMotor.get("lift");
+
+        frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
@@ -65,12 +69,35 @@ public class MecanumDrive extends LinearOpMode {
         if (isStopRequested()) return;
         while (opModeIsActive()) {
 
+            // claw servo controls
             if (gamepad1.y) {
                 grabby.setPosition(0.5);
             }
             if (gamepad1.a){
                 grabby.setPosition(0);
             }
+
+            // lift controls
+            if (gamepad1.dpad_down){
+                int initialValue = lift.getCurrentPosition();
+                lift.setTargetPosition(initialValue-5);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                lift.setPower(0.5);
+                lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            }
+
+            if (gamepad1.dpad_left){
+                int initialValue = lift.getCurrentPosition();
+
+
+                lift.setTargetPosition(initialValue+5);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                lift.setPower(0.25);
+                lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            }
+            /*if (gamepad1.dpad_down){
+                lift.setPosition(0);
+            }*/
 
             telemetry.update();
 
@@ -119,6 +146,12 @@ public class MecanumDrive extends LinearOpMode {
             if (VALUE.DOWN && currentPos > minPos){ // if the controller says 'go up' the lift goes up one mode as long as that is possible
             currentPos = currentPos - rotations;
             telemetry.addData("lift", currentPos);
+
+            // lift pseudocode 2
+
+           //selecting diff heights with the d-pad, down is first position, left is 2, right is 3, up is 4.
+           // left trigger and rigth trigger increase/decrease height at smaller increments for fine tuning
+
                         */
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
