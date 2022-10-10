@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -36,6 +37,7 @@ public class MecanumDrive extends LinearOpMode {
     private DcMotor frontRightMotor = null; // assigned 0 in Driver Hub
     private DcMotor backRightMotor = null; // assigned 2 in Driver Hub
     private DcMotor backLeftMotor = null; // assigned 3 in Driver Hub
+    BNO055IMU imu;
 
     @Override
     public void runOpMode() {
@@ -51,6 +53,7 @@ public class MecanumDrive extends LinearOpMode {
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         // Both right side motors should be going in one direction, and both left side motors going in the opposite direction
         /* This appears to be set already in the hardware map
@@ -61,6 +64,13 @@ public class MecanumDrive extends LinearOpMode {
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
     waitForStart();
+
+        /*
+         if (FORWARD_PRESSED){
+         motorLeft.setPower(1);
+         motorRight.setPower(1);
+         }
+         */
 
         if (isStopRequested()) return;
         while (opModeIsActive()) {
@@ -120,6 +130,8 @@ public class MecanumDrive extends LinearOpMode {
             currentPos = currentPos - rotations;
             telemetry.addData("lift", currentPos);
                         */
+            //leftDrive.setPower(leftPower);
+             //rightDrive.setPower(rightPower);
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "Front L (%.2f), Front R (%.2f)", frontLeftPower, frontRightPower);
