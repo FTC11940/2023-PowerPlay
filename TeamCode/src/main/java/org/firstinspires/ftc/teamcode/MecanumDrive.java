@@ -30,6 +30,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class MecanumDrive extends LinearOpMode {
 
     Servo grabby;
+    DcMotor lift;
     private ElapsedTime runtime = new ElapsedTime();
 
     // Located in the Hardware file and matches with the Drive Hub robot settings
@@ -45,6 +46,7 @@ public class MecanumDrive extends LinearOpMode {
         telemetry.update();
 
         grabby = hardwareMap.servo.get("grabby");
+        lift = hardwareMap.get(DcMotor.class,"lift");
 
         // Set starting position of the grabby claw. 0.5 is open, 0.0 is closed
         grabby.setPosition(0.5);
@@ -118,18 +120,53 @@ public class MecanumDrive extends LinearOpMode {
              ** TODO Show the lift motor position for testing
              */
 
+
+            // lift code
             /*
-            // lift pseudocode
-            int rotations = how many rotations it takes to go up a notch;
-            if (VALUE.UP && currentPos < maxPos){ // if the controller says 'go up' the lift goes up one mode as long as that is possible
-            currentPos = currentPos + rotations;
-            telemetry.addData("lift", currentPos);
+            a mode, as i refer to it, is which 'mode' the lift is in, ground, low, medium, or high,
+            or in number form, 0, 1, 2, and 3.
+             */
+            int CMode = 0; // current mode
+            int DMode = 0; // desired mode
+            int time = 0; // time to go up a mode, measured in milliseconds
+            int mtg = DMode - CMode; // modes to go until desired mode is reached
+
+            lift.setDirection(DcMotorSimple.Direction.FORWARD);
+
+            if (mtg < 0){ // if the desired mode is below the current mode, set the motor direction to reverse and edit the appropriate variables
+            mtg = mtg * -1;
+            lift.setDirection(DcMotorSimple.Direction.REVERSE);
             }
 
-            if (VALUE.DOWN && currentPos > minPos){ // if the controller says 'go up' the lift goes up one mode as long as that is possible
-            currentPos = currentPos - rotations;
-            telemetry.addData("lift", currentPos);
-                        */
+            if (gamepad1.dpad_up){
+            DMode = 3; // the desired mode is 3
+            lift.setPower(1); // turns the motor on
+            sleep(time*mtg); // sleep when (the amount of time for one mode*modes to go) seconds have passed
+            CMode = 3; // now that we are at mode three, set the current mode to mode 3
+            // the other 'dpad if statements' function the same with only the DModes and CModes differing
+            }
+
+            if (gamepad1.dpad_down){
+                DMode = 0;
+                lift.setPower(1);
+                sleep(time*mtg);
+                CMode = 0;
+            }
+
+            if (gamepad1.dpad_left){
+                DMode = 1;
+                lift.setPower(1);
+                sleep(time*mtg);
+                CMode = 1;
+            }
+
+            if (gamepad1.dpad_right){
+                DMode = 2;
+                lift.setPower(1);
+                sleep(time*mtg);
+                CMode = 2;
+            }
+
             //leftDrive.setPower(leftPower);
              //rightDrive.setPower(rightPower);
 
