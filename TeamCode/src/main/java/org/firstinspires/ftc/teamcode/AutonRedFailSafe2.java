@@ -20,7 +20,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
 @Autonomous(name="Red-Failsafe 2", group="Robot")
-// @Disabled
+@Disabled
 public class AutonRedFailSafe2 extends LinearOpMode {
 
     /*
