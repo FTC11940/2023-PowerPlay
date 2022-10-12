@@ -81,7 +81,7 @@ public class Mark4 extends LinearOpMode {
         int liftGround = (6); // Encoder value for height of ground junction and driving around
         int liftLow = (6); // Encoder value for height of low junction
         int liftMedium = (6); // Encoder value for height of medium junction
-        int liftHigh = (6); // Encoder value for height of high junction
+        int liftHigh = (100); // Encoder value for height of high junction
 
         waitForStart();
             lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -124,7 +124,7 @@ public class Mark4 extends LinearOpMode {
             gamepad2.left_trigger //  Set lift to micro positions up
             gamepad2.right_trigger //  Set lift to micro positions down
             */
-            lift.setPower(0.1); // FIXME Set power output of lift
+            // lift.setPower(0.1); // FIXME Set power output of lift
 
             // Drives the robot forward and backwards
             double y = -gamepad1.left_stick_y; // Uses the left thumbstick for left and right robot movement
