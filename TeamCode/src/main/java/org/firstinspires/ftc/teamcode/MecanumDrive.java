@@ -57,22 +57,17 @@ public class MecanumDrive extends LinearOpMode {
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
-        // Both right side motors should be going in one direction, and both left side motors going in the opposite direction
-        /* This appears to be set already in the hardware map
-         */
+        /*
+        * Both right side motors should be going in one direction,
+        * and both left side motors going in the opposite direction
+        */
+
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
     waitForStart();
-
-        /*
-         if (FORWARD_PRESSED){
-         motorLeft.setPower(1);
-         motorRight.setPower(1);
-         }
-         */
 
         if (isStopRequested()) return;
         while (opModeIsActive()) {
@@ -125,8 +120,8 @@ public class MecanumDrive extends LinearOpMode {
 
             /*
              * Telemetry Data for Driver & Optimization
-             ** Show the elapsed game time
-             ** Show wheel power output during teleop TODO test to see if it works properly
+             ** TODO Show the elapsed game time
+             ** TODO Show wheel power output during teleop
              ** TODO Show claw-grabber position for testing
              ** TODO Show the lift motor position for testing
              */
