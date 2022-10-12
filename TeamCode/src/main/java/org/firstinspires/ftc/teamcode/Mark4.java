@@ -61,7 +61,7 @@ public class Mark4 extends LinearOpMode {
         grabby.setPosition(0.5);
 
         // lift.setTargetPosition(0);
-        lift.setPower(0.1); // FIXME Set power output of lift
+ //       lift.setPower(0.1); // FIXME Set power output of lift
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         /*
