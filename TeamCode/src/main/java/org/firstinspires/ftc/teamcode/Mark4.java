@@ -40,13 +40,7 @@ public class Mark4 extends LinearOpMode {
     private DcMotor backRightMotor = null; // assigned 2 in Driver Hub
     private DcMotor backLeftMotor = null; // assigned 3 in Driver Hub
 
-    /* TODO
-    private int liftFloor = lift.setPosition(0); // Encoder value for height of lift resting on the ground, should be theoretical zero
-    private int liftGround = ; Encoder value for height of ground junction and driving around
-    private int liftLow = ; Encoder value for height of low junction
-    private int liftMedium ; Encoder value for height of medium junction
-    private int liftHigh = ; Encoder value for height of high junction
-    */
+
 
     @Override
     public void runOpMode() {
@@ -54,7 +48,8 @@ public class Mark4 extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        grabby = hardwareMap.servo.get("grabby");
+        grabby = hardwareMap.servo.get("grabby")
+        ;
         lift = hardwareMap.get(DcMotor.class,"lift");
 
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
@@ -65,7 +60,8 @@ public class Mark4 extends LinearOpMode {
         // Set starting position of the grabby claw. 0.5 is open, 0.0 is closed
         grabby.setPosition(0.5);
 
-        lift.setTargetPosition(100); // TODO
+        // lift.setTargetPosition(0);
+        lift.setPower(0.1); // FIXME Set power output of lift
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         /*
@@ -77,11 +73,18 @@ public class Mark4 extends LinearOpMode {
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        // TODO lift.setDirection(DcMotorCo);
+        lift.setDirection(DcMotorSimple.Direction.FORWARD); // FIXME
         // https://youtu.be/d0liBxZCtrA
 
+        // TODO
+        int liftFloor = (0); // Encoder value for height of lift resting on the ground, should be theoretical zero
+        int liftGround = (6); // Encoder value for height of ground junction and driving around
+        int liftLow = (6); // Encoder value for height of low junction
+        int liftMedium = (6); // Encoder value for height of medium junction
+        int liftHigh = (6); // Encoder value for height of high junction
 
         waitForStart();
+            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         if (isStopRequested()) return;
         while (opModeIsActive()) {
@@ -105,16 +108,23 @@ public class Mark4 extends LinearOpMode {
             */
 
             /*
-            gamepad2.left_bumper // Set lift to ground junction height
+            gamepad2.left_bumper  // Set lift to ground junction height
             gamepad2.dpad_down // Set lift to on-the-ground height
             gamepad2.dpad_right // Set lift top low height
             gamepad2.dpad_left // Set lift to medium height
-            gamepad2.dpad_up // Set lift to high junction height
+            */
+
+            // Set lift to high junction height
+            if (gamepad1.dpad_up) {
+                lift.setTargetPosition(liftHigh);
+            }
+            /*
             gamepad2.a // Set claw to close position
             gamepad2.b // Set claw to open position
             gamepad2.left_trigger //  Set lift to micro positions up
             gamepad2.right_trigger //  Set lift to micro positions down
             */
+            lift.setPower(0.1); // FIXME Set power output of lift
 
             // Drives the robot forward and backwards
             double y = -gamepad1.left_stick_y; // Uses the left thumbstick for left and right robot movement
@@ -139,53 +149,6 @@ public class Mark4 extends LinearOpMode {
              ** TODO Show claw-grabber position for testing
              ** TODO Show the lift motor position for testing
              */
-
-
-            // lift code
-            /*
-            a mode, as i refer to it, is which 'mode' the lift is in, ground, low, medium, or high,
-            or in number form, 0, 1, 2, and 3.
-             */
-            int CMode = 0; // current mode
-            int DMode = 0; // desired mode
-            int time = 0; // time to go up a mode, measured in milliseconds
-            int mtg = DMode - CMode; // modes to go until desired mode is reached
-
-            lift.setDirection(DcMotorSimple.Direction.FORWARD);
-
-            if (mtg < 0){ // if the desired mode is below the current mode, set the motor direction to reverse and edit the appropriate variables
-                mtg = mtg * -1;
-                lift.setDirection(DcMotorSimple.Direction.REVERSE);
-            }
-
-            if (gamepad1.dpad_up){
-                DMode = 3; // the desired mode is 3
-                lift.setPower(1); // turns the motor on
-                sleep(time*mtg); // sleep when (the amount of time for one mode*modes to go) seconds have passed
-                CMode = 3; // now that we are at mode three, set the current mode to mode 3
-                // the other 'dpad if statements' function the same with only the DModes and CModes differing
-            }
-
-            if (gamepad1.dpad_down){
-                DMode = 0;
-                lift.setPower(1);
-                sleep(time*mtg);
-                CMode = 0;
-            }
-
-            if (gamepad1.dpad_left){
-                DMode = 1;
-                lift.setPower(1);
-                sleep(time*mtg);
-                CMode = 1;
-            }
-
-            if (gamepad1.dpad_right){
-                DMode = 2;
-                lift.setPower(1);
-                sleep(time*mtg);
-                CMode = 2;
-            }
 
             //leftDrive.setPower(leftPower);
             //rightDrive.setPower(rightPower);
