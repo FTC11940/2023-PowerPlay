@@ -148,11 +148,11 @@ public class AutonBlueFailSafe1 extends LinearOpMode {
         */
 
 
-        driveStraight(DRIVE_SPEED, 15.0, 0.0); // Drive forward to get off the wall
+        driveStraight(DRIVE_SPEED, 5.0, 0.0); // Drive forward to get off the wall
         turnToHeading( TURN_SPEED,  35.0);//Turn 35 to junction
         // Inset servo release code here
-        turnToHeading( TURN_SPEED,  -215.0);// Turn to substation
-        driveStraight(DRIVE_SPEED, 48.00, 0.0); // Drive to substation
+        turnToHeading( TURN_SPEED,  215.0);// Turn to substation
+        driveStraight(DRIVE_SPEED, 28.00, 0.0); // Drive to substation
         // Insert servo code to pickup cone
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
         driveStraight(DRIVE_SPEED, 60.0, 0.0); //
