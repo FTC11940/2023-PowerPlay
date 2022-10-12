@@ -95,6 +95,17 @@ public class MecanumDrive extends LinearOpMode {
             rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
             */
 
+            /*
+            gamepad2.left_bumper // Set lift to ground junction height
+            gamepad2.dpad_down // Set lift to on-the-ground height
+            gamepad2.dpad_right // Set lift top low height
+            gamepad2.dpad_left // Set lift to medium height
+            gamepad2.dpad_up // Set lift to high junction height
+            gamepad2.a // Set claw to close position
+            gamepad2.b // Set claw to open position
+            gamepad2.left_trigger //  Set lift to micro positions up
+            gamepad2.right_trigger //  Set lift to micro positions down
+            */
 
             // Drives the robot forward and backwards
             double y = -gamepad1.left_stick_y; // Uses the left thumbstick for left and right robot movement
