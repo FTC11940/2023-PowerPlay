@@ -26,35 +26,46 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  returns !isStarted() && !isStopRequested() and does not call idle().
  *****************************/
 
-@TeleOp(name = "Mecanum", group="Linear OpMode")
-public class MecanumDrive extends LinearOpMode {
+@TeleOp(name = "Mark IV.", group="Linear OpMode")
+public class Mark4 extends LinearOpMode {
 
-    Servo grabby;
-    DcMotor lift;
     private ElapsedTime runtime = new ElapsedTime();
 
-    // Located in the Hardware file and matches with the Drive Hub robot settings
+    Servo grabby;
+    DcMotor lift = null;
+    BNO055IMU imu;
+
     private DcMotor frontLeftMotor = null; // assigned 1 in Driver Hub
     private DcMotor frontRightMotor = null; // assigned 0 in Driver Hub
     private DcMotor backRightMotor = null; // assigned 2 in Driver Hub
     private DcMotor backLeftMotor = null; // assigned 3 in Driver Hub
-    BNO055IMU imu;
+
+    /* TODO
+    private int liftFloor = lift.setPosition(0); // Encoder value for height of lift resting on the ground, should be theoretical zero
+    private int liftGround = ; Encoder value for height of ground junction and driving around
+    private int liftLow = ; Encoder value for height of low junction
+    private int liftMedium ; Encoder value for height of medium junction
+    private int liftHigh = ; Encoder value for height of high junction
+    */
 
     @Override
     public void runOpMode() {
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
         grabby = hardwareMap.servo.get("grabby");
         lift = hardwareMap.get(DcMotor.class,"lift");
 
-        // Set starting position of the grabby claw. 0.5 is open, 0.0 is closed
-        grabby.setPosition(0.5);
-
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
+
+        // Set starting position of the grabby claw. 0.5 is open, 0.0 is closed
+        grabby.setPosition(0.5);
+
+        lift.setTargetPosition(100); // TODO
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         /*
@@ -66,6 +77,9 @@ public class MecanumDrive extends LinearOpMode {
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        // TODO lift.setDirection(DcMotorCo);
+        // https://youtu.be/d0liBxZCtrA
+
 
         waitForStart();
 
@@ -172,6 +186,9 @@ public class MecanumDrive extends LinearOpMode {
                 sleep(time*mtg);
                 CMode = 2;
             }
+
+            //leftDrive.setPower(leftPower);
+            //rightDrive.setPower(rightPower);
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "Front L (%.2f), Front R (%.2f)", frontLeftPower, frontRightPower);
