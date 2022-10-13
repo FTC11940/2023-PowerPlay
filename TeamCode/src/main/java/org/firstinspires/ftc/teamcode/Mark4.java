@@ -48,8 +48,7 @@ public class Mark4 extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        grabby = hardwareMap.servo.get("grabby")
-        ;
+        grabby = hardwareMap.servo.get("grabby");
         lift = hardwareMap.get(DcMotor.class,"lift");
 
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
@@ -61,7 +60,6 @@ public class Mark4 extends LinearOpMode {
         grabby.setPosition(0.5);
 
         // lift.setTargetPosition(0);
- //       lift.setPower(0.1); // FIXME Set power output of lift
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         /*
