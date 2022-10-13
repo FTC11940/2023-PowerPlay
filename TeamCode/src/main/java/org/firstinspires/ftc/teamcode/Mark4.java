@@ -40,7 +40,12 @@ public class Mark4 extends LinearOpMode {
     private DcMotor backRightMotor = null; // assigned 2 in Driver Hub
     private DcMotor backLeftMotor = null; // assigned 3 in Driver Hub
 
-
+    // For Lift
+    static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
+    static final double DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
+    static final double PULLEY_DIAMETER_INCHES = 2.0 ; // For figuring circumference
+    static final double COUNTS_PER_INCH =
+            (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (PULLEY_DIAMETER_INCHES * 3.1415);
 
     @Override
     public void runOpMode() {
@@ -75,11 +80,20 @@ public class Mark4 extends LinearOpMode {
         // https://youtu.be/d0liBxZCtrA
 
         // TODO
+
+
         int liftFloor = (0); // Encoder value for height of lift resting on the ground, should be theoretical zero
-        int liftGround = (6); // Encoder value for height of ground junction and driving around
-        int liftLow = (6); // Encoder value for height of low junction
-        int liftMedium = (6); // Encoder value for height of medium junction
-        int liftHigh = (100); // Encoder value for height of high junction
+        int liftGroundAuto = (100); // Encoder value for height of ground junction and driving around
+
+        double newLiftGround = (COUNTS_PER_INCH*1); // Encoder value for height of ground junction and driving around
+        double newLiftLow = (COUNTS_PER_INCH*6); // Encoder value for height of low junction
+        double newLiftMedium = (COUNTS_PER_INCH*12); // Encoder value for height of medium junction
+        double newLiftHigh = (COUNTS_PER_INCH*18); // Encoder value for height of high junction
+
+        int liftGround = (int)newLiftGround; // Encoder value for height of ground junction and driving around
+        int liftLow = (int)newLiftLow; // Encoder value for height of low junction
+        int liftMedium = (int)newLiftMedium; // Encoder value for height of medium junction
+        int liftHigh = (int)newLiftHigh; // Encoder value for height of high junction
 
         waitForStart();
             lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -122,9 +136,22 @@ public class Mark4 extends LinearOpMode {
             gamepad2.left_trigger //  Set lift to micro positions up
             gamepad2.right_trigger //  Set lift to micro positions down
             */
-            // lift.setPower(0.1); // FIXME Set power output of lift
+            lift.setTargetPosition(liftGround);// FIXME This should lift to the Ground position upon start
+            lift.setPower(0.25); // FIXME Set power output of lift
+            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            while (lift.isBusy()) {
+                telemetry.addData("Status","Running lift to Ground Position");
+                telemetry.update();
+            }
+            lift.setPower(0);
+            lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-            // Drives the robot forward and backwards
+            // Move lift back
+            /*
+            newTarget = lift.getTargetPosition() - (int)
+             */
+
+            //Drives the robot forward and backwards
             double y = -gamepad1.left_stick_y; // Uses the left thumbstick for left and right robot movement
             double x = gamepad1.left_stick_x; //*1.1 to counteract imperfect strafing
             double rot = gamepad1.right_stick_x; // Uses the right thumbstick to rotate robot movement
