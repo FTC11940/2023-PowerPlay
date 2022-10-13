@@ -76,37 +76,36 @@ public class Mark4 extends LinearOpMode {
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        lift.setDirection(DcMotorSimple.Direction.FORWARD); // FIXME
+        lift.setDirection(DcMotorSimple.Direction.REVERSE); // FIXME
         // https://youtu.be/d0liBxZCtrA
 
         // TODO
 
 
         int liftFloor = (0); // Encoder value for height of lift resting on the ground, should be theoretical zero
-        int liftGroundAuto = (100); // Encoder value for height of ground junction and driving around
-
         double newLiftGround = (COUNTS_PER_INCH*1); // Encoder value for height of ground junction and driving around
-        double newLiftLow = (COUNTS_PER_INCH*6); // Encoder value for height of low junction
-        double newLiftMedium = (COUNTS_PER_INCH*12); // Encoder value for height of medium junction
-        double newLiftHigh = (COUNTS_PER_INCH*18); // Encoder value for height of high junction
+        // double newLiftLow = (COUNTS_PER_INCH*6); // Encoder value for height of low junction
+        // double newLiftMedium = (COUNTS_PER_INCH*12); // Encoder value for height of medium junction
+        // double newLiftHigh = (COUNTS_PER_INCH*18); // Encoder value for height of high junction
 
         int liftGround = (int)newLiftGround; // Encoder value for height of ground junction and driving around
-        int liftLow = (int)newLiftLow; // Encoder value for height of low junction
-        int liftMedium = (int)newLiftMedium; // Encoder value for height of medium junction
-        int liftHigh = (int)newLiftHigh; // Encoder value for height of high junction
+        // int liftLow = (int)newLiftLow; // Encoder value for height of low junction
+        // int liftMedium = (int)newLiftMedium; // Encoder value for height of medium junction
+        // int liftHigh = (int)newLiftHigh; // Encoder value for height of high junction
 
         waitForStart();
-            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // FIXME            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         if (isStopRequested()) return;
         while (opModeIsActive()) {
 
-            if (gamepad1.y) {
-                grabby.setPosition(0.5);
+            if (gamepad1.b) {
+                grabby.setPosition(0.5); // Open
             }
             if (gamepad1.a){
-                grabby.setPosition(0);
+                grabby.setPosition(0); // Closed
             }
+
 
             telemetry.update();
 
@@ -127,22 +126,28 @@ public class Mark4 extends LinearOpMode {
             */
 
             // Set lift to high junction height
+            /*
+
+
             if (gamepad1.dpad_up) {
                 lift.setTargetPosition(liftHigh);
             }
+             */
+
             /*
             gamepad2.a // Set claw to close position
             gamepad2.b // Set claw to open position
             gamepad2.left_trigger //  Set lift to micro positions up
             gamepad2.right_trigger //  Set lift to micro positions down
             */
+            /*
+            lift.setPower(0.05); // FIXME Set power output of lift
             lift.setTargetPosition(liftGround);// FIXME This should lift to the Ground position upon start
-            lift.setPower(0.25); // FIXME Set power output of lift
             lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             while (lift.isBusy()) {
                 telemetry.addData("Status","Running lift to Ground Position");
                 telemetry.update();
-            }
+             }
             lift.setPower(0);
             lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -150,6 +155,13 @@ public class Mark4 extends LinearOpMode {
             /*
             newTarget = lift.getTargetPosition() - (int)
              */
+            lift.setTargetPosition(0);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                if (gamepad1.y) {
+                    lift.setTargetPosition(200);
+                }
+                lift.setPower(0.1); // Lift one inch
+            // http://roboplex.org/wp/wp-content/uploads/2018/05/0730-prog-basic.pdf
 
             //Drives the robot forward and backwards
             double y = -gamepad1.left_stick_y; // Uses the left thumbstick for left and right robot movement
@@ -167,6 +179,10 @@ public class Mark4 extends LinearOpMode {
             frontRightMotor.setPower(frontRightPower);
             backRightMotor.setPower(backRightPower);
 
+            // lift.setPower();
+
+            // double liftUp = gamepad1.left_trigger;
+            // double liftDown = gamepad1.right_trigger;
             /*
              * Telemetry Data for Driver & Optimization
              ** TODO Show the elapsed game time
