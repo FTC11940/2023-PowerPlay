@@ -6,7 +6,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -19,10 +18,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Blue-Failsafe 1", group="Robot")
-// Disabled
+@Autonomous(name="Red-Failsafe 1", group="Robot")
+// @Disabled
 
-public class AutonBlueFailSafe1 extends LinearOpMode {
+public class AutonRedFailSafe1 extends LinearOpMode {
 
     /*
     robot diagram
@@ -139,7 +138,7 @@ public class AutonBlueFailSafe1 extends LinearOpMode {
 
         /*
 
-        * AUTON NAME: Blue FailSafe 1
+        * AUTON NAME: Red FailSafe 2
         * REFERENCE
         // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
         // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
@@ -147,18 +146,17 @@ public class AutonBlueFailSafe1 extends LinearOpMode {
         * TODO Write autonomous actions below
         */
 
-        // Autonomous Failsafe Blue 1
-        driveStraight(DRIVE_SPEED, 6.0, 0.0); // Drive forward to get off the wall
-        turnToHeading( TURN_SPEED,  45.0);//Turn 45 to junction
-        sleep(1000);
+        // Autonomous Failsafe Red 1
+        driveStraight(DRIVE_SPEED, 5.0, 0.0); // Drive forward to get off the wall
+        turnToHeading( TURN_SPEED,  -35.0);//Turn 35 to junction
         // Inset servo release code here
-        turnToHeading( TURN_SPEED,  195.0);// Turn to substation
+        turnToHeading( TURN_SPEED,  -175.0);// Turn to substation
         driveStraight(DRIVE_SPEED, 28.00, 0.0); // Drive to substation
         // Insert servo code to pickup cone
-        sleep(1000);
+
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
         driveStraight(DRIVE_SPEED, 60.0, 0.0); //
-        turnToHeading( TURN_SPEED,  -25.0); // Turn to face junction
+        turnToHeading( TURN_SPEED,  25.0); // Turn to face junction
         // Insert lift code up
         // Inset servo release code here
         // Insert lift code down here
