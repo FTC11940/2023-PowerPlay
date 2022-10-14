@@ -28,7 +28,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *****************************/
 
 @TeleOp(name = "Mecanum", group="Linear OpMode")
-@Disabled
+// @Disabled
 public class MecanumDrive extends LinearOpMode {
 
     Servo grabby;
@@ -68,6 +68,8 @@ public class MecanumDrive extends LinearOpMode {
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
 
         waitForStart();
 
@@ -136,19 +138,21 @@ public class MecanumDrive extends LinearOpMode {
              */
             int CMode = 0; // current mode
             int DMode = 0; // desired mode
-            int time = 10000; // time to go up a mode, measured in milliseconds
+            int time = 1000; // time to go up a mode, measured in milliseconds
             int mtg = DMode - CMode; // modes to go until desired mode is reached
+            int power = 1;
+
+            lift.setPower(0);
 
             lift.setDirection(DcMotorSimple.Direction.FORWARD);
 
-            if (mtg < 0){ // if the desired mode is below the current mode, set the motor direction to reverse and edit the appropriate variables
-                mtg = mtg * -1;
-                lift.setDirection(DcMotorSimple.Direction.REVERSE);
+            if (mtg < 0){ // if the desired mode is below the current mode, set the motor direction to reverse
+                power = -1;
             }
 
             if (gamepad1.dpad_up){
                 DMode = 3; // the desired mode is 3
-                lift.setPower(1); // turns the motor on
+                lift.setPower(power); // turns the motor on
                 sleep(time*mtg); // sleep when (the amount of time for one mode*modes to go) seconds have passed
                 CMode = 3; // now that we are at mode three, set the current mode to mode 3
                 // the other 'dpad if statements' function the same with only the DModes and CModes differing
@@ -156,21 +160,21 @@ public class MecanumDrive extends LinearOpMode {
 
             if (gamepad1.dpad_down){
                 DMode = 0;
-                lift.setPower(1);
+                lift.setPower(-1);
                 sleep(time*mtg);
                 CMode = 0;
             }
 
             if (gamepad1.dpad_left){
                 DMode = 1;
-                lift.setPower(1);
+                lift.setPower(power);
                 sleep(time*mtg);
                 CMode = 1;
             }
 
             if (gamepad1.dpad_right){
                 DMode = 2;
-                lift.setPower(1);
+                lift.setPower(power);
                 sleep(time*mtg);
                 CMode = 2;
             }
