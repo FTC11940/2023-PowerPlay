@@ -30,6 +30,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class MecanumDrive extends LinearOpMode {
 
     Servo grabby;
+    DcMotor lift;
     private ElapsedTime runtime = new ElapsedTime();
 
     // Located in the Hardware file and matches with the Drive Hub robot settings
@@ -45,6 +46,8 @@ public class MecanumDrive extends LinearOpMode {
 
         grabby = hardwareMap.servo.get("grabby");
         grabby.setPosition(0.5);
+
+        lift = hardwareMap.get(DcMotor.class,"lift");
 
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
@@ -109,16 +112,22 @@ public class MecanumDrive extends LinearOpMode {
              */
 
             /*
-            // lift pseudocode
-            int rotations = how many rotations it takes to go up a notch;
-            if (VALUE.UP && currentPos < maxPos){ // if the controller says 'go up' the lift goes up one mode as long as that is possible
-            currentPos = currentPos + rotations;
-            telemetry.addData("lift", currentPos);
+            lift pseudo code jr.
+
+            double current pos;
+            double time = time to go up a notch, measured in miliseconds;
+            int CMode = 0;
+            int mtg = modes to go until at desired mode;
+
+            if(dpad.buttonPressed){
+            runMotor(time*mtg);
             }
 
-            if (VALUE.DOWN && currentPos > minPos){ // if the controller says 'go up' the lift goes up one mode as long as that is possible
-            currentPos = currentPos - rotations;
-            telemetry.addData("lift", currentPos);
+            if(mtg < 0){
+            motorDirection = REVERSE;
+            } else if (mtg > 0){
+            motorDirection = FORWARD;
+            }
                         */
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
