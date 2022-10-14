@@ -136,7 +136,7 @@ public class MecanumDrive extends LinearOpMode {
              */
             int CMode = 0; // current mode
             int DMode = 0; // desired mode
-            int time = 0; // time to go up a mode, measured in milliseconds
+            int time = 10000; // time to go up a mode, measured in milliseconds
             int mtg = DMode - CMode; // modes to go until desired mode is reached
 
             lift.setDirection(DcMotorSimple.Direction.FORWARD);
