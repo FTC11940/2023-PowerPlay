@@ -42,6 +42,13 @@ public class MecanumDrive extends LinearOpMode {
     private DcMotor backLeftMotor = null; // assigned 3 in Driver Hub
     BNO055IMU imu;
 
+    // for lift
+    static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
+    static final double DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
+    static final double PULLEY_DIAMETER_INCHES = 2.0 ; // For figuring circumference
+    static final double COUNTS_PER_INCH =
+            (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (PULLEY_DIAMETER_INCHES * 3.1415);
+
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
@@ -73,6 +80,7 @@ public class MecanumDrive extends LinearOpMode {
 
         waitForStart();
 
+        // TODO once the dpad code isnt fucky, add some telemetry.addData stuff
         if (isStopRequested()) return;
         while (opModeIsActive()) {
 
@@ -136,6 +144,7 @@ public class MecanumDrive extends LinearOpMode {
             a mode, as i refer to it, is which 'mode' the lift is in, ground, low, medium, or high,
             or in number form, 0, 1, 2, and 3.
              */
+
             int CMode = 0; // current mode
             int DMode = 0; // desired mode
             int time = 2000; // time to go up a mode, measured in milliseconds
@@ -143,35 +152,35 @@ public class MecanumDrive extends LinearOpMode {
             int power = 1;
 
             lift.setPower(0);
+            lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
             //lift.setDirection(DcMotorSimple.Direction.FORWARD);
 
-            if (gamepad1.y){ // if the desired mode is below the current mode, set the motor direction to reverse
-                power = -1;
-            } else if (gamepad1.x){power = 1;}
+            //lift.setTargetPosition(0);
+            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            if (gamepad1.dpad_left) {
+                lift.setTargetPosition(200);
+            }
+            lift.setPower(0.1); // Lift one inch*/
 
             if (gamepad1.dpad_up){
-                DMode = 3; // the desired mode is 3
-                lift.setPower(1); // turns the motor on
-                sleep(time*mtg); // sleep when (the amount of time for one mode*modes to go) seconds have passed
-                CMode = 3; // now that we are at mode three, set the current mode to mode 3
-                // the other 'dpad if statements' function the same with only the DModes and CModes differing
+                lift.setTargetPosition(50);
+                lift.setPower(1);
+                lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
-
+//if (!gamepad1.dpad_up & !)
             // TODO try out java enum
             if (gamepad1.dpad_down){
-                DMode = 0;
                 lift.setPower(-1);
-                sleep(time*mtg);
-                CMode = 0;
+                lift.setTargetPosition(0);
             }
 
-            if (gamepad1.dpad_left){
+            /*if (gamepad1.dpad_left){
                 DMode = 1;
                 lift.setPower(power);
                 sleep(time*mtg);
                 CMode = 1;
-            }
+            }*/
 
             if (gamepad1.dpad_right){
                 DMode = 2;
