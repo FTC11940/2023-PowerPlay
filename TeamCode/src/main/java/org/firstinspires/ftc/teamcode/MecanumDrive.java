@@ -76,7 +76,7 @@ public class MecanumDrive extends LinearOpMode {
         if (isStopRequested()) return;
         while (opModeIsActive()) {
 
-            if (gamepad1.y) {
+            if (gamepad1.b) {
                 grabby.setPosition(0.5);
             }
             if (gamepad1.a){
@@ -138,26 +138,27 @@ public class MecanumDrive extends LinearOpMode {
              */
             int CMode = 0; // current mode
             int DMode = 0; // desired mode
-            int time = 1000; // time to go up a mode, measured in milliseconds
+            int time = 2000; // time to go up a mode, measured in milliseconds
             int mtg = DMode - CMode; // modes to go until desired mode is reached
             int power = 1;
 
             lift.setPower(0);
 
-            lift.setDirection(DcMotorSimple.Direction.FORWARD);
+            //lift.setDirection(DcMotorSimple.Direction.FORWARD);
 
-            if (mtg < 0){ // if the desired mode is below the current mode, set the motor direction to reverse
+            if (gamepad1.y){ // if the desired mode is below the current mode, set the motor direction to reverse
                 power = -1;
-            }
+            } else if (gamepad1.x){power = 1;}
 
             if (gamepad1.dpad_up){
                 DMode = 3; // the desired mode is 3
-                lift.setPower(power); // turns the motor on
+                lift.setPower(1); // turns the motor on
                 sleep(time*mtg); // sleep when (the amount of time for one mode*modes to go) seconds have passed
                 CMode = 3; // now that we are at mode three, set the current mode to mode 3
                 // the other 'dpad if statements' function the same with only the DModes and CModes differing
             }
 
+            // TODO try out java enum
             if (gamepad1.dpad_down){
                 DMode = 0;
                 lift.setPower(-1);
