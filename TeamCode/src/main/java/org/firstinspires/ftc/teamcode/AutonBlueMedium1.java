@@ -6,7 +6,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -19,10 +18,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Blue-Failsafe 1", group="Robot")
+@Autonomous(name="Blue-Medium 1", group="Robot")
 // Disabled
 
-public class AutonBlueFailSafe1 extends LinearOpMode {
+public class AutonBlueMedium1 extends LinearOpMode {
 
     /*
     robot diagram
@@ -147,7 +146,7 @@ public class AutonBlueFailSafe1 extends LinearOpMode {
         * TODO Write autonomous actions below
         */
 
-        // Autonomous Failsafe Blue 1
+        // Autonomous Medium Red 1
         driveStraight(DRIVE_SPEED, 6.0, 0.0); // Drive forward to get off the wall
         turnToHeading( TURN_SPEED,  45.0);//Turn 45 to junction
         sleep(1000);

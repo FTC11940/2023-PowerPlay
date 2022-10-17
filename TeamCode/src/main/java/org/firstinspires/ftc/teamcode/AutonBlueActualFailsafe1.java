@@ -18,10 +18,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Red-Failsafe 1", group="Robot")
-// @Disabled
+@Autonomous(name="Blue-Failsafe 1", group="Robot")
+// Disabled
 
-public class AutonRedFailSafe1 extends LinearOpMode {
+public class AutonBlueActualFailsafe1 extends LinearOpMode {
 
     /*
     robot diagram
@@ -138,7 +138,7 @@ public class AutonRedFailSafe1 extends LinearOpMode {
 
         /*
 
-        * AUTON NAME: Red FailSafe 2
+        * AUTON NAME: Blue FailSafe 1
         * REFERENCE
         // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
         // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
@@ -146,22 +146,11 @@ public class AutonRedFailSafe1 extends LinearOpMode {
         * TODO Write autonomous actions below
         */
 
-        // Autonomous Failsafe Red 1
-        driveStraight(DRIVE_SPEED, 5.0, 0.0); // Drive forward to get off the wall
-        turnToHeading( TURN_SPEED,  -35.0);//Turn 35 to junction
-        // Inset servo release code here
-        turnToHeading( TURN_SPEED,  -175.0);// Turn to substation
-        driveStraight(DRIVE_SPEED, 28.00, 0.0); // Drive to substation
-        // Insert servo code to pickup cone
-
+        // Autonomous Medium Red 1
+        driveStraight(DRIVE_SPEED, 6.0, 0.0); // Drive forward to get off the wall
+        turnToHeading( TURN_SPEED,  90.0);//Turn 90 to face direction of terminal
+        driveStraight(DRIVE_SPEED, 28.00, 0.0); // Drive to terminal
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
-        driveStraight(DRIVE_SPEED, 60.0, 0.0); //
-        turnToHeading( TURN_SPEED,  25.0); // Turn to face junction
-        // Insert lift code up
-        // Inset servo release code here
-        // Insert lift code down here
-        turnToHeading( TURN_SPEED,  0.0); // realignment
-        driveStraight(DRIVE_SPEED, -60.0, 0.0); // Park in Substation
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.
