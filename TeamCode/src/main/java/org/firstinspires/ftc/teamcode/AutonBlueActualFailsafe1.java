@@ -146,11 +146,13 @@ public class AutonBlueActualFailsafe1 extends LinearOpMode {
         * TODO Write autonomous actions below
         */
 
+
         // Autonomous Medium Red 1
-        driveStraight(DRIVE_SPEED, 6.0, 0.0); // Drive forward to get off the wall
+        driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
         turnToHeading( TURN_SPEED,  90.0);//Turn 90 to face direction of terminal
-        driveStraight(DRIVE_SPEED, 28.00, 0.0); // Drive to terminal
+        driveStraight(DRIVE_SPEED, 32.00, 0.0); // Drive to terminal
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
+        driveStraight(DRIVE_SPEED, -32.00, 0.0); // park
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.

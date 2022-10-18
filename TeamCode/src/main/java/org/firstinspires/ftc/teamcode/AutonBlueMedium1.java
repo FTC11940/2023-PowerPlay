@@ -151,18 +151,19 @@ public class AutonBlueMedium1 extends LinearOpMode {
         turnToHeading( TURN_SPEED,  45.0);//Turn 45 to junction
         sleep(1000);
         // Inset servo release code here
-        turnToHeading( TURN_SPEED,  195.0);// Turn to substation
-        driveStraight(DRIVE_SPEED, 28.00, 0.0); // Drive to substation
+        turnToHeading( TURN_SPEED,  150);// Turn to substation
+        sleep(1000);
+        driveStraight(DRIVE_SPEED, 45, 0.0); // Drive to substation
         // Insert servo code to pickup cone
         sleep(1000);
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
-        driveStraight(DRIVE_SPEED, 60.0, 0.0); //
+        driveStraight(DRIVE_SPEED, 35.0, 0.0); //
         turnToHeading( TURN_SPEED,  -25.0); // Turn to face junction
         // Insert lift code up
         // Inset servo release code here
         // Insert lift code down here
         turnToHeading( TURN_SPEED,  0.0); // realignment
-        driveStraight(DRIVE_SPEED, -60.0, 0.0); // Park in Substation
+        driveStraight(DRIVE_SPEED, -35.0, 0.0); // Park in Substation
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.
