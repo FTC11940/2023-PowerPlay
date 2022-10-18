@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -29,7 +30,8 @@ public class AutonRedMedium1 extends LinearOpMode {
     |     |
     3-----4
     */
-
+    Servo grabby;
+    DcMotor lift;
     // Declare OpMode members.
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
@@ -84,9 +86,12 @@ public class AutonRedMedium1 extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-
         // Initialize the drive system variables.
         // Match our TeleOp file
+        grabby = hardwareMap.servo.get("grabby");
+        grabby.setPosition(0.5);
+        lift = hardwareMap.get(DcMotor.class,"lift");
+
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");

@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -29,7 +30,8 @@ public class AutonBlueMedium1 extends LinearOpMode {
     |     |
     3-----4
     */
-
+    Servo grabby;
+    DcMotor lift;
     // Declare OpMode members.
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
@@ -87,6 +89,10 @@ public class AutonBlueMedium1 extends LinearOpMode {
 
         // Initialize the drive system variables.
         // Match our TeleOp file
+        grabby = hardwareMap.servo.get("grabby");
+        grabby.setPosition(0.5);
+        lift = hardwareMap.get(DcMotor.class,"lift");
+
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
@@ -150,17 +156,17 @@ public class AutonBlueMedium1 extends LinearOpMode {
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
         turnToHeading( TURN_SPEED,  45.0);//Turn 45 to junction
         sleep(1000);
-        // Insert servo release code here
+        grabby.setPosition(0.5);
         turnToHeading( TURN_SPEED,  240);// Turn to substation
         sleep(1000);
         driveStraight(DRIVE_SPEED, 45, 0.0); // Drive to substation
-        // Insert servo code to pickup cone
+        grabby.setPosition(0.0);
         sleep(1000);
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
         driveStraight(DRIVE_SPEED, 35.0, 0.0); //
         turnToHeading( TURN_SPEED,  -25.0); // Turn to face junction
         // Insert lift code up
-        // Inset servo release code here
+        grabby.setPosition(0.5);
         // Insert lift code down here
         turnToHeading( TURN_SPEED,  0.0); // realignment
         driveStraight(DRIVE_SPEED, -35.0, 0.0); // Park in Substation
