@@ -146,11 +146,11 @@ public class AutonBlueMedium1 extends LinearOpMode {
         * TODO Write autonomous actions below
         */
 
-        // Autonomous Medium Red 1
+        // Autonomous Medium Blue 1
         driveStraight(DRIVE_SPEED, 6.0, 0.0); // Drive forward to get off the wall
         turnToHeading( TURN_SPEED,  45.0);//Turn 45 to junction
         sleep(1000);
-        // Inset servo release code here
+        // Insert servo release code here
         turnToHeading( TURN_SPEED,  150);// Turn to substation
         sleep(1000);
         driveStraight(DRIVE_SPEED, 45, 0.0); // Drive to substation
