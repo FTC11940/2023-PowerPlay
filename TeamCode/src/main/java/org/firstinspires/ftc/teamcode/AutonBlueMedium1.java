@@ -90,7 +90,7 @@ public class AutonBlueMedium1 extends LinearOpMode {
         // Initialize the drive system variables.
         // Match our TeleOp file
         grabby = hardwareMap.servo.get("grabby");
-        grabby.setPosition(0.5);
+        grabby.setPosition(0.0); // Needs to be closed at start of Auton
         lift = hardwareMap.get(DcMotor.class,"lift");
 
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
@@ -155,15 +155,17 @@ public class AutonBlueMedium1 extends LinearOpMode {
         // Autonomous Medium Blue 1
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
         turnToHeading( TURN_SPEED,  45.0);//Turn 45 to junction
+        driveStraight(DRIVE_SPEED, 9.0, 0.0); //
         sleep(1000);
         grabby.setPosition(0.5);
-        turnToHeading( TURN_SPEED,  240);// Turn to substation
+        driveStraight(DRIVE_SPEED, -9.0, 0.0); //
+        turnToHeading( TURN_SPEED,  -90);// Turn to substation
         sleep(1000);
-        driveStraight(DRIVE_SPEED, 45, 0.0); // Drive to substation
+        driveStraight(DRIVE_SPEED, 40, 0.0); // Drive to substation
         grabby.setPosition(0.0);
         sleep(1000);
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
-        driveStraight(DRIVE_SPEED, 35.0, 0.0); //
+        driveStraight(DRIVE_SPEED, 25.0, 0.0); //
         turnToHeading( TURN_SPEED,  -25.0); // Turn to face junction
         // Insert lift code up
         grabby.setPosition(0.5);
