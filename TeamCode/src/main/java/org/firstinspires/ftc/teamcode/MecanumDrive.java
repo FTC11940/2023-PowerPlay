@@ -72,7 +72,7 @@ public class MecanumDrive extends LinearOpMode {
         if (isStopRequested()) return;
         while (opModeIsActive()) {
 
-            if (gamepad1.y) {
+            if (gamepad1.b) {
                 grabby.setPosition(0.5);
             }
             if (gamepad1.a){
