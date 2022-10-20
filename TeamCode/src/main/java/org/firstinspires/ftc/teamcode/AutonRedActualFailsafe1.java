@@ -19,14 +19,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Blue-Failsafe 1", group="Robot")
+@Autonomous(name="Red-Failsafe 1", group="Robot")
 // Disabled
 
-public class AutonBlueActualFailsafe1 extends LinearOpMode {
+public class AutonRedActualFailsafe1 extends LinearOpMode {
 
 
-     Servo grabby;
-    // Declare OpMode members
+    Servo grabby;
+    // Declare OpMode members.
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
     private DcMotor backLeftMotor = null;
@@ -147,11 +147,11 @@ public class AutonBlueActualFailsafe1 extends LinearOpMode {
 
         // Autonomous Medium Red 1
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
-        turnToHeading( TURN_SPEED,  90.0);//Turn 90 to face direction of terminal
+        turnToHeading( TURN_SPEED,  -90.0);//Turn 90 to face direction of terminal
         driveStraight(DRIVE_SPEED, 28.00, 0.0); // Drive to terminal
         grabby.setPosition(0.5);
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
-        driveStraight(DRIVE_SPEED, -4.00, 0.0); // park
+        driveStraight(DRIVE_SPEED, -4.0, 0.0); // park
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.
