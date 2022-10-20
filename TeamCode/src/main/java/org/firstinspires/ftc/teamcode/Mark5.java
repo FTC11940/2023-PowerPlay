@@ -26,7 +26,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  returns !isStarted() && !isStopRequested() and does not call idle().
  *****************************/
 
-@TeleOp(name = "Mecanum", group="Linear OpMode")
+@TeleOp(name = "MarkV", group="Linear OpMode")
 // @Disabled
 public class Mark5 extends LinearOpMode {
 
@@ -75,9 +75,8 @@ public class Mark5 extends LinearOpMode {
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        lift.setDirection(DcMotorSimple.Direction.FORWARD);
-
         // FIXME - Scoy added, I think this is needed. Had to use something like this in Auton when using the encoder
+        lift.setTargetPosition(0);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -96,29 +95,6 @@ public class Mark5 extends LinearOpMode {
                 grabby.setPosition(0);
             }
 
-            telemetry.update();
-
-            /* This may not be optimal. Consider using
-            // Uses the left thumbstick for forward & backwards robot movement
-            // TODO
-            double drive = -gamepad1.left_stick_y;
-            double turn  =  gamepad1.right_stick_x;
-            leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-            rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
-            */
-
-            /*
-            gamepad2.left_bumper // Set lift to ground junction height
-            gamepad2.dpad_down // Set lift to on-the-ground height
-            gamepad2.dpad_right // Set lift top low height
-            gamepad2.dpad_left // Set lift to medium height
-            gamepad2.dpad_up // Set lift to high junction height
-            gamepad2.a // Set claw to close position
-            gamepad2.b // Set claw to open position
-            gamepad2.left_trigger //  Set lift to micro positions up
-            gamepad2.right_trigger //  Set lift to micro positions down
-            */
-
             // Drives the robot forward and backwards
             double y = -gamepad1.left_stick_y; // Uses the left thumbstick for left and right robot movement
             double x = gamepad1.left_stick_x; //*1.1 to counteract imperfect strafing
@@ -135,43 +111,20 @@ public class Mark5 extends LinearOpMode {
             frontRightMotor.setPower(frontRightPower);
             backRightMotor.setPower(backRightPower);
 
-            /*
-             * Telemetry Data for Driver & Optimization
-             ** TODO Show the elapsed game time
-             ** TODO Show wheel power output during teleop
-             ** TODO Show claw-grabber position for testing
-             ** TODO Show the lift motor position for testing
-             */
-
-
-            // lift code
-            /*
-            a mode, as i refer to it, is which 'mode' the lift is in, ground, low, medium, or high,
-            or in number form, 0, 1, 2, and 3.
-             */
-
-            int CMode = 0; // current mode
-            int DMode = 0; // desired mode
-            int time = 2000; // time to go up a mode, measured in milliseconds
-            int mtg = DMode - CMode; // modes to go until desired mode is reached
-            int power = 1;
-
-            lift.setPower(0);
-            lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-            //lift.setDirection(DcMotorSimple.Direction.FORWARD);
-
-            //lift.setTargetPosition(0);
             // FIXME
-            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            // lift.setPower(0);
+            // lift.setTargetPosition(0);
+            // lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            // lift.setDirection(DcMotorSimple.Direction.FORWARD);
+            // lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             if (gamepad1.y) {
-                lift.setTargetPosition(1000);
-                lift.setPower(0.2);
+                lift.setTargetPosition(100);
+                lift.setPower(0.5);
             }
             if (gamepad1.x){
-                lift.setTargetPosition(50);
-                lift.setPower(0.2);
+                lift.setTargetPosition(0);
+                lift.setPower(0.5);
                 // lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
 
