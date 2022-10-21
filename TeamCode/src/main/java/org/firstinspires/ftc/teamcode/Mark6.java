@@ -31,8 +31,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 // @Disabled
 public class Mark6 extends LinearOpMode {
 
+    // Reference the hardware map file
+    Hardware robot = new Hardware();
+
     Servo grabby;
     DcMotor lift;
+
     private ElapsedTime runtime = new ElapsedTime();
 
     // Located in the Hardware file and matches with the Drive Hub robot settings
@@ -45,21 +49,28 @@ public class Mark6 extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+
+        // robot.init(Hardware);
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
         grabby = hardwareMap.servo.get("grabby");
 
-        // TODO string to hardware map for lift
-        lift = hardwareMap.get(DcMotorEx.class,"lift");
+        double LIFT_LOW = 1000;
 
-        // use braking to slow the motor down
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        // TODO string to hardware map for lift
+        lift = hardwareMap.get(DcMotor.class,"lift");
+
+
+
+        // use braking $coy slow the motor down
+        // lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // disables the default velocity control
         // this does NOT disable the encoder from counting,
         // but lets us simply send raw motor power.
-        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        // lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         // Set starting position of the grabby claw. 0.5 is open, 0.0 is closed
@@ -84,42 +95,25 @@ public class Mark6 extends LinearOpMode {
 
         waitForStart();
 
-        if (isStopRequested()) return;
-        while (opModeIsActive()) {
+        lift.setMode((DcMotor.RunMode.STOP_AND_RESET_ENCODER));
+        lift.setTargetPosition((int)LIFT_LOW);
+        lift.setPower(0.5);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            if (gamepad1.b) {
-                grabby.setPosition(0.5);
-            }
-            if (gamepad1.a){
-                grabby.setPosition(0);
-            }
-
+        // Feedback for what the motor is doing
+        while (lift.isBusy()) {
+            // Send telemetry info to dashboard
+            telemetry.addData("Status","Running motor to LIFT LOW");
             telemetry.update();
-
-            // Drives the robot forward and backwards
-            double y = -gamepad1.left_stick_y; // Uses the left thumbstick for left and right robot movement
-            double x = gamepad1.left_stick_x; //*1.1 to counteract imperfect strafing
-            double rot = gamepad1.right_stick_x; // Uses the right thumbstick to rotate robot movement
-
-            double frontLeftPower = (y + x + rot);
-            double backLeftPower = (y - x + rot);
-            double frontRightPower = (y - x - rot);
-            double backRightPower = (y + x - rot);
-
-            // Send calculated power to wheels
-            frontLeftMotor.setPower(frontLeftPower);
-            backLeftMotor.setPower(backLeftPower);
-            frontRightMotor.setPower(frontRightPower);
-            backRightMotor.setPower(backRightPower);
-
-
-            }
-
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Motors", "Front L (%.2f), Front R (%.2f)", frontLeftPower, frontRightPower);
-            telemetry.addData("Motors", "Back L (%.2f), Back R (%.2f)", backLeftPower, backRightPower);
-            telemetry.update();
-
         }
+
+        // No longer busy so turn off the lift
+        lift.setPower(0);
+
+        if (isStopRequested()) return;
+
+            telemetry.update();
+
+
     }
 } // End of Class
