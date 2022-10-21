@@ -32,7 +32,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class Mark6 extends LinearOpMode {
 
     // Reference the hardware map file
-    Hardware robot = new Hardware();
+    // Hardware robot = new Hardware();
 
     Servo grabby;
     DcMotor lift;
@@ -46,6 +46,9 @@ public class Mark6 extends LinearOpMode {
     private DcMotor backLeftMotor = null; // assigned 3 in Driver Hub
     BNO055IMU imu;
 
+    static final double TICK_COUNT = 1000;
+
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -57,11 +60,9 @@ public class Mark6 extends LinearOpMode {
 
         grabby = hardwareMap.servo.get("grabby");
 
-        double LIFT_LOW = 1000;
 
         // TODO string to hardware map for lift
-        lift = hardwareMap.get(DcMotor.class,"lift");
-
+        lift = hardwareMap.get(DcMotor.class, "lift");
 
 
         // use braking $coy slow the motor down
@@ -76,10 +77,10 @@ public class Mark6 extends LinearOpMode {
         // Set starting position of the grabby claw. 0.5 is open, 0.0 is closed
         grabby.setPosition(0.5);
 
-        frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
-        frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
-        backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
-        backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
+        frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeftMotor");
+        frontRightMotor = hardwareMap.get(DcMotor.class, "frontRightMotor");
+        backRightMotor = hardwareMap.get(DcMotor.class, "backRightMotor");
+        backLeftMotor = hardwareMap.get(DcMotor.class, "backLeftMotor");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         /*
@@ -92,18 +93,37 @@ public class Mark6 extends LinearOpMode {
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
+        lift.setDirection(DcMotor.Direction.FORWARD);
 
         waitForStart();
 
+        double LIFT_LOW = TICK_COUNT;
+
+        // FIXME
         lift.setMode((DcMotor.RunMode.STOP_AND_RESET_ENCODER));
-        lift.setTargetPosition((int)LIFT_LOW);
-        lift.setPower(0.5);
+        lift.setTargetPosition((int)LIFT_LOW); // TODO Moved to be after stop and reset
+        lift.setPower(0.5); // FIXME Changing this power output had no impact
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        sleep(2000);
+
+
+
+        // Feedback for what the motor is doing
+        while (lift.isBusy()) {
+            // Send telemetry info to dashboard
+            telemetry.addData("Status", "Running motor to LIFT LOW");
+            telemetry.update();
+        }
+
+        // lift.setMode((DcMotor.RunMode.STOP_AND_RESET_ENCODER));
+        lift.setTargetPosition(0); // TODO Moved to be after stop and reset
+        lift.setPower(0.2); // FIXME Changing this power output had no impact
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // Feedback for what the motor is doing
         while (lift.isBusy()) {
             // Send telemetry info to dashboard
-            telemetry.addData("Status","Running motor to LIFT LOW");
+            telemetry.addData("Status", "Running motor to Zero");
             telemetry.update();
         }
 
@@ -112,7 +132,7 @@ public class Mark6 extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-            telemetry.update();
+        telemetry.update();
 
 
     }
