@@ -26,7 +26,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  returns !isStarted() && !isStopRequested() and does not call idle().
  *****************************/
 
-@TeleOp(name = "MarkV", group="Linear OpMode")
+@TeleOp(name = "Mark V.", group="Linear OpMode")
 // @Disabled
 public class Mark5 extends LinearOpMode {
 
