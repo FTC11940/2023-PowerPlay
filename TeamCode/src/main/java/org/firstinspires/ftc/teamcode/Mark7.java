@@ -3,8 +3,6 @@ package org.firstinspires.ftc.teamcode;
 // FIXME Don't know if this is best practice. Ask Maasser
 import static org.firstinspires.ftc.teamcode.Constants.*;
 
-import static org.firstinspires.ftc.teamcode.Hardware.*;
-
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -32,9 +30,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  returns !isStarted() && !isStopRequested() and does not call idle().
  *****************************/
 
-@TeleOp(name = "Mark VI.", group="Linear OpMode")
+@TeleOp(name = "Mark VII.", group="Linear OpMode")
 // @Disabled
-public class Mark6 extends LinearOpMode {
+public class Mark7 extends LinearOpMode {
 
     // Reference the hardware map file
     // Hardware robot = new Hardware();
@@ -99,17 +97,16 @@ public class Mark6 extends LinearOpMode {
         * This is the proper sequence for functional lift code.
         */
 
-        // Only needed for the first lift code sequence
-        lift.setMode((DcMotor.RunMode.STOP_AND_RESET_ENCODER));
+        // Grab Cone 1
+        grabby.setPosition(CLOSED);
 
-        lift.setTargetPosition(LIFT_GROUND);
-        lift.setPower(0.5);
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sleep(1000); // Pause for before moving back. Not needed in teleop code
-
+        lift.setMode((DcMotor.RunMode.STOP_AND_RESET_ENCODER)); // Only needed for the first lift code sequence
         lift.setTargetPosition(LIFT_LOW);
         lift.setPower(0.5);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // Drop Cone 1
+        grabby.setPosition(OPEN);
         sleep(1000); // Pause for before moving back. Not needed in teleop code
 
         // Feedback for what the motor is doing
@@ -118,19 +115,52 @@ public class Mark6 extends LinearOpMode {
             telemetry.addData("Status", "Running motor to LIFT LOW");
             telemetry.update();
         }
+
+        // Set lift down for Auton to grab another cone
+        lift.setTargetPosition(0);
+        lift.setPower(1);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        grabby.setPosition(CLOSED); // Grab Cone 2
+        sleep(500); // Pause for before moving back.
+
+        lift.setTargetPosition(LIFT_GROUND);
+        lift.setPower(0.5);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        grabby.setPosition(OPEN); // Drop Cone 2
+        sleep(1000); // Pause for before moving back. Not needed in teleop code
+
+        // Set lift down for Auton to grab another cone
+        lift.setTargetPosition(0);
+        lift.setPower(1);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        grabby.setPosition(CLOSED); // Grab Cone 3
+        sleep(500); // Pause for before moving back.
+
         lift.setTargetPosition(LIFT_MEDIUM);
         lift.setPower(0.5);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sleep(1000); // Pause for before moving back. Not needed in teleop code
+        grabby.setPosition(OPEN); // Drop Cone 3
+        sleep(1000); // Pause for before moving
+
+        // Set lift down for Auton to grab another cone
+        lift.setTargetPosition(0);
+        lift.setPower(1);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        grabby.setPosition(CLOSED); // Grab Cone 4
+        sleep(500); // Pause for before moving.
 
         lift.setTargetPosition(LIFT_HIGH);
         lift.setPower(0.5);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        grabby.setPosition(OPEN); // Drop Cone 4
         sleep(1000); // Pause for before moving back. Not needed in teleop code
 
-        lift.setTargetPosition(0); // Moves the lift back to the starting point
-        lift.setPower(0.5); //
+        // Set lift down for Auton to grab another cone
+        lift.setTargetPosition(0);
+        lift.setPower(1);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        grabby.setPosition(CLOSED); // Grab Cone 5
+        sleep(500); // Pause for before moving back.
 
         // Feedback for what the motor is doing
         while (lift.isBusy()) {

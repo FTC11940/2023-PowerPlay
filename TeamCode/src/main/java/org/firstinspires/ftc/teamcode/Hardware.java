@@ -15,13 +15,6 @@ public class Hardware {
     public DcMotor lift = null;
     public Servo grabber = null;
 
-    /*
-        public final static double POS_HOME = 0.0;
-    public final static double POS_MIN = -1.0;
-    public final static double POS_MAX = 1.0;
-     */
-
-
     //additional variables
     HardwareMap hardwareMap = null;
 
@@ -44,9 +37,6 @@ public class Hardware {
         backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
 
         lift = hardwareMap.get(DcMotor.class,"lift");
-
-        //connect servo
-        // randomServo = hardwareMap.get(Servo.class, "randomServo");
 
         // Set up motor direction
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -79,7 +69,7 @@ public class Hardware {
 
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        //set motors to use no power
+        // Set motors to use no power at start
         frontLeftMotor.setPower(0);
         frontRightMotor.setPower(0);
         backLeftMotor.setPower(0);
@@ -88,4 +78,4 @@ public class Hardware {
         lift.setPower(0);
 
     }
-}
+} // End class
