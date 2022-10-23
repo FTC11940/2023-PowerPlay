@@ -1,8 +1,16 @@
+/* 
+Constants file for FTC code base
+*/
 package org.firstinspires.ftc.teamcode;
 
 public class Constants {
 
-    // SetTargetPosition() for the lift preset encoder values.
+    /* SetTargetPosition() for the lift preset encoder values. 
+    Values to be determined experimental and set here
+    ADD import static org.firstinspires.ftc.teamcode.Constants.*;
+    to each file reference constants
+    */
+
     // SetTargetPosition(0) is the game field zero
     public static final int LIFT_GROUND = 100; // 1" Ground junction height
     public static final int LIFT_LOW = 2000; // 12" Low junction height

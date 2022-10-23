@@ -1,3 +1,7 @@
+/*
+* Mark VIII. is a teleop design to have functional drive code, claw code, and preset lift
+* positions assigned to buttons
+* */
 package org.firstinspires.ftc.teamcode;
 
 // FIXME Don't know if this is best practice. Ask Maasser
@@ -16,25 +20,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-
-/****************************
- runOpMode():
- Code inside this method will run exactly once after you press the INIT button.
- This is where you should put all code for the OpMode.
- waitForStart():
- This method pauses the Op-Mode until you press the START button on the driver station.
- isStarted():
- returns true if the START button has been pressed, otherwise it returns false.
- isStopRequested():
- returns true if the STOP button has been pressed, otherwise it returns false.
- idle():
- calls Thread.yield, allowing other threads at the same priority level to run.
- opModeIsActive():
- returns isStarted() && !isStopRequested() and calls idle().
- opModeInInit():
- returns !isStarted() && !isStopRequested() and does not call idle().
- *****************************/
 
 @TeleOp(name = "Mark VIII.", group="Linear OpMode")
 // @Disabled
