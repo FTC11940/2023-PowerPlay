@@ -75,7 +75,7 @@ public class Mark7 extends LinearOpMode {
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        lift.setDirection(DcMotor.Direction.FORWARD);
+        lift.setDirection(DcMotor.Direction.REVERSE);
 
         waitForStart();
 
@@ -88,7 +88,7 @@ public class Mark7 extends LinearOpMode {
 
         lift.setMode((DcMotor.RunMode.STOP_AND_RESET_ENCODER)); // Only needed for the first lift code sequence
         lift.setTargetPosition(LIFT_LOW);
-        lift.setPower(0.5);
+        lift.setPower(0.25);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // Drop Cone 1
@@ -104,33 +104,33 @@ public class Mark7 extends LinearOpMode {
 
         // Set lift down for Auton to grab another cone
         lift.setTargetPosition(0);
-        lift.setPower(1);
+        lift.setPower(0.25);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         grabby.setPosition(CLOSED); // Grab Cone 2
         sleep(500); // Pause for before moving back.
 
         lift.setTargetPosition(LIFT_GROUND);
-        lift.setPower(0.5);
+        lift.setPower(0.25);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         grabby.setPosition(OPEN); // Drop Cone 2
         sleep(1000); // Pause for before moving back. Not needed in teleop code
 
         // Set lift down for Auton to grab another cone
         lift.setTargetPosition(0);
-        lift.setPower(1);
+        lift.setPower(0.25);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         grabby.setPosition(CLOSED); // Grab Cone 3
         sleep(500); // Pause for before moving back.
 
         lift.setTargetPosition(LIFT_MEDIUM);
-        lift.setPower(0.5);
+        lift.setPower(0.25);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         grabby.setPosition(OPEN); // Drop Cone 3
         sleep(1000); // Pause for before moving
 
         // Set lift down for Auton to grab another cone
         lift.setTargetPosition(0);
-        lift.setPower(1);
+        lift.setPower(0.25);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         grabby.setPosition(CLOSED); // Grab Cone 4
         sleep(500); // Pause for before moving.
@@ -143,7 +143,7 @@ public class Mark7 extends LinearOpMode {
 
         // Set lift down for Auton to grab another cone
         lift.setTargetPosition(0);
-        lift.setPower(1);
+        lift.setPower(0.25);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         grabby.setPosition(CLOSED); // Grab Cone 5
         sleep(500); // Pause for before moving back.

@@ -6,12 +6,7 @@ package org.firstinspires.ftc.teamcode;
 
 // FIXME Don't know if this is best practice. Ask Maasser
 
-import static org.firstinspires.ftc.teamcode.Constants.CLOSED;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_GROUND;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_HIGH;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_LOW;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_MEDIUM;
-import static org.firstinspires.ftc.teamcode.Constants.OPEN;
+import static org.firstinspires.ftc.teamcode.Constants.*;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -75,7 +70,9 @@ public class Mark8 extends LinearOpMode {
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        lift.setDirection(DcMotor.Direction.FORWARD);
+        lift.setDirection(DcMotor.Direction.REVERSE);
+
+        lift.setMode((DcMotor.RunMode.STOP_AND_RESET_ENCODER)); // Only needed for the first lift code sequence
 
         waitForStart();
 
@@ -133,59 +130,71 @@ public class Mark8 extends LinearOpMode {
             // Grab Cone 1
             grabby.setPosition(CLOSED);
 
-            lift.setMode((DcMotor.RunMode.STOP_AND_RESET_ENCODER)); // Only needed for the first lift code sequence
 
             if (gamepad1.start) {
                 lift.setTargetPosition(LIFT_GROUND);
                 lift.setPower(0.25);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                lift.setPower(0);
+                while (lift.isBusy()) {
+                    // Send telemetry info to dashboard
+                    telemetry.addData("Status", "Running motor to LIFT LOW");
+                    telemetry.update();
+                }
             }
-
             if (gamepad1.dpad_left) {
                 lift.setTargetPosition(LIFT_LOW);
-                lift.setPower(0.25);
+                lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                lift.setPower(0);
+                while (lift.isBusy()) {
+                    // Send telemetry info to dashboard
+                    telemetry.addData("Status", "Running motor to LIFT LOW");
+                    telemetry.update();
+                }
             }
 
             if (gamepad1.dpad_right) {
                 lift.setTargetPosition(LIFT_MEDIUM);
-                lift.setPower(0.25);
+                lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                lift.setPower(0);
+                while (lift.isBusy()) {
+                    // Send telemetry info to dashboard
+                    telemetry.addData("Status", "Running motor to LIFT MEDIUM");
+                    telemetry.update();
+                }
+
             }
 
             if (gamepad1.dpad_up) {
                 lift.setTargetPosition(LIFT_HIGH);
-                lift.setPower(0.25);
+                lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                lift.setPower(0);
+                while (lift.isBusy()) {
+                    // Send telemetry info to dashboard
+                    telemetry.addData("Status", "Running motor to LIFT HIGH");
+                    telemetry.update();
+                }
             }
 
             if (gamepad1.dpad_down) {
                 lift.setTargetPosition(0);
-                lift.setPower(0.25);
+                lift.setPower(1);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 // Feedback for what the motor is doing
-                    while (lift.isBusy()) {
-                        // Send telemetry info to dashboard
-                        telemetry.addData("Status", "Running motor to zero position");
-                        telemetry.update();
-                    }
+                while (lift.isBusy()) {
+                    // Send telemetry info to dashboard
+                    telemetry.addData("Status", "Running motor to zero position");
+                    telemetry.update();
+                }
 
                 // No longer busy so turn off the lift
-                lift.setPower(0);
-
             }
-            
+
             if (isStopRequested()) return;
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "Front L (%.2f), Front R (%.2f)", frontLeftPower, frontRightPower);
             telemetry.addData("Motors", "Back L (%.2f), Back R (%.2f)", backLeftPower, backRightPower);
             telemetry.update();
-
         }
     }
 } // End of Class

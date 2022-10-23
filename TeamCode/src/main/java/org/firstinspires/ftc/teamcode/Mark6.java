@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 // FIXME Don't know if this is best practice. Ask Maasser
+import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import static org.firstinspires.ftc.teamcode.Constants.*;
 
 import static org.firstinspires.ftc.teamcode.Hardware.*;
@@ -92,53 +93,40 @@ public class Mark6 extends LinearOpMode {
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        lift.setDirection(DcMotor.Direction.FORWARD);
+        lift.setDirection(DcMotor.Direction.REVERSE);
 
         waitForStart();
 
         /*
-        * This is the proper sequence for functional lift code.
-        */
+         * This is the proper sequence for functional lift code.
+         */
 
         // Only needed for the first lift code sequence
-        lift.setMode((DcMotor.RunMode.STOP_AND_RESET_ENCODER));
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        lift.setTargetPosition(LIFT_GROUND);
-        lift.setPower(0.5);
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sleep(1000); // Pause for before moving back. Not needed in teleop code
-
-        lift.setTargetPosition(LIFT_LOW);
-        lift.setPower(0.5);
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sleep(1000); // Pause for before moving back. Not needed in teleop code
-
-        // Feedback for what the motor is doing
-        while (lift.isBusy()) {
-            // Send telemetry info to dashboard
-            telemetry.addData("Status", "Running motor to LIFT LOW");
-            telemetry.update();
-        }
         lift.setTargetPosition(LIFT_MEDIUM);
-        lift.setPower(0.5);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sleep(1000); // Pause for before moving back. Not needed in teleop code
+        lift.setPower(0.25);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        sleep(2000);
 
-        lift.setTargetPosition(LIFT_HIGH);
-        lift.setPower(0.5);
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sleep(1000); // Pause for before moving back. Not needed in teleop code
-
-        lift.setTargetPosition(0); // Moves the lift back to the starting point
-        lift.setPower(0.5); //
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
+        // Pause for before moving back. Not needed in teleop code
         // Feedback for what the motor is doing
+
+        /*
         while (lift.isBusy()) {
             // Send telemetry info to dashboard
-            telemetry.addData("Status", "Running motor to zero position");
+            telemetry.addData("Status", "Running motor to LIFT GROUND");
             telemetry.update();
         }
+        */
+
+
+        lift.setTargetPosition(0);
+        lift.setPower(0.25);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        sleep(2000); // Pause for before moving back. Not needed in teleop code
+
 
         // No longer busy so turn off the lift
         lift.setPower(0);
