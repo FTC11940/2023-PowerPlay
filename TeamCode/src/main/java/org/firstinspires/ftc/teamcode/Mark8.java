@@ -72,31 +72,34 @@ public class Mark8 extends LinearOpMode {
 
         lift.setDirection(DcMotor.Direction.REVERSE);
 
-        lift.setMode((DcMotor.RunMode.STOP_AND_RESET_ENCODER)); // Only needed for the first lift code sequence
+        // Only needed when initialized
+        lift.setMode((DcMotor.RunMode.STOP_AND_RESET_ENCODER));
 
         waitForStart();
 
         if (isStopRequested()) return;
         while (opModeIsActive()) {
 
+            // Assign actions to buttons
+
             if (gamepad1.b) {
-                grabby.setPosition(0.5);
-            }
-            if (gamepad1.a) {
-                grabby.setPosition(0);
+                grabby.setPosition(OPEN);
             }
 
-            telemetry.update();
-    /*
-            gamepad2.left_bumper // Set lift to ground junction height
-            gamepad2.dpad_down // Set lift to on-the-ground height
-            gamepad2.dpad_right // Set lift top low height
-            gamepad2.dpad_left // Set lift to medium height
-            gamepad2.dpad_up // Set lift to high junction height
-            gamepad2.a // Set claw to close position
-            gamepad2.b // Set claw to open position
-            gamepad2.left_trigger //  Set lift to micro positions up
-            gamepad2.right_trigger //  Set lift to micro positions down
+            if (gamepad1.a) {
+                grabby.setPosition(CLOSED);
+            }
+
+            /* TODO
+            * Code would likely be very similar to drive code because trigger is analog input
+            * Input would need to keep adding power while held as well
+
+            //  Set lift to micro positions DOWN when held
+            gamepad2.left_trigger
+
+            //  Set lift to micro positions down
+            gamepad2.right_trigger
+
             */
 
             // Drives the robot forward and backwards
@@ -115,66 +118,58 @@ public class Mark8 extends LinearOpMode {
             frontRightMotor.setPower(frontRightPower);
             backRightMotor.setPower(backRightPower);
 
-            /*
-             * Telemetry Data for Driver & Optimization
-             ** TODO Show the elapsed game time
-             ** TODO Show wheel power output during teleop
-             ** TODO Show claw-grabber position for testing
-             ** TODO Show the lift motor position for testing
-
-
-            /*
-        * This is the proper sequence for functional lift code.
-        */
-
-            // Grab Cone 1
+            // Grab the starting cone
             grabby.setPosition(CLOSED);
 
-
+            // Sets and holds lift to Ground Junction height
             if (gamepad1.start) {
                 lift.setTargetPosition(LIFT_GROUND);
                 lift.setPower(0.25);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 while (lift.isBusy()) {
                     // Send telemetry info to dashboard
-                    telemetry.addData("Status", "Running motor to LIFT LOW");
+                    telemetry.addData("Status", "Running lift GROUND");
                     telemetry.update();
                 }
             }
+
+            // Sets and hold lift to Low Junction height
             if (gamepad1.dpad_left) {
                 lift.setTargetPosition(LIFT_LOW);
                 lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 while (lift.isBusy()) {
                     // Send telemetry info to dashboard
-                    telemetry.addData("Status", "Running motor to LIFT LOW");
+                    telemetry.addData("Status", "Running lift to LOW");
                     telemetry.update();
                 }
             }
 
+            // Sets and hold lift to Medium Junction height
             if (gamepad1.dpad_right) {
                 lift.setTargetPosition(LIFT_MEDIUM);
                 lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 while (lift.isBusy()) {
                     // Send telemetry info to dashboard
-                    telemetry.addData("Status", "Running motor to LIFT MEDIUM");
+                    telemetry.addData("Status", "Running lift MEDIUM");
                     telemetry.update();
                 }
-
             }
 
+            // Sets and hold lift to High Junction height
             if (gamepad1.dpad_up) {
                 lift.setTargetPosition(LIFT_HIGH);
                 lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 while (lift.isBusy()) {
                     // Send telemetry info to dashboard
-                    telemetry.addData("Status", "Running motor to LIFT HIGH");
+                    telemetry.addData("Status", "Running lift to HIGH");
                     telemetry.update();
                 }
             }
 
+            // Sets and hold lift to zero position for cone grab-intake
             if (gamepad1.dpad_down) {
                 lift.setTargetPosition(0);
                 lift.setPower(1);
@@ -182,18 +177,27 @@ public class Mark8 extends LinearOpMode {
                 // Feedback for what the motor is doing
                 while (lift.isBusy()) {
                     // Send telemetry info to dashboard
-                    telemetry.addData("Status", "Running motor to zero position");
+                    telemetry.addData("Status", "Running lift to ZERO");
                     telemetry.update();
                 }
-
-                // No longer busy so turn off the lift
             }
+
+            /* Unused buttons at the moment
+            gamepad2.left_bumper // Set lift to ground junction height
+            gamepad2.dpad_down // Set lift to on-the-ground height
+            gamepad2.dpad_right // Set lift top low height
+            gamepad2.dpad_left // Set lift to medium height
+            gamepad2.dpad_up // Set lift to high junction height
+            */
 
             if (isStopRequested()) return;
 
+            // Data to send to Driver Station
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "Front L (%.2f), Front R (%.2f)", frontLeftPower, frontRightPower);
             telemetry.addData("Motors", "Back L (%.2f), Back R (%.2f)", backLeftPower, backRightPower);
+            telemetry.addData("Lift", "Position (%.2f");
+
             telemetry.update();
         }
     }
