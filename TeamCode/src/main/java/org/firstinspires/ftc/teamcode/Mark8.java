@@ -72,7 +72,7 @@ public class Mark8 extends LinearOpMode {
 
         lift.setDirection(DcMotor.Direction.REVERSE);
 
-        // Only needed when initialized
+        // Only needed when initialized.
         lift.setMode((DcMotor.RunMode.STOP_AND_RESET_ENCODER));
 
         waitForStart();
@@ -196,8 +196,7 @@ public class Mark8 extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "Front L (%.2f), Front R (%.2f)", frontLeftPower, frontRightPower);
             telemetry.addData("Motors", "Back L (%.2f), Back R (%.2f)", backLeftPower, backRightPower);
-            telemetry.addData("Lift", "Position (%.2f");
-
+            telemetry.addData("Lift", lift.getCurrentPosition());
             telemetry.update();
         }
     }
