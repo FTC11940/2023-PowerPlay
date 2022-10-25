@@ -35,7 +35,7 @@ public class MecanumDrive extends LinearOpMode {
     DcMotor lift;
     private ElapsedTime runtime = new ElapsedTime();
 
-    // Located in the Hardware file and matches with the Drive Hub robot settings
+    //    // Located in the Hardware file and matches with the Drive Hub robot settings
     private DcMotor frontLeftMotor = null; // assigned 1 in Driver Hub
     private DcMotor frontRightMotor = null; // assigned 0 in Driver Hub
     private DcMotor backRightMotor = null; // assigned 2 in Driver Hub
@@ -56,6 +56,8 @@ public class MecanumDrive extends LinearOpMode {
 
         grabby = hardwareMap.servo.get("grabby");
         lift = hardwareMap.get(DcMotor.class,"lift");
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Set starting position of the grabby claw. 0.5 is open, 0.0 is closed
         grabby.setPosition(0.5);
@@ -141,27 +143,26 @@ public class MecanumDrive extends LinearOpMode {
 
             // lift code
             /*
-            dpaddown = zero
-            dpadleft = one
-            dpadright = two
-            dpad up = three
+            dpaddown = ground
+            dpadleft = low
+            dpadright = medium
+            dpad up = high
              */
-
-int block = 0;
+//TODO change targetposnums to negatives, machine not going in correct order
             if (gamepad1.dpad_up) {
-                lift.setTargetPosition(5800);
+                lift.setTargetPosition(3427);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 lift.setPower(1);
                 lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
             if (gamepad1.dpad_right){
-                lift.setTargetPosition(2500);
+                lift.setTargetPosition(2404);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 lift.setPower(1);
                 lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
             if (gamepad1.dpad_left){
-                lift.setTargetPosition(4300);
+                lift.setTargetPosition(1200);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 lift.setPower(1);
                 lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
