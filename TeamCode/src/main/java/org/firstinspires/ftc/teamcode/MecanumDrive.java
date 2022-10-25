@@ -78,11 +78,9 @@ public class MecanumDrive extends LinearOpMode {
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        lift.setDirection(DcMotorSimple.Direction.FORWARD);
 
         waitForStart();
 
-        // TODO once the dpad code isnt fucky, add some telemetry.addData stuff
         if (isStopRequested()) return;
         while (opModeIsActive()) {
 
@@ -97,7 +95,7 @@ public class MecanumDrive extends LinearOpMode {
 
             /* This may not be optimal. Consider using
             // Uses the left thumbstick for forward & backwards robot movement
-            // TODO
+
             double drive = -gamepad1.left_stick_y;
             double turn  =  gamepad1.right_stick_x;
             leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
@@ -148,18 +146,24 @@ public class MecanumDrive extends LinearOpMode {
             dpadright = medium
             dpad up = high
              */
-//TODO change targetposnums to negatives, machine not going in correct order
             if (gamepad1.dpad_up) {
                 lift.setTargetPosition(3427);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 lift.setPower(1);
                 lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
+            if (gamepad2.dpad_up && (lift.getCurrentPosition() >= 3427)){
+                lift.setPower(0);
+            }
+
             if (gamepad1.dpad_right){
                 lift.setTargetPosition(2404);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 lift.setPower(1);
                 lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            }
+            if (gamepad2.dpad_right && (lift.getCurrentPosition() >= 2399) && (lift.getCurrentPosition() <= 2409)){
+                lift.setPower(0);
             }
             if (gamepad1.dpad_left){
                 lift.setTargetPosition(1200);
@@ -167,15 +171,45 @@ public class MecanumDrive extends LinearOpMode {
                 lift.setPower(1);
                 lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
+            if (gamepad2.dpad_right && (lift.getCurrentPosition() >= 1195) && (lift.getCurrentPosition() <= 1205)){
+                lift.setPower(0);
+            }
+
             if (gamepad1.dpad_down){
                 lift.setTargetPosition(0);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 lift.setPower(1);
                 lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
+            if (gamepad2.dpad_right && (lift.getCurrentPosition() <= 5)){
+                lift.setPower(0);
+            }
+
+            // lift telemetry
+            String liftpos = "no input";
+
+                if (lift.getCurrentPosition() < 1200){
+                    liftpos = "between ground and low";
+                }else if (lift.getCurrentPosition() < 2404 && lift.getCurrentPosition() > 1200){
+                    liftpos = "between low and medium";
+                }else if (lift.getCurrentPosition() < 3427 && lift.getCurrentPosition() > 2404){
+                    liftpos = "between medium and high";
+                }
+
+
+                if (lift.getCurrentPosition() == 0){
+                    liftpos = "ground";
+                } else if (lift.getCurrentPosition() == 1200){
+                    liftpos = "low";
+                }else if (lift.getCurrentPosition() == 2404){
+                    liftpos = "medium";
+                }else if (lift.getCurrentPosition() == 3427) {
+                    liftpos = "high";
+                }
 
 
 
+            telemetry.addData("Lift Position: ", liftpos);
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "Front L (%.2f), Front R (%.2f)", frontLeftPower, frontRightPower);
             telemetry.addData("Motors", "Back L (%.2f), Back R (%.2f)", backLeftPower, backRightPower);
@@ -183,4 +217,5 @@ public class MecanumDrive extends LinearOpMode {
 
         }
     }
-} // End of Class
+}
+// End of Class
