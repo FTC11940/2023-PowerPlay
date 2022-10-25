@@ -141,53 +141,39 @@ public class MecanumDrive extends LinearOpMode {
 
             // lift code
             /*
-            a mode, as i refer to it, is which 'mode' the lift is in, ground, low, medium, or high,
-            or in number form, 0, 1, 2, and 3.
+            dpaddown = zero
+            dpadleft = one
+            dpadright = two
+            dpad up = three
              */
 
-            int CMode = 0; // current mode
-            int DMode = 0; // desired mode
-            int time = 2000; // time to go up a mode, measured in milliseconds
-            int mtg = DMode - CMode; // modes to go until desired mode is reached
-            int power = 1;
-
-            lift.setPower(0);
-            lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-            //lift.setDirection(DcMotorSimple.Direction.FORWARD);
-
-            //lift.setTargetPosition(0);
-            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            if (gamepad1.dpad_left) {
-                lift.setTargetPosition(200);
-            }
-            lift.setPower(0.1); // Lift one inch*/
-
-            if (gamepad1.dpad_up){
-                lift.setTargetPosition(50);
+int block = 0;
+            if (gamepad1.dpad_up) {
+                lift.setTargetPosition(5800);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 lift.setPower(1);
                 lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
-//if (!gamepad1.dpad_up & !)
-            // TODO try out java enum
-            if (gamepad1.dpad_down){
-                lift.setPower(-1);
-                lift.setTargetPosition(0);
-            }
-
-            /*if (gamepad1.dpad_left){
-                DMode = 1;
-                lift.setPower(power);
-                sleep(time*mtg);
-                CMode = 1;
-            }*/
-
             if (gamepad1.dpad_right){
-                DMode = 2;
-                lift.setPower(power);
-                sleep(time*mtg);
-                CMode = 2;
+                lift.setTargetPosition(2500);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                lift.setPower(1);
+                lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
+            if (gamepad1.dpad_left){
+                lift.setTargetPosition(4300);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                lift.setPower(1);
+                lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            }
+            if (gamepad1.dpad_down){
+                lift.setTargetPosition(0);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                lift.setPower(1);
+                lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            }
+
+
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "Front L (%.2f), Front R (%.2f)", frontLeftPower, frontRightPower);
