@@ -27,15 +27,16 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  returns !isStarted() && !isStopRequested() and does not call idle().
  *****************************/
 
-@TeleOp(name = "Mecanum", group="Linear OpMode")
-// @Disabled
-public class MecanumDrive extends LinearOpMode {
+@TeleOp(name = "Mark V.", group="Linear OpMode")
+@Disabled
+
+public class Mark5 extends LinearOpMode {
 
     Servo grabby;
     DcMotor lift;
     private ElapsedTime runtime = new ElapsedTime();
 
-    //    // Located in the Hardware file and matches with the Drive Hub robot settings
+    // Located in the Hardware file and matches with the Drive Hub robot settings
     private DcMotor frontLeftMotor = null; // assigned 1 in Driver Hub
     private DcMotor frontRightMotor = null; // assigned 0 in Driver Hub
     private DcMotor backRightMotor = null; // assigned 2 in Driver Hub
@@ -56,8 +57,6 @@ public class MecanumDrive extends LinearOpMode {
 
         grabby = hardwareMap.servo.get("grabby");
         lift = hardwareMap.get(DcMotor.class,"lift");
-        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lift.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Set starting position of the grabby claw. 0.5 is open, 0.0 is closed
         grabby.setPosition(0.5);
@@ -78,9 +77,16 @@ public class MecanumDrive extends LinearOpMode {
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
+        // FIXME - Scoy added, I think this is needed. Had to use something like this in Auton when using the encoder
+        lift.setTargetPosition(0);
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
 
         waitForStart();
 
+        // TODO add some telemetry.addData stuff
         if (isStopRequested()) return;
         while (opModeIsActive()) {
 
@@ -90,29 +96,6 @@ public class MecanumDrive extends LinearOpMode {
             if (gamepad1.a){
                 grabby.setPosition(0);
             }
-
-            telemetry.update();
-
-            /* This may not be optimal. Consider using
-            // Uses the left thumbstick for forward & backwards robot movement
-
-            double drive = -gamepad1.left_stick_y;
-            double turn  =  gamepad1.right_stick_x;
-            leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-            rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
-            */
-
-            /*
-            gamepad2.left_bumper // Set lift to ground junction height
-            gamepad2.dpad_down // Set lift to on-the-ground height
-            gamepad2.dpad_right // Set lift top low height
-            gamepad2.dpad_left // Set lift to medium height
-            gamepad2.dpad_up // Set lift to high junction height
-            gamepad2.a // Set claw to close position
-            gamepad2.b // Set claw to open position
-            gamepad2.left_trigger //  Set lift to micro positions up
-            gamepad2.right_trigger //  Set lift to micro positions down
-            */
 
             // Drives the robot forward and backwards
             double y = -gamepad1.left_stick_y; // Uses the left thumbstick for left and right robot movement
@@ -130,86 +113,23 @@ public class MecanumDrive extends LinearOpMode {
             frontRightMotor.setPower(frontRightPower);
             backRightMotor.setPower(backRightPower);
 
-            /*
-             * Telemetry Data for Driver & Optimization
-             ** TODO Show the elapsed game time
-             ** TODO Show wheel power output during teleop
-             ** TODO Show claw-grabber position for testing
-             ** TODO Show the lift motor position for testing
-             */
+            // FIXME
+            // lift.setPower(0);
+            // lift.setTargetPosition(0);
+            // lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            // lift.setDirection(DcMotorSimple.Direction.FORWARD);
+            // lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-
-            // lift code
-            /*
-            dpaddown = ground
-            dpadleft = low
-            dpadright = medium
-            dpad up = high
-             */
-            if (gamepad1.dpad_up) {
-                lift.setTargetPosition(3427);
-                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                lift.setPower(1);
-                lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            if (gamepad1.y) {
+                lift.setTargetPosition(100);
+                lift.setPower(0.5);
             }
-            if (gamepad2.dpad_up && (lift.getCurrentPosition() >= 3427)){
-                lift.setPower(0);
-            }
-
-            if (gamepad1.dpad_right){
-                lift.setTargetPosition(2404);
-                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                lift.setPower(1);
-                lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            }
-            if (gamepad2.dpad_right && (lift.getCurrentPosition() >= 2399) && (lift.getCurrentPosition() <= 2409)){
-                lift.setPower(0);
-            }
-            if (gamepad1.dpad_left){
-                lift.setTargetPosition(1200);
-                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                lift.setPower(1);
-                lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            }
-            if (gamepad2.dpad_right && (lift.getCurrentPosition() >= 1195) && (lift.getCurrentPosition() <= 1205)){
-                lift.setPower(0);
-            }
-
-            if (gamepad1.dpad_down){
+            if (gamepad1.x){
                 lift.setTargetPosition(0);
-                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                lift.setPower(1);
-                lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            }
-            if (gamepad2.dpad_right && (lift.getCurrentPosition() <= 5)){
-                lift.setPower(0);
+                lift.setPower(0.5);
+                // lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
 
-            // lift telemetry
-            String liftpos = "no input";
-
-                if (lift.getCurrentPosition() < 1200){
-                    liftpos = "between ground and low";
-                }else if (lift.getCurrentPosition() < 2404 && lift.getCurrentPosition() > 1200){
-                    liftpos = "between low and medium";
-                }else if (lift.getCurrentPosition() < 3427 && lift.getCurrentPosition() > 2404){
-                    liftpos = "between medium and high";
-                }
-
-
-                if (lift.getCurrentPosition() == 0){
-                    liftpos = "ground";
-                } else if (lift.getCurrentPosition() == 1200){
-                    liftpos = "low";
-                }else if (lift.getCurrentPosition() == 2404){
-                    liftpos = "medium";
-                }else if (lift.getCurrentPosition() == 3427) {
-                    liftpos = "high";
-                }
-
-
-
-            telemetry.addData("Lift Position: ", liftpos);
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "Front L (%.2f), Front R (%.2f)", frontLeftPower, frontRightPower);
             telemetry.addData("Motors", "Back L (%.2f), Back R (%.2f)", backLeftPower, backRightPower);
@@ -217,5 +137,4 @@ public class MecanumDrive extends LinearOpMode {
 
         }
     }
-}
-// End of Class
+} // End of Class

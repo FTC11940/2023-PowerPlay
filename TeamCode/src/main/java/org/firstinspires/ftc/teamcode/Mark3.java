@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /****************************
@@ -17,7 +19,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *****************************/
 
 @TeleOp(name = "Mark III.", group="Linear OpMode")
+@Disabled
+
 public class Mark3 extends LinearOpMode {
+
+    Servo grabby;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -32,6 +38,10 @@ public class Mark3 extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+        grabby = hardwareMap.servo.get("grabby");
+
+        // Set starting position of the grabby claw. 0.5 is open, 0.0 is closed
+        grabby.setPosition(0.5);
 
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
@@ -52,6 +62,22 @@ public class Mark3 extends LinearOpMode {
         if (isStopRequested()) return;
         while (opModeIsActive()) {
 
+            // Controller Mapping
+            if (gamepad1.y) {
+                grabby.setPosition(0.5);
+            }
+            if (gamepad1.a){
+                grabby.setPosition(0);
+            }
+
+            telemetry.update();
+
+
+            // Drives the robot forward and backwards
+            double y = -gamepad1.left_stick_y; // Uses the left thumbstick for left and right robot movement
+            double x = gamepad1.left_stick_x; //*1.1 to counteract imperfect strafing
+            double rot = gamepad1.right_stick_x; // Uses the right thumbstick to rotate robot movement
+
             /* This may not be optimal. Consider using
             // Uses the left thumbstick for forward & backwards robot movement
             double drive = -gamepad1.left_stick_y;
@@ -59,12 +85,6 @@ public class Mark3 extends LinearOpMode {
             leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
             rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
             */
-
-
-            // Drives the robot forward and backwards
-            double y = -gamepad1.left_stick_y; // Uses the left thumbstick for left and right robot movement
-            double x = gamepad1.left_stick_x; //*1.1 to counteract imperfect strafing
-            double rot = gamepad1.right_stick_x; // Uses the right thumbstick to rotate robot movement
 
             // input: theta and power
             double theta = Math.atan2(y,x);

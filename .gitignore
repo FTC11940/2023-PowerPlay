@@ -89,3 +89,6 @@ lint/tmp/
 # Custom adds from Scoy
 local.properties
 .gradle/
+*.bin
+*.lock
+local.properties
