@@ -126,6 +126,25 @@ public class Mark8 extends LinearOpMode {
             // Grab the starting cone
             grabby.setPosition(CLOSED);
 
+            // Testing Purposes
+            if (gamepad1.y) {
+                lift.setTargetPosition(LIFT_LOW);
+                lift.setPower(0.5);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                while (lift.isBusy()) {
+                    // Send telemetry info to dashboard
+                    telemetry.addData("Status", "Running lift to LOW");
+                    telemetry.update();
+                }
+                // Variable to hold the current lift position
+                int liftPos = lift.getCurrentPosition();
+                // TODO Added telemetry to test condition. If True set power to zero.
+                // Test the telemetry statement before setting power to zero.
+                if ((LIFT_LOW - 10) < liftPos && liftPos < (LIFT_LOW + 10)) {
+                    telemetry.addData("Lift Low Status", "You've arrived at your Low destination");
+                    // lift.setPower(0);
+                }
+            }
 
             // Sets and holds lift to Ground Junction height
             if (gamepad1.start) {
@@ -148,13 +167,6 @@ public class Mark8 extends LinearOpMode {
                     // Send telemetry info to dashboard
                     telemetry.addData("Status", "Running lift to LOW");
                     telemetry.update();
-                }
-                // Variable to hold the current lift position
-                int liftPos = lift.getCurrentPosition();
-                // TODO Added telemetry to test condition. If True set power to zero
-                if ((LIFT_LOW - 10) < liftPos && liftPos < (LIFT_LOW + 10)) {
-                    telemetry.addData("Lift", "You've arrived at your Low destination");
-                    // lift.setPower(0);
                 }
             }
 
@@ -209,7 +221,8 @@ public class Mark8 extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "Front L (%.2f), Front R (%.2f)", frontLeftPower, frontRightPower);
             telemetry.addData("Motors", "Back L (%.2f), Back R (%.2f)", backLeftPower, backRightPower);
-            telemetry.addData("Lift", lift.getCurrentPosition());
+            telemetry.addData("Lift Get Current", lift.getCurrentPosition());
+            telemetry.addData("Lift Position", "liftPos");
             telemetry.update();
         }
     }
