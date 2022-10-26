@@ -78,7 +78,10 @@ public class Mark8 extends LinearOpMode {
         lift.setMode((DcMotor.RunMode.STOP_AND_RESET_ENCODER));
 
         // TODO Test this out
+        lift.setTargetPosition(0);
+
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
 
         waitForStart();
 
@@ -117,6 +120,10 @@ public class Mark8 extends LinearOpMode {
             double frontRightPower = (y - x - rot);
             double backRightPower = (y + x - rot);
 
+            // Variable to hold the current lift position
+            int liftPos = lift.getCurrentPosition();
+
+
             // Send calculated power to wheels
             frontLeftMotor.setPower(frontLeftPower);
             backLeftMotor.setPower(backLeftPower);
@@ -136,13 +143,10 @@ public class Mark8 extends LinearOpMode {
                     telemetry.addData("Status", "Running lift to LOW");
                     telemetry.update();
                 }
-                // Variable to hold the current lift position
-                int liftPos = lift.getCurrentPosition();
-                // TODO Added telemetry to test condition. If True set power to zero.
                 // Test the telemetry statement before setting power to zero.
-                if ((LIFT_LOW - 10) < liftPos && liftPos < (LIFT_LOW + 10)) {
+                if ((LIFT_LOW - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_LOW + TOLERANCE)) {
                     telemetry.addData("Lift Low Status", "You've arrived at your Low destination");
-                    // lift.setPower(0);
+                    lift.setPower(0);
                 }
             }
 
@@ -156,6 +160,13 @@ public class Mark8 extends LinearOpMode {
                     telemetry.addData("Status", "Running lift GROUND");
                     telemetry.update();
                 }
+
+                // Test the telemetry statement before setting power to zero.
+                if ((LIFT_LOW - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_LOW + TOLERANCE)) {
+                    telemetry.addData("Lift Low Status", "You've arrived at your GROUND destination");
+                    lift.setPower(0);
+                }
+
             }
 
             // Sets and hold lift to Low Junction height
@@ -167,6 +178,12 @@ public class Mark8 extends LinearOpMode {
                     // Send telemetry info to dashboard
                     telemetry.addData("Status", "Running lift to LOW");
                     telemetry.update();
+                }
+
+                // Test the telemetry statement before setting power to zero.
+                if ((LIFT_LOW - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_LOW + TOLERANCE)) {
+                    telemetry.addData("Lift Low Status", "You've arrived at your LOW destination");
+                    lift.setPower(0);
                 }
             }
 
@@ -180,6 +197,12 @@ public class Mark8 extends LinearOpMode {
                     telemetry.addData("Status", "Running lift MEDIUM");
                     telemetry.update();
                 }
+
+                // Test the telemetry statement before setting power to zero.
+                if ((LIFT_MEDIUM - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_MEDIUM + TOLERANCE)) {
+                    telemetry.addData("Lift Low Status", "You've arrived at your MEDIUM destination");
+                    lift.setPower(0);
+                }
             }
 
             // Sets and hold lift to High Junction height
@@ -191,6 +214,12 @@ public class Mark8 extends LinearOpMode {
                     // Send telemetry info to dashboard
                     telemetry.addData("Status", "Running lift to HIGH");
                     telemetry.update();
+                }
+
+                // Test the telemetry statement before setting power to zero.
+                if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
+                    telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
+                    lift.setPower(0);
                 }
             }
 
@@ -204,6 +233,11 @@ public class Mark8 extends LinearOpMode {
                     // Send telemetry info to dashboard
                     telemetry.addData("Status", "Running lift to ZERO");
                     telemetry.update();
+                }
+                // Test the telemetry statement before setting power to zero.
+                if ((-TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (TOLERANCE)) {
+                    telemetry.addData("Lift Low Status", "You've arrived at the final destination");
+                    lift.setPower(0);
                 }
             }
 
@@ -221,8 +255,8 @@ public class Mark8 extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "Front L (%.2f), Front R (%.2f)", frontLeftPower, frontRightPower);
             telemetry.addData("Motors", "Back L (%.2f), Back R (%.2f)", backLeftPower, backRightPower);
-            telemetry.addData("Lift Get Current", lift.getCurrentPosition());
-            telemetry.addData("Lift Position", "liftPos");
+            telemetry.addData("Lift Position", liftPos);
+            // FIXME telemetry.addData("Lift Position", "liftPos");
             telemetry.update();
         }
     }

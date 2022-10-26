@@ -21,4 +21,7 @@ public class Constants {
     public static final double OPEN = 0.5;
     public static final double CLOSED = 0.0;
 
+    public static final int TOLERANCE = 10; // Lift encoder tolerance
+
+
 }
