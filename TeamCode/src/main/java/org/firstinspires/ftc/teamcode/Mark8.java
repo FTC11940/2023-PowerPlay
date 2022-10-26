@@ -7,6 +7,7 @@ package org.firstinspires.ftc.teamcode;
 // FIXME Don't know if this is best practice. Ask Maasser
 
 import static org.firstinspires.ftc.teamcode.Constants.*;
+import static org.firstinspires.ftc.teamcode.Hardware.*;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -52,6 +53,7 @@ public class Mark8 extends LinearOpMode {
 
         lift = hardwareMap.get(DcMotor.class, "lift");
 
+
         grabby.setPosition(OPEN);
 
         frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeftMotor");
@@ -74,6 +76,9 @@ public class Mark8 extends LinearOpMode {
 
         // Only needed when initialized.
         lift.setMode((DcMotor.RunMode.STOP_AND_RESET_ENCODER));
+
+        // TODO Test this out
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         waitForStart();
 
@@ -121,6 +126,7 @@ public class Mark8 extends LinearOpMode {
             // Grab the starting cone
             grabby.setPosition(CLOSED);
 
+
             // Sets and holds lift to Ground Junction height
             if (gamepad1.start) {
                 lift.setTargetPosition(LIFT_GROUND);
@@ -142,6 +148,13 @@ public class Mark8 extends LinearOpMode {
                     // Send telemetry info to dashboard
                     telemetry.addData("Status", "Running lift to LOW");
                     telemetry.update();
+                }
+                // Variable to hold the current lift position
+                int liftPos = lift.getCurrentPosition();
+                // TODO Added telemetry to test condition. If True set power to zero
+                if ((LIFT_LOW - 10) < liftPos && liftPos < (LIFT_LOW + 10)) {
+                    telemetry.addData("Lift", "You've arrived at your Low destination");
+                    // lift.setPower(0);
                 }
             }
 
