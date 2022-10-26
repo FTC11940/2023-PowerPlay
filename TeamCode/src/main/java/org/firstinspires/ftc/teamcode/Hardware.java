@@ -13,11 +13,10 @@ public class Hardware {
     public DcMotor backLeftMotor = null;
 
     //create servo
-    public Servo gauntlet = null;
     public DcMotor lift = null;
     public Servo grabber = null;
 
-
+    public
     //additional variables
     HardwareMap hardwareMap = null;
 
