@@ -19,6 +19,7 @@ import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -53,7 +54,7 @@ public class Mark9 extends LinearOpMode {
     static final double COUNTS_PER_INCH =
             (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (PULLEY_DIAMETER_INCHES * 3.1415);
 
-    private DistanceSensor sensorRange;
+    // private DistanceSensor sensorRange;
 
     // TODO Color sensor
     // Define a variable for our color sensor
@@ -66,13 +67,15 @@ public class Mark9 extends LinearOpMode {
         // TODO Added Distance Sensor
         // you can use this as a regular DistanceSensor.
         sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
+
         // you can also cast this to a Rev2mDistanceSensor if you want to use added
         // methods associated with the Rev2mDistanceSensor class.
+
         Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
 
 
         // Get the color sensor from hardwareMap
-       // color = hardwareMap.get(ColorSensor.class, "Color");
+        // color = hardwareMap.get(ColorSensor.class, "Color");
 
 
         telemetry.addData("Status", "Initialized");
@@ -288,7 +291,7 @@ public class Mark9 extends LinearOpMode {
 
             // TODO Distance Sensor data
             // generic DistanceSensor methods.
-            telemetry.addData("deviceName",sensorRange.getDeviceName() );
+            telemetry.addData("deviceName", sensorRange.getDeviceName() );
             telemetry.addData("range", String.format("%.01f mm", sensorRange.getDistance(DistanceUnit.MM)));
             telemetry.addData("range", String.format("%.01f cm", sensorRange.getDistance(DistanceUnit.CM)));
             telemetry.addData("range", String.format("%.01f m", sensorRange.getDistance(DistanceUnit.METER)));
@@ -298,11 +301,10 @@ public class Mark9 extends LinearOpMode {
             telemetry.addData("ID", String.format("%x", sensorTimeOfFlight.getModelID()));
             telemetry.addData("did time out", Boolean.toString(sensorTimeOfFlight.didTimeoutOccur()));
 
-            /* Color sensor
-            telemetry.addData("Red", color.red());
-            telemetry.addData("Green", color.green());
-            telemetry.addData("Blue", color.blue());
-            */
+            // Color sensor
+            // telemetry.addData("Red", color.red());
+            // telemetry.addData("Green", color.green());
+            // telemetry.addData("Blue", color.blue());
 
             telemetry.update();
         }

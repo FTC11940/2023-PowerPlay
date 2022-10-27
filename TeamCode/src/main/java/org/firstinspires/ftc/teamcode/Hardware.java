@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.SensorColor;
+
 public class Hardware {
     // Create motors
     public DcMotor frontRightMotor = null;
@@ -15,6 +17,9 @@ public class Hardware {
     //create servo
     public DcMotor lift = null;
     public Servo grabber = null;
+
+    // TODO
+    // public SensorColor color = null;
 
     public
     //additional variables
