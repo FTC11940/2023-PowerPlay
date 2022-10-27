@@ -147,13 +147,13 @@ public class Auton_Complex1confused extends LinearOpMode {
         * TODO Write autonomous actions below
         */
 
-        // Autonomous Medium Blue 1
+        // Autonomous RED Complex 1
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
-        turnToHeading( TURN_SPEED,  -90.0);//Turn -45 to Low junction
+        turnToHeading(TURN_SPEED,  -90.0); // Turn to the right
         driveStraight(DRIVE_SPEED, 20.0, 0.0); //
-        turnToHeading( TURN_SPEED,  0.0);//
+        turnToHeading(TURN_SPEED,  0.0);// Face forward
         driveStraight(DRIVE_SPEED, 20.0, 0.0); //
-        turnToHeading( TURN_SPEED,  -45.0);//
+        turnToHeading(TURN_SPEED,  -45.0);//
         driveStraight(DRIVE_SPEED, 9.0, 0.0); //
         sleep(1000);
        // Lift code up high
