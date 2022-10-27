@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.Constants.*;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -147,101 +149,77 @@ public class MecanumDrive extends LinearOpMode {
             dpadright = medium
             dpad up = high
              */
-<<<<<<< Updated upstream
-            if (gamepad1.dpad_up) {
-                lift.setTargetPosition(3427);
-                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                lift.setPower(1);
-                lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+            String liftpos = "no input";
+
+            if (gamepad1.dpad_up) { // if up is pressed on the dpad
+                while (lift.isBusy()){liftpos = "running to high";} // tell the gamepad to say "lift is running to high"
+                lift.setTargetPosition(lift_high); // tell the robot to go to lift position high
+                lift.setPower(1); // turns on the power in the lift motor
+                //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); is supposed to stop sending power to motor after the motor has finished its tasks, but does not work
             }
-            if (gamepad2.dpad_up && (lift.getCurrentPosition() >= 3427)){
-                lift.setPower(0);
+
+            if((lift_high - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_high + diplomat)){
+                /* ^
+                   | if the lift's current position is greater than the low position minus 10 and is less than the low position plus 10 execute the following code
+                   we are doing this instead of just checking if the lift's current position is equal to the low position because robots are neurotic perfectionists who,
+                   even if they are only one unit away from the lift low position, will continue to jerkily move after the command has been given in an attempt to get to the
+                   exact lift low position. this could be hard for the drivers to work around, so we use complex if statements instead of simple ones
+                */
+                liftpos = "low"; // tell the gamepad to say "lift is at low position"
+                lift.setPower(0); // stops the robot from purposeless neurotic twitching after all tasks have been fulfilled
             }
 
             if (gamepad1.dpad_right){
-                lift.setTargetPosition(2404);
+                while (lift.isBusy()){liftpos = "running to medium";}
+                lift.setTargetPosition(lift_mid);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 lift.setPower(1);
-                lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
-            if (gamepad2.dpad_right && (lift.getCurrentPosition() >= 2399) && (lift.getCurrentPosition() <= 2409)){
+
+            if((lift_mid - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_mid + diplomat)){
+                liftpos = "medium";
                 lift.setPower(0);
             }
+
             if (gamepad1.dpad_left){
-                lift.setTargetPosition(1200);
+                while (lift.isBusy()){liftpos = "running to low";}
+                lift.setTargetPosition(lift_low);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-=======
-
-            int CMode = 0; // current mode
-            int DMode = 0; // desired mode
-            int time = 2000; // time to go up a mode, measured in milliseconds
-            int mtg = DMode - CMode; // modes to go until desired mode is reached
-            int power = 1;
-
-            if (gamepad1.dpad_left) {
-                lift.setTargetPosition(50);
->>>>>>> Stashed changes
                 lift.setPower(1);
-                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
-<<<<<<< Updated upstream
-            if (gamepad2.dpad_right && (lift.getCurrentPosition() >= 1195) && (lift.getCurrentPosition() <= 1205)){
+
+            if((lift_low - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_low + diplomat)){
+                liftpos = "low";
                 lift.setPower(0);
             }
 
             if (gamepad1.dpad_down){
-                lift.setTargetPosition(0);
+                while (lift.isBusy()){liftpos = "running to ground";}
+                lift.setTargetPosition(lift_ground);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 lift.setPower(1);
-                lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
-            if (gamepad2.dpad_right && (lift.getCurrentPosition() <= 5)){
+
+            if((lift_ground - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_ground + diplomat)){
+                liftpos = "ground";
                 lift.setPower(0);
             }
-
-            // lift telemetry
-            String liftpos = "no input";
-
-                if (lift.getCurrentPosition() < 1200){
-                    liftpos = "between ground and low";
-                }else if (lift.getCurrentPosition() < 2404 && lift.getCurrentPosition() > 1200){
-                    liftpos = "between low and medium";
-                }else if (lift.getCurrentPosition() < 3427 && lift.getCurrentPosition() > 2404){
-                    liftpos = "between medium and high";
-                }
-
-
-                if (lift.getCurrentPosition() == 0){
-                    liftpos = "ground";
-                } else if (lift.getCurrentPosition() == 1200){
-                    liftpos = "low";
-                }else if (lift.getCurrentPosition() == 2404){
-                    liftpos = "medium";
-                }else if (lift.getCurrentPosition() == 3427) {
-                    liftpos = "high";
-                }
 
 
 
             telemetry.addData("Lift Position: ", liftpos);
-=======
-
-            if (gamepad1.dpad_down){
-                lift.setTargetPosition(0);
-                lift.setPower(1);
-                lift.setMode((DcMotor.RunMode.RUN_TO_POSITION));
-                lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            }
-
             telemetry.addData("Status", "target position: " + lift.getTargetPosition());
             telemetry.addData("Status", "controller: " + lift.getController().toString());
             telemetry.addData("Status", "controller: " + lift.getCurrentPosition());
->>>>>>> Stashed changes
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "Front L (%.2f), Front R (%.2f)", frontLeftPower, frontRightPower);
             telemetry.addData("Motors", "Back L (%.2f), Back R (%.2f)", backLeftPower, backRightPower);
-            telemetry.update();
+            telemetry.update(); // this is very important! without putting this code at the end of your telemetry, your telemetry will not update with new information
+           
 
         }
     }

@@ -21,4 +21,11 @@ public class Constants {
     public static final double OPEN = 0.5;
     public static final double CLOSED = 0.0;
 
+//
+    public static final int lift_ground = 100;
+    public static final int lift_low = 1200;
+    public static final int lift_mid = 2000;
+    public static final int lift_high = 2800;
+    public static final int diplomat = 10;
+
 }
