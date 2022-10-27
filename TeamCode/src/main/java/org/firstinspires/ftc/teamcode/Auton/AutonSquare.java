@@ -1,8 +1,8 @@
 /*
-* Use this base auton file as a template for all other autonomous files for the 2022-2023 season
-*/
+ * Use this base auton file as a template for all other autonomous files for the 2022-2023 season
+ */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Auton;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -19,10 +19,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Auto Template", group="Robot")
-@Disabled
+@Autonomous(name="Square", group="Robot")
+// @Disabled
 
-public class AutonBASE extends LinearOpMode {
+public class AutonSquare extends LinearOpMode {
 
     /*
     robot diagram
@@ -39,8 +39,6 @@ public class AutonBASE extends LinearOpMode {
 
     // Declare IMU and variables
     private BNO055IMU       imu         = null;      // Control/Expansion Hub IMU
-
-
     private double          robotHeading  = 0;
     private double          headingOffset = 0;
     private double          headingError  = 0;
@@ -73,17 +71,19 @@ public class AutonBASE extends LinearOpMode {
 
     // These constants define the desired driving/control characteristics
     // They can/should be tweaked to suit the specific robot drive train.
-    static final double     DRIVE_SPEED             = 0.4;   // Max driving speed for better distance accuracy.
-    static final double     TURN_SPEED              = 0.2;   // Max Turn speed to limit turn rate
-    static final double     HEADING_THRESHOLD       = 1.0 ;  // How close must the heading get to the target before moving to next step.
+    static final double     DRIVE_SPEED             = 0.40;   // 0.4 Max driving speed for better distance accuracy.
+    static final double     TURN_SPEED              = 0.25;   // 0.25 Max Turn speed to limit turn rate
+    // How close must the heading get to the target before moving to next step.
+    static final double     HEADING_THRESHOLD       = 1.0 ; // 1.0
+
     // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
     /* Define the Proportional control coefficient (or GAIN) for "heading control".
     // We define one value when Turning (larger errors), and the other is used when Driving straight (smaller errors).
     // Increase these numbers if the heading does not corrects strongly enough (eg: a heavy robot or using tracks)
     Decrease these numbers if the heading does not settle on the correct value (eg: very agile robot with omni wheels)
     */
-    static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_GAIN           = 0.03;     // Larger is more responsive, but also less stable
+    static final double     P_TURN_GAIN            = 0.02;     // 0.02 Larger is more responsive, but also less stable
+    static final double     P_DRIVE_GAIN           = 0.00;     // 0.03 Larger is more responsive, but also less stable
 
     @Override
     public void runOpMode() {
@@ -101,7 +101,7 @@ public class AutonBASE extends LinearOpMode {
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        // define initialization values for IMU, and then initialize it.
+        // Define initialization values for IMU, and then initialize it.
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         imu = hardwareMap.get(BNO055IMU.class, "imu");
@@ -141,14 +141,30 @@ public class AutonBASE extends LinearOpMode {
 
         /*
 
-        * AUTON NAME:
+        * AUTON NAME: Square
+        * This auton should drive in a square to the right and comeback to its starting location and starting heading
         * REFERENCE
         // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
         // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
         // holdHeading( TURN_SPEED,  0.0, 0.5);     // action - hold last heading for a 1/2 second
         * TODO Write autonomous actions below
         */
+        driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive away from wall
+        turnToHeading(TURN_SPEED,  -90.0); // turn right
+        driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive lateral to wall
+        turnToHeading(TURN_SPEED,  -180.0); // turn right
+        driveStraight(DRIVE_SPEED, 23.0, 0.0); // drive towards to wall
+        turnToHeading(TURN_SPEED, -270.0); // turn right
+        driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive lateral to wall
+        turnToHeading(TURN_SPEED, -360.0); // turn right
 
+        /*
+        turnToHeading( TURN_SPEED,  90.0); // turn towards the wall
+        driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive towards the wall
+        turnToHeading( TURN_SPEED,  90.0); // turn right
+        driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive lateral to wall
+        turnToHeading( TURN_SPEED,  90.0); // turn right for parking position
+        */
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.
@@ -164,17 +180,17 @@ public class AutonBASE extends LinearOpMode {
     // **********  HIGH Level driving functions.  ********************
 
     /**
-    *  Method to drive in a straight line, on a fixed compass heading (angle), based on encoder counts.
-    *  Move will stop if either of these conditions occur:
-    *  1) Move gets to the desired position
-    *  2) Driver stops the OpMode running.
-    *
-    * @param maxDriveSpeed MAX Speed for forward/rev motion (range 0 to +1.0) .
-    * @param distance   Distance (in inches) to move from current position.  Negative distance means move backward.
-    * @param heading      Absolute Heading Angle (in Degrees) relative to last gyro reset.
-    *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
-    *                   If a relative angle is required, add/subtract from the current robotHeading.
-    */
+     *  Method to drive in a straight line, on a fixed compass heading (angle), based on encoder counts.
+     *  Move will stop if either of these conditions occur:
+     *  1) Move gets to the desired position
+     *  2) Driver stops the OpMode running.
+     *
+     * @param maxDriveSpeed MAX Speed for forward/rev motion (range 0 to +1.0) .
+     * @param distance   Distance (in inches) to move from current position.  Negative distance means move backward.
+     * @param heading      Absolute Heading Angle (in Degrees) relative to last gyro reset.
+     *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
+     *                   If a relative angle is required, add/subtract from the current robotHeading.
+     */
     public void driveStraight(double maxDriveSpeed,
                               double distance,
                               double heading) {
@@ -212,7 +228,7 @@ public class AutonBASE extends LinearOpMode {
 
             // keep looping while we are still active, and BOTH motors are running.
             while (opModeIsActive() &&
-                   (frontLeftMotor.isBusy() && frontRightMotor.isBusy())) { // TODO consider adding backLeftMotor and backRightMotor
+                    (frontLeftMotor.isBusy() && frontRightMotor.isBusy())) { // TODO consider adding backLeftMotor and backRightMotor
 
                 // Determine required steering to keep on heading
                 turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);

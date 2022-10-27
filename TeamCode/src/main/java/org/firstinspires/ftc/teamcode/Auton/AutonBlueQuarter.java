@@ -2,7 +2,7 @@
  * Use this base auton file as a template for all other autonomous files for the 2022-2023 season
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Auton;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -19,10 +19,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Blue-8", group="Robot")
+@Autonomous(name="Blue-9", group="Robot")
 // Disabled
 
-public class AutonBlueSweet8 extends LinearOpMode {
+public class AutonBlueQuarter extends LinearOpMode {
 
 
     Servo grabby;
@@ -149,7 +149,7 @@ public class AutonBlueSweet8 extends LinearOpMode {
 
         // Autonomous Medium Blue 1
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
-        turnToHeading( TURN_SPEED,  45.0);//Turn -45 to Low junction
+        turnToHeading( TURN_SPEED,  -45.0);//Turn -45 to Low junction
         driveStraight(DRIVE_SPEED, 9.0, 0.0); //move to low
         sleep(1000);
        // Lift code up low
@@ -158,13 +158,11 @@ public class AutonBlueSweet8 extends LinearOpMode {
         driveStraight(DRIVE_SPEED, -9.0, 0.0); // Back up
         turnToHeading( TURN_SPEED,  -90);// Turn to substation
         driveStraight(DRIVE_SPEED, 30, 0.0); // Drive to substation
-        turnToHeading( TURN_SPEED,  0);// Turn to substation
         //insert Lift up
-        driveStraight(DRIVE_SPEED, 30, 0.0);
         grabby.setPosition(0.0); // Engage grabby
         sleep(1000);
         //insert Lift down
-        turnToHeading( TURN_SPEED,  90.0); // Turn back to face forward
+        turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
         driveStraight(DRIVE_SPEED, 45.0, 0.0); // move forward toward Mid
         turnToHeading( TURN_SPEED,  -25.0); // Turn to face High
         driveStraight(DRIVE_SPEED, 9.0, 0.0); //move to High

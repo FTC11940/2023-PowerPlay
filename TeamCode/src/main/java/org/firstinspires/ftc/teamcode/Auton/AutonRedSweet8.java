@@ -2,7 +2,7 @@
  * Use this base auton file as a template for all other autonomous files for the 2022-2023 season
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Auton;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -19,14 +19,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Blue-Medium 1", group="Robot")
-// Disabled
+@Autonomous(name="Red-8 ", group="Robot")
+// @Disabled
 
-public class AutonBlueActualMedium1 extends LinearOpMode {
+public class AutonRedSweet8 extends LinearOpMode {
 
 
-     Servo grabby;
-    // Declare OpMode members
+    Servo grabby;
+    DcMotor lift;
+    // Declare OpMode members.
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
     private DcMotor backLeftMotor = null;
@@ -80,11 +81,12 @@ public class AutonBlueActualMedium1 extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-
         // Initialize the drive system variables.
         // Match our TeleOp file
         grabby = hardwareMap.servo.get("grabby");
-        grabby.setPosition(0.0); // Needs to be closed at start of Auton
+        grabby.setPosition(0.0);
+        lift = hardwareMap.get(DcMotor.class,"lift");
+        lift.setTargetPosition(0);
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
@@ -136,7 +138,7 @@ public class AutonBlueActualMedium1 extends LinearOpMode {
 
         /*
 
-        * AUTON NAME: Blue FailSafe 1
+        * AUTON NAME: Red FailSafe 2
         * REFERENCE
         // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
         // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
@@ -144,14 +146,27 @@ public class AutonBlueActualMedium1 extends LinearOpMode {
         * TODO Write autonomous actions below
         */
 
-
-        // Autonomous Failsafe blue 1
-        driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
-        turnToHeading( TURN_SPEED,  -90.0);//Turn 90 to face direction of terminal
-        driveStraight(DRIVE_SPEED, 28.00, 0.0); // Drive to terminal
+        // Autonomous Medium Red 1
+        driveStraight(DRIVE_SPEED,4.0, 0.0); // Drive forward to get off the wall
+        turnToHeading( TURN_SPEED,  45.0);//Turn 35 to junction
+        driveStraight(DRIVE_SPEED, 9.0, 0.0); //
+       // Lift code up
         grabby.setPosition(0.5);
+       // Lift code down
+        driveStraight(DRIVE_SPEED, -9.0, 0.0); //
+        turnToHeading( TURN_SPEED,  90.0);// Turn to substation
+        driveStraight(DRIVE_SPEED, 45.00, 0.0); // Drive to substation
+        //insert Lift up
+        grabby.setPosition(0.0);
+        //insert Lift down
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
-        driveStraight(DRIVE_SPEED, -4.00, 0.0); // park
+        driveStraight(DRIVE_SPEED, 25.0, 0.0); //
+        turnToHeading( TURN_SPEED,  25.0); // Turn to face junction
+        // Insert lift code up
+        grabby.setPosition(0.5);
+        // Insert lift code down here
+        turnToHeading( TURN_SPEED,  0.0); // realignment
+        driveStraight(DRIVE_SPEED, -25.0, 0.0); // Park in Substation
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.

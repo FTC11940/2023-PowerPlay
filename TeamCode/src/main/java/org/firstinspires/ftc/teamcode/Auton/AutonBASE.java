@@ -1,15 +1,15 @@
 /*
- * Use this base auton file as a template for all other autonomous files for the 2022-2023 season
- */
+* Use this base auton file as a template for all other autonomous files for the 2022-2023 season
+*/
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Auton;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -19,13 +19,18 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Red-Failsafe 1", group="Robot")
-// Disabled
+@Autonomous(name="Auto Template", group="Robot")
+@Disabled
 
-public class AutonRedActualFailsafe2 extends LinearOpMode {
+public class AutonBASE extends LinearOpMode {
 
+    /*
+    robot diagram
+    1-----2
+    |     |
+    3-----4
+    */
 
-    Servo grabby;
     // Declare OpMode members.
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
@@ -34,6 +39,8 @@ public class AutonRedActualFailsafe2 extends LinearOpMode {
 
     // Declare IMU and variables
     private BNO055IMU       imu         = null;      // Control/Expansion Hub IMU
+
+
     private double          robotHeading  = 0;
     private double          headingOffset = 0;
     private double          headingError  = 0;
@@ -76,15 +83,13 @@ public class AutonRedActualFailsafe2 extends LinearOpMode {
     Decrease these numbers if the heading does not settle on the correct value (eg: very agile robot with omni wheels)
     */
     static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
+    static final double     P_DRIVE_GAIN           = 0.03;     // Larger is more responsive, but also less stable
 
     @Override
     public void runOpMode() {
 
         // Initialize the drive system variables.
         // Match our TeleOp file
-        grabby = hardwareMap.servo.get("grabby");
-        grabby.setPosition(0.0); // Needs to be closed at start of Auton
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
@@ -96,7 +101,7 @@ public class AutonRedActualFailsafe2 extends LinearOpMode {
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        // Define initialization values for IMU, and then initialize it.
+        // define initialization values for IMU, and then initialize it.
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         imu = hardwareMap.get(BNO055IMU.class, "imu");
@@ -136,7 +141,7 @@ public class AutonRedActualFailsafe2 extends LinearOpMode {
 
         /*
 
-        * AUTON NAME: Blue FailSafe 1
+        * AUTON NAME:
         * REFERENCE
         // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
         // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
@@ -144,14 +149,6 @@ public class AutonRedActualFailsafe2 extends LinearOpMode {
         * TODO Write autonomous actions below
         */
 
-
-        // Autonomous Medium Red 1
-        driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
-        turnToHeading( TURN_SPEED,  90.0);//Turn 90 to face direction of terminal
-        driveStraight(DRIVE_SPEED, 28.00, 0.0); // Drive to terminal
-        grabby.setPosition(0.5);
-        turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
-        driveStraight(DRIVE_SPEED, -4.0, 0.0); // park
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.
@@ -167,17 +164,17 @@ public class AutonRedActualFailsafe2 extends LinearOpMode {
     // **********  HIGH Level driving functions.  ********************
 
     /**
-     *  Method to drive in a straight line, on a fixed compass heading (angle), based on encoder counts.
-     *  Move will stop if either of these conditions occur:
-     *  1) Move gets to the desired position
-     *  2) Driver stops the OpMode running.
-     *
-     * @param maxDriveSpeed MAX Speed for forward/rev motion (range 0 to +1.0) .
-     * @param distance   Distance (in inches) to move from current position.  Negative distance means move backward.
-     * @param heading      Absolute Heading Angle (in Degrees) relative to last gyro reset.
-     *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
-     *                   If a relative angle is required, add/subtract from the current robotHeading.
-     */
+    *  Method to drive in a straight line, on a fixed compass heading (angle), based on encoder counts.
+    *  Move will stop if either of these conditions occur:
+    *  1) Move gets to the desired position
+    *  2) Driver stops the OpMode running.
+    *
+    * @param maxDriveSpeed MAX Speed for forward/rev motion (range 0 to +1.0) .
+    * @param distance   Distance (in inches) to move from current position.  Negative distance means move backward.
+    * @param heading      Absolute Heading Angle (in Degrees) relative to last gyro reset.
+    *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
+    *                   If a relative angle is required, add/subtract from the current robotHeading.
+    */
     public void driveStraight(double maxDriveSpeed,
                               double distance,
                               double heading) {
@@ -215,7 +212,7 @@ public class AutonRedActualFailsafe2 extends LinearOpMode {
 
             // keep looping while we are still active, and BOTH motors are running.
             while (opModeIsActive() &&
-                    (frontLeftMotor.isBusy() && frontRightMotor.isBusy())) { // TODO consider adding backLeftMotor and backRightMotor
+                   (frontLeftMotor.isBusy() && frontRightMotor.isBusy())) { // TODO consider adding backLeftMotor and backRightMotor
 
                 // Determine required steering to keep on heading
                 turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);

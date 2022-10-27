@@ -2,13 +2,14 @@
  * Use this base auton file as a template for all other autonomous files for the 2022-2023 season
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Auton;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -18,18 +19,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Auton Complex 1", group="Robot")
+@Autonomous(name="Red-Failsafe 1", group="Robot")
 // Disabled
 
-public class Auton_Complex1 extends LinearOpMode {
+public class AutonRedActualFailsafe2 extends LinearOpMode {
 
-    /*
-    robot diagram
-    1-----2
-    |     |
-    3-----4
-    */
 
+    Servo grabby;
     // Declare OpMode members.
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
@@ -80,13 +76,15 @@ public class Auton_Complex1 extends LinearOpMode {
     Decrease these numbers if the heading does not settle on the correct value (eg: very agile robot with omni wheels)
     */
     static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_GAIN           = 0.03;     // Larger is more responsive, but also less stable
+    static final double     P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
 
     @Override
     public void runOpMode() {
 
         // Initialize the drive system variables.
         // Match our TeleOp file
+        grabby = hardwareMap.servo.get("grabby");
+        grabby.setPosition(0.0); // Needs to be closed at start of Auton
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
@@ -147,21 +145,13 @@ public class Auton_Complex1 extends LinearOpMode {
         */
 
 
-        driveStraight(DRIVE_SPEED, 5.0, 0.0); // Drive forward to get off the wall
-        turnToHeading( TURN_SPEED,  35.0);//Turn 35 to junction
-        // Inset servo release code here
-        turnToHeading( TURN_SPEED,  215.0);// Turn to substation
-        driveStraight(DRIVE_SPEED, 28.00, 0.0); // Drive to substation
-        // Insert servo code to pickup cone
-        
+        // Autonomous Medium Red 1
+        driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
+        turnToHeading( TURN_SPEED,  90.0);//Turn 90 to face direction of terminal
+        driveStraight(DRIVE_SPEED, 28.00, 0.0); // Drive to terminal
+        grabby.setPosition(0.5);
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
-        driveStraight(DRIVE_SPEED, 60.0, 0.0); //
-        turnToHeading( TURN_SPEED,  -25.0); // Turn to face junction
-        // Insert lift code up
-        // Inset servo release code here
-        // Insert lift code down here
-        turnToHeading( TURN_SPEED,  0.0); // realignment
-        driveStraight(DRIVE_SPEED, -60.0, 0.0); // Park in Substation
+        driveStraight(DRIVE_SPEED, -4.0, 0.0); // park
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.

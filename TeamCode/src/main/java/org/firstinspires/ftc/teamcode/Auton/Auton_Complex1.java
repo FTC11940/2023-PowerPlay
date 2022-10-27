@@ -2,14 +2,13 @@
  * Use this base auton file as a template for all other autonomous files for the 2022-2023 season
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Auton;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -19,14 +18,18 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Red-8 ", group="Robot")
-// @Disabled
+@Autonomous(name="Auton Complex 1", group="Robot")
+// Disabled
 
-public class AutonRedSweet8 extends LinearOpMode {
+public class Auton_Complex1 extends LinearOpMode {
 
+    /*
+    robot diagram
+    1-----2
+    |     |
+    3-----4
+    */
 
-    Servo grabby;
-    DcMotor lift;
     // Declare OpMode members.
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
@@ -77,16 +80,13 @@ public class AutonRedSweet8 extends LinearOpMode {
     Decrease these numbers if the heading does not settle on the correct value (eg: very agile robot with omni wheels)
     */
     static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
+    static final double     P_DRIVE_GAIN           = 0.03;     // Larger is more responsive, but also less stable
 
     @Override
     public void runOpMode() {
+
         // Initialize the drive system variables.
         // Match our TeleOp file
-        grabby = hardwareMap.servo.get("grabby");
-        grabby.setPosition(0.0);
-        lift = hardwareMap.get(DcMotor.class,"lift");
-        lift.setTargetPosition(0);
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
@@ -138,7 +138,7 @@ public class AutonRedSweet8 extends LinearOpMode {
 
         /*
 
-        * AUTON NAME: Red FailSafe 2
+        * AUTON NAME: Blue FailSafe 1
         * REFERENCE
         // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
         // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
@@ -146,27 +146,22 @@ public class AutonRedSweet8 extends LinearOpMode {
         * TODO Write autonomous actions below
         */
 
-        // Autonomous Medium Red 1
-        driveStraight(DRIVE_SPEED,4.0, 0.0); // Drive forward to get off the wall
-        turnToHeading( TURN_SPEED,  45.0);//Turn 35 to junction
-        driveStraight(DRIVE_SPEED, 9.0, 0.0); //
-       // Lift code up
-        grabby.setPosition(0.5);
-       // Lift code down
-        driveStraight(DRIVE_SPEED, -9.0, 0.0); //
-        turnToHeading( TURN_SPEED,  90.0);// Turn to substation
-        driveStraight(DRIVE_SPEED, 45.00, 0.0); // Drive to substation
-        //insert Lift up
-        grabby.setPosition(0.0);
-        //insert Lift down
+
+        driveStraight(DRIVE_SPEED, 5.0, 0.0); // Drive forward to get off the wall
+        turnToHeading( TURN_SPEED,  35.0);//Turn 35 to junction
+        // Inset servo release code here
+        turnToHeading( TURN_SPEED,  215.0);// Turn to substation
+        driveStraight(DRIVE_SPEED, 28.00, 0.0); // Drive to substation
+        // Insert servo code to pickup cone
+        
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
-        driveStraight(DRIVE_SPEED, 25.0, 0.0); //
-        turnToHeading( TURN_SPEED,  25.0); // Turn to face junction
+        driveStraight(DRIVE_SPEED, 60.0, 0.0); //
+        turnToHeading( TURN_SPEED,  -25.0); // Turn to face junction
         // Insert lift code up
-        grabby.setPosition(0.5);
+        // Inset servo release code here
         // Insert lift code down here
         turnToHeading( TURN_SPEED,  0.0); // realignment
-        driveStraight(DRIVE_SPEED, -25.0, 0.0); // Park in Substation
+        driveStraight(DRIVE_SPEED, -60.0, 0.0); // Park in Substation
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.

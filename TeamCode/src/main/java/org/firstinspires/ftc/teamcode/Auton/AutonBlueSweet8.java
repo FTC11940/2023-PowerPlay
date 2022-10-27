@@ -2,7 +2,7 @@
  * Use this base auton file as a template for all other autonomous files for the 2022-2023 season
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Auton;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -19,14 +19,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Blue-Failsafe 1", group="Robot")
+@Autonomous(name="Blue-8", group="Robot")
 // Disabled
 
-public class AutonBlueActualFailsafe2 extends LinearOpMode {
+public class AutonBlueSweet8 extends LinearOpMode {
 
 
-     Servo grabby;
-    // Declare OpMode members
+    Servo grabby;
+    DcMotor lift;
+    // Declare OpMode members.
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
     private DcMotor backLeftMotor = null;
@@ -85,6 +86,8 @@ public class AutonBlueActualFailsafe2 extends LinearOpMode {
         // Match our TeleOp file
         grabby = hardwareMap.servo.get("grabby");
         grabby.setPosition(0.0); // Needs to be closed at start of Auton
+        lift = hardwareMap.get(DcMotor.class,"lift");
+        lift.setTargetPosition(0);
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
@@ -144,14 +147,33 @@ public class AutonBlueActualFailsafe2 extends LinearOpMode {
         * TODO Write autonomous actions below
         */
 
-
-        // Autonomous Failsafe blue 1
+        // Autonomous Medium Blue 1
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
-        turnToHeading( TURN_SPEED,  -90.0);//Turn 90 to face direction of terminal
-        driveStraight(DRIVE_SPEED, 28.00, 0.0); // Drive to terminal
-        grabby.setPosition(0.5);
-        turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
-        driveStraight(DRIVE_SPEED, -4.00, 0.0); // park
+        turnToHeading( TURN_SPEED,  45.0);//Turn -45 to Low junction
+        driveStraight(DRIVE_SPEED, 9.0, 0.0); //move to low
+        sleep(1000);
+       // Lift code up low
+        grabby.setPosition(0.5);// release grabby
+        // Lift code down
+        driveStraight(DRIVE_SPEED, -9.0, 0.0); // Back up
+        turnToHeading( TURN_SPEED,  -90);// Turn to substation
+        driveStraight(DRIVE_SPEED, 30, 0.0); // Drive to substation
+        turnToHeading( TURN_SPEED,  0);// Turn to substation
+        //insert Lift up
+        driveStraight(DRIVE_SPEED, 30, 0.0);
+        grabby.setPosition(0.0); // Engage grabby
+        sleep(1000);
+        //insert Lift down
+        turnToHeading( TURN_SPEED,  90.0); // Turn back to face forward
+        driveStraight(DRIVE_SPEED, 45.0, 0.0); // move forward toward Mid
+        turnToHeading( TURN_SPEED,  -25.0); // Turn to face High
+        driveStraight(DRIVE_SPEED, 9.0, 0.0); //move to High
+        // Insert lift code up
+        grabby.setPosition(0.5);// release grabby
+        // Insert lift code down here
+        driveStraight(DRIVE_SPEED, -9.0, 0.0); //  realignment
+        turnToHeading( TURN_SPEED,  0.0); // realignment
+        driveStraight(DRIVE_SPEED, -25.0, 0.0); // Park in Substation
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.

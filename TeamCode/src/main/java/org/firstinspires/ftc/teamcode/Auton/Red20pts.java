@@ -2,7 +2,10 @@
  * Use this base auton file as a template for all other autonomous files for the 2022-2023 season
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Auton;
+
+import static org.firstinspires.ftc.teamcode.Constants.*;
+import static org.firstinspires.ftc.teamcode.Hardware.*;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -19,10 +22,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Red-complex 1", group="Robot")
+@Autonomous(name="Red 20 pts", group="Robot")
 // Disabled
 
-public class Auton_Complex1confused extends LinearOpMode {
+public class Red20pts extends LinearOpMode {
 
 
     Servo grabby;
@@ -139,7 +142,7 @@ public class Auton_Complex1confused extends LinearOpMode {
 
         /*
 
-        * AUTON NAME: Blue FailSafe 1
+
         * REFERENCE
         // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
         // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
@@ -156,9 +159,39 @@ public class Auton_Complex1confused extends LinearOpMode {
         turnToHeading(TURN_SPEED,  -45.0);//
         driveStraight(DRIVE_SPEED, 9.0, 0.0); //
         sleep(1000);
-       // Lift code up high
-        grabby.setPosition(0.5);
+
+        // Lift code up high
+            lift.setTargetPosition(LIFT_HIGH);
+            lift.setPower(0.5);
+            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            while (lift.isBusy()) {
+                // Send telemetry info to dashboard
+                telemetry.addData("Status", "Running lift to HIGH");
+                telemetry.update();
+            }
+            // Test the telemetry statement before setting power to zero.
+            if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
+                telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
+                lift.setPower(0);
+            }
+
+        grabby.setPosition(OPEN);
+
         // Lift code down
+            lift.setTargetPosition(LIFT_GROUND);
+            lift.setPower(0.5);
+            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            while (lift.isBusy()) {
+                // Send telemetry info to dashboard
+                telemetry.addData("Status", "Running lift to GROUND");
+                telemetry.update();
+            }
+            // Test the telemetry statement before setting power to zero.
+            if ((LIFT_GROUND - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_GROUND + TOLERANCE)) {
+                telemetry.addData("Lift Low Status", "You've arrived at your GROUND destination");
+                lift.setPower(0);
+            }
+
         driveStraight(DRIVE_SPEED, -9.0, 0.0); //
         turnToHeading( TURN_SPEED,  0.0);// Turn to substation
         sleep(1000);

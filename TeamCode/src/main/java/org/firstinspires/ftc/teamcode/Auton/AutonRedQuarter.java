@@ -2,7 +2,7 @@
  * Use this base auton file as a template for all other autonomous files for the 2022-2023 season
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Auton;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -19,10 +19,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Blue-9", group="Robot")
-// Disabled
+@Autonomous(name="Red-9 ", group="Robot")
+// @Disabled
 
-public class AutonBlueQuarter extends LinearOpMode {
+public class AutonRedQuarter extends LinearOpMode {
 
 
     Servo grabby;
@@ -81,11 +81,10 @@ public class AutonBlueQuarter extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-
         // Initialize the drive system variables.
         // Match our TeleOp file
         grabby = hardwareMap.servo.get("grabby");
-        grabby.setPosition(0.0); // Needs to be closed at start of Auton
+        grabby.setPosition(0.0);
         lift = hardwareMap.get(DcMotor.class,"lift");
         lift.setTargetPosition(0);
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
@@ -139,7 +138,7 @@ public class AutonBlueQuarter extends LinearOpMode {
 
         /*
 
-        * AUTON NAME: Blue FailSafe 1
+        * AUTON NAME: Red FailSafe 2
         * REFERENCE
         // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
         // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
@@ -147,29 +146,25 @@ public class AutonBlueQuarter extends LinearOpMode {
         * TODO Write autonomous actions below
         */
 
-        // Autonomous Medium Blue 1
-        driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
-        turnToHeading( TURN_SPEED,  -45.0);//Turn -45 to Low junction
-        driveStraight(DRIVE_SPEED, 9.0, 0.0); //move to low
-        sleep(1000);
-       // Lift code up low
-        grabby.setPosition(0.5);// release grabby
-        // Lift code down
-        driveStraight(DRIVE_SPEED, -9.0, 0.0); // Back up
-        turnToHeading( TURN_SPEED,  -90);// Turn to substation
-        driveStraight(DRIVE_SPEED, 30, 0.0); // Drive to substation
+        // Autonomous Medium Red 1
+        driveStraight(DRIVE_SPEED,4.0, 0.0); // Drive forward to get off the wall
+        turnToHeading( TURN_SPEED,  45.0);//Turn 35 to junction
+        driveStraight(DRIVE_SPEED, 9.0, 0.0); //
+       // Lift code up
+        grabby.setPosition(0.5);
+       // Lift code down
+        driveStraight(DRIVE_SPEED, -9.0, 0.0); //
+        turnToHeading( TURN_SPEED,  90.0);// Turn to substation
+        driveStraight(DRIVE_SPEED, 45.00, 0.0); // Drive to substation
         //insert Lift up
-        grabby.setPosition(0.0); // Engage grabby
-        sleep(1000);
+        grabby.setPosition(0.0);
         //insert Lift down
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
-        driveStraight(DRIVE_SPEED, 45.0, 0.0); // move forward toward Mid
-        turnToHeading( TURN_SPEED,  -25.0); // Turn to face High
-        driveStraight(DRIVE_SPEED, 9.0, 0.0); //move to High
+        driveStraight(DRIVE_SPEED, 25.0, 0.0); //
+        turnToHeading( TURN_SPEED,  25.0); // Turn to face junction
         // Insert lift code up
-        grabby.setPosition(0.5);// release grabby
+        grabby.setPosition(0.5);
         // Insert lift code down here
-        driveStraight(DRIVE_SPEED, -9.0, 0.0); //  realignment
         turnToHeading( TURN_SPEED,  0.0); // realignment
         driveStraight(DRIVE_SPEED, -25.0, 0.0); // Park in Substation
         telemetry.addData("Path", "Complete");
@@ -321,7 +316,6 @@ public class AutonBlueQuarter extends LinearOpMode {
             turnSpeed = Range.clip(turnSpeed, -maxTurnSpeed, maxTurnSpeed);
 
             // Pivot in place by applying the turning correction
-            moveRobot(0, turnSpeed);
 
             // Display drive status for the driver.
             sendTelemetry(false);
