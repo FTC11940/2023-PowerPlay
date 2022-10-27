@@ -22,12 +22,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 @Autonomous(name="Blue-Medium 1", group="Robot")
 // Disabled
 
-public class AutonBlueMedium1 extends LinearOpMode {
+public class AutonBlueActualMedium1 extends LinearOpMode {
 
 
-    Servo grabby;
-    DcMotor lift;
-    // Declare OpMode members.
+     Servo grabby;
+    // Declare OpMode members
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
     private DcMotor backLeftMotor = null;
@@ -86,8 +85,6 @@ public class AutonBlueMedium1 extends LinearOpMode {
         // Match our TeleOp file
         grabby = hardwareMap.servo.get("grabby");
         grabby.setPosition(0.0); // Needs to be closed at start of Auton
-        lift = hardwareMap.get(DcMotor.class,"lift");
-        lift.setTargetPosition(0);
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
@@ -147,32 +144,14 @@ public class AutonBlueMedium1 extends LinearOpMode {
         * TODO Write autonomous actions below
         */
 
-        // Autonomous Medium Blue 1
+
+        // Autonomous Failsafe blue 1
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
-        turnToHeading( TURN_SPEED,  -45.0);//Turn -45 to Low junction
-        driveStraight(DRIVE_SPEED, 9.0, 0.0); //
-        sleep(1000);
-       // Lift code up low
+        turnToHeading( TURN_SPEED,  -90.0);//Turn 90 to face direction of terminal
+        driveStraight(DRIVE_SPEED, 28.00, 0.0); // Drive to terminal
         grabby.setPosition(0.5);
-        // Lift code down
-        driveStraight(DRIVE_SPEED, -9.0, 0.0); //
-        turnToHeading( TURN_SPEED,  -90);// Turn to substation
-        sleep(1000);
-        driveStraight(DRIVE_SPEED, 30, 0.0); // Drive to substation
-        //insert Lift up
-        grabby.setPosition(0.0);
-        sleep(1000);
-        //insert Lift down
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
-        driveStraight(DRIVE_SPEED, 45.0, 0.0); //
-        turnToHeading( TURN_SPEED,  -25.0); // Turn to face junction
-        driveStraight(DRIVE_SPEED, 9.0, 0.0); //
-        // Insert lift code up
-        grabby.setPosition(0.5);
-        // Insert lift code down here
-        driveStraight(DRIVE_SPEED, -9.0, 0.0); //
-        turnToHeading( TURN_SPEED,  0.0); // realignment
-        driveStraight(DRIVE_SPEED, -25.0, 0.0); // Park in Substation
+        driveStraight(DRIVE_SPEED, -4.00, 0.0); // park
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.

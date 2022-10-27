@@ -145,9 +145,9 @@ public class AutonBlueActualFailsafe1 extends LinearOpMode {
         */
 
 
-        // Autonomous Medium Red 1
+        // Autonomous failsafe Red 1
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
-        turnToHeading( TURN_SPEED,  90.0);//Turn 90 to face direction of terminal
+        turnToHeading( TURN_SPEED,  -90.0);//Turn 90 to face direction of terminal
         driveStraight(DRIVE_SPEED, 28.00, 0.0); // Drive to terminal
         grabby.setPosition(0.5);
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
