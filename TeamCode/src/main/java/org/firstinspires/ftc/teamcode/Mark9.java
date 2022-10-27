@@ -55,9 +55,13 @@ public class Mark9 extends LinearOpMode {
 
     private DistanceSensor sensorRange;
 
+    // TODO Color sensor
+    // Define a variable for our color sensor
+    // ColorSensor color;
 
     @Override
     public void runOpMode() throws InterruptedException {
+
 
         // TODO Added Distance Sensor
         // you can use this as a regular DistanceSensor.
@@ -67,7 +71,8 @@ public class Mark9 extends LinearOpMode {
         Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
 
 
-
+        // Get the color sensor from hardwareMap
+       // color = hardwareMap.get(ColorSensor.class, "Color");
 
 
         telemetry.addData("Status", "Initialized");
@@ -292,6 +297,12 @@ public class Mark9 extends LinearOpMode {
             // Rev2mDistanceSensor specific methods.
             telemetry.addData("ID", String.format("%x", sensorTimeOfFlight.getModelID()));
             telemetry.addData("did time out", Boolean.toString(sensorTimeOfFlight.didTimeoutOccur()));
+
+            /* Color sensor
+            telemetry.addData("Red", color.red());
+            telemetry.addData("Green", color.green());
+            telemetry.addData("Blue", color.blue());
+            */
 
             telemetry.update();
         }
