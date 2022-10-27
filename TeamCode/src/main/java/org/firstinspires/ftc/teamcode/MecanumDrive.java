@@ -31,8 +31,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 // @Disabled
 public class MecanumDrive extends LinearOpMode {
 
-    Servo grabby;
-    DcMotor lift;
+    private Servo grabby;
+    private DcMotor lift;
     private ElapsedTime runtime = new ElapsedTime();
 
     //    // Located in the Hardware file and matches with the Drive Hub robot settings
@@ -61,6 +61,7 @@ public class MecanumDrive extends LinearOpMode {
 
         // Set starting position of the grabby claw. 0.5 is open, 0.0 is closed
         grabby.setPosition(0.5);
+        lift.setTargetPosition(0);
 
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
@@ -146,6 +147,7 @@ public class MecanumDrive extends LinearOpMode {
             dpadright = medium
             dpad up = high
              */
+<<<<<<< Updated upstream
             if (gamepad1.dpad_up) {
                 lift.setTargetPosition(3427);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -168,9 +170,22 @@ public class MecanumDrive extends LinearOpMode {
             if (gamepad1.dpad_left){
                 lift.setTargetPosition(1200);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+=======
+
+            int CMode = 0; // current mode
+            int DMode = 0; // desired mode
+            int time = 2000; // time to go up a mode, measured in milliseconds
+            int mtg = DMode - CMode; // modes to go until desired mode is reached
+            int power = 1;
+
+            if (gamepad1.dpad_left) {
+                lift.setTargetPosition(50);
+>>>>>>> Stashed changes
                 lift.setPower(1);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
+<<<<<<< Updated upstream
             if (gamepad2.dpad_right && (lift.getCurrentPosition() >= 1195) && (lift.getCurrentPosition() <= 1205)){
                 lift.setPower(0);
             }
@@ -210,6 +225,19 @@ public class MecanumDrive extends LinearOpMode {
 
 
             telemetry.addData("Lift Position: ", liftpos);
+=======
+
+            if (gamepad1.dpad_down){
+                lift.setTargetPosition(0);
+                lift.setPower(1);
+                lift.setMode((DcMotor.RunMode.RUN_TO_POSITION));
+                lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            }
+
+            telemetry.addData("Status", "target position: " + lift.getTargetPosition());
+            telemetry.addData("Status", "controller: " + lift.getController().toString());
+            telemetry.addData("Status", "controller: " + lift.getCurrentPosition());
+>>>>>>> Stashed changes
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "Front L (%.2f), Front R (%.2f)", frontLeftPower, frontRightPower);
             telemetry.addData("Motors", "Back L (%.2f), Back R (%.2f)", backLeftPower, backRightPower);
