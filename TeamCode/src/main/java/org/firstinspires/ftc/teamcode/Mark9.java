@@ -30,7 +30,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp(name = "Mark IX.", group="Linear OpMode")
-@Disabled
+// @Disabled
 
 public class Mark9 extends LinearOpMode {
 
@@ -174,6 +174,8 @@ public class Mark9 extends LinearOpMode {
                 while (lift.isBusy()) {
                     // Send telemetry info to dashboard
                     telemetry.addData("Status", "Running lift to LOW");
+                    telemetry.addData("Lift Power",  lift.getPower());
+
                     telemetry.update();
                 }
                 // Test the telemetry statement before setting power to zero.
@@ -191,6 +193,8 @@ public class Mark9 extends LinearOpMode {
                 while (lift.isBusy()) {
                     // Send telemetry info to dashboard
                     telemetry.addData("Status", "Running lift GROUND");
+                    telemetry.addData("Lift Power",  lift.getPower());
+
                     telemetry.update();
                 }
 
@@ -210,12 +214,16 @@ public class Mark9 extends LinearOpMode {
                 while (lift.isBusy()) {
                     // Send telemetry info to dashboard
                     telemetry.addData("Status", "Running lift to LOW");
+                    telemetry.addData("Lift Power",  lift.getPower());
+
                     telemetry.update();
                 }
 
                 // Test the telemetry statement before setting power to zero.
                 if ((LIFT_LOW - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_LOW + TOLERANCE)) {
                     telemetry.addData("Lift Low Status", "You've arrived at your LOW destination");
+                    telemetry.addData("Lift Power",  lift.getPower());
+
                     lift.setPower(0);
                 }
             }
@@ -228,6 +236,8 @@ public class Mark9 extends LinearOpMode {
                 while (lift.isBusy()) {
                     // Send telemetry info to dashboard
                     telemetry.addData("Status", "Running lift MEDIUM");
+                    telemetry.addData("Lift Power",  lift.getPower());
+
                     telemetry.update();
                 }
 
@@ -246,6 +256,8 @@ public class Mark9 extends LinearOpMode {
                 while (lift.isBusy()) {
                     // Send telemetry info to dashboard
                     telemetry.addData("Status", "Running lift to HIGH");
+                    telemetry.addData("Lift Power",  lift.getPower());
+
                     telemetry.update();
                 }
 
@@ -265,6 +277,7 @@ public class Mark9 extends LinearOpMode {
                 while (lift.isBusy()) {
                     // Send telemetry info to dashboard
                     telemetry.addData("Status", "Running lift to ZERO");
+                    telemetry.addData("Lift Power",  lift.getPower());
                     telemetry.update();
                 }
                 // Test the telemetry statement before setting power to zero.
@@ -289,7 +302,8 @@ public class Mark9 extends LinearOpMode {
             telemetry.addData("Motors", "Front L (%.2f), Front R (%.2f)", frontLeftPower, frontRightPower);
             telemetry.addData("Motors", "Back L (%.2f), Back R (%.2f)", backLeftPower, backRightPower);
             telemetry.addData("Lift Position", liftPos);
-            // FIXME telemetry.addData("Lift Position", "liftPos");
+            // telemetry.addData("Lift", "Position (%.1f)", liftPos);
+            telemetry.addData("Lift Power",  lift.getPower());
 
             // TODO Distance Sensor data
             // generic DistanceSensor methods.
