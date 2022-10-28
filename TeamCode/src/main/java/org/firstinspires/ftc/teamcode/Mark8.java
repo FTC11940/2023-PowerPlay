@@ -12,6 +12,7 @@ import static org.firstinspires.ftc.teamcode.Hardware.*;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -20,12 +21,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name = "Mark VIII.", group="Linear OpMode")
 // @Disabled
 public class Mark8 extends LinearOpMode {
+    Servo grabby;
+    DcMotor lift;
+    BNO055IMU imu;
 
     // Reference the hardware map file
     // Hardware robot = new Hardware();
 
-    Servo grabby;
-    DcMotor lift;
+
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -34,7 +37,7 @@ public class Mark8 extends LinearOpMode {
     private DcMotor frontRightMotor = null; // assigned 0 in Driver Hub
     private DcMotor backRightMotor = null; // assigned 2 in Driver Hub
     private DcMotor backLeftMotor = null; // assigned 3 in Driver Hub
-    BNO055IMU imu;
+
 
     // Lift encoder conversions
     static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket

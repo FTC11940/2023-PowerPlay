@@ -34,9 +34,11 @@ public class Mark9 extends LinearOpMode {
 
     // Reference the hardware map file
     // Hardware robot = new Hardware();
-
     Servo grabby;
     DcMotor lift;
+    BNO055IMU imu;
+    ColorSensor color;
+    DistanceSensor distance;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -45,7 +47,6 @@ public class Mark9 extends LinearOpMode {
     private DcMotor frontRightMotor = null; // assigned 0 in Driver Hub
     private DcMotor backRightMotor = null; // assigned 2 in Driver Hub
     private DcMotor backLeftMotor = null; // assigned 3 in Driver Hub
-    BNO055IMU imu;
 
     // Lift encoder conversions
     static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
@@ -56,9 +57,6 @@ public class Mark9 extends LinearOpMode {
 
     // private DistanceSensor sensorRange;
 
-    // TODO Color sensor
-    // Define a variable for our color sensor
-    // ColorSensor color;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -66,16 +64,15 @@ public class Mark9 extends LinearOpMode {
 
         // TODO Added Distance Sensor
         // you can use this as a regular DistanceSensor.
-        sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
+        // sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
 
         // you can also cast this to a Rev2mDistanceSensor if you want to use added
         // methods associated with the Rev2mDistanceSensor class.
 
-        Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
+        // Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
 
 
-        // Get the color sensor from hardwareMap
-        // color = hardwareMap.get(ColorSensor.class, "Color");
+
 
 
         telemetry.addData("Status", "Initialized");
@@ -84,6 +81,9 @@ public class Mark9 extends LinearOpMode {
         grabby = hardwareMap.servo.get("grabby");
 
         lift = hardwareMap.get(DcMotor.class, "lift");
+
+        color = hardwareMap.get(ColorSensor.class, "color");
+
 
 
         grabby.setPosition(OPEN);
@@ -291,20 +291,24 @@ public class Mark9 extends LinearOpMode {
 
             // TODO Distance Sensor data
             // generic DistanceSensor methods.
+
+            /*
             telemetry.addData("deviceName", sensorRange.getDeviceName() );
             telemetry.addData("range", String.format("%.01f mm", sensorRange.getDistance(DistanceUnit.MM)));
             telemetry.addData("range", String.format("%.01f cm", sensorRange.getDistance(DistanceUnit.CM)));
             telemetry.addData("range", String.format("%.01f m", sensorRange.getDistance(DistanceUnit.METER)));
             telemetry.addData("range", String.format("%.01f in", sensorRange.getDistance(DistanceUnit.INCH)));
-
             // Rev2mDistanceSensor specific methods.
             telemetry.addData("ID", String.format("%x", sensorTimeOfFlight.getModelID()));
             telemetry.addData("did time out", Boolean.toString(sensorTimeOfFlight.didTimeoutOccur()));
 
+            */
+
+
             // Color sensor
-            // telemetry.addData("Red", color.red());
-            // telemetry.addData("Green", color.green());
-            // telemetry.addData("Blue", color.blue());
+            telemetry.addData("Red", color.red());
+            telemetry.addData("Green", color.green());
+            telemetry.addData("Blue", color.blue());
 
             telemetry.update();
         }
