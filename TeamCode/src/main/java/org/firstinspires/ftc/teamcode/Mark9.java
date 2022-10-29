@@ -302,7 +302,6 @@ public class Mark9 extends LinearOpMode {
             telemetry.addData("Motors", "Front L (%.2f), Front R (%.2f)", frontLeftPower, frontRightPower);
             telemetry.addData("Motors", "Back L (%.2f), Back R (%.2f)", backLeftPower, backRightPower);
             telemetry.addData("Lift Position", liftPos);
-            // telemetry.addData("Lift", "Position (%.1f)", liftPos);
             telemetry.addData("Lift Power",  lift.getPower());
 
             // TODO Distance Sensor data

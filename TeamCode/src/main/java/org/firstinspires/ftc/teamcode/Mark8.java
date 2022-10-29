@@ -4,8 +4,6 @@
 * */
 package org.firstinspires.ftc.teamcode;
 
-// FIXME Don't know if this is best practice. Ask Maasser
-
 import static org.firstinspires.ftc.teamcode.Constants.*;
 import static org.firstinspires.ftc.teamcode.Hardware.*;
 
@@ -30,8 +28,6 @@ public class Mark8 extends LinearOpMode {
     // Reference the hardware map file
     // Hardware robot = new Hardware();
 
-
-
     private ElapsedTime runtime = new ElapsedTime();
 
     // Located in the Hardware file and matches with the Drive Hub robot settings
@@ -39,7 +35,6 @@ public class Mark8 extends LinearOpMode {
     private DcMotor frontRightMotor = null; // assigned 0 in Driver Hub
     private DcMotor backRightMotor = null; // assigned 2 in Driver Hub
     private DcMotor backLeftMotor = null; // assigned 3 in Driver Hub
-
 
     // Lift encoder conversions
     static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
@@ -57,7 +52,6 @@ public class Mark8 extends LinearOpMode {
         grabby = hardwareMap.servo.get("grabby");
 
         lift = hardwareMap.get(DcMotor.class, "lift");
-
 
         grabby.setPosition(OPEN);
 
@@ -84,9 +78,7 @@ public class Mark8 extends LinearOpMode {
 
         // TODO Test this out
         lift.setTargetPosition(0);
-
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
 
         waitForStart();
 
@@ -246,14 +238,6 @@ public class Mark8 extends LinearOpMode {
                 }
             }
 
-            /* Unused buttons at the moment
-            gamepad2.left_bumper // Set lift to ground junction height
-            gamepad2.dpad_down // Set lift to on-the-ground height
-            gamepad2.dpad_right // Set lift top low height
-            gamepad2.dpad_left // Set lift to medium height
-            gamepad2.dpad_up // Set lift to high junction height
-            */
-
             if (isStopRequested()) return;
 
             // Data to send to Driver Station
@@ -261,8 +245,8 @@ public class Mark8 extends LinearOpMode {
             telemetry.addData("Motors", "Front L (%.2f), Front R (%.2f)", frontLeftPower, frontRightPower);
             telemetry.addData("Motors", "Back L (%.2f), Back R (%.2f)", backLeftPower, backRightPower);
             telemetry.addData("Lift Position", liftPos);
-            // FIXME telemetry.addData("Lift Position", "liftPos");
-            telemetry.update();
+            telemetry.addData("Lift Power",  lift.getPower());
+
         }
     }
 } // End of Class
