@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import static org.firstinspires.ftc.teamcode.Constants.*;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -153,60 +152,74 @@ public class MecanumDrive extends LinearOpMode {
             String liftpos = "no input";
 
             if (gamepad1.dpad_up) { // if up is pressed on the dpad
+                lift.setTargetPosition(lift_high); // tell the robot it needs to go to lift_high, not to actually go
+                lift.setPower(0.5); // turns on the power in the lift motor
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION); // tells the robot to actually go to the target position
                 while (lift.isBusy()){liftpos = "running to high";} // tell the gamepad to say "lift is running to high"
-                lift.setTargetPosition(lift_high); // tell the robot to go to lift position high
-                lift.setPower(1); // turns on the power in the lift motor
                 //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); is supposed to stop sending power to motor after the motor has finished its tasks, but does not work
             }
 
             if((lift_high - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_high + diplomat)){
-                /* ^
-                   | if the lift's current position is greater than the low position minus 10 and is less than the low position plus 10 execute the following code
-                   we are doing this instead of just checking if the lift's current position is equal to the low position because robots are neurotic perfectionists who,
-                   even if they are only one unit away from the lift low position, will continue to jerkily move after the command has been given in an attempt to get to the
-                   exact lift low position. this could be hard for the drivers to work around, so we use complex if statements instead of simple ones
-                */
-                liftpos = "low"; // tell the gamepad to say "lift is at low position"
-                lift.setPower(0); // stops the robot from purposeless neurotic twitching after all tasks have been fulfilled
+                liftpos = "high"; // tell the gamepad to say "lift is at high position"
+                //lift.setPower(0); // stops the robot from purposeless neurotic twitching after all tasks have been fulfilled
             }
 
             if (gamepad1.dpad_right){
-                while (lift.isBusy()){liftpos = "running to medium";}
                 lift.setTargetPosition(lift_mid);
+                lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                lift.setPower(1);
+                while (lift.isBusy()){liftpos = "running to medium";}
                 //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
 
             if((lift_mid - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_mid + diplomat)){
                 liftpos = "medium";
-                lift.setPower(0);
+                //lift.setPower(0);
             }
 
             if (gamepad1.dpad_left){
-                while (lift.isBusy()){liftpos = "running to low";}
                 lift.setTargetPosition(lift_low);
+                lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                lift.setPower(1);
+                while (lift.isBusy()){liftpos = "running to low";}
                 //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
 
             if((lift_low - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_low + diplomat)){
                 liftpos = "low";
-                lift.setPower(0);
+                //lift.setPower(0);
             }
 
             if (gamepad1.dpad_down){
-                while (lift.isBusy()){liftpos = "running to ground";}
-                lift.setTargetPosition(lift_ground);
+                lift.setTargetPosition(lift_floor);
+                lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                lift.setPower(1);
+                while (lift.isBusy()){liftpos = "running to floor";}
+                //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            }
+
+            if((lift_floor - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_floor + diplomat)){
+                /* ^
+                   | if the lift's current position is greater than the high position minus 10 and is less than the high position plus 10 execute the following code
+                   we are doing this instead of just checking if the lift's current position is equal to the low position because robots are neurotic perfectionists who,
+                   even if they are only one unit away from the lift high position, will continue to jerkily move after the command has been given in an attempt to get to the
+                   exact lift low position. this could be hard for the drivers to work around, so we use complex if statements instead of simple ones
+                */
+                liftpos = "floor";
+                lift.setPower(0);
+            }
+
+            if (gamepad1.y){
+                lift.setTargetPosition(lift_ground);
+                lift.setPower(0.5);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                while (lift.isBusy()){liftpos = "running to ground";}
                 //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
 
             if((lift_ground - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_ground + diplomat)){
                 liftpos = "ground";
-                lift.setPower(0);
+                //lift.setPower(0);
             }
 
 
@@ -219,7 +232,7 @@ public class MecanumDrive extends LinearOpMode {
             telemetry.addData("Motors", "Front L (%.2f), Front R (%.2f)", frontLeftPower, frontRightPower);
             telemetry.addData("Motors", "Back L (%.2f), Back R (%.2f)", backLeftPower, backRightPower);
             telemetry.update(); // this is very important! without putting this code at the end of your telemetry, your telemetry will not update with new information
-           
+
 
         }
     }

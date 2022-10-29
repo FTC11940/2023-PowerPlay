@@ -22,6 +22,7 @@ public class Constants {
     public static final double CLOSED = 0.0;
 
 //
+    public static final int lift_floor = 0;
     public static final int lift_ground = 100;
     public static final int lift_low = 1200;
     public static final int lift_mid = 2000;
