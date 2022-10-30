@@ -1,27 +1,23 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Hardware {
-    //create motors
+    // Create motors
     public DcMotor frontRightMotor = null;
     public DcMotor frontLeftMotor = null;
     public DcMotor backRightMotor = null;
     public DcMotor backLeftMotor = null;
+    public DcMotor lift = null;
     public Servo grabber = null;
-
-    public final static double POS_HOME = 0.0;
-    public final static double POS_MIN = -1.0;
-    public final static double POS_MAX = 1.0;
-
-    //create servo
-    public Servo randomServo = null;
 
     //additional variables
     HardwareMap hardwareMap = null;
+
     public ElapsedTime runtime = new ElapsedTime();
 
     public Hardware(HardwareMap hwMap){
@@ -40,25 +36,30 @@ public class Hardware {
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
         backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
 
-        //connect servo
-        randomServo = hardwareMap.get(Servo.class, "randomServo");
+        lift = hardwareMap.get(DcMotor.class,"lift");
 
-        //set up motor direction
+        // Set up motor direction
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
         backRightMotor.setDirection(DcMotor.Direction.FORWARD);
 
-        //set motor mode
+        lift.setDirection(DcMotor.Direction.REVERSE);
+
+        // Set motor mode
         frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        // lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //set zero power behavior
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -66,12 +67,15 @@ public class Hardware {
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        //set motors to use no power
+        // lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        // Set motors to use no power at start
         frontLeftMotor.setPower(0);
         frontRightMotor.setPower(0);
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
 
+        // lift.setPower(0);
 
     }
-}
+} // End class
