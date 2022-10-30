@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.Constants.*;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -27,18 +29,26 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *****************************/
 
 @TeleOp(name = "Mecanum", group="Linear OpMode")
+// @Disabled
 public class MecanumDrive extends LinearOpMode {
 
-    Servo grabby;
-    DcMotor lift;
+    private Servo grabby;
+    private DcMotor lift;
     private ElapsedTime runtime = new ElapsedTime();
 
-    // Located in the Hardware file and matches with the Drive Hub robot settings
+    //    // Located in the Hardware file and matches with the Drive Hub robot settings
     private DcMotor frontLeftMotor = null; // assigned 1 in Driver Hub
     private DcMotor frontRightMotor = null; // assigned 0 in Driver Hub
     private DcMotor backRightMotor = null; // assigned 2 in Driver Hub
     private DcMotor backLeftMotor = null; // assigned 3 in Driver Hub
     BNO055IMU imu;
+
+    // for lift
+    static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
+    static final double DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
+    static final double PULLEY_DIAMETER_INCHES = 2.0 ; // For figuring circumference
+    static final double COUNTS_PER_INCH =
+            (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (PULLEY_DIAMETER_INCHES * 3.1415);
 
     @Override
     public void runOpMode() {
@@ -47,9 +57,12 @@ public class MecanumDrive extends LinearOpMode {
 
         grabby = hardwareMap.servo.get("grabby");
         lift = hardwareMap.get(DcMotor.class,"lift");
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Set starting position of the grabby claw. 0.5 is open, 0.0 is closed
         grabby.setPosition(0.5);
+        lift.setTargetPosition(0);
 
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
@@ -58,16 +71,17 @@ public class MecanumDrive extends LinearOpMode {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         /*
-        * Both right side motors should be going in one direction,
-        * and both left side motors going in the opposite direction
-        */
+         * Both right side motors should be going in one direction,
+         * and both left side motors going in the opposite direction
+         */
 
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
-    waitForStart();
+
+        waitForStart();
 
         if (isStopRequested()) return;
         while (opModeIsActive()) {
@@ -83,7 +97,7 @@ public class MecanumDrive extends LinearOpMode {
 
             /* This may not be optimal. Consider using
             // Uses the left thumbstick for forward & backwards robot movement
-            // TODO
+
             double drive = -gamepad1.left_stick_y;
             double turn  =  gamepad1.right_stick_x;
             leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
@@ -129,58 +143,98 @@ public class MecanumDrive extends LinearOpMode {
 
             // lift code
             /*
-            a mode, as i refer to it, is which 'mode' the lift is in, ground, low, medium, or high,
-            or in number form, 0, 1, 2, and 3.
+            dpaddown = ground
+            dpadleft = low
+            dpadright = medium
+            dpad up = high
              */
-            int CMode = 0; // current mode
-            int DMode = 0; // desired mode
-            int time = 0; // time to go up a mode, measured in milliseconds
-            int mtg = DMode - CMode; // modes to go until desired mode is reached
 
-            lift.setDirection(DcMotorSimple.Direction.FORWARD);
+            String liftpos = "no input";
 
-            if (mtg < 0){ // if the desired mode is below the current mode, set the motor direction to reverse and edit the appropriate variables
-            mtg = mtg * -1;
-            lift.setDirection(DcMotorSimple.Direction.REVERSE);
+            if (gamepad1.dpad_up) { // if up is pressed on the dpad
+                lift.setTargetPosition(lift_high); // tell the robot it needs to go to lift_high, not to actually go
+                lift.setPower(0.5); // turns on the power in the lift motor
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION); // tells the robot to actually go to the target position
+                while (lift.isBusy()){liftpos = "running to high";} // tell the gamepad to say "lift is running to high"
+                //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); is supposed to stop sending power to motor after the motor has finished its tasks, but does not work
             }
 
-            if (gamepad1.dpad_up){
-            DMode = 3; // the desired mode is 3
-            lift.setPower(1); // turns the motor on
-            sleep(time*mtg); // sleep when (the amount of time for one mode*modes to go) seconds have passed
-            CMode = 3; // now that we are at mode three, set the current mode to mode 3
-            // the other 'dpad if statements' function the same with only the DModes and CModes differing
-            }
-
-            if (gamepad1.dpad_down){
-                DMode = 0;
-                lift.setPower(1);
-                sleep(time*mtg);
-                CMode = 0;
-            }
-
-            if (gamepad1.dpad_left){
-                DMode = 1;
-                lift.setPower(1);
-                sleep(time*mtg);
-                CMode = 1;
+            if((lift_high - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_high + diplomat)){
+                liftpos = "high"; // tell the gamepad to say "lift is at high position"
+                //lift.setPower(0); // stops the robot from purposeless neurotic twitching after all tasks have been fulfilled
             }
 
             if (gamepad1.dpad_right){
-                DMode = 2;
-                lift.setPower(1);
-                sleep(time*mtg);
-                CMode = 2;
+                lift.setTargetPosition(lift_mid);
+                lift.setPower(0.5);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                while (lift.isBusy()){liftpos = "running to medium";}
+                //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
 
-            //leftDrive.setPower(leftPower);
-             //rightDrive.setPower(rightPower);
+            if((lift_mid - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_mid + diplomat)){
+                liftpos = "medium";
+                //lift.setPower(0);
+            }
 
+            if (gamepad1.dpad_left){
+                lift.setTargetPosition(lift_low);
+                lift.setPower(0.5);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                while (lift.isBusy()){liftpos = "running to low";}
+                //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            }
+
+            if((lift_low - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_low + diplomat)){
+                liftpos = "low";
+                //lift.setPower(0);
+            }
+
+            if (gamepad1.dpad_down){
+                lift.setTargetPosition(lift_floor);
+                lift.setPower(0.5);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                while (lift.isBusy()){liftpos = "running to floor";}
+                //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            }
+
+            if((lift_floor - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_floor + diplomat)){
+                /* ^
+                   | if the lift's current position is greater than the high position minus 10 and is less than the high position plus 10 execute the following code
+                   we are doing this instead of just checking if the lift's current position is equal to the low position because robots are neurotic perfectionists who,
+                   even if they are only one unit away from the lift high position, will continue to jerkily move after the command has been given in an attempt to get to the
+                   exact lift low position. this could be hard for the drivers to work around, so we use complex if statements instead of simple ones
+                */
+                liftpos = "floor";
+                lift.setPower(0);
+            }
+
+            if (gamepad1.y){
+                lift.setTargetPosition(lift_ground);
+                lift.setPower(0.5);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                while (lift.isBusy()){liftpos = "running to ground";}
+                //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            }
+
+            if((lift_ground - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_ground + diplomat)){
+                liftpos = "ground";
+                //lift.setPower(0);
+            }
+
+
+
+            telemetry.addData("Lift Position: ", liftpos);
+            telemetry.addData("Status", "target position: " + lift.getTargetPosition());
+            telemetry.addData("Status", "controller: " + lift.getController().toString());
+            telemetry.addData("Status", "controller: " + lift.getCurrentPosition());
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "Front L (%.2f), Front R (%.2f)", frontLeftPower, frontRightPower);
             telemetry.addData("Motors", "Back L (%.2f), Back R (%.2f)", backLeftPower, backRightPower);
-            telemetry.update();
+            telemetry.update(); // this is very important! without putting this code at the end of your telemetry, your telemetry will not update with new information
+
 
         }
     }
-} // End of Class
+}
+// End of Class
