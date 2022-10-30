@@ -61,8 +61,8 @@ public class MecanumDrive extends LinearOpMode {
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Set starting position of the grabby claw. 0.5 is open, 0.0 is closed
-        grabby.setPosition(0.5);
-        lift.setTargetPosition(0);
+        grabby.setPosition(OPEN);
+        lift.setTargetPosition(lift_floor);
 
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
@@ -87,10 +87,10 @@ public class MecanumDrive extends LinearOpMode {
         while (opModeIsActive()) {
 
             if (gamepad1.b) {
-                grabby.setPosition(0.5);
+                grabby.setPosition(OPEN);
             }
             if (gamepad1.a){
-                grabby.setPosition(0);
+                grabby.setPosition(CLOSED);
             }
 
             telemetry.update();
@@ -131,23 +131,6 @@ public class MecanumDrive extends LinearOpMode {
             backLeftMotor.setPower(backLeftPower);
             frontRightMotor.setPower(frontRightPower);
             backRightMotor.setPower(backRightPower);
-
-            /*
-             * Telemetry Data for Driver & Optimization
-             ** TODO Show the elapsed game time
-             ** TODO Show wheel power output during teleop
-             ** TODO Show claw-grabber position for testing
-             ** TODO Show the lift motor position for testing
-             */
-
-
-            // lift code
-            /*
-            dpaddown = ground
-            dpadleft = low
-            dpadright = medium
-            dpad up = high
-             */
 
             String liftpos = "no input";
 
