@@ -86,10 +86,10 @@ public class MecanumDrive extends LinearOpMode {
         if (isStopRequested()) return;
         while (opModeIsActive()) {
 
-            if (gamepad1.b) {
+            if (gamepad2.b) {
                 grabby.setPosition(0.5);
             }
-            if (gamepad1.a){
+            if (gamepad2.a){
                 grabby.setPosition(0);
             }
 
@@ -107,7 +107,7 @@ public class MecanumDrive extends LinearOpMode {
             /*
             gamepad2.left_bumper // Set lift to ground junction height
             gamepad2.dpad_down // Set lift to on-the-ground height
-            gamepad2.dpad_right // Set lift top low height
+            gamepad2.dpad_right // Set lift to low height
             gamepad2.dpad_left // Set lift to medium height
             gamepad2.dpad_up // Set lift to high junction height
             gamepad2.a // Set claw to close position
@@ -151,7 +151,15 @@ public class MecanumDrive extends LinearOpMode {
 
             String liftpos = "no input";
 
-            if (gamepad1.dpad_up) { // if up is pressed on the dpad
+            while (gamepad2.left_trigger > 0.0){
+                lift.setPower(0.5);
+            }
+
+            while (gamepad2.right_trigger > 0.0){
+                lift.setPower(-0.5);
+            }
+
+            if (gamepad2.dpad_up) { // if up is pressed on the dpad
                 lift.setTargetPosition(lift_high); // tell the robot it needs to go to lift_high, not to actually go
                 lift.setPower(0.5); // turns on the power in the lift motor
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION); // tells the robot to actually go to the target position
@@ -164,7 +172,7 @@ public class MecanumDrive extends LinearOpMode {
                 //lift.setPower(0); // stops the robot from purposeless neurotic twitching after all tasks have been fulfilled
             }
 
-            if (gamepad1.dpad_right){
+            if (gamepad2.dpad_right){
                 lift.setTargetPosition(lift_mid);
                 lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -177,7 +185,7 @@ public class MecanumDrive extends LinearOpMode {
                 //lift.setPower(0);
             }
 
-            if (gamepad1.dpad_left){
+            if (gamepad2.dpad_left){
                 lift.setTargetPosition(lift_low);
                 lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -190,7 +198,7 @@ public class MecanumDrive extends LinearOpMode {
                 //lift.setPower(0);
             }
 
-            if (gamepad1.dpad_down){
+            if (gamepad2.dpad_down){
                 lift.setTargetPosition(lift_floor);
                 lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -209,7 +217,7 @@ public class MecanumDrive extends LinearOpMode {
                 lift.setPower(0);
             }
 
-            if (gamepad1.y){
+            if (gamepad2.y){
                 lift.setTargetPosition(lift_ground);
                 lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -225,6 +233,7 @@ public class MecanumDrive extends LinearOpMode {
 
 
             telemetry.addData("Lift Position: ", liftpos);
+            telemetry.addData("Exact Lift Position", lift.getCurrentPosition());
             telemetry.addData("Status", "target position: " + lift.getTargetPosition());
             telemetry.addData("Status", "controller: " + lift.getController().toString());
             telemetry.addData("Status", "controller: " + lift.getCurrentPosition());
