@@ -179,7 +179,7 @@ public class Red27pts extends LinearOpMode {
             lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             while (lift.isBusy()) {
                 // Send telemetry info to dashboard
-                telemetry.addData("Status", "Running lift to GROUND");
+                telemetry.addData("Status", "Running lift to LOW");
                 telemetry.update();
             }
             // Test the telemetry statement before setting power to zero.
