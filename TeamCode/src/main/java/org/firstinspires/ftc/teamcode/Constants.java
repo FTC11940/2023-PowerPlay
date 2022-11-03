@@ -10,23 +10,19 @@ public class Constants {
     ADD import static org.firstinspires.ftc.teamcode.Constants.*;
     to each file reference constants
     */
-
-    // SetTargetPosition(0) is the game field zero
-    public static final int LIFT_GROUND = 100; // 1" Ground junction height
-    public static final int LIFT_LOW = 1200; // 13.5" Low junction height
-    public static final int LIFT_MEDIUM = 2000; // 23.5" Medium junction height
-    public static final int LIFT_HIGH = 2800; // 33.5" High junction height
-
-    // SetPosition() values for Open and Close on the claw servo
-    public static final double OPEN = 0.5;
-    public static final double CLOSED = 0.0;
-
-//
+    //the set positions of each height the lift needs to be at
     public static final int lift_floor = 0;
     public static final int lift_ground = 100;
     public static final int lift_low = 1200;
     public static final int lift_mid = 2000;
     public static final int lift_high = 2800;
+    // makes sure that the teleop is accurate, originally had more use but no real reason to scrap it now
     public static final int diplomat = 10;
+
+    // what position grabby, or the claw, considers completely open
+    public static final double grabby_open = 0.2;
+
+    //constant lift power
+    public static final double lift_power = 0.5;
 
 }

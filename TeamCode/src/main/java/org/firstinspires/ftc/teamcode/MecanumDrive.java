@@ -36,19 +36,12 @@ public class MecanumDrive extends LinearOpMode {
     private DcMotor lift;
     private ElapsedTime runtime = new ElapsedTime();
 
-    //    // Located in the Hardware file and matches with the Drive Hub robot settings
+    // Located in the Hardware file and matches with the Drive Hub robot settings
     private DcMotor frontLeftMotor = null; // assigned 1 in Driver Hub
     private DcMotor frontRightMotor = null; // assigned 0 in Driver Hub
     private DcMotor backRightMotor = null; // assigned 2 in Driver Hub
     private DcMotor backLeftMotor = null; // assigned 3 in Driver Hub
     BNO055IMU imu;
-
-    // for lift
-    static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
-    static final double DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
-    static final double PULLEY_DIAMETER_INCHES = 2.0 ; // For figuring circumference
-    static final double COUNTS_PER_INCH =
-            (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (PULLEY_DIAMETER_INCHES * 3.1415);
 
     @Override
     public void runOpMode() {
@@ -61,7 +54,7 @@ public class MecanumDrive extends LinearOpMode {
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Set starting position of the grabby claw. 0.5 is open, 0.0 is closed
-        grabby.setPosition(0.5);
+        grabby.setPosition(grabby_open);
         lift.setTargetPosition(0);
 
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
@@ -83,14 +76,96 @@ public class MecanumDrive extends LinearOpMode {
 
         waitForStart();
 
-        if (isStopRequested()) return;
+        //if (isStopRequested()) return;
         while (opModeIsActive()) {
 
             if (gamepad2.b) {
-                grabby.setPosition(0.5);
+                grabby.setPosition(grabby_open);
             }
             if (gamepad2.a){
                 grabby.setPosition(0);
+            }
+
+            String liftpos = "no input";
+
+            // while the left trigger is pushed, increase the height of the lift
+            // used for exact measurements by the drive team
+            if (gamepad2.left_bumper){
+                lift.setTargetPosition(lift.getCurrentPosition()+5);
+            }
+
+            // while the right trigger is pushed, decrease the height of the lift
+            if (gamepad2.right_bumper){
+                lift.setPower(-lift_power);
+            }
+
+            if (gamepad2.dpad_up) { // if up is pressed on the dpad
+                lift.setTargetPosition(lift_high); // tell the robot it needs to go to lift_high, not to actually go
+                lift.setPower(lift_power); // turns on the power in the lift motor
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION); // tells the robot to actually go to the target position
+                while (lift.isBusy()){liftpos = "running to high";} // tell the gamepad to say "lift is running to high"
+                //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); is supposed to stop sending power to motor after the motor has finished its tasks, but does not work
+            }
+
+            if((lift_high - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_high + diplomat)){
+                liftpos = "high"; // tell the gamepad to say "lift is at high position"
+                //lift.setPower(0); // stops the robot from purposeless neurotic twitching after all tasks have been fulfilled
+            }
+
+            if (gamepad2.dpad_right){
+                lift.setTargetPosition(lift_mid);
+                lift.setPower(lift_power);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                while (lift.isBusy()){liftpos = "running to medium";}
+                //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            }
+
+            if((lift_mid - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_mid + diplomat)){
+                liftpos = "medium";
+                //lift.setPower(0);
+            }
+
+            if (gamepad2.dpad_left){
+                lift.setTargetPosition(lift_low);
+                lift.setPower(lift_power);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                while (lift.isBusy()){liftpos = "running to low";}
+                //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            }
+
+            if((lift_low - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_low + diplomat)){
+                liftpos = "low";
+                //lift.setPower(0);
+            }
+
+            if (gamepad2.dpad_down){
+                lift.setTargetPosition(lift_floor);
+                lift.setPower(lift_power);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                while (lift.isBusy()){liftpos = "running to floor";}
+                //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            }
+
+            if((lift_floor - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_floor + diplomat)){
+                /*
+                we originally had more use for the diplomat variable, but things changed and now we use it exclusively for the telemetry
+                because we have no real reason to delete it and it makes the telemetry more accurate    `
+                * */
+                liftpos = "floor";
+                //lift.setPower(0);
+            }
+
+            if (gamepad2.y){
+                lift.setTargetPosition(lift_ground);
+                lift.setPower(0.5);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                while (lift.isBusy()){liftpos = "running to ground";}
+                //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            }
+
+            if((lift_ground - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_ground + diplomat)){
+                liftpos = "ground";
+                //lift.setPower(0);
             }
 
             telemetry.update();
@@ -149,86 +224,7 @@ public class MecanumDrive extends LinearOpMode {
             dpad up = high
              */
 
-            String liftpos = "no input";
 
-            while (gamepad2.left_trigger > 0.0){
-                lift.setPower(0.5);
-            }
-
-            while (gamepad2.right_trigger > 0.0){
-                lift.setPower(-0.5);
-            }
-
-            if (gamepad2.dpad_up) { // if up is pressed on the dpad
-                lift.setTargetPosition(lift_high); // tell the robot it needs to go to lift_high, not to actually go
-                lift.setPower(0.5); // turns on the power in the lift motor
-                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION); // tells the robot to actually go to the target position
-                while (lift.isBusy()){liftpos = "running to high";} // tell the gamepad to say "lift is running to high"
-                //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); is supposed to stop sending power to motor after the motor has finished its tasks, but does not work
-            }
-
-            if((lift_high - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_high + diplomat)){
-                liftpos = "high"; // tell the gamepad to say "lift is at high position"
-                //lift.setPower(0); // stops the robot from purposeless neurotic twitching after all tasks have been fulfilled
-            }
-
-            if (gamepad2.dpad_right){
-                lift.setTargetPosition(lift_mid);
-                lift.setPower(0.5);
-                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                while (lift.isBusy()){liftpos = "running to medium";}
-                //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            }
-
-            if((lift_mid - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_mid + diplomat)){
-                liftpos = "medium";
-                //lift.setPower(0);
-            }
-
-            if (gamepad2.dpad_left){
-                lift.setTargetPosition(lift_low);
-                lift.setPower(0.5);
-                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                while (lift.isBusy()){liftpos = "running to low";}
-                //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            }
-
-            if((lift_low - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_low + diplomat)){
-                liftpos = "low";
-                //lift.setPower(0);
-            }
-
-            if (gamepad2.dpad_down){
-                lift.setTargetPosition(lift_floor);
-                lift.setPower(0.5);
-                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                while (lift.isBusy()){liftpos = "running to floor";}
-                //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            }
-
-            if((lift_floor - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_floor + diplomat)){
-                /* ^
-                   | if the lift's current position is greater than the high position minus 10 and is less than the high position plus 10 execute the following code
-                   we are doing this instead of just checking if the lift's current position is equal to the low position because robots are neurotic perfectionists who,
-                   even if they are only one unit away from the lift high position, will continue to jerkily move after the command has been given in an attempt to get to the
-                   exact lift low position. this could be hard for the drivers to work around, so we use complex if statements instead of simple ones
-                */
-                liftpos = "floor";
-                lift.setPower(0);
-            }
-
-            if (gamepad2.y){
-                lift.setTargetPosition(lift_ground);
-                lift.setPower(0.5);
-                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                while (lift.isBusy()){liftpos = "running to ground";}
-                //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            }
-
-            if((lift_ground - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_ground + diplomat)){
-                liftpos = "ground";
-                //lift.setPower(0);
-            }
 
 
 
