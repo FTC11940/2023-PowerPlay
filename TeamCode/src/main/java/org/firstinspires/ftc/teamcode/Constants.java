@@ -11,6 +11,11 @@ public class Constants {
     to each file reference constants
     */
 
+    /*
+    Naming conventions
+    https://docs.oracle.com/javase/tutorial/java/nutsandbolts/variables.html
+     */
+
     // SetTargetPosition(0) is the game field zero
     public static final int LIFT_GROUND = 100; // 1" Ground junction height
     public static final int LIFT_LOW = 1200; // 13.5" Low junction height
@@ -20,6 +25,8 @@ public class Constants {
     // SetPosition() values for Open and Close on the claw servo
     public static final double OPEN = 0.5;
     public static final double CLOSED = 0.0;
+    public static final double GRABBY_OPEN = 0.5;
+    public static final double GRABBY_CLOSED = 0.0;
 
 //
     public static final int lift_floor = 0;
