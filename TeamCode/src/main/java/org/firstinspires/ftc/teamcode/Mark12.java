@@ -34,9 +34,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  returns !isStarted() && !isStopRequested() and does not call idle().
  *****************************/
 
-@TeleOp(name = "Mecanum", group="Linear OpMode")
+@TeleOp(name = "Mark XII.", group="Linear OpMode")
 // @Disabled
-public class MecanumDrive extends LinearOpMode {
+public class Mark12  extends LinearOpMode {
 
     private Servo grabby;
     private DcMotor lift;

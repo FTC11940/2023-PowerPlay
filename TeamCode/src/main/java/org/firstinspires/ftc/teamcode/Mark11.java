@@ -4,16 +4,8 @@
  * */
 package org.firstinspires.ftc.teamcode;
 
-// FIXME Don't know if this is best practice. Ask Maasser
 
-import static org.firstinspires.ftc.teamcode.Constants.CLOSED;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_GROUND;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_HIGH;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_LOW;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_MEDIUM;
-import static org.firstinspires.ftc.teamcode.Constants.OPEN;
-import static org.firstinspires.ftc.teamcode.Constants.TOLERANCE;
-
+import static org.firstinspires.ftc.teamcode.Constants.*;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -164,7 +156,7 @@ public class Mark11 extends LinearOpMode {
                 lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 // Test the telemetry statement before setting power to zero.
-                if ((LIFT_LOW - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_LOW + TOLERANCE)) {
+                if ((LIFT_LOW - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_LOW + diplomat)) {
                     telemetry.addData("Lift Low Status", "You've arrived at your Low destination");
                 }
             }
@@ -176,7 +168,7 @@ public class Mark11 extends LinearOpMode {
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                 // Test the telemetry statement before setting power to zero.
-                if ((LIFT_LOW - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_LOW + TOLERANCE)) {
+                if ((LIFT_LOW - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_LOW + diplomat)) {
                     telemetry.addData("Lift Low Status", "You've arrived at your GROUND destination");
                 }
             }
@@ -188,7 +180,7 @@ public class Mark11 extends LinearOpMode {
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 // Test the telemetry statement before setting power to zero.
 
-                if ((LIFT_LOW - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_LOW + TOLERANCE)) {
+                if ((LIFT_LOW - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_LOW + diplomat)) {
                     telemetry.addData("Lift Low Status", "You've arrived at your LOW destination");
                     telemetry.addData("Lift Power", lift.getPower());
                 }
@@ -202,7 +194,7 @@ public class Mark11 extends LinearOpMode {
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                 // Test the telemetry statement before setting power to zero.
-                if ((LIFT_MEDIUM - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_MEDIUM + TOLERANCE)) {
+                if ((LIFT_MEDIUM - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_MEDIUM + diplomat)) {
                     telemetry.addData("Lift Low Status", "You've arrived at your MEDIUM destination");
                 }
             }
@@ -214,7 +206,7 @@ public class Mark11 extends LinearOpMode {
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                 // Test the telemetry statement before setting power to zero.
-                if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
+                if ((LIFT_HIGH - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + diplomat)) {
                     telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
                 }
             }
@@ -224,7 +216,7 @@ public class Mark11 extends LinearOpMode {
                 lift.setPower(1);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 // Test the telemetry statement before setting power to zero.
-                if ((-TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (TOLERANCE)) {
+                if ((-diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (diplomat)) {
                     telemetry.addData("Lift Low Status", "You've arrived at the final destination");
                     lift.setPower(0);
                 }

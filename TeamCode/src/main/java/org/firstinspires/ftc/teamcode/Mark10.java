@@ -6,14 +6,7 @@ package org.firstinspires.ftc.teamcode;
 
 // FIXME Don't know if this is best practice. Ask Maasser
 
-import static org.firstinspires.ftc.teamcode.Constants.CLOSED;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_GROUND;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_HIGH;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_LOW;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_MEDIUM;
-import static org.firstinspires.ftc.teamcode.Constants.OPEN;
-import static org.firstinspires.ftc.teamcode.Constants.TOLERANCE;
-
+import static org.firstinspires.ftc.teamcode.Constants.*;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
