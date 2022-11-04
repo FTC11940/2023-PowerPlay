@@ -23,11 +23,5 @@ public class Constants {
 
     public static final int TOLERANCE = 10; // Lift encoder tolerance
 
-//
-    public static final int lift_floor = 0;
-    public static final int lift_ground = 100; // 1" Ground junction height
-    public static final int lift_low = 1200; // 13.5" Low junction height
-    public static final int lift_mid = 2000; // 23.5" Medium junction height
-    public static final int lift_high = 2800; // 33.5" High junction height
-    public static final int diplomat = 10;
+
 }
