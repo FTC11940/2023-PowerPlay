@@ -1,4 +1,5 @@
-/*
+/**
+ * Blue Failsafe 2 Auton starts in A2 and drives south to drop a cone and park in terminal A1
  */
 
 package org.firstinspires.ftc.teamcode.Auton;
@@ -19,7 +20,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Blue-Failsafe 1", group="Robot")
+@Autonomous(name="Blue-Failsafe A2", group="Robot")
 // Disabled
 
 public class BlueActualFailsafe2 extends LinearOpMode {

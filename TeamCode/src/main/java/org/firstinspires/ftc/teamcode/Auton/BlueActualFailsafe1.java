@@ -1,4 +1,5 @@
-/*
+/**
+ * Blue Failsafe 1 Auton starts in A5 and drives south to drop a cone and park in terminal A4
  */
 
 package org.firstinspires.ftc.teamcode.Auton;
@@ -19,7 +20,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Blue-Failsafe 1", group="Robot")
+@Autonomous(name="Blue-Failsafe A5", group="Robot")
 // Disabled
 
 public class BlueActualFailsafe1 extends LinearOpMode {
@@ -151,7 +152,7 @@ public class BlueActualFailsafe1 extends LinearOpMode {
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
         turnToHeading( TURN_SPEED,  -90.0);//Turn 90 to face direction of terminal
         driveStraight(DRIVE_SPEED, 28.00, 0.0); // Drive to terminal
-        grabby.setPosition(0.5);
+        grabby.setPosition(OPEN);
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
         driveStraight(DRIVE_SPEED, -4.00, 0.0); // park
         telemetry.addData("Path", "Complete");

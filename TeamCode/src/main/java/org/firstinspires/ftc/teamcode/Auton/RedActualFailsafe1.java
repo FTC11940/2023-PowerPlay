@@ -1,4 +1,5 @@
-/*
+/**
+ * Red  Failsafe 1 Auton starts in F5 and drives south to drop a cone and park in terminal F4
  */
 
 package org.firstinspires.ftc.teamcode.Auton;
@@ -19,7 +20,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Red-Failsafe 1", group="Robot")
+@Autonomous(name="Red-Failsafe F5", group="Robot")
 // Disabled
 
 public class RedActualFailsafe1 extends LinearOpMode {

@@ -1,11 +1,12 @@
-/*
- * Use this base auton file as a template for all other autonomous files for the 2022-2023 season
+/**
+ * No Description Entered
  */
 
 package org.firstinspires.ftc.teamcode.Auton;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -20,7 +21,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
 @Autonomous(name="Blue-Medium 1", group="Robot")
-// Disabled
+@Disabled
 
 public class AutonBlueActualMedium1 extends LinearOpMode {
 

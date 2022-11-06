@@ -20,8 +20,7 @@ package org.firstinspires.ftc.teamcode;
         // SetPosition() values for Open and Close on the claw servo
         public static final double OPEN = 0.5;
         public static final double CLOSED = 0.0;
-
         public static final int TOLERANCE = 10; // Lift encoder tolerance
-
+        // top of cone stack is 918 rotations
 
     }

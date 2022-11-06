@@ -1,7 +1,7 @@
 /**
- * Red auton starts in section A2, drops a cone on the high junction, backs up,
- * and parks in the corner terminal
- * **/
+ * Red 12pts auton starts in section F2, drops a cone on the high junction, backs up,
+ * and parks in tile F3
+ **/
 
 package org.firstinspires.ftc.teamcode.Auton;
 
@@ -22,7 +22,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Red 12 pts", group="Robot")
+@Autonomous(name="Red-12pts F2", group="Robot")
 // Disabled
 
 public class Red12pts extends LinearOpMode {
