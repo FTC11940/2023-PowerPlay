@@ -55,7 +55,7 @@ import java.util.List;
  * is explained below.
  */
 @TeleOp(name = "Object Detection Webcam", group = "Concept")
-@Disabled
+// Disabled
 public class Mark13A extends LinearOpMode {
 
     /*
