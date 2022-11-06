@@ -144,7 +144,6 @@ public class Mark12  extends LinearOpMode {
                 lift.setTargetPosition(lift_high); // tell the robot it needs to go to lift_high, not to actually go
                 lift.setPower(0.5); // turns on the power in the lift motor
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION); // tells the robot to actually go to the target position
-                while (lift.isBusy()){liftpos = "running to high";} // tell the gamepad to say "lift is running to high"
                 //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); is supposed to stop sending power to motor after the motor has finished its tasks, but does not work
             }
 
@@ -157,7 +156,6 @@ public class Mark12  extends LinearOpMode {
                 lift.setTargetPosition(lift_mid);
                 lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                while (lift.isBusy()){liftpos = "running to medium";}
                 //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
 
@@ -170,7 +168,6 @@ public class Mark12  extends LinearOpMode {
                 lift.setTargetPosition(lift_low);
                 lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                while (lift.isBusy()){liftpos = "running to low";}
                 //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
 
@@ -183,7 +180,6 @@ public class Mark12  extends LinearOpMode {
                 lift.setTargetPosition(lift_floor);
                 lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                while (lift.isBusy()){liftpos = "running to floor";}
                 //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
 
@@ -202,7 +198,6 @@ public class Mark12  extends LinearOpMode {
                 lift.setTargetPosition(lift_ground);
                 lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                while (lift.isBusy()){liftpos = "running to ground";}
                 //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
 
