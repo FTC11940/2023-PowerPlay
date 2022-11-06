@@ -1,13 +1,11 @@
-/*
- * Use this base auton file as a template for all other autonomous files for the 2022-2023 season
- */
+/**
+ * Red auton starts in section A2, drops a cone on the high junction, backs up,
+ * and parks in the corner terminal
+ * **/
 
 package org.firstinspires.ftc.teamcode.Auton;
 
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_GROUND;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_HIGH;
-import static org.firstinspires.ftc.teamcode.Constants.OPEN;
-import static org.firstinspires.ftc.teamcode.Constants.TOLERANCE;
+import static org.firstinspires.ftc.teamcode.Constants.*;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -153,7 +151,6 @@ public class Red12pts extends LinearOpMode {
         // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
         // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
         // holdHeading( TURN_SPEED,  0.0, 0.5);     // action - hold last heading for a 1/2 second
-        * TODO Write autonomous actions below
         */
 
         // Autonomous RED Complex 1
@@ -168,11 +165,6 @@ public class Red12pts extends LinearOpMode {
         lift.setTargetPosition(LIFT_HIGH);
             lift.setPower(0.5);
             lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            while (lift.isBusy()) {
-                // Send telemetry info to dashboard
-                telemetry.addData("Status", "Running lift to HIGH");
-                telemetry.update();
-            }
             // Test the telemetry statement before setting power to zero.
             if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
                 telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
@@ -184,11 +176,7 @@ public class Red12pts extends LinearOpMode {
         lift.setTargetPosition(LIFT_GROUND);
         lift.setPower(0.5);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while (lift.isBusy()) {
-            // Send telemetry info to dashboard
-            telemetry.addData("Status", "Running lift to LOW");
-            telemetry.update();
-        }
+
         // Test the telemetry statement before setting power to zero.
         if ((LIFT_GROUND - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_GROUND + TOLERANCE)) {
             telemetry.addData("Lift Low Status", "You've arrived at your GROUND destination");
