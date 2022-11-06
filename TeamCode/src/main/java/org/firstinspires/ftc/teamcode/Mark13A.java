@@ -29,6 +29,9 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.Constants.OPEN;
+
+import org.firstinspires.ftc.teamcode.Constants.*;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -62,15 +65,21 @@ public class Mark13A extends LinearOpMode {
      * has been downloaded to the Robot Controller's SD FLASH memory, it must to be loaded using loadModelFromFile()
      * Here we assume it's an Asset.    Also see method initTfod() below .
      */
+    // TODO move to constants
     private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
     // private static final String TFOD_MODEL_FILE  = "/sdcard/FIRST/tflitemodels/CustomTeamModel.tflite";
 
 
+    // TODO Move to Constants
     private static final String[] LABELS = {
             "1 Bolt",
             "2 Bulb",
             "3 Panel"
     };
+
+    // TODO
+    int parkPosition;
+
 
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
@@ -84,8 +93,10 @@ public class Mark13A extends LinearOpMode {
      * Once you've obtained a license key, copy the string from the Vuforia web site
      * and paste it in to your code on the next line, between the double quotes.
      */
+
+    // TODO move to constants
     private static final String VUFORIA_KEY =
-            " -- YOUR NEW VUFORIA KEY GOES HERE  --- ";
+            "AQlm0VH/////AAABmecSieTQsU26rgeA9+8pNJ0JiCO/pfP8X82+Kv4Czexw7qCupZvMaBQROIVF3rj9aoXmjtRDTA1mHJVdaV6hWpfm0jMW8qnLFUmIJQwHIYZ9aM/sQR71rjIx9L5REWzQ9LTYIwLGaW3gwBbaOXpOZ/yi2mt4Q/RIes7idEhwoRkFQh0H+zHxO0iqZdbbUibMlTMif/0g/FqqjBY/abecyaNvfCErZX6jVLlMXPk4cyEeCO6i57ufYKhrOMAHa2BOEgbjvTx52vUeZHh5nORqSa/mJy7ZzE2mrSG4SJ7KEZm1C7Lbnzo6WtMj+F6e1gqISfrynyNJoMrlq9uUHzm8gEbcebYncHx869F+ykNDQTZ7";
 
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
@@ -149,10 +160,28 @@ public class Mark13A extends LinearOpMode {
                             telemetry.addData("- Position (Row/Col)","%.0f / %.0f", row, col);
                             telemetry.addData("- Size (Width/Height)","%.0f / %.0f", width, height);
                         }
+
                         telemetry.update();
                     }
                 }
-            }
+
+                /* FIXME Pseudo code
+                if (tfod == "1 Bolt") {
+                    // Drive to park position A1
+                    else if (tfod == 2) {
+                        // Drive to park position A2
+                        else if (tfod ==3) {
+                            // Drive to park position A3
+                            else if (tfod == null) {
+                                // Park in corner
+                            }
+                        }
+                    }
+                }
+                */
+
+
+            } // end of opModeIsActive
         }
     }
 
@@ -189,4 +218,5 @@ public class Mark13A extends LinearOpMode {
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
         // tfod.loadModelFromFile(TFOD_MODEL_FILE, LABELS);
     }
+
 }
