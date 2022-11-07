@@ -185,7 +185,7 @@ public class Red25pts extends LinearOpMode {
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
-        if ((612 - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (612 + TOLERANCE)) {
+        if ((300 - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (300 + TOLERANCE)) {
             telemetry.addData("Lift Stack Status", "You've arrived at your top stack destination");
         }
 

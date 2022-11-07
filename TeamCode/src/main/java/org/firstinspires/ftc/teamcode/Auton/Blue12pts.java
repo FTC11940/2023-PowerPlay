@@ -27,9 +27,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class Blue12pts extends LinearOpMode {
 
-
     Servo grabby;
     DcMotor lift;
+
     // Declare OpMode members.
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;

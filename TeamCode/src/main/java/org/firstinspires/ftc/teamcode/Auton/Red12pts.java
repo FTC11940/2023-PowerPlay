@@ -162,8 +162,8 @@ public class Red12pts extends LinearOpMode {
         // Lift code up high
 
         lift.setTargetPosition(LIFT_HIGH);
-            lift.setPower(1.0);
-            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             // Test the telemetry statement before setting power to zero.
             if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
                 telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");

@@ -87,6 +87,9 @@ public class BlueActualFailsafe2 extends LinearOpMode {
         // Match our TeleOp file
         grabby = hardwareMap.servo.get("grabby");
         grabby.setPosition(0.0); // Needs to be closed at start of Auton
+        lift = hardwareMap.get(DcMotor.class,"lift");
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
@@ -149,8 +152,19 @@ public class BlueActualFailsafe2 extends LinearOpMode {
 
         // Autonomous Failsafe blue 1
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
-        turnToHeading( TURN_SPEED,  -90.0);//Turn 90 to face direction of terminal
-        driveStraight(DRIVE_SPEED, 28.00, 0.0); // Drive to terminal
+        turnToHeading( TURN_SPEED,  45.0);//Turn 90 to face direction of terminal
+        driveStraight(DRIVE_SPEED, 8.0, 0.0); //
+        lift.setTargetPosition(LIFT_LOW);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_LOW - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_LOW + TOLERANCE)) {
+            telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
+            // lift.setPower(0);
+        }
+        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
+        turnToHeading( TURN_SPEED,  90.0);//Turn 90 to face direction of terminal
+        driveStraight(DRIVE_SPEED, 32.00, 0.0); // Drive to terminal
         grabby.setPosition(0.5);
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
         driveStraight(DRIVE_SPEED, -4.00, 0.0); // park
