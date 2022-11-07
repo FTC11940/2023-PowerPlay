@@ -1,7 +1,10 @@
-/* 
-Constants file for FTC code base
-*/
+/****
+* Constants file for FTC code base
+***/
+
 package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 public class Constants {
 
@@ -11,12 +14,17 @@ public class Constants {
     to each file reference constants
     */
 
-    // SetTargetPosition(0) is the game field zero
+    // SetTargetPosition() is the game field zero
     public static final int LIFT_GROUND = 100; // 1" Ground junction height
     public static final int LIFT_LOW = 1200; // 13.5" Low junction height
     public static final int LIFT_MEDIUM = 2000; // 23.5" Medium junction height
     public static final int LIFT_HIGH = 2800; // 33.5" High junction height
     public static final int TOLERANCE = 10;
+
+    // Autonomous constants
+    public static final double DRIVE_SPEED = 0.8;
+    public static final double TURN_SPEED = 0.4;
+
 
     // SetPosition() values for Open and Close on the claw servo
     public static final double OPEN = 0.5;

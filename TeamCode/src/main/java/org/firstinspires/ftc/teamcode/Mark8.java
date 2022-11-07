@@ -26,7 +26,7 @@ public class Mark8 extends LinearOpMode {
     BNO055IMU imu;
 
     // Reference the hardware map file
-    // Hardware robot = new Hardware();
+    Hardware robot = new Hardware();
 
     private ElapsedTime runtime = new ElapsedTime();
 
