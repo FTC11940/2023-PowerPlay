@@ -20,7 +20,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Red-Failsafe F5", group="Robot")
+@Autonomous(name="Red-Failsafe F2", group="Robot")
 // Disabled
 
 public class RedActualFailsafe2 extends LinearOpMode {

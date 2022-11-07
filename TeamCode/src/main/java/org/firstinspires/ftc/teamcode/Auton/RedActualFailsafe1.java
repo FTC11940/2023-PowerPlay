@@ -22,7 +22,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 @Autonomous(name="Red-Failsafe F5", group="Robot")
 // Disabled
 
-public class RedActualFailsafe1_txt extends LinearOpMode {
+public class RedActualFailsafe1 extends LinearOpMode {
 
 
     Servo grabby;
