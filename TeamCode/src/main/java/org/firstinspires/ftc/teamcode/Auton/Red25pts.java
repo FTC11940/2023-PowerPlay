@@ -66,17 +66,19 @@ public class Red25pts extends LinearOpMode {
 
     // These constants define the desired driving/control characteristics
     // They can/should be tweaked to suit the specific robot drive train.
-    static final double     DRIVE_SPEED             = 0.6;   // Previously 0.4 Max driving speed for better distance accuracy.
-    static final double     TURN_SPEED              = 0.45;   // Previously 0.2 Max Turn speed to limit turn rate
-    static final double     HEADING_THRESHOLD       = 1.0 ;  // How close must the heading get to the target before moving to next step.
+    // static final double     DRIVE_SPEED             = 0.6;   // Previously 0.4 Max driving speed for better distance accuracy.
+    // static final double     TURN_SPEED              = 0.45;   // Previously 0.2 Max Turn speed to limit turn rate
+    // static final double     HEADING_THRESHOLD       = 1.0 ;  // How close must the heading get to the target before moving to next step.
+
     // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
     /* Define the Proportional control coefficient (or GAIN) for "heading control".
     // We define one value when Turning (larger errors), and the other is used when Driving straight (smaller errors).
     // Increase these numbers if the heading does not corrects strongly enough (eg: a heavy robot or using tracks)
     Decrease these numbers if the heading does not settle on the correct value (eg: very agile robot with omni wheels)
     */
-    static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
+
+    // static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
+    // static final double     P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
 
     @Override
     public void runOpMode() {
@@ -151,6 +153,7 @@ public class Red25pts extends LinearOpMode {
         */
 
         // Autonomous RED 20pts
+        // Drive towards the high junction
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
         turnToHeading(TURN_SPEED,  -90.0); // Turn to the right
         driveStraight(DRIVE_SPEED, 20.0, 0.0); //
@@ -166,28 +169,34 @@ public class Red25pts extends LinearOpMode {
             // lift.setPower(0);
         }
 
-        driveStraight(DRIVE_SPEED, 20.0, 0.0); //
+        // Final approach to junction
+        driveStraight(DRIVE_SPEED, 21.5, 0.0); //
 
-        // previous lift
 
+        // Sequence towards the stack
         turnToHeading(TURN_SPEED,  -40.0);//
         driveStraight(DRIVE_SPEED, 13.0, 0.0); //
         grabby.setPosition(OPEN);
         driveStraight(DRIVE_SPEED, -6.0, 0.0); //
-        // Lift code down
-        lift.setTargetPosition(612);
+
+        // lift.setTargetPosition(612);
+        lift.setTargetPosition(300);
+
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
         if ((612 - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (612 + TOLERANCE)) {
             telemetry.addData("Lift Stack Status", "You've arrived at your top stack destination");
         }
+
+        // Sequence towards the substation stack
         turnToHeading( TURN_SPEED,  0.0);// Turn to substation
         driveStraight(DRIVE_SPEED, 25.0, 0.0); // Drive to substation
         turnToHeading( TURN_SPEED,  90.0); //
         driveStraight(DRIVE_SPEED, 53, 0.0); //
         sleep(500);
         grabby.setPosition(CLOSED); // Grab top cone
+        sleep(500); // added
         lift.setTargetPosition(1020);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -251,8 +260,8 @@ public class Red25pts extends LinearOpMode {
             telemetry.addData("Lift Ground Status", "You've arrived at your GROUND destination");
         }
         driveStraight(DRIVE_SPEED, -33.0, 0.0); //
-        turnToHeading(TURN_SPEED,  -180); //
-        driveStraight(DRIVE_SPEED, 20.0, 0.0); //
+        turnToHeading(TURN_SPEED,  180); //
+        driveStraight(DRIVE_SPEED, 30.0, 0.0); //
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.

@@ -69,9 +69,10 @@ public class Red12pts extends LinearOpMode {
 
     // These constants define the desired driving/control characteristics
     // They can/should be tweaked to suit the specific robot drive train.
-    static final double     DRIVE_SPEED             = 0.4;   // Max driving speed for better distance accuracy.
-    static final double     TURN_SPEED              = 0.2;   // Max Turn speed to limit turn rate
-    static final double     HEADING_THRESHOLD       = 1.0 ;  // How close must the heading get to the target before moving to next step.
+    // static final double     DRIVE_SPEED             = 0.6;   // Max driving speed for better distance accuracy.
+    // static final double     TURN_SPEED              = 0.45;   // Max Turn speed to limit turn rate
+    // static final double     HEADING_THRESHOLD       = 1.0 ;  // How close must the heading get to the target before moving to next step.
+
     // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
     /* Define the Proportional control coefficient (or GAIN) for "heading control".
     // We define one value when Turning (larger errors), and the other is used when Driving straight (smaller errors).
@@ -157,23 +158,25 @@ public class Red12pts extends LinearOpMode {
         turnToHeading(TURN_SPEED,  -90.0); // Turn to the right
         driveStraight(DRIVE_SPEED, 20.0, 0.0); //
         turnToHeading(TURN_SPEED,  0.0);// Face forward
-        driveStraight(DRIVE_SPEED, 20.0, 0.0); //
-        turnToHeading(TURN_SPEED,  -45.0);//
+
         // Lift code up high
-        driveStraight(DRIVE_SPEED, 9.0, 0.0); //
+
         lift.setTargetPosition(LIFT_HIGH);
-            lift.setPower(0.5);
+            lift.setPower(1.0);
             lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             // Test the telemetry statement before setting power to zero.
             if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
                 telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
                 // lift.setPower(0);
             }
-        driveStraight(DRIVE_SPEED, 4.0, 0.0); //
+        driveStraight(DRIVE_SPEED, 21.5, 0.0); //
+        turnToHeading(TURN_SPEED,  -40.0);//
+        driveStraight(DRIVE_SPEED, 13.0, 0.0); //
         grabby.setPosition(OPEN);
+        driveStraight(DRIVE_SPEED, -6.0, 0.0); //
         // Lift code down
         lift.setTargetPosition(LIFT_GROUND);
-        lift.setPower(0.5);
+        lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // Test the telemetry statement before setting power to zero.
@@ -181,9 +184,8 @@ public class Red12pts extends LinearOpMode {
             telemetry.addData("Lift Low Status", "You've arrived at your GROUND destination");
             lift.setPower(0);
         }
-        driveStraight(DRIVE_SPEED, -6.0, 0.0); //
         turnToHeading( TURN_SPEED,  0.0);// Turn to substation
-        driveStraight(DRIVE_SPEED, -20, 0.0); // Drive to substation
+        driveStraight(DRIVE_SPEED, -25, 0.0); // Drive to substation
         sleep(1000);
         telemetry.addData("Path", "Complete");
         telemetry.update();
