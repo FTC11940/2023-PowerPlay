@@ -43,6 +43,51 @@ public class MecanumDrive extends LinearOpMode {
     private DcMotor backLeftMotor = null; // assigned 3 in Driver Hub
     BNO055IMU imu;
 
+    static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
+    static final double DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
+    static final double WHEEL_DIAMETER_INCHES = 4.01575 ; // For figuring circumference
+    static final double COUNTS_PER_INCH =
+            (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
+
+    private int frontLeftTarget = 0;
+    private int frontRightTarget = 0;
+    private int backLeftTarget = 0;
+    private int backRightTarget =0;
+
+    public void strafeDrive (double maxDriveSpeed,
+                             double distance
+                             ){
+        while (opModeIsActive()){
+            // Determine new target position, and pass to motor controller
+            int moveCounts = (int)(distance * COUNTS_PER_INCH);
+            frontLeftTarget = frontLeftMotor.getCurrentPosition() + moveCounts;
+            frontRightTarget = frontRightMotor.getCurrentPosition() + moveCounts;
+            backLeftTarget = backLeftMotor.getCurrentPosition() + moveCounts;
+            backRightTarget = backRightMotor.getCurrentPosition() + moveCounts;
+
+            // This block was commented out
+            frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            // Set Target FIRST, then turn on RUN_TO_POSITION
+            frontLeftMotor.setTargetPosition(frontLeftTarget);
+            frontRightMotor.setTargetPosition(frontRightTarget);
+            backLeftMotor.setTargetPosition(backLeftTarget);
+            backRightMotor.setTargetPosition(backRightTarget);
+
+            frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            // Set the required driving speed  (must be positive for RUN_TO_POSITION)
+            maxDriveSpeed = Math.abs(maxDriveSpeed);
+
+        };
+    }
+
+
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
@@ -84,6 +129,24 @@ public class MecanumDrive extends LinearOpMode {
             }
             if (gamepad2.a){
                 grabby.setPosition(0);
+            }
+
+            if (gamepad1.right_bumper){
+                strafeDrive(1,36.0);
+                frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+                backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+                frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+                backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+
+            }
+
+            if (gamepad1.left_bumper){
+                strafeDrive(1,36.0);
+                frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+                backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+                frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+                backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
             }
 
             String liftpos = "no input";
