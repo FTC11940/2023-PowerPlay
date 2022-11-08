@@ -196,9 +196,6 @@ public class MecanumDrive extends LinearOpMode {
                 lift.setTargetPosition(lift_floor);
                 lift.setPower(lift_power);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                if (lift.getCurrentPosition() < 5) {
-                    lift.setPower(0);
-                }
             }
 
             if((lift_floor - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_floor + diplomat)){
@@ -207,6 +204,7 @@ public class MecanumDrive extends LinearOpMode {
                 because we have no real reason to delete it and it makes the telemetry more accurate    `
                 * */
                 liftpos = "floor";
+                lift.setPower(0);
             }
 
             if (gamepad2.y){
