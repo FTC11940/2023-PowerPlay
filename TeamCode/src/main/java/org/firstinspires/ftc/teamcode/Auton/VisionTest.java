@@ -168,7 +168,7 @@ public class VisionTest extends LinearOpMode {
                         }
 
                         telemetry.update();
-                        if (getLabel().equals("1 Bolt")){
+
                             grabby.setPosition(0.4);
                         }
                     }
@@ -187,7 +187,7 @@ public class VisionTest extends LinearOpMode {
 
             } // end of opModeIsActive
         }
-    }
+
 
     /**
      * Initialize the Vuforia localization engine.

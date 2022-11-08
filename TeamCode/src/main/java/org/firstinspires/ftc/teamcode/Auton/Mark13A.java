@@ -208,29 +208,29 @@ public class Mark13A extends LinearOpMode {
 
                 // Conditional sequence with basic logic and actions
                 if (signalOne == false && signalTwo == false && signalThree == false) {
-                    grabby.setPosition(OPEN);
+                    grabby.setPosition(CLOSED);
 
                     /*
                      * Testing purposes. This would be replaced by a specific parking function.
                      * This should open the claw, pause, and close one time
                      */
                 }   else if (signalOne == true) {
-                    grabby.setPosition(OPEN);
-                    sleep(500);
                     grabby.setPosition(CLOSED);
+                    sleep(500);
+                    grabby.setPosition(OPEN);
 
                     /*
                      * Testing purposes. This would be replaced by a specific parking function.
                      * This should open the claw, pause, and close twice
                      */
                 }   else if (signalTwo == true) {
-                    grabby.setPosition(OPEN);
-                    sleep(500);
                     grabby.setPosition(CLOSED);
                     sleep(500);
                     grabby.setPosition(OPEN);
                     sleep(500);
                     grabby.setPosition(CLOSED);
+                    sleep(500);
+                    grabby.setPosition(OPEN);
 
                     /*
                      * Testing purposes. This would be replaced by a specific parking function.
