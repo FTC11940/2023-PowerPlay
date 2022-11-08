@@ -54,39 +54,6 @@ public class MecanumDrive extends LinearOpMode {
     private int backLeftTarget = 0;
     private int backRightTarget =0;
 
-    public void strafeDrive (double maxDriveSpeed,
-                             double distance
-                             ){
-        while (opModeIsActive()){
-            // Determine new target position, and pass to motor controller
-            int moveCounts = (int)(distance * COUNTS_PER_INCH);
-            frontLeftTarget = frontLeftMotor.getCurrentPosition() + moveCounts;
-            frontRightTarget = frontRightMotor.getCurrentPosition() + moveCounts;
-            backLeftTarget = backLeftMotor.getCurrentPosition() + moveCounts;
-            backRightTarget = backRightMotor.getCurrentPosition() + moveCounts;
-
-            // This block was commented out
-            frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-            // Set Target FIRST, then turn on RUN_TO_POSITION
-            frontLeftMotor.setTargetPosition(frontLeftTarget);
-            frontRightMotor.setTargetPosition(frontRightTarget);
-            backLeftMotor.setTargetPosition(backLeftTarget);
-            backRightMotor.setTargetPosition(backRightTarget);
-
-            frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            // Set the required driving speed  (must be positive for RUN_TO_POSITION)
-            maxDriveSpeed = Math.abs(maxDriveSpeed);
-
-        };
-    }
-
 
     @Override
     public void runOpMode() {
@@ -118,62 +85,74 @@ public class MecanumDrive extends LinearOpMode {
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
-
+        //function that prevents the following code from being executed until start is pressed
         waitForStart();
 
         //if (isStopRequested()) return;
+        // while the operational mode is active...
         while (opModeIsActive()) {
 
+            // if b is pressed on gamepad 2...
             if (gamepad2.b) {
-                grabby.setPosition(grabby_open);
+                grabby.setPosition(grabby_open); // set claw, or "grabby" position to open
             }
             if (gamepad2.a){
-                grabby.setPosition(0);
+                grabby.setPosition(0); // close grabby
             }
-
+/*
             if (gamepad1.right_bumper){
                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
                 frontLeftMotor.setTargetPosition(hornet_speed);
-                backLeftMotor.setTargetPosition(-hornet_speed);
                 frontRightMotor.setTargetPosition(-hornet_speed);
+                backLeftMotor.setTargetPosition(-hornet_speed);
                 backRightMotor.setTargetPosition(hornet_speed);
 
                 frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                 frontLeftMotor.setPower(1);
-                backLeftMotor.setPower(1);
                 frontRightMotor.setPower(1);
+                backLeftMotor.setPower(1);
                 backRightMotor.setPower(1);
-
             }
 
             if (gamepad1.left_bumper){
+                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                frontLeftMotor.setTargetPosition(-hornet_speed);
+                frontRightMotor.setTargetPosition(hornet_speed);
+                backLeftMotor.setTargetPosition(hornet_speed);
+                backRightMotor.setTargetPosition(-hornet_speed);
+
+                frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
                 frontLeftMotor.setPower(1);
                 frontRightMotor.setPower(1);
                 backLeftMotor.setPower(1);
                 backRightMotor.setPower(1);
-                frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-                backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-                frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-                backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-                strafeDrive(1,36.0);
-            }
+            }*/
 
+            // creates the string 'liftpos' which will be modified later in if statements to show the current position of the lift on the gamepad
             String liftpos = "no input";
 
             // while the left trigger is pushed, increase the height of the lift
             // used for exact measurements by the drive team
-            while (gamepad2.left_bumper){
-                lift.setTargetPosition(lift.getCurrentPosition()+bee_speed);
-                lift.setPower(lift_power);
-                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            while (gamepad2.left_bumper){ // while the left bumper is being pressed on gamepad 2...
+                lift.setTargetPosition(lift.getCurrentPosition()+bee_speed); // set the lift's target/goal position to the current position plus "bee_speed", or the set speed of the bumper
+                lift.setPower(lift_power); // set the power to the set lift power
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION); // tells the lift to go
             }
 
             // while the right trigger is pushed, decrease the height of the lift
@@ -231,6 +210,7 @@ public class MecanumDrive extends LinearOpMode {
                 lift.setTargetPosition(lift_ground);
                 lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
                 //while (lift.isBusy()){liftpos = "running to ground";}
             }
 
@@ -293,9 +273,6 @@ public class MecanumDrive extends LinearOpMode {
             dpadright = medium
             dpad up = high
              */
-
-
-
 
 
             telemetry.addData("Lift Position: ", liftpos);
