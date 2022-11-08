@@ -196,6 +196,9 @@ public class MecanumDrive extends LinearOpMode {
                 lift.setTargetPosition(lift_floor);
                 lift.setPower(lift_power);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                if (lift.getCurrentPosition() < 5) {
+                    lift.setPower(0);
+                }
             }
 
             if((lift_floor - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_floor + diplomat)){
