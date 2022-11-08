@@ -32,7 +32,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 // @Disabled
 public class MecanumDrive extends LinearOpMode {
 
-    private Servo grabby;
+    private Servo grabby; // assigns the Servo motor to the concept "grabby"
     private DcMotor lift;
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -168,7 +168,7 @@ public class MecanumDrive extends LinearOpMode {
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION); // tells the robot to actually go to the target position
             }
             if((lift_high - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_high + diplomat)){
-                liftpos = "high"; // tell the gamepad to say "lift is at high position"
+                liftpos = "high"; // tell the gamepad to say "lift is at high position" instead of "no input", or whatever else it was set as
             }
 
             if (gamepad2.dpad_right){
@@ -192,7 +192,7 @@ public class MecanumDrive extends LinearOpMode {
                 liftpos = "low";
             }
 
-            if (gamepad2.dpad_down){
+            if (gamepad2.dpad_down){ // this is the "floor" height, or as low as the robot can go
                 lift.setTargetPosition(lift_floor);
                 lift.setPower(lift_power);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -204,14 +204,13 @@ public class MecanumDrive extends LinearOpMode {
                 because we have no real reason to delete it and it makes the telemetry more accurate    `
                 * */
                 liftpos = "floor";
+                lift.setPower(0); // this line of code is very important, if it isn't here the motor will burn up from overuse
             }
 
-            if (gamepad2.y){
+            if (gamepad2.y){ // this is the ground junction
                 lift.setTargetPosition(lift_ground);
                 lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                //while (lift.isBusy()){liftpos = "running to ground";}
             }
 
             if((lift_ground - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_ground + diplomat)){
