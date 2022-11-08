@@ -42,7 +42,7 @@ public class Mark12  extends LinearOpMode {
     private DcMotor lift;
     private ElapsedTime runtime = new ElapsedTime();
 
-    //    // Located in the Hardware file and matches with the Drive Hub robot settings
+    //Located in the Hardware file and matches with the Drive Hub robot settings
     private DcMotor frontLeftMotor = null; // assigned 1 in Driver Hub
     private DcMotor frontRightMotor = null; // assigned 0 in Driver Hub
     private DcMotor backRightMotor = null; // assigned 2 in Driver Hub
@@ -90,6 +90,8 @@ public class Mark12  extends LinearOpMode {
         waitForStart();
 
         if (isStopRequested()) return;
+        // Camera has this to encompass the while
+        // if(opModeIsActive()() {
         while (opModeIsActive()) {
 
             if (gamepad1.b) {
