@@ -132,21 +132,38 @@ public class MecanumDrive extends LinearOpMode {
             }
 
             if (gamepad1.right_bumper){
-                strafeDrive(1,36.0);
-                frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-                backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-                frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-                backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                frontLeftMotor.setTargetPosition(hornet_speed);
+                backLeftMotor.setTargetPosition(-hornet_speed);
+                frontRightMotor.setTargetPosition(-hornet_speed);
+                backRightMotor.setTargetPosition(hornet_speed);
+
+                frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                frontLeftMotor.setPower(1);
+                backLeftMotor.setPower(1);
+                frontRightMotor.setPower(1);
+                backRightMotor.setPower(1);
 
             }
 
             if (gamepad1.left_bumper){
-                strafeDrive(1,36.0);
+                frontLeftMotor.setPower(1);
+                frontRightMotor.setPower(1);
+                backLeftMotor.setPower(1);
+                backRightMotor.setPower(1);
                 frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
                 backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
                 frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
                 backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-
+                strafeDrive(1,36.0);
             }
 
             String liftpos = "no input";

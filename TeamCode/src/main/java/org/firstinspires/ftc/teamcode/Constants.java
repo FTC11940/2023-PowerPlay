@@ -26,7 +26,7 @@ public class Constants {
     public static final double lift_power = 0.5;
     //constant lift bumper speed
     public static final int bee_speed = 50;
-    //constant gamepad1 strafe bumper time in miliseconds
-    public static final int hornet_speed = 1000;
+    //bumper-gamepad1-strafe encoder value
+    public static final int hornet_speed = 5000;
 
 }
