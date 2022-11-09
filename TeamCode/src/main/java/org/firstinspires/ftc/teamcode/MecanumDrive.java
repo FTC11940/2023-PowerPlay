@@ -274,6 +274,7 @@ public class MecanumDrive extends LinearOpMode {
              */
 
 
+            telemetry.addData("rat catcher",frontLeftPower);
             telemetry.addData("Lift Position: ", liftpos);
             telemetry.addData("Exact Lift Position", lift.getCurrentPosition());
             telemetry.addData("Status", "target position: " + lift.getTargetPosition());
