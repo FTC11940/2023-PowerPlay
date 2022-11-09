@@ -3,6 +3,7 @@ Constants file for FTC code base
 */
 package org.firstinspires.ftc.teamcode;
 
+
 public class Constants {
 
     /* SetTargetPosition() for the lift preset encoder values. 
@@ -27,6 +28,6 @@ public class Constants {
     //constant lift bumper speed
     public static final int bee_speed = 50;
     //bumper-gamepad1-strafe encoder value
-    public static final int hornet_speed = 15000;
+    public static final int hornet_speed = 25000;
 
 }

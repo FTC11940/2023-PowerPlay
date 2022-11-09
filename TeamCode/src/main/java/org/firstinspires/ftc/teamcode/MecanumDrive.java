@@ -99,17 +99,17 @@ public class MecanumDrive extends LinearOpMode {
             if (gamepad2.a){
                 grabby.setPosition(0); // close grabby
             }
-/*
-            if (gamepad1.right_bumper){
-                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-                frontLeftMotor.setTargetPosition(hornet_speed);
-                frontRightMotor.setTargetPosition(-hornet_speed);
-                backLeftMotor.setTargetPosition(-hornet_speed);
-                backRightMotor.setTargetPosition(hornet_speed);
+            if (gamepad1.right_bumper){
+                frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+                frontLeftMotor.setTargetPosition(frontLeftMotor.getCurrentPosition()+500);
+                frontRightMotor.setTargetPosition(frontRightMotor.getCurrentPosition()-500);
+                backLeftMotor.setTargetPosition(backLeftMotor.getCurrentPosition()-500);
+                backRightMotor.setTargetPosition(backRightMotor.getCurrentPosition()+500);
 
                 frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -142,7 +142,7 @@ public class MecanumDrive extends LinearOpMode {
                 frontRightMotor.setPower(1);
                 backLeftMotor.setPower(1);
                 backRightMotor.setPower(1);
-            }*/
+            }
 
             // creates the string 'liftpos' which will be modified later in if statements to show the current position of the lift on the gamepad
             String liftpos = "no input";
