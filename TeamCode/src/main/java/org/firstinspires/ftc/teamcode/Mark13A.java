@@ -172,11 +172,15 @@ public class Mark13A extends LinearOpMode {
                              * These are potentially unneeded but it made more sense to me
                              * when testing the logic farther down in the code.
                              **/
+
+
                             if (recognition.getLabel().equals("1 Bolt")) {
                                 signalOne = true;
-                            } else if (recognition.getLabel().equals("2 Bulb")) {
+                            }
+                            if (recognition.getLabel().equals("2 Bulb")) {
                                 signalTwo = true;
-                            } else if (recognition.getLabel().equals("3 Panel")) {
+                            }
+                            if (recognition.getLabel().equals("3 Panel")) {
                                 signalThree = true;
                             }
 
@@ -211,7 +215,10 @@ public class Mark13A extends LinearOpMode {
                      * Testing purposes. This would be replaced by a specific parking function.
                      * This should open the claw, pause, and close one time
                      */
-                }   else if (signalOne == true) {
+                }
+                if (signalOne == true) {
+                    // signalOnePark();
+
                     grabby.setPosition(OPEN);
                     sleep(500);
                     grabby.setPosition(CLOSED);
@@ -220,7 +227,10 @@ public class Mark13A extends LinearOpMode {
                      * Testing purposes. This would be replaced by a specific parking function.
                      * This should open the claw, pause, and close twice
                      */
-                }   else if (signalTwo == true) {
+                }
+                if (signalTwo == true) {
+                    // signalTwoPark();
+
                     grabby.setPosition(OPEN);
                     sleep(500);
                     grabby.setPosition(CLOSED);
@@ -233,7 +243,11 @@ public class Mark13A extends LinearOpMode {
                      * Testing purposes. This would be replaced by a specific parking function.
                      * This should open the claw, pause, and close three times
                      */
-                }   else if (signalThree == true) {
+                }
+
+                if (signalThree == true) {
+                    // signalThreePark();
+
                     grabby.setPosition(OPEN);
                     sleep(500);
                     grabby.setPosition(CLOSED);
