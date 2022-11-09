@@ -162,7 +162,7 @@ public class Red25ptsStrafe extends LinearOpMode {
 
         // Autonomous RED 20pts
         // Drive towards the high junction
-        driveStraight(DRIVE_SPEED, -20.0, 0.0); //
+        driveStraight(DRIVE_SPEED, -25.0, 0.0); //
         // Lift code up high
         /*lift.setTargetPosition(LIFT_HIGH);
         lift.setPower(1.0);
@@ -173,23 +173,33 @@ public class Red25ptsStrafe extends LinearOpMode {
             // lift.setPower(0);
         }*/
         //strafe
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        backLeftMotor.setTargetPosition(-500);
+        frontLeftMotor.setTargetPosition(500);
+        backRightMotor.setTargetPosition(500);
+        frontRightMotor.setTargetPosition(-500);
+
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        frontLeftMotor.setPower(-1.0);
-        frontLeftMotor.setTargetPosition(500);
-        backLeftMotor.setPower(1.0);
-        backLeftMotor.setTargetPosition(500);
+
+        frontLeftMotor.setPower(1.0);
+        backRightMotor.setPower(1.0);
         frontRightMotor.setPower(1.0);
-        frontRightMotor.setTargetPosition(500);
-        backRightMotor.setPower(-1.0);
-        backRightMotor.setTargetPosition(500);
+        backLeftMotor.setPower(1.0);
+
+
         // Final approach to junction
 
 
         /*  driveStraight(DRIVE_SPEED, 21.5, 0.0); //
-
+        driveStraight(DRIVE_SPEED, 8.0, 0.0); //
+        grabby.setPosition(OPEN);
 
         // Sequence towards the stack
         turnToHeading(TURN_SPEED,  -40.0);//

@@ -11,7 +11,7 @@ public class Hardware {
     public DcMotor frontLeftMotor = null;
     public DcMotor backRightMotor = null;
     public DcMotor backLeftMotor = null;
-    public Servo grabber = null;
+    public Servo grabby = null;
 
     public final static double POS_HOME = 0.0;
     public final static double POS_MIN = -1.0;
