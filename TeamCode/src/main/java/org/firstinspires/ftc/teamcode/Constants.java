@@ -1,5 +1,5 @@
 /*
-Constants file for FTC code base
+* Constants file for FTC code base
 */
 package org.firstinspires.ftc.teamcode;
 
