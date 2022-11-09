@@ -61,8 +61,6 @@ public class Mark13A extends LinearOpMode {
             "3 Panel"
     };
 
-    // TODO
-    int parkPosition;
 
     /** Moved to constants
      * private static final String VUFORIA_KEY = "";
@@ -194,75 +192,36 @@ public class Mark13A extends LinearOpMode {
 
                     }
 
-                }
+                    /*
+                     * If you JUST want to test the logic
+                     * without the camera dynamically testing for signals,
+                     *  Remove the comments one at a time for each signal variable
+                     * */
+                    // signalOne = true;
+                    // signalTwo = true;
+                    // signalThree = true;
 
 
-                 /*
-                 * If you JUST want to test the logic
-                 * without the camera dynamically testing for signals,
-                 *  Remove the comments one at a time for each signal variable
-                 * */
-                // signalOne = true;
-                // signalTwo = true;
-                // signalThree = true;
+                    // Conditional sequence with basic logic and actions
 
-
-                // Conditional sequence with basic logic and actions
+                /*
                 if (signalOne == false && signalTwo == false && signalThree == false) {
-                    grabby.setPosition(OPEN);
-
+                     grabby.setPosition(OPEN);
+                }
+                */
                     /*
                      * Testing purposes. This would be replaced by a specific parking function.
                      * This should open the claw, pause, and close one time
                      */
-                }
-                if (signalOne == true) {
-                    // signalOnePark();
 
-                    grabby.setPosition(OPEN);
-                    sleep(500);
-                    grabby.setPosition(CLOSED);
 
-                    /*
-                     * Testing purposes. This would be replaced by a specific parking function.
-                     * This should open the claw, pause, and close twice
-                     */
-                }
-                if (signalTwo == true) {
-                    // signalTwoPark();
-
-                    grabby.setPosition(OPEN);
-                    sleep(500);
-                    grabby.setPosition(CLOSED);
-                    sleep(500);
-                    grabby.setPosition(OPEN);
-                    sleep(500);
-                    grabby.setPosition(CLOSED);
-
-                    /*
-                     * Testing purposes. This would be replaced by a specific parking function.
-                     * This should open the claw, pause, and close three times
-                     */
-                }
-
-                if (signalThree == true) {
-                    // signalThreePark();
-
-                    grabby.setPosition(OPEN);
-                    sleep(500);
-                    grabby.setPosition(CLOSED);
-                    sleep(500);
-                    grabby.setPosition(OPEN);
-                    sleep(500);
-                    grabby.setPosition(CLOSED);
-                    sleep(500);
-                    grabby.setPosition(OPEN);
-                    sleep(500);
-                    grabby.setPosition(CLOSED);
 
                 }
 
-                } // END of testing sequence
+                }
+
+
+
 
 
 
@@ -303,6 +262,40 @@ public class Mark13A extends LinearOpMode {
         // Use loadModelFromFile() if you have downloaded a custom team model to the Robot Controller's FLASH.
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
         // tfod.loadModelFromFile(TFOD_MODEL_FILE, LABELS);
+
+        if (signalOne == true) {
+            signalOnePark();
+
+            /*
+             * Testing purposes. This would be replaced by a specific parking function.
+             * This should open the claw, pause, and close twice
+             */
+        }
+        else if (signalTwo == true) {
+            signalTwoPark();
+
+            /*
+             * Testing purposes. This would be replaced by a specific parking function.
+             * This should open the claw, pause, and close three times
+             */
+        }
+
+        else if (signalThree == true) {
+            signalThreePark();
+                        /*
+                        grabby.setPosition(OPEN);
+                        sleep(500);
+                        grabby.setPosition(CLOSED);
+                        sleep(500);
+                        grabby.setPosition(OPEN);
+                        sleep(500);
+                        grabby.setPosition(CLOSED);
+                        sleep(500);
+                        grabby.setPosition(OPEN);
+                        sleep(500);
+                        grabby.setPosition(CLOSED);
+                        */
+        }// END of testing sequence
     }
 
     /*
@@ -314,6 +307,7 @@ public class Mark13A extends LinearOpMode {
         grabby.setPosition(OPEN);
         sleep(500);
         grabby.setPosition(CLOSED);
+        sleep(10000);
     }
 
     private void signalTwoPark() {
@@ -324,6 +318,7 @@ public class Mark13A extends LinearOpMode {
     grabby.setPosition(OPEN);
     sleep(500);
     grabby.setPosition(CLOSED);
+    sleep(10000);
     }
 
     private void signalThreePark() {
@@ -338,6 +333,7 @@ public class Mark13A extends LinearOpMode {
         grabby.setPosition(OPEN);
         sleep(500);
         grabby.setPosition(CLOSED);
+        sleep(2000);
     }
 
 } // end of class
