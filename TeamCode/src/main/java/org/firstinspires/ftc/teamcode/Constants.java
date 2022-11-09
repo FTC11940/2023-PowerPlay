@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-/* 
+/*
 Constants file for FTC code base
 */
 package org.firstinspires.ftc.teamcode;
@@ -7,39 +6,25 @@ package org.firstinspires.ftc.teamcode;
 public class Constants {
 
     /* SetTargetPosition() for the lift preset encoder values. 
-=======
-/****
- * Constants file for FTC code base
- ***/
 
-package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
-public class Constants {
-
-    /* SetTargetPosition() for the lift preset encoder values.
->>>>>>> dev-auton
     Values to be determined experimental and set here
     ADD import static org.firstinspires.ftc.teamcode.Constants.*;
     to each file reference constants
     */
 
-<<<<<<< HEAD
+
     /*
     Naming conventions
     https://docs.oracle.com/javase/tutorial/java/nutsandbolts/variables.html
      */
 
-    // SetTargetPosition(0) is the game field zero
-=======
     // SetTargetPosition() is the game field zero
->>>>>>> dev-auton
     public static final int LIFT_GROUND = 100; // 1" Ground junction height
     public static final int LIFT_LOW = 1200; // 13.5" Low junction height
     public static final int LIFT_MEDIUM = 2000; // 23.5" Medium junction height
     public static final int LIFT_HIGH = 2800; // 33.5" High junction height
-<<<<<<< HEAD
+
 
     // SetPosition() values for Open and Close on the claw servo
     public static final double OPEN = 0.5;
@@ -47,11 +32,8 @@ public class Constants {
     public static final double GRABBY_OPEN = 0.5;
     public static final double GRABBY_CLOSED = 0.0;
 
-//
-=======
     public static final int TOLERANCE = 10;
 
->>>>>>> dev-auton
     public static final int lift_floor = 0;
     public static final int lift_ground = 100; // 1" Ground junction height
     public static final int lift_low = 1200; // 13.5" Low junction height
@@ -59,8 +41,6 @@ public class Constants {
     public static final int lift_high = 2800; // 33.5" High junction height
     public static final int diplomat = 10;
 
-<<<<<<< HEAD
-=======
 
     // Autonomous constants
     public static final double DRIVE_SPEED = 0.6;
@@ -71,9 +51,6 @@ public class Constants {
     public static final String VUFORIA_KEY =
             "AQlm0VH/////AAABmecSieTQsU26rgeA9+8pNJ0JiCO/pfP8X82+Kv4Czexw7qCupZvMaBQROIVF3rj9aoXmjtRDTA1mHJVdaV6hWpfm0jMW8qnLFUmIJQwHIYZ9aM/sQR71rjIx9L5REWzQ9LTYIwLGaW3gwBbaOXpOZ/yi2mt4Q/RIes7idEhwoRkFQh0H+zHxO0iqZdbbUibMlTMif/0g/FqqjBY/abecyaNvfCErZX6jVLlMXPk4cyEeCO6i57ufYKhrOMAHa2BOEgbjvTx52vUeZHh5nORqSa/mJy7ZzE2mrSG4SJ7KEZm1C7Lbnzo6WtMj+F6e1gqISfrynyNJoMrlq9uUHzm8gEbcebYncHx869F+ykNDQTZ7";
 
-    // SetPosition() values for Open and Close on the claw servo
-    public static final double OPEN = 0.4;
-    public static final double CLOSED = 0.0;
 
 
     /*
@@ -93,5 +70,4 @@ public class Constants {
             "3 Panel"
     };
 
->>>>>>> dev-auton
 }
