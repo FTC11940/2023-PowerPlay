@@ -19,6 +19,7 @@ public class Constants {
     public static final int LIFT_LOW = 1200; // 13.5" Low junction height
     public static final int LIFT_MEDIUM = 2000; // 23.5" Medium junction height
     public static final int LIFT_HIGH = 2800; // 33.5" High junction height
+    public static final int LIFT_TOP_STACK = 300; //
     public static final int TOLERANCE = 10;
 
     public static final int lift_floor = 0;
