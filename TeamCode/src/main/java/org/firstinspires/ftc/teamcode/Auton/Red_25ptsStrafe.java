@@ -3,7 +3,9 @@
 
 package org.firstinspires.ftc.teamcode.Auton;
 
-import static org.firstinspires.ftc.teamcode.Constants.*;
+import static org.firstinspires.ftc.teamcode.Constants.DRIVE_SPEED;
+import static org.firstinspires.ftc.teamcode.Constants.HEADING_THRESHOLD;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -12,16 +14,17 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Red 25 pts", group="Robot")
+@Autonomous(name="DEV Red-Strafe 25 pts", group="Robot")
 // @Disabled
 
-public class Red25pts extends LinearOpMode {
+public class Red_25ptsStrafe extends LinearOpMode {
 
 
     Servo grabby;
@@ -154,24 +157,44 @@ public class Red25pts extends LinearOpMode {
 
         // Autonomous RED 20pts
         // Drive towards the high junction
-        driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
-        turnToHeading(TURN_SPEED,  -90.0); // Turn to the right
-        driveStraight(DRIVE_SPEED, 20.0, 0.0); //
-        turnToHeading(TURN_SPEED,  0.0);// Face forward
-
+        driveStraight(DRIVE_SPEED, -25.0, 0.0); //
         // Lift code up high
-        lift.setTargetPosition(LIFT_HIGH);
+        /*lift.setTargetPosition(LIFT_HIGH);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
         if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
             telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
             // lift.setPower(0);
-        }
+        }*/
+        //strafe
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        backLeftMotor.setTargetPosition(-500);
+        frontLeftMotor.setTargetPosition(500);
+        backRightMotor.setTargetPosition(500);
+        frontRightMotor.setTargetPosition(-500);
+
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        frontLeftMotor.setPower(1.0);
+        backRightMotor.setPower(1.0);
+        frontRightMotor.setPower(1.0);
+        backLeftMotor.setPower(1.0);
+
 
         // Final approach to junction
-        driveStraight(DRIVE_SPEED, 21.5, 0.0); //
 
+
+        /*  driveStraight(DRIVE_SPEED, 21.5, 0.0); //
+        driveStraight(DRIVE_SPEED, 8.0, 0.0); //
+        grabby.setPosition(OPEN);
 
         // Sequence towards the stack
         turnToHeading(TURN_SPEED,  -40.0);//
@@ -180,11 +203,12 @@ public class Red25pts extends LinearOpMode {
         driveStraight(DRIVE_SPEED, -6.0, 0.0); //
 
         // lift.setTargetPosition(612);
-        lift.setTargetPosition(LIFT_TOP_STACK);
+        lift.setTargetPosition(300);
+
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
-        if (( LIFT_TOP_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < ( LIFT_TOP_STACK + TOLERANCE)) {
+        if ((300 - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (300 + TOLERANCE)) {
             telemetry.addData("Lift Stack Status", "You've arrived at your top stack destination");
         }
 
@@ -261,6 +285,7 @@ public class Red25pts extends LinearOpMode {
         driveStraight(DRIVE_SPEED, -33.0, 0.0); //
         turnToHeading(TURN_SPEED,  180); //
         driveStraight(DRIVE_SPEED, 30.0, 0.0); //
+       */
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.

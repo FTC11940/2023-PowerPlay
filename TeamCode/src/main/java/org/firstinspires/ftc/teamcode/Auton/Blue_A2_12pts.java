@@ -25,10 +25,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Blue-12pts A2", group="Robot")
+@Autonomous(name="Blue-A2 12pts", group="Robot")
 // @Disabled
 
-public class BlueOther12pts extends LinearOpMode {
+public class Blue_A2_12pts extends LinearOpMode {
 
 
     Servo grabby;

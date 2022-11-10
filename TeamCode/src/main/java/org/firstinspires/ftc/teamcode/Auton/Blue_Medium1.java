@@ -1,10 +1,9 @@
 /**
- * Red Failsafe 2 Auton starts in F2 and drives south to drop a cone and park in terminal F1
+ * No Description Entered
  */
 
 package org.firstinspires.ftc.teamcode.Auton;
 
-import static org.firstinspires.ftc.teamcode.Constants.*;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -20,15 +19,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Red-Failsafe F2", group="Robot")
+@Autonomous(name="Blue-Medium 1", group="Robot")
 // @Disabled
 
-public class RedActualFailsafe2 extends LinearOpMode {
+public class Blue_Medium1 extends LinearOpMode {
 
 
-    Servo grabby;
-    DcMotor lift;
-    // Declare OpMode members.
+     Servo grabby;
+    // Declare OpMode members
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
     private DcMotor backLeftMotor = null;
@@ -147,25 +145,15 @@ public class RedActualFailsafe2 extends LinearOpMode {
         */
 
 
-        // Autonomous Medium Red 1
+        // Autonomous Failsafe blue 1
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
-        turnToHeading( TURN_SPEED,  -45.0);//Turn 90 to face direction of terminal
-        driveStraight(DRIVE_SPEED, 8.0, 0.0); //
-        lift.setTargetPosition(LIFT_LOW);
-        lift.setPower(1.0);
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        // Test the telemetry statement before setting power to zero.
-        if ((LIFT_LOW - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_LOW + TOLERANCE)) {
-            telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
-            // lift.setPower(0);
-        }
-        grabby.setPosition(OPEN);
-        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
         turnToHeading( TURN_SPEED,  -90.0);//Turn 90 to face direction of terminal
-        driveStraight(DRIVE_SPEED, 32.00, 0.0); // Drive to terminal
+        driveStraight(DRIVE_SPEED, 28.00, 0.0); // Drive to terminal
         grabby.setPosition(0.5);
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
         driveStraight(DRIVE_SPEED, -4.00, 0.0); // park
+        telemetry.addData("Path", "Complete");
+        telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.
     }
 

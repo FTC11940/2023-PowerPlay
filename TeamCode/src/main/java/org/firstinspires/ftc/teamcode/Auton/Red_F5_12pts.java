@@ -1,7 +1,7 @@
 /**
- * Blue 12pts Auton starts in section A5, drops a cone on the high junction, backs up,
- * and parks in the middle terminal (A4)
- */
+ * Other Red 12pts auton starts in section F5, drops a cone on the high junction, backs up,
+ * and parks in tile F3
+ **/
 
 package org.firstinspires.ftc.teamcode.Auton;
 
@@ -15,21 +15,20 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Blue-12pts A5", group="Robot")
+@Autonomous(name="Red-F5 12pts", group="Robot")
 // @Disabled
 
-public class Blue12pts extends LinearOpMode {
+public class Red_F5_12pts extends LinearOpMode {
+
 
     Servo grabby;
     DcMotor lift;
-
     // Declare OpMode members.
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
@@ -155,11 +154,11 @@ public class Blue12pts extends LinearOpMode {
 
         // Autonomous RED Complex 1
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
-        turnToHeading(TURN_SPEED,  -90.0); // Turn to the right
+        turnToHeading(TURN_SPEED,  90.0); // Turn to the right
         driveStraight(DRIVE_SPEED, 20.0, 0.0); //
         turnToHeading(TURN_SPEED,  0.0);// Face forward
         driveStraight(DRIVE_SPEED, 20.0, 0.0); //
-        turnToHeading(TURN_SPEED,  -45.0);//
+        turnToHeading(TURN_SPEED,  45.0);//
         // Lift code up high
         driveStraight(DRIVE_SPEED, 9.0, 0.0); //
         lift.setTargetPosition(LIFT_HIGH);
