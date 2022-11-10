@@ -173,25 +173,41 @@ public class Red25ptsStrafe extends LinearOpMode {
             // lift.setPower(0);
         }*/
         //strafe
+        frontLeftMotor.setPower(0);
+        backRightMotor.setPower(0);
+        frontRightMotor.setPower(0);
+        backLeftMotor.setPower(0);
+
+        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+       backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        backLeftMotor.setTargetPosition(-500);
-        frontLeftMotor.setTargetPosition(500);
-        backRightMotor.setTargetPosition(500);
-        frontRightMotor.setTargetPosition(-500);
+        frontLeftMotor.setPower(-1.0);
+        backRightMotor.setPower(1.0);
+        frontRightMotor.setPower(1.0);
+        backLeftMotor.setPower(-1.0);
 
-        frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() < DRIVE_SPEED * -24)) ;
+        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() > DRIVE_SPEED * 24)) ;
+        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() > DRIVE_SPEED  * 24)) ;
+        while (opModeIsActive() && (backRightMotor.getCurrentPosition() < DRIVE_SPEED * -24));
+
+       /* frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        frontLeftMotor.setPower(1.0);
-        backRightMotor.setPower(1.0);
-        frontRightMotor.setPower(1.0);
-        backLeftMotor.setPower(1.0);
+        backLeftMotor.setTargetPosition(-500);
+        frontLeftMotor.setTargetPosition(500);
+        backRightMotor.setTargetPosition(500);
+        frontRightMotor.setTargetPosition(-500);
+        */
 
 
         // Final approach to junction
