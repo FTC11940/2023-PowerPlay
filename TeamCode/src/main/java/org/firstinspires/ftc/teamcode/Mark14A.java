@@ -131,9 +131,6 @@ but still be displayed by sendTelemetry()
         telemetry.addData("Status", "Camera Initialized");
         telemetry.update();
 
-
-
-
         waitForStart();
 
         if (opModeIsActive()) {
@@ -142,25 +139,6 @@ but still be displayed by sendTelemetry()
 
             while (opModeIsActive()) {
                 if (tfod != null) {
-
-
-                    /* REFERENCE
-                            // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
-                            // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
-                            // holdHeading( TURN_SPEED,  0.0, 0.5);     // action - hold last heading for a 1/2 second
-                            * TODO Write autonomous actions below
-                    */
-
-                    /*
-                    driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive away from wall
-                    turnToHeading(TURN_SPEED,  -90.0); // turn right
-                    driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive lateral to wall
-                    turnToHeading(TURN_SPEED,  -180.0); // turn right
-                    driveStraight(DRIVE_SPEED, 23.0, 0.0); // drive towards to wall
-                    turnToHeading(TURN_SPEED, -270.0); // turn right
-                    driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive lateral to wall
-                    turnToHeading(TURN_SPEED, -360.0); // turn right
-                    */
 
                     // getUpdatedRecognitions() will return null if no new information is available since
                     // the last time that call was made.
@@ -261,13 +239,7 @@ but still be displayed by sendTelemetry()
 
     }
 
-    private void safePark() {
-        Lifting.highJunction();
-        grabby.setPosition(OPEN);
-        sleep(500);
-        grabby.setPosition(CLOSED);
-        sleep(20000);
-    }
+
     private void signalOnePark() {
         grabby.setPosition(OPEN);
         sleep(500);
@@ -313,6 +285,16 @@ but still be displayed by sendTelemetry()
         grabby.setPosition(OPEN);
         sleep(300);
         }
+
+        /* Experimental - references an external method, but running into issues with static vs non-static
+    private void safePark() {
+        Lifting.highJunction();
+        grabby.setPosition(OPEN);
+        sleep(500);
+        grabby.setPosition(CLOSED);
+        sleep(20000);
+    }
+    */
     };
 
     public void driveStraight(double maxDriveSpeed,
