@@ -7,14 +7,15 @@ package org.firstinspires.ftc.teamcode;
 
 public class Constants {
 
-
+    // Preset lift heights using encoder ticks
+    public static final int LIFT_FLOOR = 0; // 1" Ground junction height
     public static final int LIFT_GROUND = 100; // 1" Ground junction height
     public static final int LIFT_LOW = 1200; // 13.5" Low junction height
     public static final int LIFT_MEDIUM = 2000; // 23.5" Medium junction height
     public static final int LIFT_HIGH = 2800; // 33.5" High junction height
     public static final int TOLERANCE = 10;
 
-    // Same as above for lift, just different variable names
+    // Same as above for lift, just different names
     public static final int lift_floor = 0;
     public static final int lift_ground = 100; // 1" Ground junction height
     public static final int lift_low = 1200; // 13.5" Low junction height
@@ -22,7 +23,15 @@ public class Constants {
     public static final int lift_high = 2800; // 33.5" High junction height
     public static final int diplomat = 10;
 
+    // Conversions from encoder ticks to inches with the lift.
+    // Proof of concept more than actual usage for this season
+    static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
+    static final double DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
+    static final double PULLEY_DIAMETER_INCHES = 2.0 ; // For figuring circumference
+    static final double COUNTS_PER_INCH =
+            (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (PULLEY_DIAMETER_INCHES * 3.1415);
 
+    // Constants related to the claw
     public static final double OPEN = 0.5;
     public static final double CLOSED = 0.0;
     public static final double GRABBY_OPEN = 0.5;
@@ -32,6 +41,8 @@ public class Constants {
     public static final double DRIVE_SPEED = 0.6;
     public static final double TURN_SPEED = 0.45;
     public static final double HEADING_THRESHOLD = 1.0;
+    static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
+    static final double     P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
 
     // Vuforia constants
     public static final String VUFORIA_KEY =

@@ -7,6 +7,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import static org.firstinspires.ftc.teamcode.Constants.*;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
@@ -109,7 +110,7 @@ public class Mark13A extends LinearOpMode {
             // to artificially zoom in to the center of image.  For best results, the "aspectRatio" argument
             // should be set to the value of the images used to create the TensorFlow Object Detection model
             // (typically 16/9).
-            tfod.setZoom(1.0, 16.0/9.0);
+            tfod.setZoom(1.0, 16.0 / 9.0);
         }
 
         /** Wait for the game to begin */
@@ -120,7 +121,7 @@ public class Mark13A extends LinearOpMode {
         telemetry.update();
 
         grabby = hardwareMap.servo.get("grabby");
-        lift = hardwareMap.get(DcMotor.class,"lift");
+        lift = hardwareMap.get(DcMotor.class, "lift");
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -128,10 +129,10 @@ public class Mark13A extends LinearOpMode {
         grabby.setPosition(OPEN);
         lift.setTargetPosition(lift_floor);
 
-        frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
-        frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
-        backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
-        backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
+        frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeftMotor");
+        frontRightMotor = hardwareMap.get(DcMotor.class, "frontRightMotor");
+        backRightMotor = hardwareMap.get(DcMotor.class, "backRightMotor");
+        backLeftMotor = hardwareMap.get(DcMotor.class, "backLeftMotor");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         /*
@@ -174,33 +175,24 @@ public class Mark13A extends LinearOpMode {
 
                             if (recognition.getLabel().equals("1 Bolt")) {
                                 signalOne = true;
-                            }
-                            if (recognition.getLabel().equals("2 Bulb")) {
+                                signalOnePark();
+                            } else if (recognition.getLabel().equals("2 Bulb")) {
                                 signalTwo = true;
-                            }
-                            if (recognition.getLabel().equals("3 Panel")) {
+                                signalTwoPark();
+                            } else if (recognition.getLabel().equals("3 Panel")) {
                                 signalThree = true;
+                                signalThreePark();
                             }
 
-                            telemetry.addData(""," ");
-                            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100 );
-                            telemetry.addData("- Position (Row/Col)","%.0f / %.0f", row, col);
-                            telemetry.addData("- Size (Width/Height)","%.0f / %.0f", width, height);
+                            telemetry.addData("", " ");
+                            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
+                            telemetry.addData("- Position (Row/Col)", "%.0f / %.0f", row, col);
+                            telemetry.addData("- Size (Width/Height)", "%.0f / %.0f", width, height);
                         }
 
                         telemetry.update();
 
                     }
-
-                    /*
-                     * If you JUST want to test the logic
-                     * without the camera dynamically testing for signals,
-                     *  Remove the comments one at a time for each signal variable
-                     * */
-                    // signalOne = true;
-                    // signalTwo = true;
-                    // signalThree = true;
-
 
                     // Conditional sequence with basic logic and actions
 
@@ -215,23 +207,18 @@ public class Mark13A extends LinearOpMode {
                      */
 
 
-
                 }
 
-                }
+            }
 
 
-
-
-
-
-
-            } // end of opModeIsActive
-        }
+        } // end of opModeIsActive
+    }// end of runOpMode
 
 
     /**
      * Initialize the Vuforia localization engine.
+     * *
      */
     private void initVuforia() {
         /*
@@ -251,7 +238,7 @@ public class Mark13A extends LinearOpMode {
      */
     private void initTfod() {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-            "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         tfodParameters.minResultConfidence = 0.75f;
         tfodParameters.isModelTensorFlow2 = true;
@@ -263,6 +250,7 @@ public class Mark13A extends LinearOpMode {
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
         // tfod.loadModelFromFile(TFOD_MODEL_FILE, LABELS);
 
+        /* */
         if (signalOne == true) {
             signalOnePark();
 
@@ -270,55 +258,48 @@ public class Mark13A extends LinearOpMode {
              * Testing purposes. This would be replaced by a specific parking function.
              * This should open the claw, pause, and close twice
              */
-        }
-        else if (signalTwo == true) {
+        } else if (signalTwo == true) {
             signalTwoPark();
 
             /*
              * Testing purposes. This would be replaced by a specific parking function.
              * This should open the claw, pause, and close three times
              */
-        }
-
-        else if (signalThree == true) {
+        } else if (signalThree == true) {
             signalThreePark();
-                        /*
-                        grabby.setPosition(OPEN);
-                        sleep(500);
-                        grabby.setPosition(CLOSED);
-                        sleep(500);
-                        grabby.setPosition(OPEN);
-                        sleep(500);
-                        grabby.setPosition(CLOSED);
-                        sleep(500);
-                        grabby.setPosition(OPEN);
-                        sleep(500);
-                        grabby.setPosition(CLOSED);
-                        */
+
         }// END of testing sequence
     }
 
     /*
-    * Functions to run for autonomous parking
-    * These functions should be used to replace specific code in the logic testing
-    * which should make it make it more reusable in various autonomous files
-    * without messing with the logic */
+     * Functions to run for autonomous parking
+     * These functions should be used to replace specific code in the logic testing
+     * which should make it make it more reusable in various autonomous files
+     * without messing with the logic
+     */
+
+    private void safePark() {
+        grabby.setPosition(OPEN);
+        sleep(500);
+        grabby.setPosition(CLOSED);
+        sleep(2000);
+    }
     private void signalOnePark() {
         grabby.setPosition(OPEN);
         sleep(500);
         grabby.setPosition(CLOSED);
-        sleep(10000);
+        sleep(2000);
     }
 
     private void signalTwoPark() {
-    grabby.setPosition(OPEN);
-    sleep(500);
-    grabby.setPosition(CLOSED);
-    sleep(500);
-    grabby.setPosition(OPEN);
-    sleep(500);
-    grabby.setPosition(CLOSED);
-    sleep(10000);
+        grabby.setPosition(OPEN);
+        sleep(500);
+        grabby.setPosition(CLOSED);
+        sleep(500);
+        grabby.setPosition(OPEN);
+        sleep(500);
+        grabby.setPosition(CLOSED);
+        sleep(2000);
     }
 
     private void signalThreePark() {
