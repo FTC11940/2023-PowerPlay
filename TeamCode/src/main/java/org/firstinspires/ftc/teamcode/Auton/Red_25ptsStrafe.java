@@ -184,14 +184,14 @@ public class Red_25ptsStrafe extends LinearOpMode {
         backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         frontLeftMotor.setPower(-1.0);
-        backRightMotor.setPower(1.0);
+        backRightMotor.setPower(-1.0);
         frontRightMotor.setPower(1.0);
-        backLeftMotor.setPower(-1.0);
+        backLeftMotor.setPower(1.0);
 
-        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() < DRIVE_SPEED * -24)) ;
-        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() > DRIVE_SPEED * 24)) ;
-        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() > DRIVE_SPEED  * 24)) ;
-        while (opModeIsActive() && (backRightMotor.getCurrentPosition() < DRIVE_SPEED * -24));
+        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * -240)) ;
+        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * 240)) ;
+        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED  * 240)) ;
+        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * -240));
 
        /* frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -208,33 +208,19 @@ public class Red_25ptsStrafe extends LinearOpMode {
         // Final approach to junction
 
 
-        /*  driveStraight(DRIVE_SPEED, 21.5, 0.0); //
-        driveStraight(DRIVE_SPEED, 8.0, 0.0); //
-        grabby.setPosition(OPEN);
-
-        // Sequence towards the stack
-        turnToHeading(TURN_SPEED,  -40.0);//
-        driveStraight(DRIVE_SPEED, 13.0, 0.0); //
-        grabby.setPosition(OPEN);
-        driveStraight(DRIVE_SPEED, -6.0, 0.0); //
-
-        // lift.setTargetPosition(612);
-        lift.setTargetPosition(300);
-
-        lift.setPower(1.0);
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        /*
+         grabby.setPosition(OPEN);
+         driveStraight(DRIVE_SPEED, -2.0, 0.0); //
+         lift.setTargetPosition(LIFT_TOP_STACK);
+         lift.setPower(1.0);
+         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
-        if ((300 - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (300 + TOLERANCE)) {
+         if ((LIFT_TOP_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_TOP_STACK + TOLERANCE)) {
             telemetry.addData("Lift Stack Status", "You've arrived at your top stack destination");
         }
-
-        // Sequence towards the substation stack
-        turnToHeading( TURN_SPEED,  0.0);// Turn to substation
-        driveStraight(DRIVE_SPEED, 25.0, 0.0); // Drive to substation
-        turnToHeading( TURN_SPEED,  90.0); //
-        driveStraight(DRIVE_SPEED, 53, 0.0); //
-        sleep(500);
-        grabby.setPosition(CLOSED); // Grab top cone
+         // insert more strafe
+        driveStraight(DRIVE_SPEED, 35.0, 0.0); //
+         grabby.setPosition(CLOSED); // Grab top cone
         sleep(500); // added
         lift.setTargetPosition(1020);
         lift.setPower(1.0);
@@ -244,8 +230,8 @@ public class Red_25ptsStrafe extends LinearOpMode {
             telemetry.addData("Lift Ground Status", "You've arrived at your GROUND destination");
 
         }
-        driveStraight(DRIVE_SPEED, -33.0, 0.0); //
-        turnToHeading( TURN_SPEED,  -45.0); //
+        driveStraight(DRIVE_SPEED, -35.0, 0.0); //
+
         // Lift code up high
         lift.setTargetPosition(LIFT_HIGH);
         lift.setPower(1.0);
@@ -254,20 +240,21 @@ public class Red_25ptsStrafe extends LinearOpMode {
         if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
             telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
         }
+       //strafe
         driveStraight(DRIVE_SPEED, 2.0, 0.0); //
         grabby.setPosition(OPEN);
         driveStraight(DRIVE_SPEED, -2.0, 0.0); //
         // Insert lift code down here
-        lift.setTargetPosition(714);
+        lift.setTargetPosition(LIFT_THREE_STACK);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
-        if ((714 - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (714 + TOLERANCE)) {
+        if ((LIFT_THREE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_THREE_STACK + TOLERANCE)) {
             telemetry.addData("Lift Stack Status", "You've arrived at your 3/4 cone destination");
 
         }
-        turnToHeading( TURN_SPEED,  90.0); //
-        driveStraight(DRIVE_SPEED, 33.0, 0.0); //
+        //strafe
+        driveStraight(DRIVE_SPEED, 35.0, 0.0); //
         grabby.setPosition(CLOSED);
         lift.setTargetPosition(1020);
         lift.setPower(1.0);
@@ -291,21 +278,27 @@ public class Red_25ptsStrafe extends LinearOpMode {
         grabby.setPosition(OPEN);
         driveStraight(DRIVE_SPEED,-2.0,0.0);
         // Lift code down
-        lift.setTargetPosition(612);
+        lift.setTargetPosition(166);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
-        if ((612 - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (612 + TOLERANCE)) {
+        if ((166 - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (166 + TOLERANCE)) {
             telemetry.addData("Lift Ground Status", "You've arrived at your GROUND destination");
         }
         driveStraight(DRIVE_SPEED, -33.0, 0.0); //
         turnToHeading(TURN_SPEED,  180); //
         driveStraight(DRIVE_SPEED, 30.0, 0.0); //
+
+
+
+
        */
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
-        sleep(1000);  // Pause to display last telemetry message.
     }
+
+      // telemetry.addData("Path", "Complete");
+        //telemetry.update();
+       // sleep(1000);  // Pause to display last telemetry message.
+
 
     /*
      * ====================================================================================================

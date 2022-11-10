@@ -2,7 +2,7 @@
  * No Description Entered
  */
 
-package org.firstinspires.ftc.teamcode.Auton;
+package org.firstinspires.ftc.teamcode.Auton.AutonArchives;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;

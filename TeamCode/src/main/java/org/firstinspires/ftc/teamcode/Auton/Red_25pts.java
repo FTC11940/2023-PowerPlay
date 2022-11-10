@@ -218,11 +218,11 @@ public class Red_25pts extends LinearOpMode {
         grabby.setPosition(OPEN);
         driveStraight(DRIVE_SPEED, -2.0, 0.0); //
         // Insert lift code down here
-        lift.setTargetPosition(714);
+        lift.setTargetPosition(LIFT_THREE_STACK);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
-        if ((714 - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (714 + TOLERANCE)) {
+        if ((LIFT_THREE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_THREE_STACK + TOLERANCE)) {
             telemetry.addData("Lift Stack Status", "You've arrived at your 3/4 cone destination");
 
         }
@@ -251,11 +251,11 @@ public class Red_25pts extends LinearOpMode {
         grabby.setPosition(OPEN);
         driveStraight(DRIVE_SPEED,-2.0,0.0);
         // Lift code down
-        lift.setTargetPosition(612);
+        lift.setTargetPosition(166);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
-        if ((612 - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (612 + TOLERANCE)) {
+        if ((166 - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (166 + TOLERANCE)) {
             telemetry.addData("Lift Ground Status", "You've arrived at your GROUND destination");
         }
         driveStraight(DRIVE_SPEED, -33.0, 0.0); //
