@@ -1,10 +1,9 @@
-/**
- * Blue Failsafe 2 Auton starts in A2 and drives south to drop a cone and park in terminal A1
+/*
  */
 
 package org.firstinspires.ftc.teamcode.Auton;
-import static org.firstinspires.ftc.teamcode.Constants.*;
 
+import static org.firstinspires.ftc.teamcode.Constants.*;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -13,22 +12,21 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Blue-Failsafe A2", group="Robot")
+@Autonomous(name="Red-25 pts", group="Robot")
 // @Disabled
 
-public class BlueActualFailsafe2 extends LinearOpMode {
+public class Red_25pts extends LinearOpMode {
 
 
     Servo grabby;
     DcMotor lift;
-    // Declare OpMode members
+    // Declare OpMode members.
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
     private DcMotor backLeftMotor = null;
@@ -68,17 +66,19 @@ public class BlueActualFailsafe2 extends LinearOpMode {
 
     // These constants define the desired driving/control characteristics
     // They can/should be tweaked to suit the specific robot drive train.
-    static final double     DRIVE_SPEED             = 0.4;   // Max driving speed for better distance accuracy.
-    static final double     TURN_SPEED              = 0.2;   // Max Turn speed to limit turn rate
-    static final double     HEADING_THRESHOLD       = 1.0 ;  // How close must the heading get to the target before moving to next step.
+    // static final double     DRIVE_SPEED             = 0.6;   // Previously 0.4 Max driving speed for better distance accuracy.
+    // static final double     TURN_SPEED              = 0.45;   // Previously 0.2 Max Turn speed to limit turn rate
+    // static final double     HEADING_THRESHOLD       = 1.0 ;  // How close must the heading get to the target before moving to next step.
+
     // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
     /* Define the Proportional control coefficient (or GAIN) for "heading control".
     // We define one value when Turning (larger errors), and the other is used when Driving straight (smaller errors).
     // Increase these numbers if the heading does not corrects strongly enough (eg: a heavy robot or using tracks)
     Decrease these numbers if the heading does not settle on the correct value (eg: very agile robot with omni wheels)
     */
-    static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
+
+    // static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
+    // static final double     P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
 
     @Override
     public void runOpMode() {
@@ -87,9 +87,12 @@ public class BlueActualFailsafe2 extends LinearOpMode {
         // Match our TeleOp file
         grabby = hardwareMap.servo.get("grabby");
         grabby.setPosition(0.0); // Needs to be closed at start of Auton
+
         lift = hardwareMap.get(DcMotor.class,"lift");
+        // lift.setTargetPosition(0);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
+
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
@@ -141,33 +144,123 @@ public class BlueActualFailsafe2 extends LinearOpMode {
 
         /*
 
-        * AUTON NAME: Blue FailSafe 1
-        * REFERENCE
+
+        /* REFERENCE
         // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
         // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
         // holdHeading( TURN_SPEED,  0.0, 0.5);     // action - hold last heading for a 1/2 second
         * TODO Write autonomous actions below
         */
 
-
-        // Autonomous Failsafe blue 1
+        // Autonomous RED 20pts
+        // Drive towards the high junction
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
-        turnToHeading( TURN_SPEED,  45.0);//Turn 90 to face direction of terminal
-        driveStraight(DRIVE_SPEED, 8.0, 0.0); //
-        lift.setTargetPosition(LIFT_LOW);
+        turnToHeading(TURN_SPEED,  -90.0); // Turn to the right
+        driveStraight(DRIVE_SPEED, 20.0, 0.0); //
+        turnToHeading(TURN_SPEED,  0.0);// Face forward
+
+        // Lift code up high
+        lift.setTargetPosition(LIFT_HIGH);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
-        if ((LIFT_LOW - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_LOW + TOLERANCE)) {
-            telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
+        if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
+            telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
             // lift.setPower(0);
         }
-        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
-        turnToHeading( TURN_SPEED,  90.0);//Turn 90 to face direction of terminal
-        driveStraight(DRIVE_SPEED, 32.00, 0.0); // Drive to terminal
-        grabby.setPosition(0.5);
-        turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
-        driveStraight(DRIVE_SPEED, -4.00, 0.0); // park
+
+        // Final approach to junction
+        driveStraight(DRIVE_SPEED, 21.5, 0.0); //
+
+
+        // Sequence towards the stack
+        turnToHeading(TURN_SPEED,  -40.0);//
+        driveStraight(DRIVE_SPEED, 13.0, 0.0); //
+        grabby.setPosition(OPEN);
+        driveStraight(DRIVE_SPEED, -6.0, 0.0); //
+
+        // lift.setTargetPosition(612);
+        lift.setTargetPosition(LIFT_TOP_STACK);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if (( LIFT_TOP_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < ( LIFT_TOP_STACK + TOLERANCE)) {
+            telemetry.addData("Lift Stack Status", "You've arrived at your top stack destination");
+        }
+
+        // Sequence towards the substation stack
+        turnToHeading( TURN_SPEED,  0.0);// Turn to substation
+        driveStraight(DRIVE_SPEED, 25.0, 0.0); // Drive to substation
+        turnToHeading( TURN_SPEED,  90.0); //
+        driveStraight(DRIVE_SPEED, 53, 0.0); //
+        sleep(500);
+        grabby.setPosition(CLOSED); // Grab top cone
+        sleep(500); // added
+        lift.setTargetPosition(1020);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((1020 - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (1020 + TOLERANCE)) {
+            telemetry.addData("Lift Ground Status", "You've arrived at your GROUND destination");
+
+        }
+        driveStraight(DRIVE_SPEED, -33.0, 0.0); //
+        turnToHeading( TURN_SPEED,  -45.0); //
+        // Lift code up high
+        lift.setTargetPosition(LIFT_HIGH);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
+            telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
+        }
+        driveStraight(DRIVE_SPEED, 2.0, 0.0); //
+        grabby.setPosition(OPEN);
+        driveStraight(DRIVE_SPEED, -2.0, 0.0); //
+        // Insert lift code down here
+        lift.setTargetPosition(714);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((714 - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (714 + TOLERANCE)) {
+            telemetry.addData("Lift Stack Status", "You've arrived at your 3/4 cone destination");
+
+        }
+        turnToHeading( TURN_SPEED,  90.0); //
+        driveStraight(DRIVE_SPEED, 33.0, 0.0); //
+        grabby.setPosition(CLOSED);
+        lift.setTargetPosition(1020);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((1020 - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (1020 + TOLERANCE)) {
+            telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
+        }
+        driveStraight(DRIVE_SPEED, -33.0, 0.0); //
+        turnToHeading(TURN_SPEED,  -45); //
+        // Lift code up high
+        lift.setTargetPosition(LIFT_HIGH);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
+            telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
+            //lift.setPower(0);
+        }
+        driveStraight(DRIVE_SPEED,2.0,0.0);
+        grabby.setPosition(OPEN);
+        driveStraight(DRIVE_SPEED,-2.0,0.0);
+        // Lift code down
+        lift.setTargetPosition(612);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((612 - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (612 + TOLERANCE)) {
+            telemetry.addData("Lift Ground Status", "You've arrived at your GROUND destination");
+        }
+        driveStraight(DRIVE_SPEED, -33.0, 0.0); //
+        turnToHeading(TURN_SPEED,  180); //
+        driveStraight(DRIVE_SPEED, 30.0, 0.0); //
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.
@@ -234,7 +327,7 @@ public class BlueActualFailsafe2 extends LinearOpMode {
                     (frontLeftMotor.isBusy() && frontRightMotor.isBusy())) { // TODO consider adding backLeftMotor and backRightMotor
 
                 // Determine required steering to keep on heading
-                turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
+               // turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
 
                 // if driving in reverse, the motor correction also needs to be reversed
                 if (distance < 0)
@@ -270,13 +363,13 @@ public class BlueActualFailsafe2 extends LinearOpMode {
     public void turnToHeading(double maxTurnSpeed, double heading) {
 
         // Run getSteeringCorrection() once to pre-calculate the current error
-        getSteeringCorrection(heading, P_DRIVE_GAIN);
+       // getSteeringCorrection(heading, P_DRIVE_GAIN);
 
         // keep looping while we are still active, and not on heading.
         while (opModeIsActive() && (Math.abs(headingError) > HEADING_THRESHOLD)) {
 
             // Determine required steering to keep on heading
-            turnSpeed = getSteeringCorrection(heading, P_TURN_GAIN);
+           // turnSpeed = getSteeringCorrection(heading, P_TURN_GAIN);
 
             // Clip the speed to the maximum permitted value.
             turnSpeed = Range.clip(turnSpeed, -maxTurnSpeed, maxTurnSpeed);
@@ -311,7 +404,7 @@ public class BlueActualFailsafe2 extends LinearOpMode {
         // keep looping while we have time remaining.
         while (opModeIsActive() && (holdTimer.time() < holdTime)) {
             // Determine required steering to keep on heading
-            turnSpeed = getSteeringCorrection(heading, P_TURN_GAIN);
+           // turnSpeed = getSteeringCorrection(heading, P_TURN_GAIN);
 
             // Clip the speed to the maximum permitted value.
             turnSpeed = Range.clip(turnSpeed, -maxTurnSpeed, maxTurnSpeed);
