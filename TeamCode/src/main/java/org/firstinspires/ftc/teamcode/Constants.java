@@ -23,19 +23,20 @@ public class Constants {
     public static final int lift_high = 2800; // 33.5" High junction height
     public static final int diplomat = 10;
 
-    // Conversions from encoder ticks to inches with the lift.
-    // Proof of concept more than actual usage for this season
-    static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
-    static final double DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
-    static final double PULLEY_DIAMETER_INCHES = 2.0 ; // For figuring circumference
-    static final double COUNTS_PER_INCH =
-            (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (PULLEY_DIAMETER_INCHES * 3.1415);
+    //constant lift power
+    public static final double lift_power = 1;
+    //constant lift bumper speed
+    public static final int bee_speed = 50;
+    //bumper-gamepad1-strafe encoder value
+    public static final int hornet_speed = 25000;
 
     // Constants related to the claw
     public static final double OPEN = 0.5;
     public static final double CLOSED = 0.0;
-    public static final double GRABBY_OPEN = 0.5;
-    public static final double GRABBY_CLOSED = 0.0;
+    // what position grabby, or the claw, considers completely open
+    public static final double grabby_open = 0.2;
+    // what position grabby, or the claw, considers completely closed
+    public static final double grabby_closed = 0.0;
 
     // Autonomous constants
     public static final double DRIVE_SPEED = 0.6;
@@ -60,5 +61,12 @@ public class Constants {
     // Use this if adding custom signal images
     // private static final String TFOD_MODEL_FILE  = "/sdcard/FIRST/tflitemodels/CustomTeamModel.tflite";
 
+    // Conversions from encoder ticks to inches with the lift.
+    // Proof of concept more than actual usage for this season
+    static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
+    static final double DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
+    static final double PULLEY_DIAMETER_INCHES = 2.0 ; // For figuring circumference
+    static final double COUNTS_PER_INCH =
+            (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (PULLEY_DIAMETER_INCHES * 3.1415);
 
 }
