@@ -102,6 +102,7 @@ but still be displayed by sendTelemetry()
 
         // Define initialization values for IMU, and then initialize it.
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
@@ -116,6 +117,7 @@ but still be displayed by sendTelemetry()
          * Activate TensorFlow Object Detection before we wait for the start command.
          * Do it here so that the Camera Stream window will have the TensorFlow annotations visible.
          **/
+
         if (tfod != null) {
             tfod.activate();
 
@@ -179,7 +181,6 @@ but still be displayed by sendTelemetry()
 
             } // end whileOpMode
 
-
         } // end of if(opModeIsActive)
     }// end of runOpMode
 
@@ -239,7 +240,7 @@ but still be displayed by sendTelemetry()
 
     }
 
-
+    // This will run the after the main auton, as defined in autonPath (), is completed
     private void signalOnePark() {
         grabby.setPosition(OPEN);
         sleep(500);
@@ -247,6 +248,7 @@ but still be displayed by sendTelemetry()
         sleep(20000);
     }
 
+    // This will run the after the main auton, as defined in autonPath (), is completed
     private void signalTwoPark() {
         grabby.setPosition(OPEN);
         sleep(500);
@@ -258,6 +260,7 @@ but still be displayed by sendTelemetry()
         sleep(20000);
     }
 
+    // This will run the after the main auton, as defined in autonPath (), is completed
     private void signalThreePark() {
         grabby.setPosition(OPEN);
         sleep(500);

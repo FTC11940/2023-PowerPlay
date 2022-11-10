@@ -8,6 +8,7 @@ package org.firstinspires.ftc.teamcode;
 
 import static org.firstinspires.ftc.teamcode.Constants.*;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
@@ -30,7 +31,8 @@ import java.util.List;
  * determine which image is being presented to the robot.
  */
 @Autonomous(name = "Mark 13A", group = "Linear OpMode")
-// @Disabled
+@Disabled
+
 public class Mark13A extends LinearOpMode {
 
     private Servo grabby;
