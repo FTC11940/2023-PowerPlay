@@ -100,7 +100,7 @@ public class MecanumDrive extends LinearOpMode {
                 grabby.setPosition(0); // close grabby
             }
 
-            if (gamepad1.right_bumper){
+            /*if (gamepad1.right_bumper){
                 frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -142,7 +142,7 @@ public class MecanumDrive extends LinearOpMode {
                 frontRightMotor.setPower(1);
                 backLeftMotor.setPower(1);
                 backRightMotor.setPower(1);
-            }
+            }*/
 
             // creates the string 'liftpos' which will be modified later in if statements to show the current position of the lift on the gamepad
             String liftpos = "no input";
