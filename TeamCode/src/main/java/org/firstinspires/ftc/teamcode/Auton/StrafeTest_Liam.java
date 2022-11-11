@@ -21,7 +21,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="TEST Strafe version 1.1", group="Robot")
+@Autonomous(name="TEST Strafe version 1.4", group="Robot")
 // @Disabled
 
 public class StrafeTest_Liam extends LinearOpMode {
@@ -155,7 +155,7 @@ public class StrafeTest_Liam extends LinearOpMode {
         * TODO Write autonomous actions below
         */
 
-        // Autonomous RED 20pts
+        // Autonomous RED Liam Strafe 20pts
         // Drive towards the high junction
         // driveStraight(DRIVE_SPEED, -25.0, 0.0); //
         // Lift code up high
@@ -168,41 +168,12 @@ public class StrafeTest_Liam extends LinearOpMode {
             // lift.setPower(0);
         }*/
         //strafe
-        frontLeftMotor.setPower(0);
-        backRightMotor.setPower(0);
-        frontRightMotor.setPower(0);
-        backLeftMotor.setPower(0);
 
-        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-       backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        strafeRight();
+        sleep(1000);
+        // strafeLeft();
+        //sleep(2000);
 
-        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        frontLeftMotor.setPower(-1.0);
-        backRightMotor.setPower(-1.0);
-        frontRightMotor.setPower(1.0);
-        backLeftMotor.setPower(1.0);
-
-        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * -480)) ;
-        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * 480)) ;
-        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED  * 480)) ;
-        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * -480));
-
-       /* frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        backLeftMotor.setTargetPosition(-500);
-        frontLeftMotor.setTargetPosition(500);
-        backRightMotor.setTargetPosition(500);
-        frontRightMotor.setTargetPosition(-500);
-        */
 
 
         // Final approach to junction
@@ -278,7 +249,7 @@ public class StrafeTest_Liam extends LinearOpMode {
         grabby.setPosition(OPEN);
         driveStraight(DRIVE_SPEED,-2.0,0.0);
         // Lift code down
-        lift.setTargetPosition(166);
+        lift.setTargetPosition(LIFT_TWO_STACK);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
@@ -545,6 +516,66 @@ public class StrafeTest_Liam extends LinearOpMode {
         // Save a new heading offset equal to the current raw heading.
         headingOffset = getRawHeading();
         robotHeading = 0;
+    }
+
+    private void strafeLeft () {
+        frontLeftMotor.setPower(0);
+        backRightMotor.setPower(0);
+        frontRightMotor.setPower(0);
+        backLeftMotor.setPower(0);
+
+        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+       backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+        frontLeftMotor.setPower(-1.0); // (-) strafe left
+        backRightMotor.setPower(-1.0); // (-) strafe left
+
+        frontRightMotor.setPower(1.0);
+        backLeftMotor.setPower(1.0);
+
+        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * -480)) ; // (-) strafe left
+        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * -480)); // (-) strafe left
+
+        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * 480)) ;
+        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED  * 480)) ;
+    }
+
+    private void strafeRight () {
+        frontLeftMotor.setPower(0);
+        backRightMotor.setPower(0);
+        frontRightMotor.setPower(0);
+        backLeftMotor.setPower(0);
+
+        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+        frontLeftMotor.setPower(1.0); // (-) strafe left
+        backRightMotor.setPower(1.0); // (-) strafe left
+
+        frontRightMotor.setPower(-1.0);
+        backLeftMotor.setPower(-1.0);
+
+        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * 480)) ; // (-) strafe left
+        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * 480)); // (-) strafe left
+
+        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * -480)) ;  // (-) strafe right
+        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED  * -480)) ;
     }
 }
 

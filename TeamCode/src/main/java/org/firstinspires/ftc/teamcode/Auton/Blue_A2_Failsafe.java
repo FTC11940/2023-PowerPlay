@@ -150,10 +150,8 @@ public class Blue_A2_Failsafe extends LinearOpMode {
         */
 
 
-        // Autonomous Failsafe blue 1
+        // Autonomous Failsafe blue A2
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
-        turnToHeading( TURN_SPEED,  45.0);//Turn 90 to face direction of terminal
-        driveStraight(DRIVE_SPEED, 8.0, 0.0); //
         lift.setTargetPosition(LIFT_LOW);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -162,10 +160,20 @@ public class Blue_A2_Failsafe extends LinearOpMode {
             telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
             // lift.setPower(0);
         }
+        turnToHeading( TURN_SPEED,  45.0);//Turn 90 to face diretion of terminal
+        driveStraight(DRIVE_SPEED, 8.0, 0.0); //c
+        grabby.setPosition(OPEN);
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
-        turnToHeading( TURN_SPEED,  90.0);//Turn 90 to face direction of terminal
-        driveStraight(DRIVE_SPEED, 32.00, 0.0); // Drive to terminal
-        grabby.setPosition(0.5);
+        lift.setTargetPosition(LIFT_GROUND);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_GROUND - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_GROUND + TOLERANCE)) {
+            telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
+            // lift.setPower(0);
+        }
+        turnToHeading( TURN_SPEED,  -90.0);//Turn 90 to face direction of terminal
+        driveStraight(DRIVE_SPEED, 22.00, 0.0); // Drive to terminal
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
         driveStraight(DRIVE_SPEED, -4.00, 0.0); // park
         telemetry.addData("Path", "Complete");

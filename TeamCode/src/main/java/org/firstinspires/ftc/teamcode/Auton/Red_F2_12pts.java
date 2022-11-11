@@ -153,7 +153,7 @@ public class Red_F2_12pts extends LinearOpMode {
         // holdHeading( TURN_SPEED,  0.0, 0.5);     // action - hold last heading for a 1/2 second
         */
 
-        // Autonomous RED Complex 1
+        // Autonomous RED 25 F2
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
         turnToHeading(TURN_SPEED,  -90.0); // Turn to the right
         driveStraight(DRIVE_SPEED, 20.0, 0.0); //
@@ -170,7 +170,7 @@ public class Red_F2_12pts extends LinearOpMode {
                 // lift.setPower(0);
             }
         driveStraight(DRIVE_SPEED, 21.5, 0.0); //
-        turnToHeading(TURN_SPEED,  -40.0);//
+        turnToHeading(TURN_SPEED,  -45.0);//
         driveStraight(DRIVE_SPEED, 13.0, 0.0); //
         grabby.setPosition(OPEN);
         driveStraight(DRIVE_SPEED, -6.0, 0.0); //
