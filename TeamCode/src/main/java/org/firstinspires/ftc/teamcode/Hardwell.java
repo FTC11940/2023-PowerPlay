@@ -82,7 +82,7 @@ public class Hardwell {
         lift.setPower(0);
 
         // Define and initialize installed servos.
-        grabby = opForce.hardwareMap.get(Servo.class, "claw");
+        grabby = opForce.hardwareMap.get(Servo.class, "grabby");
 
         // Starting positions
         grabby.setPosition(OPEN);

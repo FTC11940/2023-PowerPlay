@@ -30,7 +30,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp(name = "Mark IX.", group="Linear OpMode")
-// @Disabled
+@Disabled
 
 public class Mark9 extends LinearOpMode {
 
