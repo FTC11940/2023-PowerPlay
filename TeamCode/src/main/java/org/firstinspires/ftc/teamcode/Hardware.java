@@ -13,7 +13,7 @@ public class Hardware {
     public DcMotor backRightMotor = null;
     public DcMotor backLeftMotor = null;
     public DcMotor lift = null;
-    public Servo grabber = null;
+    public Servo grabby = null;
 
     //additional variables
     HardwareMap hardwareMap = null;

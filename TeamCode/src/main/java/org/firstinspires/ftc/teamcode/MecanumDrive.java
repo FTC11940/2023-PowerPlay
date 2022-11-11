@@ -32,23 +32,24 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 // @Disabled
 public class MecanumDrive extends LinearOpMode {
 
-    private Servo grabby;
+    private Servo grabby; // assigns the Servo motor to the concept "grabby"
     private DcMotor lift;
     private ElapsedTime runtime = new ElapsedTime();
 
-    //    // Located in the Hardware file and matches with the Drive Hub robot settings
+    // Located in the Hardware file and matches with the Drive Hub robot settings
     private DcMotor frontLeftMotor = null; // assigned 1 in Driver Hub
     private DcMotor frontRightMotor = null; // assigned 0 in Driver Hub
     private DcMotor backRightMotor = null; // assigned 2 in Driver Hub
     private DcMotor backLeftMotor = null; // assigned 3 in Driver Hub
     BNO055IMU imu;
 
-    // for lift
     static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
     static final double DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
-    static final double PULLEY_DIAMETER_INCHES = 2.0 ; // For figuring circumference
+    static final double WHEEL_DIAMETER_INCHES = 4.01575 ; // For figuring circumference
     static final double COUNTS_PER_INCH =
-            (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (PULLEY_DIAMETER_INCHES * 3.1415);
+            (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
+
+
 
     @Override
     public void runOpMode() {
@@ -70,51 +71,101 @@ public class MecanumDrive extends LinearOpMode {
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
-        /*
-         * Both right side motors should be going in one direction,
-         * and both left side motors going in the opposite direction
-         */
-
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
-
         waitForStart();
 
-        if (isStopRequested()) return;
+        // while the operational mode is active...
         while (opModeIsActive()) {
 
-            if (gamepad1.b) {
-                grabby.setPosition(OPEN);
+            // if b is pressed on gamepad 2...
+            if (gamepad2.b) {
+                grabby.setPosition(grabby_open); // set claw, or "grabby" position to open
             }
-            if (gamepad1.a){
-                grabby.setPosition(CLOSED);
+            if (gamepad2.a){
+                grabby.setPosition(0); // close grabby
+            }
+
+
+
+            // creates the string 'liftpos' which will be modified later in if statements to show the current position of the lift on the gamepad
+            String liftpos = "no input";
+
+            // used for exact measurements by the drive team
+            // while the left trigger is pushed, increase the height of the lift
+            while (gamepad2.left_bumper){ // while the left bumper is being pressed on gamepad 2...
+                lift.setTargetPosition(lift.getCurrentPosition()+bee_speed); // set the lift's target/goal position to the current position plus "bee_speed", or the set speed of the bumper
+                lift.setPower(lift_power); // set the power to the set lift power
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION); // tells the lift to go
+            }
+
+            // while the right trigger is pushed, decrease the height of the lift
+            while (gamepad2.right_bumper){
+                lift.setTargetPosition(lift.getCurrentPosition()-bee_speed);
+                lift.setPower(lift_power);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
+
+            if (gamepad2.dpad_up) { // if up is pressed on the dpad
+                lift.setTargetPosition(lift_high); // tell the robot it needs to go to lift_high, not to actually go
+                lift.setPower(lift_power); // turns on the power in the lift motor
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION); // tells the robot to actually go to the target position
+            }
+            if((lift_high - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_high + diplomat)){
+                liftpos = "high"; // tell the gamepad to say "lift is at high position" instead of "no input", or whatever else it was set as
+            }
+
+            if (gamepad2.dpad_right){
+                lift.setTargetPosition(lift_mid);
+                lift.setPower(lift_power);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            }
+
+            if((lift_mid - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_mid + diplomat)){
+                liftpos = "medium";
+            }
+
+            if (gamepad2.dpad_left){
+                lift.setTargetPosition(lift_low);
+                lift.setPower(lift_power);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
+
+            if((lift_low - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_low + diplomat)){
+                liftpos = "low";
+            }
+
+            if (gamepad2.dpad_down){ // this is the "floor" height, or as low as the robot can go
+                lift.setTargetPosition(lift_floor);
+                lift.setPower(lift_power);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
+
+            if((lift_floor - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_floor + diplomat)){
+                /*
+                we originally had more use for the diplomat variable, but things changed and now we use it exclusively for the telemetry
+                because we have no real reason to delete it and it makes the telemetry more accurate    `
+                * */
+                liftpos = "floor";
+                lift.setPower(0); // this line of code is very important, if it isn't here the motor will burn up from overuse
+            }
+
+            if (gamepad2.y){ // this is the ground junction
+                lift.setTargetPosition(lift_ground);
+                lift.setPower(0.5);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
+
+            if((lift_ground - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_ground + diplomat)){
+                liftpos = "ground";
+
             }
 
             telemetry.update();
-
-            /* This may not be optimal. Consider using
-            // Uses the left thumbstick for forward & backwards robot movement
-
-            double drive = -gamepad1.left_stick_y;
-            double turn  =  gamepad1.right_stick_x;
-            leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-            rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
-            */
-
-            /*
-            gamepad2.left_bumper // Set lift to ground junction height
-            gamepad2.dpad_down // Set lift to on-the-ground height
-            gamepad2.dpad_right // Set lift top low height
-            gamepad2.dpad_left // Set lift to medium height
-            gamepad2.dpad_up // Set lift to high junction height
-            gamepad2.a // Set claw to close position
-            gamepad2.b // Set claw to open position
-            gamepad2.left_trigger //  Set lift to micro positions up
-            gamepad2.right_trigger //  Set lift to micro positions down
-            */
 
             // Drives the robot forward and backwards
             double y = -gamepad1.left_stick_y; // Uses the left thumbstick for left and right robot movement
@@ -132,7 +183,8 @@ public class MecanumDrive extends LinearOpMode {
             frontRightMotor.setPower(frontRightPower);
             backRightMotor.setPower(backRightPower);
 
-            String liftpos = "no input";
+
+            // String liftpos = "no input";
 
             if (gamepad1.dpad_up) { // if up is pressed on the dpad
                 lift.setTargetPosition(lift_high); // tell the robot it needs to go to lift_high, not to actually go
@@ -205,9 +257,8 @@ public class MecanumDrive extends LinearOpMode {
                 //lift.setPower(0);
             }
 
-
-
             telemetry.addData("Lift Position: ", liftpos);
+            telemetry.addData("Exact Lift Position", lift.getCurrentPosition());
             telemetry.addData("Status", "target position: " + lift.getTargetPosition());
             telemetry.addData("Status", "controller: " + lift.getController().toString());
             telemetry.addData("Status", "controller: " + lift.getCurrentPosition());
