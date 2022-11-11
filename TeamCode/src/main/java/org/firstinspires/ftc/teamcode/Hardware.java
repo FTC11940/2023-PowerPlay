@@ -17,8 +17,6 @@ public class Hardware {
     public final static double POS_MIN = -1.0;
     public final static double POS_MAX = 1.0;
 
-    //create servo
-    public Servo randomServo = null;
 
     //additional variables
     HardwareMap hardwareMap = null;
@@ -41,7 +39,7 @@ public class Hardware {
         backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
 
         //connect servo
-        randomServo = hardwareMap.get(Servo.class, "randomServo");
+        grabby = hardwareMap.get(Servo.class, "grabby");
 
         //set up motor direction
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);

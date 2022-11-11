@@ -174,15 +174,7 @@ public class VisionTest extends LinearOpMode {
                     }
                 }
 
-                /* FIXME Pseudo code
-                if (tfod == "1 Bolt") {
-                    // Drive to park position A1
 
-                            }
-                        }
-                    }
-                }
-                */
 
 
             } // end of opModeIsActive

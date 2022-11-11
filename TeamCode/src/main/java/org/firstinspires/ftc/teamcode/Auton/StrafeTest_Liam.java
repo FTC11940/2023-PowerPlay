@@ -21,10 +21,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="DEV Red-Strafe 25 pts", group="Robot")
+@Autonomous(name="TEST Strafe version 1.1", group="Robot")
 // @Disabled
 
-public class Red_25ptsStrafe extends LinearOpMode {
+public class StrafeTest_Liam extends LinearOpMode {
 
 
     Servo grabby;
@@ -80,8 +80,8 @@ public class Red_25ptsStrafe extends LinearOpMode {
     Decrease these numbers if the heading does not settle on the correct value (eg: very agile robot with omni wheels)
     */
 
-    // static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
-    // static final double     P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
+    static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
+    static final double     P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
 
     @Override
     public void runOpMode() {
@@ -157,7 +157,7 @@ public class Red_25ptsStrafe extends LinearOpMode {
 
         // Autonomous RED 20pts
         // Drive towards the high junction
-        driveStraight(DRIVE_SPEED, -25.0, 0.0); //
+        // driveStraight(DRIVE_SPEED, -25.0, 0.0); //
         // Lift code up high
         /*lift.setTargetPosition(LIFT_HIGH);
         lift.setPower(1.0);
@@ -188,10 +188,10 @@ public class Red_25ptsStrafe extends LinearOpMode {
         frontRightMotor.setPower(1.0);
         backLeftMotor.setPower(1.0);
 
-        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * -240)) ;
-        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * 240)) ;
-        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED  * 240)) ;
-        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * -240));
+        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * -480)) ;
+        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * 480)) ;
+        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED  * 480)) ;
+        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * -480));
 
        /* frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);

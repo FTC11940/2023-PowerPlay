@@ -20,10 +20,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="TESTING Strafe", group="Robot")
+@Autonomous(name="TEST Strafe version 2.0", group="Robot")
 // @Disabled
 
-public class StrafeTest extends LinearOpMode {
+public class StrafeTest_Scoy extends LinearOpMode {
 
 
     Servo grabby;
