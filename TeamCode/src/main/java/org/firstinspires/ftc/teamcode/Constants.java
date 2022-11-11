@@ -30,8 +30,6 @@ public class Constants {
     public static final double lift_power = 1;
     //constant lift bumper speed
     public static final int bee_speed = 50;
-    //bumper-gamepad1-strafe encoder value
-    public static final int hornet_speed = 25000;
 
     // Constants related to the claw
     public static final double OPEN = 0.5;

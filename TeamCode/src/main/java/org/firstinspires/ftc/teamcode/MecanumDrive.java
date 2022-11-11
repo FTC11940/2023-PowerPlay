@@ -49,10 +49,6 @@ public class MecanumDrive extends LinearOpMode {
     static final double COUNTS_PER_INCH =
             (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
 
-    private int frontLeftTarget = 0;
-    private int frontRightTarget = 0;
-    private int backLeftTarget = 0;
-    private int backRightTarget =0;
 
 
     @Override
@@ -75,20 +71,13 @@ public class MecanumDrive extends LinearOpMode {
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
-        /*
-         * Both right side motors should be going in one direction,
-         * and both left side motors going in the opposite direction
-         */
-
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        //function that prevents the following code from being executed until start is pressed
         waitForStart();
 
-        //if (isStopRequested()) return;
         // while the operational mode is active...
         while (opModeIsActive()) {
 
@@ -100,55 +89,13 @@ public class MecanumDrive extends LinearOpMode {
                 grabby.setPosition(0); // close grabby
             }
 
-            /*if (gamepad1.right_bumper){
-                frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-                frontLeftMotor.setTargetPosition(frontLeftMotor.getCurrentPosition()+500);
-                frontRightMotor.setTargetPosition(frontRightMotor.getCurrentPosition()-500);
-                backLeftMotor.setTargetPosition(backLeftMotor.getCurrentPosition()-500);
-                backRightMotor.setTargetPosition(backRightMotor.getCurrentPosition()+500);
-
-                frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                frontLeftMotor.setPower(1);
-                frontRightMotor.setPower(1);
-                backLeftMotor.setPower(1);
-                backRightMotor.setPower(1);
-            }
-
-            if (gamepad1.left_bumper){
-                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-                frontLeftMotor.setTargetPosition(-hornet_speed);
-                frontRightMotor.setTargetPosition(hornet_speed);
-                backLeftMotor.setTargetPosition(hornet_speed);
-                backRightMotor.setTargetPosition(-hornet_speed);
-
-                frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                frontLeftMotor.setPower(1);
-                frontRightMotor.setPower(1);
-                backLeftMotor.setPower(1);
-                backRightMotor.setPower(1);
-            }*/
 
             // creates the string 'liftpos' which will be modified later in if statements to show the current position of the lift on the gamepad
             String liftpos = "no input";
 
-            // while the left trigger is pushed, increase the height of the lift
             // used for exact measurements by the drive team
+            // while the left trigger is pushed, increase the height of the lift
             while (gamepad2.left_bumper){ // while the left bumper is being pressed on gamepad 2...
                 lift.setTargetPosition(lift.getCurrentPosition()+bee_speed); // set the lift's target/goal position to the current position plus "bee_speed", or the set speed of the bumper
                 lift.setPower(lift_power); // set the power to the set lift power
@@ -219,27 +166,6 @@ public class MecanumDrive extends LinearOpMode {
 
             telemetry.update();
 
-            /* This may not be optimal. Consider using
-            // Uses the left thumbstick for forward & backwards robot movement
-
-            double drive = -gamepad1.left_stick_y;
-            double turn  =  gamepad1.right_stick_x;
-            leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-            rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
-            */
-
-            /*
-            gamepad2.left_bumper // Set lift to ground junction height
-            gamepad2.dpad_down // Set lift to on-the-ground height
-            gamepad2.dpad_right // Set lift to low height
-            gamepad2.dpad_left // Set lift to medium height
-            gamepad2.dpad_up // Set lift to high junction height
-            gamepad2.a // Set claw to close position
-            gamepad2.b // Set claw to open position
-            gamepad2.left_trigger //  Set lift to micro positions up
-            gamepad2.right_trigger //  Set lift to micro positions down
-            */
-
             // Drives the robot forward and backwards
             double y = -gamepad1.left_stick_y; // Uses the left thumbstick for left and right robot movement
             double x = gamepad1.left_stick_x; //*1.1 to counteract imperfect strafing
@@ -256,25 +182,6 @@ public class MecanumDrive extends LinearOpMode {
             frontRightMotor.setPower(frontRightPower);
             backRightMotor.setPower(backRightPower);
 
-            /*
-             * Telemetry Data for Driver & Optimization
-             ** TODO Show the elapsed game time
-             ** TODO Show wheel power output during teleop
-             ** TODO Show claw-grabber position for testing
-             ** TODO Show the lift motor position for testing
-             */
-
-
-            // lift code
-            /*
-            dpaddown = ground
-            dpadleft = low
-            dpadright = medium
-            dpad up = high
-             */
-
-
-            telemetry.addData("rat catcher",frontLeftPower);
             telemetry.addData("Lift Position: ", liftpos);
             telemetry.addData("Exact Lift Position", lift.getCurrentPosition());
             telemetry.addData("Status", "target position: " + lift.getTargetPosition());
