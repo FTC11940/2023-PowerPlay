@@ -229,6 +229,7 @@ but still be displayed by sendTelemetry()
 
     // This is where most of the drive, lift, etc actions go
     private void autonPath () {
+        /*
         driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive away from wall
         turnToHeading(TURN_SPEED,  -90.0); // turn right
         driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive lateral to wall
@@ -237,6 +238,7 @@ but still be displayed by sendTelemetry()
         turnToHeading(TURN_SPEED, -270.0); // turn right
         driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive lateral to wall
         turnToHeading(TURN_SPEED, -360.0); // turn right
+*/
 
     }
 
