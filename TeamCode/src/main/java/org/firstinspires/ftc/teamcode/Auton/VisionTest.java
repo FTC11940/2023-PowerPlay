@@ -55,7 +55,7 @@ import java.util.List;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@Autonomous(name = "DEV Vision", group = "Concept")
+@Autonomous(name = "TEST Vision", group = "Concept")
 // Disabled
 public class VisionTest extends LinearOpMode {
 
