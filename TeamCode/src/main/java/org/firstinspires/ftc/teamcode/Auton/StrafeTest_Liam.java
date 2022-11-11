@@ -21,7 +21,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="TEST Strafe version 1.4", group="Robot")
+@Autonomous(name="TEST Strafe version 1.5", group="Robot")
 // @Disabled
 
 public class StrafeTest_Liam extends LinearOpMode {
@@ -170,7 +170,7 @@ public class StrafeTest_Liam extends LinearOpMode {
         //strafe
 
         strafeRight();
-        sleep(1000);
+        sleep(1450);
         // strafeLeft();
         //sleep(2000);
 
