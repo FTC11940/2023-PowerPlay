@@ -163,9 +163,11 @@ public class StrafeTest_Scoy3 extends LinearOpMode {
         strafeRight(1.0,480);
         sleep(1450);
 
+        /*
         new Strafe() {
              {super.strafeRight(1.0, 480);}
         };
+        */
 
         // strafeLeft();
         // sleep(2000);
