@@ -158,7 +158,7 @@ public class Red_F5_12pts extends LinearOpMode {
         driveStraight(DRIVE_SPEED, 20.0, 0.0); //
         turnToHeading(TURN_SPEED,  0.0);// Face forward
         driveStraight(DRIVE_SPEED, 20.0, 0.0); //
-        turnToHeading(TURN_SPEED,  45.0);//
+        turnToHeading(TURN_SPEED,  44.0);//
         // Lift code up high
         driveStraight(DRIVE_SPEED, 9.0, 0.0); //
         lift.setTargetPosition(LIFT_HIGH);

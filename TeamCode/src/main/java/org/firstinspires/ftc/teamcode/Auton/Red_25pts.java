@@ -4,6 +4,7 @@
 package org.firstinspires.ftc.teamcode.Auton;
 
 import static org.firstinspires.ftc.teamcode.Constants.*;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -76,9 +77,6 @@ public class Red_25pts extends LinearOpMode {
     // Increase these numbers if the heading does not corrects strongly enough (eg: a heavy robot or using tracks)
     Decrease these numbers if the heading does not settle on the correct value (eg: very agile robot with omni wheels)
     */
-
-    // static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
-    // static final double     P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
 
     @Override
     public void runOpMode() {
@@ -174,7 +172,7 @@ public class Red_25pts extends LinearOpMode {
 
 
         // Sequence towards the stack
-        turnToHeading(TURN_SPEED,  -40.0);//
+        turnToHeading(TURN_SPEED,  -44.0);//
         driveStraight(DRIVE_SPEED, 13.0, 0.0); //
         grabby.setPosition(OPEN);
         driveStraight(DRIVE_SPEED, -6.0, 0.0); //
@@ -327,7 +325,7 @@ public class Red_25pts extends LinearOpMode {
                     (frontLeftMotor.isBusy() && frontRightMotor.isBusy())) { // TODO consider adding backLeftMotor and backRightMotor
 
                 // Determine required steering to keep on heading
-               // turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
+                turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
 
                 // if driving in reverse, the motor correction also needs to be reversed
                 if (distance < 0)
@@ -363,13 +361,13 @@ public class Red_25pts extends LinearOpMode {
     public void turnToHeading(double maxTurnSpeed, double heading) {
 
         // Run getSteeringCorrection() once to pre-calculate the current error
-       // getSteeringCorrection(heading, P_DRIVE_GAIN);
+        getSteeringCorrection(heading, P_DRIVE_GAIN);
 
         // keep looping while we are still active, and not on heading.
         while (opModeIsActive() && (Math.abs(headingError) > HEADING_THRESHOLD)) {
 
             // Determine required steering to keep on heading
-           // turnSpeed = getSteeringCorrection(heading, P_TURN_GAIN);
+            turnSpeed = getSteeringCorrection(heading, P_TURN_GAIN);
 
             // Clip the speed to the maximum permitted value.
             turnSpeed = Range.clip(turnSpeed, -maxTurnSpeed, maxTurnSpeed);
@@ -404,7 +402,7 @@ public class Red_25pts extends LinearOpMode {
         // keep looping while we have time remaining.
         while (opModeIsActive() && (holdTimer.time() < holdTime)) {
             // Determine required steering to keep on heading
-           // turnSpeed = getSteeringCorrection(heading, P_TURN_GAIN);
+           turnSpeed = getSteeringCorrection(heading, P_TURN_GAIN);
 
             // Clip the speed to the maximum permitted value.
             turnSpeed = Range.clip(turnSpeed, -maxTurnSpeed, maxTurnSpeed);

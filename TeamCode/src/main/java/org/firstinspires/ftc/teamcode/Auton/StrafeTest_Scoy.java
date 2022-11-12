@@ -5,6 +5,9 @@
 
 package org.firstinspires.ftc.teamcode.Auton;
 
+import static org.firstinspires.ftc.teamcode.Constants.P_DRIVE_GAIN;
+import static org.firstinspires.ftc.teamcode.Constants.P_TURN_GAIN;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -77,8 +80,6 @@ public class StrafeTest_Scoy extends LinearOpMode {
     // Increase these numbers if the heading does not corrects strongly enough (eg: a heavy robot or using tracks)
     Decrease these numbers if the heading does not settle on the correct value (eg: very agile robot with omni wheels)
     */
-    static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
 
     @Override
     public void runOpMode() {

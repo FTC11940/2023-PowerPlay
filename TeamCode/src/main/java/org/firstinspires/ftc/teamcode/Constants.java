@@ -45,8 +45,8 @@ public class Constants {
     public static final double DRIVE_SPEED = 0.6;
     public static final double TURN_SPEED = 0.45;
     public static final double HEADING_THRESHOLD = 1.0;
-    static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
+    public static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
+    public static final double     P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
 
     // Vuforia constants
     public static final String VUFORIA_KEY =

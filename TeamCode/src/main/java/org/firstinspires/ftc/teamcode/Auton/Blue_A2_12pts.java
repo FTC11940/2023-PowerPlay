@@ -8,6 +8,8 @@ package org.firstinspires.ftc.teamcode.Auton;
 import static org.firstinspires.ftc.teamcode.Constants.LIFT_GROUND;
 import static org.firstinspires.ftc.teamcode.Constants.LIFT_HIGH;
 import static org.firstinspires.ftc.teamcode.Constants.OPEN;
+import static org.firstinspires.ftc.teamcode.Constants.P_DRIVE_GAIN;
+import static org.firstinspires.ftc.teamcode.Constants.P_TURN_GAIN;
 import static org.firstinspires.ftc.teamcode.Constants.TOLERANCE;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
@@ -82,8 +84,7 @@ public class Blue_A2_12pts extends LinearOpMode {
     // Increase these numbers if the heading does not corrects strongly enough (eg: a heavy robot or using tracks)
     Decrease these numbers if the heading does not settle on the correct value (eg: very agile robot with omni wheels)
     */
-    static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
+
 
     @Override
     public void runOpMode() {
@@ -156,13 +157,13 @@ public class Blue_A2_12pts extends LinearOpMode {
         // holdHeading( TURN_SPEED,  0.0, 0.5);     // action - hold last heading for a 1/2 second
         */
 
-        // Autonomous RED Complex 1
+        // Autonomous Blue 12 A2
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
         turnToHeading(TURN_SPEED,  90.0); // Turn to the right
         driveStraight(DRIVE_SPEED, 20.0, 0.0); //
         turnToHeading(TURN_SPEED,  0.0);// Face forward
         driveStraight(DRIVE_SPEED, 20.0, 0.0); //
-        turnToHeading(TURN_SPEED,  45.0);//
+        turnToHeading(TURN_SPEED,  44.0);//
         // Lift code up high
         driveStraight(DRIVE_SPEED, 9.0, 0.0); //
         lift.setTargetPosition(LIFT_HIGH);
