@@ -90,20 +90,8 @@ public class StrafeTest_Scoy3 extends LinearOpMode {
         grabby.setPosition(0.0); // Needs to be closed at start of Auton
 
         lift = hardwareMap.get(DcMotor.class,"lift");
-        // lift.setTargetPosition(0);
-        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lift.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
-        frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
-        backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
-        backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
-
-        // Match our TeleOp file
-        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        // lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        // lift.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Define initialization values for IMU, and then initialize it.
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -111,7 +99,21 @@ public class StrafeTest_Scoy3 extends LinearOpMode {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
 
+        frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
+        frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
+        backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
+        backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
+
+        // Match our TeleOp file
+        /*
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        */
+
         // Stop and reset all drive motors
+        /*
         frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -122,6 +124,7 @@ public class StrafeTest_Scoy3 extends LinearOpMode {
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+         */
 
         // Wait for the game to start (Display Gyro value while waiting)
         while (opModeInInit()) {
@@ -405,8 +408,7 @@ public class StrafeTest_Scoy3 extends LinearOpMode {
 
     // double maxPower;
     // double desiredEncoder;
-    public void strafeRight(double Power,
-                              double desiredEncoder) {
+    public void strafeRight(double Power, double desiredEncoder) {
         frontLeftMotor.setPower(0);
         backRightMotor.setPower(0);
         frontRightMotor.setPower(0);
