@@ -148,23 +148,8 @@ public class StrafeTest_Scoy3 extends LinearOpMode {
 
         // driveStraight(DRIVE_SPEED, -25.0, 0.0);
 
-
-        new Strafe() {
-            @Override
-            public void strafeRight(double maxPower, double desiredEncoder) {
-                super.strafeRight(1.0, 480);
-            }
-        };
-        sleep(1450);
-
         strafeRight(1.0,480);
-        sleep(1450);
-
-        /*
-        new Strafe() {
-             {super.strafeRight(1.0, 480);}
-        };
-        */
+        sleep(1475);
 
         // strafeLeft();
         // sleep(2000);
