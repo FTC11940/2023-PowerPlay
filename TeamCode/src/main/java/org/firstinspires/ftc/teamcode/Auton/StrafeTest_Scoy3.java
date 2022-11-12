@@ -5,10 +5,6 @@ package org.firstinspires.ftc.teamcode.Auton;
 
 import static org.firstinspires.ftc.teamcode.Constants.DRIVE_SPEED;
 import static org.firstinspires.ftc.teamcode.Constants.HEADING_THRESHOLD;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_HIGH;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_THREE_STACK;
-import static org.firstinspires.ftc.teamcode.Constants.OPEN;
-import static org.firstinspires.ftc.teamcode.Constants.TOLERANCE;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -23,12 +19,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.Strafe;
 
 
-@Autonomous(name="TEST Strafe version 1.5", group="Robot")
+@Autonomous(name="TEST Strafe version The Matrix", group="Robot")
 // @Disabled
 
-public class StrafeTest_Liam extends LinearOpMode {
+public class StrafeTest_Scoy3 extends LinearOpMode {
 
 
     Servo grabby;
@@ -148,15 +145,26 @@ public class StrafeTest_Liam extends LinearOpMode {
         // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
         // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
         // holdHeading( TURN_SPEED,  0.0, 0.5);     // action - hold last heading for a 1/2 second
-        * TODO Write autonomous actions below
         */
 
         // TODO Write autonomous actions below
 
-        driveStraight(DRIVE_SPEED, -25.0, 0.0);
-        strafeRight();
+        // driveStraight(DRIVE_SPEED, -25.0, 0.0);
 
-        // sleep(1450);
+
+        new Strafe() {
+            @Override
+            public void strafeRight(double maxPower, double desiredEncoder) {
+                super.strafeRight(1.0, 480);
+            }
+        };
+
+        sleep(1450);
+
+        strafeRight(1.0,480);
+        sleep(1450);
+
+
         // strafeLeft();
         // sleep(2000);
 
@@ -409,37 +417,10 @@ public class StrafeTest_Liam extends LinearOpMode {
         robotHeading = 0;
     }
 
-    private void strafeLeft () {
-        frontLeftMotor.setPower(0);
-        backRightMotor.setPower(0);
-        frontRightMotor.setPower(0);
-        backLeftMotor.setPower(0);
-
-        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-       backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-
-        frontLeftMotor.setPower(-1.0); // (-) strafe left
-        backRightMotor.setPower(-1.0); // (-) strafe left
-
-        frontRightMotor.setPower(1.0);
-        backLeftMotor.setPower(1.0);
-
-        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * -480)) ; // (-) strafe left
-        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * -480)); // (-) strafe left
-
-        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * 480)) ;
-        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED  * 480)) ;
-    }
-
-    private void strafeRight () {
+    // double maxPower;
+    // double desiredEncoder;
+    public void strafeRight(double maxPower,
+                              double desiredEncoder) {
         frontLeftMotor.setPower(0);
         backRightMotor.setPower(0);
         frontRightMotor.setPower(0);
@@ -455,20 +436,22 @@ public class StrafeTest_Liam extends LinearOpMode {
         frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        frontLeftMotor.setPower(maxPower);
+        backRightMotor.setPower(maxPower);
 
-        frontLeftMotor.setPower(1.0); // (-) strafe left
-        backRightMotor.setPower(1.0); // (-) strafe left
+        frontRightMotor.setPower(-1 * maxPower);
+        backLeftMotor.setPower(-1 * maxPower);
 
-        frontRightMotor.setPower(-1.0);
-        backLeftMotor.setPower(-1.0);
+        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * desiredEncoder) ) ;
+        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * (desiredEncoder) ));
 
-        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * 480)) ; // (-) strafe left
-        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * 480)); // (-) strafe left
+        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * (-1 * desiredEncoder) )) ;
+        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED  * (-1 * desiredEncoder) )) ;
+    } // end of strafe right
 
-        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * -480)) ;  // (-) strafe right
-        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED  * -480)) ;
-    }
-}
+} // end of class
+
+
 
 /* Copyright (c) 2022 FIRST. All rights reserved.
  *
