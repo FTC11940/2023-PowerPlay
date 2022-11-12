@@ -1,10 +1,10 @@
 /**
- * Red Failsafe 2 Auton starts in F2 and drives south to drop a cone and park in terminal F1
+ * Blue Failsafe 2 Auton starts in A2 and drives south to drop a cone and park in terminal A1
  */
 
 package org.firstinspires.ftc.teamcode.Auton;
-
 import static org.firstinspires.ftc.teamcode.Constants.*;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -20,15 +20,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Red-Failsafe F2", group="Robot")
+@Autonomous(name="Blue-A2 Failsafe", group="Robot")
 // @Disabled
 
-public class RedActualFailsafe2 extends LinearOpMode {
+public class Blue_A2_Failsafe extends LinearOpMode {
 
 
     Servo grabby;
     DcMotor lift;
-    // Declare OpMode members.
+    // Declare OpMode members
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
     private DcMotor backLeftMotor = null;
@@ -87,6 +87,9 @@ public class RedActualFailsafe2 extends LinearOpMode {
         // Match our TeleOp file
         grabby = hardwareMap.servo.get("grabby");
         grabby.setPosition(0.0); // Needs to be closed at start of Auton
+        lift = hardwareMap.get(DcMotor.class,"lift");
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
@@ -147,10 +150,8 @@ public class RedActualFailsafe2 extends LinearOpMode {
         */
 
 
-        // Autonomous Medium Red 1
+        // Autonomous Failsafe blue A2
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
-        turnToHeading( TURN_SPEED,  -45.0);//Turn 90 to face direction of terminal
-        driveStraight(DRIVE_SPEED, 8.0, 0.0); //
         lift.setTargetPosition(LIFT_LOW);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -159,13 +160,24 @@ public class RedActualFailsafe2 extends LinearOpMode {
             telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
             // lift.setPower(0);
         }
+        turnToHeading( TURN_SPEED,  45.0);//Turn 90 to face diretion of terminal
+        driveStraight(DRIVE_SPEED, 8.0, 0.0); //c
         grabby.setPosition(OPEN);
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
+        lift.setTargetPosition(LIFT_GROUND);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_GROUND - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_GROUND + TOLERANCE)) {
+            telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
+            // lift.setPower(0);
+        }
         turnToHeading( TURN_SPEED,  -90.0);//Turn 90 to face direction of terminal
-        driveStraight(DRIVE_SPEED, 32.00, 0.0); // Drive to terminal
-        grabby.setPosition(0.5);
+        driveStraight(DRIVE_SPEED, 22.00, 0.0); // Drive to terminal
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
         driveStraight(DRIVE_SPEED, -4.00, 0.0); // park
+        telemetry.addData("Path", "Complete");
+        telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.
     }
 

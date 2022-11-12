@@ -20,10 +20,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Blue-Failsafe A5", group="Robot")
+@Autonomous(name="Blue-A5 Failsafe", group="Robot")
 // Disabled
 
-public class BlueActualFailsafe1 extends LinearOpMode {
+public class Blue_A5_Failsafe extends LinearOpMode {
 
 
     Servo grabby;
@@ -148,10 +148,9 @@ public class BlueActualFailsafe1 extends LinearOpMode {
         */
 
 
-        // Autonomous failsafe Red 1
+        // Autonomous failsafe Blue A5
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
         turnToHeading( TURN_SPEED,  -45.0);//Turn 90 to face direction of terminal
-        driveStraight(DRIVE_SPEED, 8.0, 0.0); //
         lift.setTargetPosition(LIFT_LOW);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -160,10 +159,19 @@ public class BlueActualFailsafe1 extends LinearOpMode {
             telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
             // lift.setPower(0);
         }
+        driveStraight(DRIVE_SPEED, 8.0, 0.0); //
+        grabby.setPosition(OPEN);
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
+        lift.setTargetPosition(LIFT_GROUND);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_GROUND - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_GROUND + TOLERANCE)) {
+            telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
+            // lift.setPower(0);
+        }
         turnToHeading( TURN_SPEED,  -90.0);//Turn 90 to face direction of terminal
-        driveStraight(DRIVE_SPEED, 32.00, 0.0); // Drive to terminal
-        grabby.setPosition(0.5);
+        driveStraight(DRIVE_SPEED, 22.00, 0.0); // Drive to terminal
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
         driveStraight(DRIVE_SPEED, -4.00, 0.0); // park
         telemetry.addData("Path", "Complete");
