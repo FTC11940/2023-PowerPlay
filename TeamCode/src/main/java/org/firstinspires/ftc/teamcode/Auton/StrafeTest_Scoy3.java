@@ -405,7 +405,7 @@ public class StrafeTest_Scoy3 extends LinearOpMode {
 
     // double maxPower;
     // double desiredEncoder;
-    public void strafeRight(double maxPower,
+    public void strafeRight(double Power,
                               double desiredEncoder) {
         frontLeftMotor.setPower(0);
         backRightMotor.setPower(0);
@@ -422,17 +422,17 @@ public class StrafeTest_Scoy3 extends LinearOpMode {
         frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        frontLeftMotor.setPower(maxPower);
-        backRightMotor.setPower(maxPower);
+        frontLeftMotor.setPower(Power);
+        backRightMotor.setPower(Power);
 
-        frontRightMotor.setPower(-1 * maxPower);
-        backLeftMotor.setPower(-1 * maxPower);
+        frontRightMotor.setPower(-Power);
+        backLeftMotor.setPower(-Power);
 
-        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * desiredEncoder) ) ;
-        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * (desiredEncoder) ));
+        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * desiredEncoder)) ;
+        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * desiredEncoder));
 
-        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * (-1 * desiredEncoder) )) ;
-        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED  * (-1 * desiredEncoder) )) ;
+        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * -desiredEncoder)) ;
+        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED  * -desiredEncoder)) ;
     } // end of strafe right
 
 } // end of class
