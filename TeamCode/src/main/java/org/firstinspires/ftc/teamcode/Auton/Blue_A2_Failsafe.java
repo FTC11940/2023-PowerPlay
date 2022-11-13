@@ -58,7 +58,6 @@ public class Blue_A2_Failsafe extends LinearOpMode {
     // They can/should be tweaked to suit the specific robot drive train.
     static final double     DRIVE_SPEED             = 0.4;   // Max driving speed for better distance accuracy.
     static final double     TURN_SPEED              = 0.2;   // Max Turn speed to limit turn rate
-    static final double     HEADING_THRESHOLD       = 1.0 ;  // How close must the heading get to the target before moving to next step.
 
     @Override
     public void runOpMode() {
@@ -131,7 +130,7 @@ public class Blue_A2_Failsafe extends LinearOpMode {
 
 
         // Autonomous Failsafe blue A2
-        driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
+        driveStraight(DRIVE_SPEED, 2.0, 0.0); // Drive forward to get off the wall
         lift.setTargetPosition(LIFT_LOW);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -140,10 +139,10 @@ public class Blue_A2_Failsafe extends LinearOpMode {
             telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
             // lift.setPower(0);
         }
-        turnToHeading( TURN_SPEED,  45.0);//Turn 90 to face diretion of terminal
-        driveStraight(DRIVE_SPEED, 8.0, 0.0); //c
+        turnToHeading( TURN_SPEED,  44.0);//Turn 90 to face diretion of terminal
+        driveStraight(DRIVE_SPEED, 4.0, 0.0); //c
         grabby.setPosition(OPEN);
-        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
+        driveStraight(DRIVE_SPEED, -4.0, 0.0); //
         lift.setTargetPosition(LIFT_GROUND);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -153,9 +152,9 @@ public class Blue_A2_Failsafe extends LinearOpMode {
             // lift.setPower(0);
         }
         turnToHeading( TURN_SPEED,  -90.0);//Turn 90 to face direction of terminal
-        driveStraight(DRIVE_SPEED, 22.00, 0.0); // Drive to terminal
+        driveStraight(DRIVE_SPEED, 14.00, 0.0); // Drive to terminal
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
-        driveStraight(DRIVE_SPEED, -4.00, 0.0); // park
+        driveStraight(DRIVE_SPEED, -1.00, 0.0); // park
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.

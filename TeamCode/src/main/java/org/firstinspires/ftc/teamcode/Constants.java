@@ -34,7 +34,7 @@ public class Constants {
     public static final int hornet_speed = 25000;
 
     // Constants related to the claw
-    public static final double OPEN = 0.5;
+    public static final double OPEN = 0.35;
     public static final double CLOSED = 0.0;
     // what position grabby, or the claw, considers completely open
     public static final double grabby_open = 0.2;
