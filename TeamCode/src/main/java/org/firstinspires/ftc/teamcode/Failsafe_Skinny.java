@@ -26,11 +26,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class Failsafe_Skinny extends LinearOpMode {
 
-    @Autonomous(name="Auton Complex 1", group="Robot")
-    // @Disabled
-
-public class Auton_Complex1 extends LinearOpMode {
-
 
     Servo grabby;
     DcMotor lift;
@@ -105,7 +100,6 @@ public class Auton_Complex1 extends LinearOpMode {
         * TODO Write autonomous actions below
         */
 
-<<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Failsafe_Skinny.java
         // Autonomous Failsafe blue A2
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
         lift.setTargetPosition(LIFT_LOW);
@@ -132,7 +126,6 @@ public class Auton_Complex1 extends LinearOpMode {
         driveStraight(DRIVE_SPEED, 22.00, 0.0); // Drive to terminal
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
         driveStraight(DRIVE_SPEED, -4.00, 0.0); // park
-========
 
         driveStraight(DRIVE_SPEED, 5.0, 0.0); // Drive forward to get off the wall
         turnToHeading( TURN_SPEED,  35.0);//Turn 35 to junction
@@ -140,7 +133,7 @@ public class Auton_Complex1 extends LinearOpMode {
         turnToHeading( TURN_SPEED,  215.0);// Turn to substation
         driveStraight(DRIVE_SPEED, 28.00, 0.0); // Drive to substation
         // Insert servo code to pickup cone
-        
+
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
         driveStraight(DRIVE_SPEED, 60.0, 0.0); //
         turnToHeading( TURN_SPEED,  -25.0); // Turn to face junction
@@ -149,7 +142,6 @@ public class Auton_Complex1 extends LinearOpMode {
         // Insert lift code down here
         turnToHeading( TURN_SPEED,  0.0); // realignment
         driveStraight(DRIVE_SPEED, -60.0, 0.0); // Park in Substation
->>>>>>>> dev-auton:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Auton/AutonArchives/Auton_Complex1.java
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.
