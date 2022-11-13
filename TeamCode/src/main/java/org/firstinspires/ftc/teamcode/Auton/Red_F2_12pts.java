@@ -127,7 +127,7 @@ public class Red_F2_12pts extends LinearOpMode {
         */
 
         // Autonomous RED 25 F2
-        driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
+        driveStraight(DRIVE_SPEED, 2.0, 0.0); // Drive forward to get off the wall
         turnToHeading(TURN_SPEED,  -90.0); // Turn to the right
         driveStraight(DRIVE_SPEED, 20.0, 0.0); //
         turnToHeading(TURN_SPEED,  0.0);// Face forward
