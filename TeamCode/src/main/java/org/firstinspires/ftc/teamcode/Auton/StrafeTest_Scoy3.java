@@ -25,7 +25,7 @@ import org.firstinspires.ftc.teamcode.Drive;
 import org.firstinspires.ftc.teamcode.Strafe;
 
 
-@Autonomous(name="TEST Strafe version The Matrix", group="Robot")
+@Autonomous(name="TEST Strafe", group="Robot")
 // @Disabled
 
 public class StrafeTest_Scoy3 extends LinearOpMode {
@@ -154,8 +154,9 @@ public class StrafeTest_Scoy3 extends LinearOpMode {
 
         // driveStraight(DRIVE_SPEED, -25.0, 0.0);
 
-        strafeRight(1.0,480);
-        strafeLeft(1.0,480);
+        strafeRight(0.5,1000);
+        sleep(3000);
+        strafeLeft(0.5,480);
 
         // sleep(1475);
 
@@ -412,7 +413,7 @@ public class StrafeTest_Scoy3 extends LinearOpMode {
         robotHeading = 0;
     }
 
-    public void strafeRight(double Power, double desiredEncoder) {
+    public void strafeRight(double Power, int desiredEncoder) {
         frontLeftMotor.setPower(0);
         backRightMotor.setPower(0);
         frontRightMotor.setPower(0);
@@ -428,34 +429,43 @@ public class StrafeTest_Scoy3 extends LinearOpMode {
         frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        // Set power
         frontLeftMotor.setPower(Power);
-        backRightMotor.setPower(Power);
-
         frontRightMotor.setPower(-Power);
+        backRightMotor.setPower(Power);
         backLeftMotor.setPower(-Power);
 
-        // frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        // backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Set position
+        frontLeftMotor.setTargetPosition(desiredEncoder);
+        frontRightMotor.setTargetPosition(desiredEncoder);
+        backRightMotor.setTargetPosition(desiredEncoder);
+        backLeftMotor.setTargetPosition(desiredEncoder);
 
-        // frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        // backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // Run to position
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // Test the telemetry statement before setting power to zero.
         // if ((desiredEncoder - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_LOW + TOLERANCE)) {
         //    telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
             // lift.setPower(0);
 
+        /*
         while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > desiredEncoder)) ;
         while (opModeIsActive() && (backRightMotor.getCurrentPosition() > desiredEncoder));
 
-        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < -desiredEncoder)) ;
         while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < -desiredEncoder)) ;
+        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < -desiredEncoder)) ;
 
         driveStop();
+*/
 
     } // end of strafe right
 
-    public void strafeLeft(double Power, double desiredEncoder) {
+    public void strafeLeft(double Power, int desiredEncoder) {
         frontLeftMotor.setPower(0);
         backRightMotor.setPower(0);
         frontRightMotor.setPower(0);
