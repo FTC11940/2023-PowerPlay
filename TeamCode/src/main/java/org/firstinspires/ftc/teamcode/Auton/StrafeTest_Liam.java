@@ -1,17 +1,14 @@
-/**
- * Auton using Vuforia camera code and a simple claw response.
- * No objects detected should open claw and stay open
- * Signal one should open & close the claw once, Two should do it twice, Three.. you guessed it
+/*
  */
 
+package org.firstinspires.ftc.teamcode.Auton;
 
-package org.firstinspires.ftc.teamcode;
-
-import static org.firstinspires.ftc.teamcode.Constants.*;
-import static org.firstinspires.ftc.teamcode.Lifting.*;
-
-import org.firstinspires.ftc.robotcontroller.external.samples.RobotHardware;
-import org.firstinspires.ftc.teamcode.Hardwell.*;
+import static org.firstinspires.ftc.teamcode.Constants.DRIVE_SPEED;
+import static org.firstinspires.ftc.teamcode.Constants.HEADING_THRESHOLD;
+import static org.firstinspires.ftc.teamcode.Constants.LIFT_HIGH;
+import static org.firstinspires.ftc.teamcode.Constants.LIFT_THREE_STACK;
+import static org.firstinspires.ftc.teamcode.Constants.OPEN;
+import static org.firstinspires.ftc.teamcode.Constants.TOLERANCE;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -20,12 +17,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -33,28 +24,20 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-import java.util.List;
 
-
-@Autonomous(name = "Mark 14A", group = "Linear OpMode")
+@Autonomous(name="TEST Strafe version 1.5", group="Robot")
 // @Disabled
-public class Mark14A extends LinearOpMode {
 
-    // Create a RobotHardware object to be used to access robot hardware.
-    // Prefix any hardware functions with "robot." to access this class.
-    Hardwell   robot       = new Hardwell(this);
+public class StrafeTest_Liam extends LinearOpMode {
 
-    private Servo grabby;
-    private DcMotor lift;
-    private ElapsedTime runtime = new ElapsedTime();
 
-    //Located in the Hardware file and matches with the Drive Hub robot settings
-
-    private DcMotor frontLeftMotor = null; // assigned 1 in Driver Hub
-    private DcMotor frontRightMotor = null; // assigned 0 in Driver Hub
-    private DcMotor backRightMotor = null; // assigned 2 in Driver Hub
-    private DcMotor backLeftMotor = null; // assigned 3 in Driver Hub
-
+    Servo grabby;
+    DcMotor lift;
+    // Declare OpMode members.
+    private DcMotor frontLeftMotor = null;
+    private DcMotor frontRightMotor = null;
+    private DcMotor backLeftMotor = null;
+    private DcMotor backRightMotor = null;
 
     // Declare IMU and variables
     private BNO055IMU       imu         = null;      // Control/Expansion Hub IMU
@@ -63,9 +46,9 @@ public class Mark14A extends LinearOpMode {
     private double          headingError  = 0;
 
     /*
-These variable are declared here (as class members) so they can be updated in various methods,
-but still be displayed by sendTelemetry()
- */
+    These variable are declared here (as class members) so they can be updated in various methods,
+    but still be displayed by sendTelemetry()
+     */
     private double  targetHeading = 0;
     private double  driveSpeed    = 0;
     private double  turnSpeed     = 0;
@@ -76,232 +59,130 @@ but still be displayed by sendTelemetry()
     private int     backLeftTarget = 0;
     private int     backRightTarget =0;
 
-    private static final String[] LABELS = {
-            "1 Bolt",
-            "2 Bulb",
-            "3 Panel"
-    };
+    // Calculate the COUNTS_PER_INCH for your specific drive train.
+    // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
+    // For external drive gearing, set DRIVE_GEAR_REDUCTION as needed.
+    // For example, use a value of 2.0 for a 12-tooth spur gear driving a 24-tooth spur gear.
+    // This is gearing DOWN for less speed and more torque.
+    // For gearing UP, use a gear ratio less than 1.0. Note this will affect the direction of wheel rotation.
+    static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
+    static final double DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
+    static final double WHEEL_DIAMETER_INCHES = 4.01575 ; // For figuring circumference
+    static final double COUNTS_PER_INCH =
+            (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
 
-    /**
-     * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
-     * localization engine.
-     */
-    private VuforiaLocalizer vuforia;
+    // These constants define the desired driving/control characteristics
+    // They can/should be tweaked to suit the specific robot drive train.
+    // static final double     DRIVE_SPEED             = 0.6;   // Previously 0.4 Max driving speed for better distance accuracy.
+    // static final double     TURN_SPEED              = 0.45;   // Previously 0.2 Max Turn speed to limit turn rate
+    // static final double     HEADING_THRESHOLD       = 1.0 ;  // How close must the heading get to the target before moving to next step.
 
-    /**
-     * {@link #tfod} is the variable we will use to store our instance of the TensorFlow Object
-     * Detection engine.
-     */
-    private TFObjectDetector tfod;
+    // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
+    /* Define the Proportional control coefficient (or GAIN) for "heading control".
+    // We define one value when Turning (larger errors), and the other is used when Driving straight (smaller errors).
+    // Increase these numbers if the heading does not corrects strongly enough (eg: a heavy robot or using tracks)
+    Decrease these numbers if the heading does not settle on the correct value (eg: very agile robot with omni wheels)
+    */
+
+    static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
+    static final double     P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
 
     @Override
     public void runOpMode() {
 
         // Initialize the drive system variables.
-        robot.init();
+        // Match our TeleOp file
+        grabby = hardwareMap.servo.get("grabby");
+        grabby.setPosition(0.0); // Needs to be closed at start of Auton
+
+        lift = hardwareMap.get(DcMotor.class,"lift");
+        // lift.setTargetPosition(0);
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
+        frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
+        backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
+        backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
+
+        // Match our TeleOp file
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Define initialization values for IMU, and then initialize it.
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
 
-        // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
-        // first.
-        initVuforia();
+        // Stop and reset all drive motors
+        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        initTfod();
+        // Brake all drive motors
+        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        /**
-         * Activate TensorFlow Object Detection before we wait for the start command.
-         * Do it here so that the Camera Stream window will have the TensorFlow annotations visible.
-         **/
-
-        if (tfod != null) {
-            tfod.activate();
-
-            // The TensorFlow software will scale the input images from the camera to a lower resolution.
-            // This can result in lower detection accuracy at longer distances (> 55cm or 22").
-            // If your target is at distance greater than 50 cm (20") you can increase the magnification value
-            // to artificially zoom in to the center of image.  For best results, the "aspectRatio" argument
-            // should be set to the value of the images used to create the TensorFlow Object Detection model
-            // (typically 16/9).
-            tfod.setZoom(1.0, 16.0 / 9.0);
+        // Wait for the game to start (Display Gyro value while waiting)
+        while (opModeInInit()) {
+            telemetry.addData(">", "Robot Heading = %4.0f", getRawHeading());
+            telemetry.update();
         }
 
-        telemetry.addData("Status", "Camera Initialized");
-        telemetry.update();
-
-        waitForStart();
-
-        if (opModeIsActive()) {
-
-            resetHeading();
-
-            while (opModeIsActive()) {
-                if (tfod != null) {
-
-                    // getUpdatedRecognitions() will return null if no new information is available since
-                    // the last time that call was made.
-                    List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                    if (updatedRecognitions != null) {
-                        telemetry.addData("# Objects Detected", updatedRecognitions.size());
-
-                        // step through the list of recognitions and display image position/size information for each one
-                        // Note: "Image number" refers to the randomized image orientation/number
-                        for (Recognition recognition : updatedRecognitions) {
-                            double col = (recognition.getLeft() + recognition.getRight()) / 2;
-                            double row = (recognition.getTop() + recognition.getBottom()) / 2;
-                            double width = Math.abs(recognition.getRight() - recognition.getLeft());
-                            double height = Math.abs(recognition.getTop() - recognition.getBottom());
-
-                            if (recognition.getLabel().equals("1 Bolt")) {
-                                autonPath();
-                                signalOnePark();
-                            } else if (recognition.getLabel().equals("2 Bulb")) {
-                                autonPath();
-                                signalTwoPark();
-                            } else if (recognition.getLabel().equals("3 Panel")) {
-                                autonPath();
-                                signalThreePark();
-                            }
-
-                            telemetry.addData("", " ");
-                            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
-                            telemetry.addData("- Position (Row/Col)", "%.0f / %.0f", row, col);
-                            telemetry.addData("- Size (Width/Height)", "%.0f / %.0f", width, height);
-                        }
-
-                        telemetry.update();
-
-                    }
-
-                }
-
-            } // end whileOpMode
-
-        } // end of if(opModeIsActive)
-    }// end of runOpMode
-
-
-    /**
-     * Initialize the Vuforia localization engine.
-     */
-    private void initVuforia() {
-        /*
-         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
+        /*  Set the encoders for closed loop speed control,
+            and reset the heading for all drive motors
          */
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        resetHeading();
 
-        parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
+        /* REFERENCE
+        // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
+        // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
+        // holdHeading( TURN_SPEED,  0.0, 0.5);     // action - hold last heading for a 1/2 second
+        * TODO Write autonomous actions below
+        */
 
-        //  Instantiate the Vuforia engine
-        vuforia = ClassFactory.getInstance().createVuforia(parameters);
-    }
+        // TODO Write autonomous actions below
 
-    /**
-     * Initialize the TensorFlow Object Detection engine.
-     */
-    private void initTfod() {
-        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minResultConfidence = 0.75f;
-        tfodParameters.isModelTensorFlow2 = true;
-        tfodParameters.inputSize = 300;
-        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+        driveStraight(DRIVE_SPEED, -25.0, 0.0);
+        strafeRight();
 
-        // Use loadModelFromAsset() if the TF Model is built in as an asset by Android Studio
-        // Use loadModelFromFile() if you have downloaded a custom team model to the Robot Controller's FLASH.
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
-        // tfod.loadModelFromFile(TFOD_MODEL_FILE, LABELS);
+        // sleep(1450);
+        // strafeLeft();
+        // sleep(2000);
 
-    }
+        }
 
     /*
-     * Functions to run for autonomous parking
-     * These functions should be used to replace specific code in the logic testing
-     * which should make it make it more reusable in various autonomous files
-     * without messing with the logic
+     * ====================================================================================================
+     * Driving "Helper" functions are below this line.
+     * These provide the high and low level methods that handle driving straight and turning.
+     * ====================================================================================================
      */
 
-    // This is where most of the drive, lift, etc actions go
-    private void autonPath () {
-        /*
-        driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive away from wall
-        turnToHeading(TURN_SPEED,  -90.0); // turn right
-        driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive lateral to wall
-        turnToHeading(TURN_SPEED,  -180.0); // turn right
-        driveStraight(DRIVE_SPEED, 23.0, 0.0); // drive towards to wall
-        turnToHeading(TURN_SPEED, -270.0); // turn right
-        driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive lateral to wall
-        turnToHeading(TURN_SPEED, -360.0); // turn right
-*/
+    // **********  HIGH Level driving functions.  ********************
 
-    }
-
-    // This will run the after the main auton, as defined in autonPath (), is completed
-    private void signalOnePark() {
-        grabby.setPosition(OPEN);
-        sleep(500);
-        grabby.setPosition(CLOSED);
-        sleep(20000);
-    }
-
-    // This will run the after the main auton, as defined in autonPath (), is completed
-    private void signalTwoPark() {
-        grabby.setPosition(OPEN);
-        sleep(500);
-        grabby.setPosition(CLOSED);
-        sleep(500);
-        grabby.setPosition(OPEN);
-        sleep(500);
-        grabby.setPosition(CLOSED);
-        sleep(20000);
-    }
-
-    // This will run the after the main auton, as defined in autonPath (), is completed
-    private void signalThreePark() {
-        grabby.setPosition(OPEN);
-        sleep(500);
-        grabby.setPosition(CLOSED);
-        sleep(500);
-        grabby.setPosition(OPEN);
-        sleep(500);
-        grabby.setPosition(CLOSED);
-        sleep(500);
-        grabby.setPosition(OPEN);
-        sleep(500);
-        grabby.setPosition(CLOSED);
-        sleep(20000);
-    }
-
-    private void highJunction () {
-        lift.setTargetPosition(LIFT_HIGH);
-        lift.setPower(1.0);
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        // Test the telemetry statement before setting power to zero.
-        if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
-            telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
-            // lift.setPower(0);
-        sleep(300); // this may vary too much? Or figure out when this needs to be time triggered
-        grabby.setPosition(OPEN);
-        sleep(300);
-        }
-
-        /* Experimental - references an external method, but running into issues with static vs non-static
-    private void safePark() {
-        Lifting.highJunction();
-        grabby.setPosition(OPEN);
-        sleep(500);
-        grabby.setPosition(CLOSED);
-        sleep(20000);
-    }
-    */
-    };
-
+    /**
+     *  Method to drive in a straight line, on a fixed compass heading (angle), based on encoder counts.
+     *  Move will stop if either of these conditions occur:
+     *  1) Move gets to the desired position
+     *  2) Driver stops the OpMode running.
+     *
+     * @param maxDriveSpeed MAX Speed for forward/rev motion (range 0 to +1.0) .
+     * @param distance   Distance (in inches) to move from current position.  Negative distance means move backward.
+     * @param heading      Absolute Heading Angle (in Degrees) relative to last gyro reset.
+     *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
+     *                   If a relative angle is required, add/subtract from the current robotHeading.
+     */
     public void driveStraight(double maxDriveSpeed,
                               double distance,
                               double heading) {
@@ -316,6 +197,11 @@ but still be displayed by sendTelemetry()
             backLeftTarget = backLeftMotor.getCurrentPosition() + moveCounts;
             backRightTarget = backRightMotor.getCurrentPosition() + moveCounts;
 
+            // This block was commented out
+            frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             // Set Target FIRST, then turn on RUN_TO_POSITION
             frontLeftMotor.setTargetPosition(frontLeftTarget);
@@ -327,8 +213,6 @@ but still be displayed by sendTelemetry()
             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-
             // Set the required driving speed  (must be positive for RUN_TO_POSITION)
             // Start driving straight, and then enter the control loop
             maxDriveSpeed = Math.abs(maxDriveSpeed);
@@ -339,7 +223,7 @@ but still be displayed by sendTelemetry()
                     (frontLeftMotor.isBusy() && frontRightMotor.isBusy())) { // TODO consider adding backLeftMotor and backRightMotor
 
                 // Determine required steering to keep on heading
-                turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
+               // turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
 
                 // if driving in reverse, the motor correction also needs to be reversed
                 if (distance < 0)
@@ -375,13 +259,13 @@ but still be displayed by sendTelemetry()
     public void turnToHeading(double maxTurnSpeed, double heading) {
 
         // Run getSteeringCorrection() once to pre-calculate the current error
-        getSteeringCorrection(heading, P_DRIVE_GAIN);
+       // getSteeringCorrection(heading, P_DRIVE_GAIN);
 
         // keep looping while we are still active, and not on heading.
         while (opModeIsActive() && (Math.abs(headingError) > HEADING_THRESHOLD)) {
 
             // Determine required steering to keep on heading
-            turnSpeed = getSteeringCorrection(heading, P_TURN_GAIN);
+           // turnSpeed = getSteeringCorrection(heading, P_TURN_GAIN);
 
             // Clip the speed to the maximum permitted value.
             turnSpeed = Range.clip(turnSpeed, -maxTurnSpeed, maxTurnSpeed);
@@ -416,7 +300,7 @@ but still be displayed by sendTelemetry()
         // keep looping while we have time remaining.
         while (opModeIsActive() && (holdTimer.time() < holdTime)) {
             // Determine required steering to keep on heading
-            turnSpeed = getSteeringCorrection(heading, P_TURN_GAIN);
+           // turnSpeed = getSteeringCorrection(heading, P_TURN_GAIN);
 
             // Clip the speed to the maximum permitted value.
             turnSpeed = Range.clip(turnSpeed, -maxTurnSpeed, maxTurnSpeed);
@@ -524,9 +408,69 @@ but still be displayed by sendTelemetry()
         headingOffset = getRawHeading();
         robotHeading = 0;
     }
-} // end of class
 
-/* Copyright (c) 2019 FIRST. All rights reserved.
+    private void strafeLeft () {
+        frontLeftMotor.setPower(0);
+        backRightMotor.setPower(0);
+        frontRightMotor.setPower(0);
+        backLeftMotor.setPower(0);
+
+        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+       backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+        frontLeftMotor.setPower(-1.0); // (-) strafe left
+        backRightMotor.setPower(-1.0); // (-) strafe left
+
+        frontRightMotor.setPower(1.0);
+        backLeftMotor.setPower(1.0);
+
+        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * -480)) ; // (-) strafe left
+        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * -480)); // (-) strafe left
+
+        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * 480)) ;
+        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED  * 480)) ;
+    }
+
+    private void strafeRight () {
+        frontLeftMotor.setPower(0);
+        backRightMotor.setPower(0);
+        frontRightMotor.setPower(0);
+        backLeftMotor.setPower(0);
+
+        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+        frontLeftMotor.setPower(1.0); // (-) strafe left
+        backRightMotor.setPower(1.0); // (-) strafe left
+
+        frontRightMotor.setPower(-1.0);
+        backLeftMotor.setPower(-1.0);
+
+        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * 480)) ; // (-) strafe left
+        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * 480)); // (-) strafe left
+
+        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * -480)) ;  // (-) strafe right
+        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED  * -480)) ;
+    }
+}
+
+/* Copyright (c) 2022 FIRST. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted (subject to the limitations in the disclaimer below) provided that

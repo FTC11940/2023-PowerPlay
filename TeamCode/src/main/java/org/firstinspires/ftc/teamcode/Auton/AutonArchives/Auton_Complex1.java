@@ -2,7 +2,7 @@
  * Blue Failsafe 2 Auton starts in A2 and drives south to drop a cone and park in terminal A1
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Auton.AutonArchives;
 
 import static org.firstinspires.ftc.teamcode.Constants.*;
 
@@ -21,15 +21,17 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
+<<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Failsafe_Skinny.java
 @Autonomous(name="Blue-A2 Failsafe Skinny", group="Robot")
 // @Disabled
 
 public class Failsafe_Skinny extends LinearOpMode {
-
-    @Autonomous(name="Auton Complex 1", group="Robot")
-    // @Disabled
+========
+@Autonomous(name="Auton Complex 1", group="Robot")
+@Disabled
 
 public class Auton_Complex1 extends LinearOpMode {
+>>>>>>>> dev-auton:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Auton/AutonArchives/Auton_Complex1.java
 
 
     Servo grabby;

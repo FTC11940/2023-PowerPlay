@@ -45,8 +45,9 @@ public class Constants {
     public static final double DRIVE_SPEED = 0.6;
     public static final double TURN_SPEED = 0.45;
     public static final double HEADING_THRESHOLD = 1.0;
-    static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
+    public static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
+    public static final double     P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
+
 
     // Vuforia constants
     public static final String VUFORIA_KEY =
@@ -66,10 +67,11 @@ public class Constants {
 
     // Conversions from encoder ticks to inches with the lift.
     // Proof of concept more than actual usage for this season
-    static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
-    static final double DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
-    static final double PULLEY_DIAMETER_INCHES = 2.0 ; // For figuring circumference
-    static final double COUNTS_PER_INCH =
+
+    public static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
+    public static final double DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
+    public static final double PULLEY_DIAMETER_INCHES = 2.0 ; // For figuring circumference
+    public static final double COUNTS_PER_INCH =
             (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (PULLEY_DIAMETER_INCHES * 3.1415);
 
 }

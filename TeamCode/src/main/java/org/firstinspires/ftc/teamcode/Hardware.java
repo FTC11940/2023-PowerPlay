@@ -16,6 +16,8 @@ public class Hardware {
     public DcMotor backRightMotor = null;
     public DcMotor backLeftMotor = null;
 
+    public Servo grabby = null;
+
     public DcMotor lift = null; // creates the lift motor
     public Servo grabber = null; // creates the claw servo
     public ColorSensor color = null; // create the color sensor
@@ -45,7 +47,11 @@ public class Hardware {
         backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
 
         //connect servo
+
         lift = hardwareMap.get(DcMotor.class,"lift");
+
+        grabby = hardwareMap.get(Servo.class, "grabby");
+
 
         // Set up motor direction
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);

@@ -1,10 +1,10 @@
-/**
- * Blue Failsafe 2 Auton starts in A2 and drives south to drop a cone and park in terminal A1
+/*
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Auton;
 
-import static org.firstinspires.ftc.teamcode.Constants.*;
+import static org.firstinspires.ftc.teamcode.Constants.DRIVE_SPEED;
+import static org.firstinspires.ftc.teamcode.Constants.HEADING_THRESHOLD;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -19,22 +19,18 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.Strafe;
 
 
-@Autonomous(name="Blue-A2 Failsafe Skinny", group="Robot")
+@Autonomous(name="TEST Strafe version The Matrix", group="Robot")
 // @Disabled
 
-public class Failsafe_Skinny extends LinearOpMode {
-
-    @Autonomous(name="Auton Complex 1", group="Robot")
-    // @Disabled
-
-public class Auton_Complex1 extends LinearOpMode {
+public class StrafeTest_Scoy3 extends LinearOpMode {
 
 
     Servo grabby;
     DcMotor lift;
-    // Declare OpMode members
+    // Declare OpMode members.
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
     private DcMotor backLeftMotor = null;
@@ -60,6 +56,31 @@ public class Auton_Complex1 extends LinearOpMode {
     private int     backLeftTarget = 0;
     private int     backRightTarget =0;
 
+    // Calculate the COUNTS_PER_INCH for your specific drive train.
+    // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
+    // For external drive gearing, set DRIVE_GEAR_REDUCTION as needed.
+    // For example, use a value of 2.0 for a 12-tooth spur gear driving a 24-tooth spur gear.
+    // This is gearing DOWN for less speed and more torque.
+    // For gearing UP, use a gear ratio less than 1.0. Note this will affect the direction of wheel rotation.
+    static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
+    static final double DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
+    static final double WHEEL_DIAMETER_INCHES = 4.01575 ; // For figuring circumference
+    static final double COUNTS_PER_INCH =
+            (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
+
+    // These constants define the desired driving/control characteristics
+    // They can/should be tweaked to suit the specific robot drive train.
+    // static final double     DRIVE_SPEED             = 0.6;   // Previously 0.4 Max driving speed for better distance accuracy.
+    // static final double     TURN_SPEED              = 0.45;   // Previously 0.2 Max Turn speed to limit turn rate
+    // static final double     HEADING_THRESHOLD       = 1.0 ;  // How close must the heading get to the target before moving to next step.
+
+    // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
+    /* Define the Proportional control coefficient (or GAIN) for "heading control".
+    // We define one value when Turning (larger errors), and the other is used when Driving straight (smaller errors).
+    // Increase these numbers if the heading does not corrects strongly enough (eg: a heavy robot or using tracks)
+    Decrease these numbers if the heading does not settle on the correct value (eg: very agile robot with omni wheels)
+    */
+
     @Override
     public void runOpMode() {
 
@@ -67,19 +88,43 @@ public class Auton_Complex1 extends LinearOpMode {
         // Match our TeleOp file
         grabby = hardwareMap.servo.get("grabby");
         grabby.setPosition(0.0); // Needs to be closed at start of Auton
+
         lift = hardwareMap.get(DcMotor.class,"lift");
-        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lift.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
-        frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
-        backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
-        backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
+        // lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        // lift.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Define initialization values for IMU, and then initialize it.
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
+
+        frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
+        frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
+        backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
+        backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
+
+        // Match our TeleOp file
+        /*
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        */
+
+        // Stop and reset all drive motors
+        /*
+        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        // Brake all drive motors
+        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+         */
 
         // Wait for the game to start (Display Gyro value while waiting)
         while (opModeInInit()) {
@@ -96,64 +141,23 @@ public class Auton_Complex1 extends LinearOpMode {
         backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         resetHeading();
 
-        /*
-        * AUTON NAME: Blue FailSafe 1
-        * REFERENCE
+        /* REFERENCE
         // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
         // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
         // holdHeading( TURN_SPEED,  0.0, 0.5);     // action - hold last heading for a 1/2 second
-        * TODO Write autonomous actions below
         */
 
-<<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Failsafe_Skinny.java
-        // Autonomous Failsafe blue A2
-        driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
-        lift.setTargetPosition(LIFT_LOW);
-        lift.setPower(1.0);
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        // Test the telemetry statement before setting power to zero.
-        if ((LIFT_LOW - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_LOW + TOLERANCE)) {
-            telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
-            // lift.setPower(0);
-        }
-        turnToHeading( TURN_SPEED,  45.0);//Turn 90 to face diretion of terminal
-        driveStraight(DRIVE_SPEED, 8.0, 0.0); //c
-        grabby.setPosition(OPEN);
-        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
-        lift.setTargetPosition(LIFT_GROUND);
-        lift.setPower(1.0);
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        // Test the telemetry statement before setting power to zero.
-        if ((LIFT_GROUND - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_GROUND + TOLERANCE)) {
-            telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
-            // lift.setPower(0);
-        }
-        turnToHeading( TURN_SPEED,  -90.0);//Turn 90 to face direction of terminal
-        driveStraight(DRIVE_SPEED, 22.00, 0.0); // Drive to terminal
-        turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
-        driveStraight(DRIVE_SPEED, -4.00, 0.0); // park
-========
+        // TODO Write autonomous actions below
 
-        driveStraight(DRIVE_SPEED, 5.0, 0.0); // Drive forward to get off the wall
-        turnToHeading( TURN_SPEED,  35.0);//Turn 35 to junction
-        // Inset servo release code here
-        turnToHeading( TURN_SPEED,  215.0);// Turn to substation
-        driveStraight(DRIVE_SPEED, 28.00, 0.0); // Drive to substation
-        // Insert servo code to pickup cone
-        
-        turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
-        driveStraight(DRIVE_SPEED, 60.0, 0.0); //
-        turnToHeading( TURN_SPEED,  -25.0); // Turn to face junction
-        // Insert lift code up
-        // Inset servo release code here
-        // Insert lift code down here
-        turnToHeading( TURN_SPEED,  0.0); // realignment
-        driveStraight(DRIVE_SPEED, -60.0, 0.0); // Park in Substation
->>>>>>>> dev-auton:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Auton/AutonArchives/Auton_Complex1.java
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
-        sleep(1000);  // Pause to display last telemetry message.
-    }
+        // driveStraight(DRIVE_SPEED, -25.0, 0.0);
+
+        strafeRight(1.0,480);
+        sleep(1475);
+
+        // strafeLeft();
+        // sleep(2000);
+
+        }
 
     /*
      * ====================================================================================================
@@ -216,7 +220,7 @@ public class Auton_Complex1 extends LinearOpMode {
                     (frontLeftMotor.isBusy() && frontRightMotor.isBusy())) { // TODO consider adding backLeftMotor and backRightMotor
 
                 // Determine required steering to keep on heading
-                turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
+               // turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
 
                 // if driving in reverse, the motor correction also needs to be reversed
                 if (distance < 0)
@@ -252,13 +256,13 @@ public class Auton_Complex1 extends LinearOpMode {
     public void turnToHeading(double maxTurnSpeed, double heading) {
 
         // Run getSteeringCorrection() once to pre-calculate the current error
-        getSteeringCorrection(heading, P_DRIVE_GAIN);
+       // getSteeringCorrection(heading, P_DRIVE_GAIN);
 
         // keep looping while we are still active, and not on heading.
         while (opModeIsActive() && (Math.abs(headingError) > HEADING_THRESHOLD)) {
 
             // Determine required steering to keep on heading
-            turnSpeed = getSteeringCorrection(heading, P_TURN_GAIN);
+           // turnSpeed = getSteeringCorrection(heading, P_TURN_GAIN);
 
             // Clip the speed to the maximum permitted value.
             turnSpeed = Range.clip(turnSpeed, -maxTurnSpeed, maxTurnSpeed);
@@ -293,7 +297,7 @@ public class Auton_Complex1 extends LinearOpMode {
         // keep looping while we have time remaining.
         while (opModeIsActive() && (holdTimer.time() < holdTime)) {
             // Determine required steering to keep on heading
-            turnSpeed = getSteeringCorrection(heading, P_TURN_GAIN);
+           // turnSpeed = getSteeringCorrection(heading, P_TURN_GAIN);
 
             // Clip the speed to the maximum permitted value.
             turnSpeed = Range.clip(turnSpeed, -maxTurnSpeed, maxTurnSpeed);
@@ -401,7 +405,41 @@ public class Auton_Complex1 extends LinearOpMode {
         headingOffset = getRawHeading();
         robotHeading = 0;
     }
-}
+
+    // double maxPower;
+    // double desiredEncoder;
+    public void strafeRight(double Power, double desiredEncoder) {
+        frontLeftMotor.setPower(0);
+        backRightMotor.setPower(0);
+        frontRightMotor.setPower(0);
+        backLeftMotor.setPower(0);
+
+        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        frontLeftMotor.setPower(Power);
+        backRightMotor.setPower(Power);
+
+        frontRightMotor.setPower(-Power);
+        backLeftMotor.setPower(-Power);
+
+        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * desiredEncoder)) ;
+        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * desiredEncoder));
+
+        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * -desiredEncoder)) ;
+        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED  * -desiredEncoder)) ;
+    } // end of strafe right
+
+} // end of class
+
+
 
 /* Copyright (c) 2022 FIRST. All rights reserved.
  *

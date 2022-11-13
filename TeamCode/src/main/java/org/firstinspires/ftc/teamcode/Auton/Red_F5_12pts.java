@@ -1,8 +1,9 @@
 /**
- * Blue Failsafe 2 Auton starts in A2 and drives south to drop a cone and park in terminal A1
- */
+ * Other Red 12pts auton starts in section F5, drops a cone on the high junction, backs up,
+ * and parks in tile F3
+ **/
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Auton;
 
 import static org.firstinspires.ftc.teamcode.Constants.*;
 
@@ -14,27 +15,21 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Blue-A2 Failsafe Skinny", group="Robot")
+@Autonomous(name="Red-F5 12pts", group="Robot")
 // @Disabled
 
-public class Failsafe_Skinny extends LinearOpMode {
-
-    @Autonomous(name="Auton Complex 1", group="Robot")
-    // @Disabled
-
-public class Auton_Complex1 extends LinearOpMode {
+public class Red_F5_12pts extends LinearOpMode {
 
 
     Servo grabby;
     DcMotor lift;
-    // Declare OpMode members
+    // Declare OpMode members.
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
     private DcMotor backLeftMotor = null;
@@ -60,6 +55,7 @@ public class Auton_Complex1 extends LinearOpMode {
     private int     backLeftTarget = 0;
     private int     backRightTarget =0;
 
+
     @Override
     public void runOpMode() {
 
@@ -67,19 +63,40 @@ public class Auton_Complex1 extends LinearOpMode {
         // Match our TeleOp file
         grabby = hardwareMap.servo.get("grabby");
         grabby.setPosition(0.0); // Needs to be closed at start of Auton
+
         lift = hardwareMap.get(DcMotor.class,"lift");
+        // lift.setTargetPosition(0);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
+
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
         backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
+
+        // Match our TeleOp file
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Define initialization values for IMU, and then initialize it.
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
+
+        // Stop and reset all drive motors
+        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        // Brake all drive motors
+        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Wait for the game to start (Display Gyro value while waiting)
         while (opModeInInit()) {
@@ -96,60 +113,53 @@ public class Auton_Complex1 extends LinearOpMode {
         backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         resetHeading();
 
+        // Step through each leg of the path,
+        // Notes:   Reverse movement is obtained by setting a negative distance (not speed)
+        //          holdHeading() is used after turns to let the heading stabilize
+        //          Add a sleep(2000) after any step to keep the telemetry data visible for review
+
         /*
-        * AUTON NAME: Blue FailSafe 1
-        * REFERENCE
+
+
+        /* REFERENCE
         // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
         // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
         // holdHeading( TURN_SPEED,  0.0, 0.5);     // action - hold last heading for a 1/2 second
-        * TODO Write autonomous actions below
         */
 
-<<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Failsafe_Skinny.java
-        // Autonomous Failsafe blue A2
+        // Autonomous RED Complex 1
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
-        lift.setTargetPosition(LIFT_LOW);
-        lift.setPower(1.0);
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        // Test the telemetry statement before setting power to zero.
-        if ((LIFT_LOW - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_LOW + TOLERANCE)) {
-            telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
-            // lift.setPower(0);
-        }
-        turnToHeading( TURN_SPEED,  45.0);//Turn 90 to face diretion of terminal
-        driveStraight(DRIVE_SPEED, 8.0, 0.0); //c
+        turnToHeading(TURN_SPEED,  90.0); // Turn to the right
+        driveStraight(DRIVE_SPEED, 20.0, 0.0); //
+        turnToHeading(TURN_SPEED,  0.0);// Face forward
+        driveStraight(DRIVE_SPEED, 20.0, 0.0); //
+        turnToHeading(TURN_SPEED,  44.0);//
+        // Lift code up high
+        driveStraight(DRIVE_SPEED, 9.0, 0.0); //
+        lift.setTargetPosition(LIFT_HIGH);
+            lift.setPower(0.5);
+            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            // Test the telemetry statement before setting power to zero.
+            if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
+                telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
+                // lift.setPower(0);
+            }
+        driveStraight(DRIVE_SPEED, 4.0, 0.0); //
         grabby.setPosition(OPEN);
-        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
+        // Lift code down
         lift.setTargetPosition(LIFT_GROUND);
-        lift.setPower(1.0);
+        lift.setPower(0.5);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         // Test the telemetry statement before setting power to zero.
         if ((LIFT_GROUND - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_GROUND + TOLERANCE)) {
-            telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
-            // lift.setPower(0);
+            telemetry.addData("Lift Low Status", "You've arrived at your GROUND destination");
+            lift.setPower(0);
         }
-        turnToHeading( TURN_SPEED,  -90.0);//Turn 90 to face direction of terminal
-        driveStraight(DRIVE_SPEED, 22.00, 0.0); // Drive to terminal
-        turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
-        driveStraight(DRIVE_SPEED, -4.00, 0.0); // park
-========
-
-        driveStraight(DRIVE_SPEED, 5.0, 0.0); // Drive forward to get off the wall
-        turnToHeading( TURN_SPEED,  35.0);//Turn 35 to junction
-        // Inset servo release code here
-        turnToHeading( TURN_SPEED,  215.0);// Turn to substation
-        driveStraight(DRIVE_SPEED, 28.00, 0.0); // Drive to substation
-        // Insert servo code to pickup cone
-        
-        turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
-        driveStraight(DRIVE_SPEED, 60.0, 0.0); //
-        turnToHeading( TURN_SPEED,  -25.0); // Turn to face junction
-        // Insert lift code up
-        // Inset servo release code here
-        // Insert lift code down here
-        turnToHeading( TURN_SPEED,  0.0); // realignment
-        driveStraight(DRIVE_SPEED, -60.0, 0.0); // Park in Substation
->>>>>>>> dev-auton:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Auton/AutonArchives/Auton_Complex1.java
+        driveStraight(DRIVE_SPEED, -6.0, 0.0); //
+        turnToHeading( TURN_SPEED,  0.0);// Turn to substation
+        driveStraight(DRIVE_SPEED, -20, 0.0); // Drive to substation
+        sleep(1000);
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.
