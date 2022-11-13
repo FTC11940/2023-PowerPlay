@@ -65,10 +65,6 @@ public class Mark13A extends LinearOpMode {
     };
 
 
-    /** Moved to constants
-     * private static final String VUFORIA_KEY = "";
-     */
-
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
      * localization engine.
@@ -141,11 +137,6 @@ public class Mark13A extends LinearOpMode {
          * Both right side motors should be going in one direction,
          * and both left side motors going in the opposite direction
          */
-
-        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         waitForStart();
 
@@ -252,25 +243,23 @@ public class Mark13A extends LinearOpMode {
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
         // tfod.loadModelFromFile(TFOD_MODEL_FILE, LABELS);
 
-        /* */
+        /* TODO This should not be needed because its tested and found true above at line 169
         if (signalOne == true) {
             signalOnePark();
+            sleep(10000);
 
-            /*
-             * Testing purposes. This would be replaced by a specific parking function.
-             * This should open the claw, pause, and close twice
-             */
         } else if (signalTwo == true) {
             signalTwoPark();
+            sleep(10000);
 
-            /*
-             * Testing purposes. This would be replaced by a specific parking function.
-             * This should open the claw, pause, and close three times
-             */
         } else if (signalThree == true) {
             signalThreePark();
+            sleep(10000);
+
 
         }// END of testing sequence
+
+         */
     }
 
     /*
