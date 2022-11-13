@@ -15,10 +15,6 @@ package org.firstinspires.ftc.teamcode.Auton.AutonArchives;
 >>>>>>>> dev-auton:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Auton/AutonArchives/Blue_Medium1.java
 
 import static org.firstinspires.ftc.teamcode.Constants.*;
-import static org.firstinspires.ftc.teamcode.Lifting.*;
-
-import org.firstinspires.ftc.robotcontroller.external.samples.RobotHardware;
-import org.firstinspires.ftc.teamcode.Hardwell.*;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -46,7 +42,7 @@ import java.util.List;
 
 @Autonomous(name = "Mark 14A", group = "Linear OpMode")
 // @Disabled
-public class Mark14A extends LinearOpMode {
+public class Mark14A_txt extends LinearOpMode {
 
     // Create a RobotHardware object to be used to access robot hardware.
     // Prefix any hardware functions with "robot." to access this class.
@@ -63,7 +59,6 @@ public class Mark14A extends LinearOpMode {
     private DcMotor backRightMotor = null; // assigned 2 in Driver Hub
     private DcMotor backLeftMotor = null; // assigned 3 in Driver Hub
 
-========
 @Autonomous(name="Blue-Medium 1", group="Robot")
 // @Disabled
 
@@ -104,7 +99,7 @@ but still be displayed by sendTelemetry()
             "3 Panel"
     };
 
-<<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Mark14A.java
+<<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Mark14A_txt.java
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
      * localization engine.
@@ -136,7 +131,7 @@ but still be displayed by sendTelemetry()
     public void runOpMode() {
 
         // Initialize the drive system variables.
-<<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Mark14A.java
+<<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/ Mark14A_txt.java
         robot.init();
 ========
         // Match our TeleOp file
@@ -184,7 +179,7 @@ but still be displayed by sendTelemetry()
             tfod.setZoom(1.0, 16.0 / 9.0);
         }
 
-<<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Mark14A.java
+<<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/ Mark14A_txt.java
         telemetry.addData("Status", "Camera Initialized");
 ========
         /*  Set the encoders for closed loop speed control,
