@@ -189,7 +189,7 @@ public class Red_F5_Failsafe extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            int moveCounts = (int)(distance * COUNTS_PER_INCH);
+            int moveCounts = (int)(distance * FAILSAFE_COUNTS_PER_INCH);
             frontLeftTarget = frontLeftMotor.getCurrentPosition() + moveCounts;
             frontRightTarget = frontRightMotor.getCurrentPosition() + moveCounts;
             backLeftTarget = backLeftMotor.getCurrentPosition() + moveCounts;

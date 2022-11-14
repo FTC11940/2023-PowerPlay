@@ -50,7 +50,7 @@ public class Constants {
     public static final double P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
 
     // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
-    /* Define the Proportional control coefficient (or GAIN) for "heading control".
+    /* Define the Proportional control coefficient (or GAIN) for "heading control". */
     // Vuforia constants
     public static final String VUFORIA_KEY =
             "AQlm0VH/////AAABmecSieTQsU26rgeA9+8pNJ0JiCO/pfP8X82+Kv4Czexw7qCupZvMaBQROIVF3rj9aoXmjtRDTA1mHJVdaV6hWpfm0jMW8qnLFUmIJQwHIYZ9aM/sQR71rjIx9L5REWzQ9LTYIwLGaW3gwBbaOXpOZ/yi2mt4Q/RIes7idEhwoRkFQh0H+zHxO0iqZdbbUibMlTMif/0g/FqqjBY/abecyaNvfCErZX6jVLlMXPk4cyEeCO6i57ufYKhrOMAHa2BOEgbjvTx52vUeZHh5nORqSa/mJy7ZzE2mrSG4SJ7KEZm1C7Lbnzo6WtMj+F6e1gqISfrynyNJoMrlq9uUHzm8gEbcebYncHx869F+ykNDQTZ7";
@@ -69,10 +69,29 @@ public class Constants {
 
     // Conversions from encoder ticks to inches with the lift.
     // Proof of concept more than actual usage for this season
+
+    // ORIGINAL used with Failsafe 11-13-2022 and conceptually the lift
+    /*
     public static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
     public static final double DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
     public static final double PULLEY_DIAMETER_INCHES = 2.0 ; // For figuring circumference
     public static final double COUNTS_PER_INCH =
             (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (PULLEY_DIAMETER_INCHES * 3.1415);
+    */
+
+    // Failsafe
+    public static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
+    public static final double LIFT_DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
+    public static final double PULLEY_DIAMETER_INCHES = 2.0 ; // For figuring circumference
+    public static final double FAILSAFE_COUNTS_PER_INCH =
+            (COUNTS_PER_MOTOR_REV * LIFT_DRIVE_GEAR_REDUCTION) / (PULLEY_DIAMETER_INCHES * 3.1415);
+
+
+    // Conversions from encoder ticks to inches with the Drivetrain.
+    // public static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket - same as above
+    public static final double DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
+    public static final double WHEEL_DIAMETER_INCHES = 4.01575  ; // For figuring circumference // website 3.93701
+    public static final double DRIVE_COUNTS_PER_INCH =
+            (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
 
 }
