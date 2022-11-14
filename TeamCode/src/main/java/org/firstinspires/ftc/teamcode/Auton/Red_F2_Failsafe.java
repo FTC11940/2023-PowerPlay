@@ -54,31 +54,12 @@ public class Red_F2_Failsafe extends LinearOpMode {
     private int     backLeftTarget = 0;
     private int     backRightTarget =0;
 
-    // Calculate the COUNTS_PER_INCH for your specific drive train.
-    // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
-    // For external drive gearing, set DRIVE_GEAR_REDUCTION as needed.
-    // For example, use a value of 2.0 for a 12-tooth spur gear driving a 24-tooth spur gear.
-    // This is gearing DOWN for less speed and more torque.
-    // For gearing UP, use a gear ratio less than 1.0. Note this will affect the direction of wheel rotation.
-    static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
-    static final double DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
-    static final double WHEEL_DIAMETER_INCHES = 4.01575 ; // For figuring circumference
-    static final double COUNTS_PER_INCH =
-            (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
-
     // These constants define the desired driving/control characteristics
     // They can/should be tweaked to suit the specific robot drive train.
     static final double     DRIVE_SPEED             = 0.4;   // Max driving speed for better distance accuracy.
     static final double     TURN_SPEED              = 0.2;   // Max Turn speed to limit turn rate
     static final double     HEADING_THRESHOLD       = 1.0 ;  // How close must the heading get to the target before moving to next step.
-    // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
-    /* Define the Proportional control coefficient (or GAIN) for "heading control".
-    // We define one value when Turning (larger errors), and the other is used when Driving straight (smaller errors).
-    // Increase these numbers if the heading does not corrects strongly enough (eg: a heavy robot or using tracks)
-    Decrease these numbers if the heading does not settle on the correct value (eg: very agile robot with omni wheels)
-    */
-    static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
+
 
     @Override
     public void runOpMode() {
@@ -87,6 +68,9 @@ public class Red_F2_Failsafe extends LinearOpMode {
         // Match our TeleOp file
         grabby = hardwareMap.servo.get("grabby");
         grabby.setPosition(0.0); // Needs to be closed at start of Auton
+        lift = hardwareMap.get(DcMotor.class,"lift");
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
@@ -148,7 +132,7 @@ public class Red_F2_Failsafe extends LinearOpMode {
 
 
         // Autonomous Failsafe Red F2
-        driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
+        driveStraight(DRIVE_SPEED, 2.0, 0.0); // Drive forward to get off the wall
         lift.setTargetPosition(LIFT_LOW);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -157,10 +141,10 @@ public class Red_F2_Failsafe extends LinearOpMode {
             telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
             // lift.setPower(0);
         }
-        turnToHeading( TURN_SPEED,  -45.0);//Turn 90 to face diretion of terminal
-        driveStraight(DRIVE_SPEED, 8.0, 0.0); //c
+        turnToHeading( TURN_SPEED,  -44.0);//Turn 90 to face direction of terminal
+        driveStraight(DRIVE_SPEED, 4.0, 0.0); //
         grabby.setPosition(OPEN);
-        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
+        driveStraight(DRIVE_SPEED, -4.0, 0.0); //
         lift.setTargetPosition(LIFT_GROUND);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -170,9 +154,9 @@ public class Red_F2_Failsafe extends LinearOpMode {
             // lift.setPower(0);
         }
         turnToHeading( TURN_SPEED,  90.0);//Turn 90 to face direction of terminal
-        driveStraight(DRIVE_SPEED, 22.00, 0.0); // Drive to terminal
+        driveStraight(DRIVE_SPEED, 14.00, 0.0); // Drive to terminal
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
-        driveStraight(DRIVE_SPEED, -4.00, 0.0); // park
+        driveStraight(DRIVE_SPEED, -1.00, 0.0); // park
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.
