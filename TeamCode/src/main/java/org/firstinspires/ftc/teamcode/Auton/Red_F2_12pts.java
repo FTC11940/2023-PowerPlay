@@ -127,13 +127,12 @@ public class Red_F2_12pts extends LinearOpMode {
         */
 
         // Autonomous RED 25 F2
-        driveStraight(DRIVE_SPEED, 2.0, 0.0); // Drive forward to get off the wall
+        driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
         turnToHeading(TURN_SPEED,  -90.0); // Turn to the right
         driveStraight(DRIVE_SPEED, 20.0, 0.0); //
         turnToHeading(TURN_SPEED,  0.0);// Face forward
 
         // Lift code up high
-
         lift.setTargetPosition(LIFT_HIGH);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -144,7 +143,8 @@ public class Red_F2_12pts extends LinearOpMode {
             }
         driveStraight(DRIVE_SPEED, 21.5, 0.0); //
         turnToHeading(TURN_SPEED,  -44.0);//
-        driveStraight(DRIVE_SPEED, 13.0, 0.0); //
+        driveStraight(DRIVE_SPEED, 11.0, 0.0); //
+        sleep(500);
         grabby.setPosition(OPEN);
         driveStraight(DRIVE_SPEED, -6.0, 0.0); //
         // Lift code down

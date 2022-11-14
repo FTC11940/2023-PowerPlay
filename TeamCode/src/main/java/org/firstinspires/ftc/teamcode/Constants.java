@@ -15,7 +15,7 @@ public class Constants {
     public static final int LIFT_TWO_STACK = 166; // for use in Auton
     public static final int LIFT_LOW = 1200; // 13.5" Low junction height
     public static final int LIFT_MEDIUM = 2000; // 23.5" Medium junction height
-    public static final int LIFT_HIGH = 2800; // 33.5" High junction height
+    public static final int LIFT_HIGH = 3000; // 33.5" High junction height
     public static final int TOLERANCE = 10;
 
     // Same as above for lift, just different names

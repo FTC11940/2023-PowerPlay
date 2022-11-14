@@ -132,23 +132,23 @@ public class Blue_A2_12pts extends LinearOpMode {
         turnToHeading(TURN_SPEED,  90.0); // Turn to the right
         driveStraight(DRIVE_SPEED, 20.0, 0.0); //
         turnToHeading(TURN_SPEED,  0.0);// Face forward
-        driveStraight(DRIVE_SPEED, 20.0, 0.0); //
-        turnToHeading(TURN_SPEED,  44.0);//
         // Lift code up high
-        driveStraight(DRIVE_SPEED, 9.0, 0.0); //
         lift.setTargetPosition(LIFT_HIGH);
-            lift.setPower(0.5);
-            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            // Test the telemetry statement before setting power to zero.
-            if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
-                telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
-                // lift.setPower(0);
-            }
-        driveStraight(DRIVE_SPEED, 4.0, 0.0); //
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
+            telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
+            // lift.setPower(0);
+        }
+        driveStraight(DRIVE_SPEED, 21.5, 0.0); //
+        turnToHeading(TURN_SPEED,  44.0);//
+        driveStraight(DRIVE_SPEED, 13.0, 0.0); //
         grabby.setPosition(OPEN);
+        driveStraight(DRIVE_SPEED, -6.0, 0.0); //
         // Lift code down
         lift.setTargetPosition(LIFT_GROUND);
-        lift.setPower(0.5);
+        lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // Test the telemetry statement before setting power to zero.
@@ -156,10 +156,8 @@ public class Blue_A2_12pts extends LinearOpMode {
             telemetry.addData("Lift Low Status", "You've arrived at your GROUND destination");
             lift.setPower(0);
         }
-        driveStraight(DRIVE_SPEED, -6.0, 0.0); //
         turnToHeading( TURN_SPEED,  0.0);// Turn to substation
-        driveStraight(DRIVE_SPEED, -20, 0.0); // Drive to substation
-        sleep(1000);
+        driveStraight(DRIVE_SPEED, -25, 0.0); // Drive to substation
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.
