@@ -69,10 +69,29 @@ public class Constants {
 
     // Conversions from encoder ticks to inches with the lift.
     // Proof of concept more than actual usage for this season
+
+    // ORIGINAL used with Failsafe 11-13-2022 and conceptually the lift
+    /*
     public static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
     public static final double DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
     public static final double PULLEY_DIAMETER_INCHES = 2.0 ; // For figuring circumference
     public static final double COUNTS_PER_INCH =
             (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (PULLEY_DIAMETER_INCHES * 3.1415);
+    */
+
+    // Failsafe
+    public static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
+    public static final double LIFT_DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
+    public static final double PULLEY_DIAMETER_INCHES = 2.0 ; // For figuring circumference
+    public static final double FAILSAFE_COUNTS_PER_INCH =
+            (COUNTS_PER_MOTOR_REV * LIFT_DRIVE_GEAR_REDUCTION) / (PULLEY_DIAMETER_INCHES * 3.1415);
+
+
+    // Conversions from encoder ticks to inches with the Drivetrain.
+    // public static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket - same as above
+    public static final double DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
+    public static final double WHEEL_DIAMETER_INCHES = 4.01575  ; // For figuring circumference // website 3.93701
+    public static final double DRIVE_COUNTS_PER_INCH =
+            (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
 
 }
