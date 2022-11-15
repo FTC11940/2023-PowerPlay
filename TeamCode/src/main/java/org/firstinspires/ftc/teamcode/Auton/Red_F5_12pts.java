@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -28,7 +29,9 @@ public class Red_F5_12pts extends LinearOpMode {
 
 
     Servo grabby;
+    Servo YSNP;
     DcMotor lift;
+    TouchSensor touchy;
     // Declare OpMode members.
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
@@ -64,10 +67,15 @@ public class Red_F5_12pts extends LinearOpMode {
         grabby = hardwareMap.servo.get("grabby");
         grabby.setPosition(0.0); // Needs to be closed at start of Auton
 
+        YSNP = hardwareMap.servo.get("YSNP");
+        YSNP.setPosition(PASS); // Needs to be closed at start of Auton
+
         lift = hardwareMap.get(DcMotor.class,"lift");
         // lift.setTargetPosition(0);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        touchy = hardwareMap.get(TouchSensor.class,"touchy");
 
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
@@ -128,6 +136,7 @@ public class Red_F5_12pts extends LinearOpMode {
         */
 
         // Autonomous RED Complex 1
+        waitForStart();
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
         turnToHeading(TURN_SPEED,  90.0); // Turn to the right
         driveStraight(DRIVE_SPEED, 20.0, 0.0); //
@@ -142,12 +151,35 @@ public class Red_F5_12pts extends LinearOpMode {
             telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
             // lift.setPower(0);
         }
+
         driveStraight(DRIVE_SPEED, 21.5, 0.0); //
+
         turnToHeading(TURN_SPEED,  44.0);//
-        driveStraight(DRIVE_SPEED, 12.0, 0.0); //
         sleep(500);
-        grabby.setPosition(OPEN);
-        driveStraight(DRIVE_SPEED, -6.0, 0.0); //
+        YSNP.setPosition(SHUT);// Closes the gate
+
+        while (opModeIsActive()) {
+            if (touchy.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(500);
+                grabby.setPosition(OPEN);
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(0.2);
+                backRightMotor.setPower(0.2);
+            }
+
+        }
+
+        driveStraight(DRIVE_SPEED, -6.0, 0.0); // Drive to substation
+        YSNP.setPosition(PASS);// Open the gate
+        sleep(500);
         // Lift code down
         lift.setTargetPosition(LIFT_GROUND);
         lift.setPower(1.0);
@@ -159,7 +191,10 @@ public class Red_F5_12pts extends LinearOpMode {
             lift.setPower(0);
         }
         turnToHeading( TURN_SPEED,  0.0);// Turn to substation
-        driveStraight(DRIVE_SPEED, -25, 0.0); // Drive to substation
+        driveStraight(DRIVE_SPEED, -27, 0.0); // Drive to substation
+        sleep(1000);
+        telemetry.addData("Path", "Complete");
+        telemetry.update();
         sleep(1000);
         telemetry.addData("Path", "Complete");
         telemetry.update();

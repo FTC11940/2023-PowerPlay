@@ -34,7 +34,7 @@ public class Constants {
     public static final int hornet_speed = 25000;
 
     // Constants related to the claw
-    public static final double OPEN = 0.35;
+    public static final double OPEN = 0.33;
     public static final double CLOSED = 0.0;
     // what position grabby, or the claw, considers completely open
     public static final double grabby_open = 0.2;
@@ -49,6 +49,9 @@ public class Constants {
     public static final double P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
     public static final double P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
 
+    public static final double SHUT = 0.1; // Drops the servo "You Shall Not Pass" gate
+    public static final double PASS = 0.5; // Opens the servo "You Shall Not Pass" gate
+
     // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
     /* Define the Proportional control coefficient (or GAIN) for "heading control". */
     // Vuforia constants
@@ -61,7 +64,7 @@ public class Constants {
      * has been downloaded to the Robot Controller's SD FLASH memory, it must to be loaded using loadModelFromFile()
      * Here we assume it's an Asset.    Also see method initTfod() below .
      */
-
+//PASS
     public static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
 
     // Use this if adding custom signal images

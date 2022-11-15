@@ -3,7 +3,9 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 
 public class Hardware {
     //create motors
@@ -11,7 +13,14 @@ public class Hardware {
     public DcMotor frontLeftMotor = null;
     public DcMotor backRightMotor = null;
     public DcMotor backLeftMotor = null;
+
+    public DcMotor lift = null;
+
     public Servo grabby = null;
+    public Servo YSNP = null;
+
+     public TouchSensor touchy = null;
+    //public DigitalChannel touchy = null;
 
     public final static double POS_HOME = 0.0;
     public final static double POS_MIN = -1.0;
@@ -20,6 +29,7 @@ public class Hardware {
 
     //additional variables
     HardwareMap hardwareMap = null;
+
     public ElapsedTime runtime = new ElapsedTime();
 
     public Hardware(HardwareMap hwMap){
@@ -38,8 +48,16 @@ public class Hardware {
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
         backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
 
+        lift = hardwareMap.get(DcMotor.class,"lift");
+
+        // Touch Sensor
+         touchy = hardwareMap.get(TouchSensor.class, "touchy");
+        //touchy = hardwareMap.get(DigitalChannel.class, "touchy");
+
         //connect servo
         grabby = hardwareMap.get(Servo.class, "grabby");
+        YSNP = hardwareMap.get(Servo.class, "YSNP");
+
 
         //set up motor direction
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
