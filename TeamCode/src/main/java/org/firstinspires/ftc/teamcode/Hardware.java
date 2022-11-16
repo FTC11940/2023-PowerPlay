@@ -53,7 +53,7 @@ public class Hardware {
         lift = hardwareMap.get(DcMotor.class,"lift");
 
         // Touch Sensor for gate
-        touchy = hardwareMap.get(TouchSensor.class, "touchy");
+         touchy = hardwareMap.get(TouchSensor.class, "touchy");
 
         //connect servos
         grabby = hardwareMap.get(Servo.class, "grabby");
