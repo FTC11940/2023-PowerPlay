@@ -202,7 +202,7 @@ public class Red_25pts extends LinearOpMode {
         turnToHeading( TURN_SPEED,  90.0); //
         driveStraight(DRIVE_SPEED, 33.0, 0.0); //
         grabby.setPosition(CLOSED);
-        lift.setTargetPosition(1020);
+        lift.setTargetPosition(1020); // FIXME Consider define this as a reusable variable if used elsewhere
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
@@ -484,6 +484,45 @@ public class Red_25pts extends LinearOpMode {
         // Save a new heading offset equal to the current raw heading.
         headingOffset = getRawHeading();
         robotHeading = 0;
+    }
+
+    /*
+     * Functions to run for autonomous parking
+     * These functions should be used to replace specific code in the logic testing
+     * which should make it make it more reusable in various autonomous files
+     * without messing with the logic */
+
+    private void signalOnePark() {
+        grabby.setPosition(OPEN);
+        sleep(500);
+        grabby.setPosition(CLOSED);
+        sleep(20000);
+    }
+
+    private void signalTwoPark() {
+        grabby.setPosition(OPEN);
+        sleep(500);
+        grabby.setPosition(CLOSED);
+        sleep(500);
+        grabby.setPosition(OPEN);
+        sleep(500);
+        grabby.setPosition(CLOSED);
+        sleep(20000);
+    }
+
+    private void signalThreePark() {
+        grabby.setPosition(OPEN);
+        sleep(500);
+        grabby.setPosition(CLOSED);
+        sleep(500);
+        grabby.setPosition(OPEN);
+        sleep(500);
+        grabby.setPosition(CLOSED);
+        sleep(500);
+        grabby.setPosition(OPEN);
+        sleep(500);
+        grabby.setPosition(CLOSED);
+        sleep(20000);
     }
 }
 
