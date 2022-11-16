@@ -5,16 +5,7 @@
 
 package org.firstinspires.ftc.teamcode.Auton;
 
-import static org.firstinspires.ftc.teamcode.Constants.COUNTS_PER_INCH;
-import static org.firstinspires.ftc.teamcode.Constants.DRIVE_SPEED;
-import static org.firstinspires.ftc.teamcode.Constants.HEADING_THRESHOLD;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_GROUND;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_HIGH;
-import static org.firstinspires.ftc.teamcode.Constants.OPEN;
-import static org.firstinspires.ftc.teamcode.Constants.P_DRIVE_GAIN;
-import static org.firstinspires.ftc.teamcode.Constants.P_TURN_GAIN;
-import static org.firstinspires.ftc.teamcode.Constants.TOLERANCE;
-import static org.firstinspires.ftc.teamcode.Constants.TURN_SPEED;
+import static org.firstinspires.ftc.teamcode.Constants.*;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -22,6 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -38,7 +30,9 @@ public class Blue_A2_12pts extends LinearOpMode {
 
 
     Servo grabby;
+    Servo YSNP;
     DcMotor lift;
+    TouchSensor touchy;
     // Declare OpMode members.
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
@@ -72,11 +66,14 @@ public class Blue_A2_12pts extends LinearOpMode {
         // Match our TeleOp file
         grabby = hardwareMap.servo.get("grabby");
         grabby.setPosition(0.0); // Needs to be closed at start of Auton
-
+        YSNP = hardwareMap.servo.get("YSNP");
+        YSNP.setPosition(PASS); // Needs to be closed at start of Auton
         lift = hardwareMap.get(DcMotor.class,"lift");
         // lift.setTargetPosition(0);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        touchy = hardwareMap.get(TouchSensor.class,"touchy");
 
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
@@ -137,27 +134,53 @@ public class Blue_A2_12pts extends LinearOpMode {
         */
 
         // Autonomous Blue 12 A2
+        waitForStart();
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
         turnToHeading(TURN_SPEED,  90.0); // Turn to the right
         driveStraight(DRIVE_SPEED, 20.0, 0.0); //
         turnToHeading(TURN_SPEED,  0.0);// Face forward
-        driveStraight(DRIVE_SPEED, 20.0, 0.0); //
-        turnToHeading(TURN_SPEED,  44.0);//
+
         // Lift code up high
-        driveStraight(DRIVE_SPEED, 9.0, 0.0); //
         lift.setTargetPosition(LIFT_HIGH);
-            lift.setPower(0.5);
-            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            // Test the telemetry statement before setting power to zero.
-            if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
-                telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
-                // lift.setPower(0);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
+            telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
+            // lift.setPower(0);
+        }
+
+        driveStraight(DRIVE_SPEED, 21.5, 0.0); //
+
+        turnToHeading(TURN_SPEED,  44.0);//
+        sleep(500);
+        YSNP.setPosition(SHUT);// Closes the gate
+
+        while (opModeIsActive()) {
+            if (touchy.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(500);
+                grabby.setPosition(OPEN);
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(0.2);
+                backRightMotor.setPower(0.2);
             }
-        driveStraight(DRIVE_SPEED, 4.0, 0.0); //
-        grabby.setPosition(OPEN);
+
+        }
+
+        driveStraight(DRIVE_SPEED, -6.0, 0.0); // Drive to substation
+        YSNP.setPosition(PASS);// Open the gate
+        sleep(500);
         // Lift code down
         lift.setTargetPosition(LIFT_GROUND);
-        lift.setPower(0.5);
+        lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // Test the telemetry statement before setting power to zero.
@@ -165,9 +188,8 @@ public class Blue_A2_12pts extends LinearOpMode {
             telemetry.addData("Lift Low Status", "You've arrived at your GROUND destination");
             lift.setPower(0);
         }
-        driveStraight(DRIVE_SPEED, -6.0, 0.0); //
         turnToHeading( TURN_SPEED,  0.0);// Turn to substation
-        driveStraight(DRIVE_SPEED, -20, 0.0); // Drive to substation
+        driveStraight(DRIVE_SPEED, -27, 0.0); // Drive to substation
         sleep(1000);
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -203,7 +225,7 @@ public class Blue_A2_12pts extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            int moveCounts = (int)(distance * COUNTS_PER_INCH);
+            int moveCounts = (int)(distance * DRIVE_COUNTS_PER_INCH);
             frontLeftTarget = frontLeftMotor.getCurrentPosition() + moveCounts;
             frontRightTarget = frontRightMotor.getCurrentPosition() + moveCounts;
             backLeftTarget = backLeftMotor.getCurrentPosition() + moveCounts;
