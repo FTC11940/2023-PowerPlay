@@ -133,8 +133,8 @@ public class Red_F2_25pts extends LinearOpMode {
 
         // Autonomous RED 20pts
         // Drive towards the high junction
-        waitForStart();
-        driveStraight(DRIVE_SPEED, -22.0, 0.0); //
+       waitForStart();
+       driveStraight(DRIVE_SPEED, -22.0, 0.0); //
         // Lift code up high
         lift.setTargetPosition(LIFT_HIGH);
         lift.setPower(1.0);
@@ -144,9 +144,12 @@ public class Red_F2_25pts extends LinearOpMode {
             telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
             // lift.setPower(0);
         }
+
+
         strafeRight();
-        sleep(2000);
+        sleep(1450);
         // Sequence towards the stack
+
         YSNP.setPosition(SHUT);
         while (opModeIsActive()) {
             if (touchy.isPressed()) {
@@ -166,8 +169,10 @@ public class Red_F2_25pts extends LinearOpMode {
             }
 
         }
-        driveStraight(DRIVE_SPEED, -6.0, 0.0); //
 
+        driveStraight(DRIVE_SPEED, -6.0, 0.0); //
+        strafeLeft();
+        sleep(120);
         // lift.setTargetPosition(612);
         lift.setTargetPosition(LIFT_TOP_STACK);
         lift.setPower(1.0);
@@ -178,9 +183,7 @@ public class Red_F2_25pts extends LinearOpMode {
         }
 
         // Sequence towards the substation stack
-        turnToHeading(TURN_SPEED, 0.0);// Turn to substation
         driveStraight(DRIVE_SPEED, 25.0, 0.0); // Drive to substation
-        YSNP.setPosition(CLOSED);
         while (opModeIsActive()) {
             if (touchy.isPressed()) {
                 frontLeftMotor.setPower(0);
@@ -199,21 +202,6 @@ public class Red_F2_25pts extends LinearOpMode {
             }
 
         }
-        driveStraight(DRIVE_SPEED, 53, 0.0); //
-        sleep(500);
-        grabby.setPosition(CLOSED); // Grab top cone
-        sleep(500); // added
-        lift.setTargetPosition(1020);
-        lift.setPower(1.0);
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        // Test the telemetry statement before setting power to zero.
-        if ((1020 - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (1020 + TOLERANCE)) {
-            telemetry.addData("Lift Ground Status", "You've arrived at your GROUND destination");
-
-        }
-        driveStraight(DRIVE_SPEED, -33.0, 0.0); //
-        turnToHeading(TURN_SPEED, -45.0); //
-        // Lift code up high
         lift.setTargetPosition(LIFT_HIGH);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -221,9 +209,31 @@ public class Red_F2_25pts extends LinearOpMode {
         if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
             telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
         }
-        driveStraight(DRIVE_SPEED, 2.0, 0.0); //
-        grabby.setPosition(OPEN);
-        driveStraight(DRIVE_SPEED, -2.0, 0.0); //
+        driveStraight(DRIVE_SPEED, -53.0, 0.0); // Drive to substation
+
+        // Lift code up high
+
+        strafeRight();
+        sleep(120);
+        while (opModeIsActive()) {
+            if (touchy.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(500);
+                grabby.setPosition(OPEN);
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(0.2);
+                backRightMotor.setPower(0.2);
+            }
+
+        }
+        driveStraight(DRIVE_SPEED, -6.0, 0.0); //
         // Insert lift code down here
         lift.setTargetPosition(LIFT_THREE_STACK);
         lift.setPower(1.0);
@@ -233,18 +243,27 @@ public class Red_F2_25pts extends LinearOpMode {
             telemetry.addData("Lift Stack Status", "You've arrived at your 3/4 cone destination");
 
         }
-        turnToHeading(TURN_SPEED, 90.0); //
-        driveStraight(DRIVE_SPEED, 33.0, 0.0); //
-        grabby.setPosition(CLOSED);
-        lift.setTargetPosition(1020); // FIXME Consider define this as a reusable variable if used elsewhere
-        lift.setPower(1.0);
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        // Test the telemetry statement before setting power to zero.
-        if ((1020 - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (1020 + TOLERANCE)) {
-            telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
+        strafeLeft();
+        sleep(100);
+        driveStraight(DRIVE_SPEED, 25.0, 0.0); //
+        while (opModeIsActive()) {
+            if (touchy.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(500);
+                grabby.setPosition(CLOSED);
+                break;
+            } else {
+                grabby.setPosition(OPEN);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(0.2);
+                backRightMotor.setPower(0.2);
+            }
+
         }
-        driveStraight(DRIVE_SPEED, -33.0, 0.0); //
-        turnToHeading(TURN_SPEED, -45); //
         // Lift code up high
         lift.setTargetPosition(LIFT_HIGH);
         lift.setPower(1.0);
@@ -254,7 +273,7 @@ public class Red_F2_25pts extends LinearOpMode {
             telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
             //lift.setPower(0);
         }
-        driveStraight(DRIVE_SPEED, 2.0, 0.0);
+        driveStraight(DRIVE_SPEED, -25.0, 0.0);
         grabby.setPosition(OPEN);
         driveStraight(DRIVE_SPEED, -2.0, 0.0);
         // Lift code down
@@ -265,9 +284,13 @@ public class Red_F2_25pts extends LinearOpMode {
         if ((166 - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (166 + TOLERANCE)) {
             telemetry.addData("Lift Ground Status", "You've arrived at your GROUND destination");
         }
+
+
         driveStraight(DRIVE_SPEED, -33.0, 0.0); //
         turnToHeading(TURN_SPEED, 180); //
         driveStraight(DRIVE_SPEED, 30.0, 0.0); //
+
+
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.
