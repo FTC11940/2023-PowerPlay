@@ -15,7 +15,7 @@ public class Constants {
     public static final int LIFT_TWO_STACK = 166; // for use in Auton
     public static final int LIFT_LOW = 1200; // 13.5" Low junction height
     public static final int LIFT_MEDIUM = 2000; // 23.5" Medium junction height
-    public static final int LIFT_HIGH = 2800; // 33.5" High junction height
+    public static final int LIFT_HIGH = 3000; // 33.5" High junction height
     public static final int TOLERANCE = 10;
 
     // Same as above for lift, just different names
@@ -23,7 +23,7 @@ public class Constants {
     public static final int lift_ground = 100; // 1" Ground junction height
     public static final int lift_low = 1200; // 13.5" Low junction height
     public static final int lift_mid = 2000; // 23.5" Medium junction height
-    public static final int lift_high = 2800; // 33.5" High junction height
+    public static final int lift_high = 3000; // 33.5" High junction height
     public static final int diplomat = 10;
 
     //constant lift power
@@ -34,7 +34,7 @@ public class Constants {
     public static final int hornet_speed = 25000;
 
     // Constants related to the claw
-    public static final double OPEN = 0.35;
+    public static final double OPEN = 0.33;
     public static final double CLOSED = 0.0;
     // what position grabby, or the claw, considers completely open
     public static final double grabby_open = 0.2;
@@ -49,8 +49,11 @@ public class Constants {
     public static final double P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
     public static final double P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
 
-    // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
-    /* Define the Proportional control coefficient (or GAIN) for "heading control". */
+    // Sets the servo YSNP a.k.a. "You Shall Not Pass"
+    public static final double SHUT = 0.1;
+    public static final double PASS = 0.5;
+
+
     // Vuforia constants
     public static final String VUFORIA_KEY =
             "AQlm0VH/////AAABmecSieTQsU26rgeA9+8pNJ0JiCO/pfP8X82+Kv4Czexw7qCupZvMaBQROIVF3rj9aoXmjtRDTA1mHJVdaV6hWpfm0jMW8qnLFUmIJQwHIYZ9aM/sQR71rjIx9L5REWzQ9LTYIwLGaW3gwBbaOXpOZ/yi2mt4Q/RIes7idEhwoRkFQh0H+zHxO0iqZdbbUibMlTMif/0g/FqqjBY/abecyaNvfCErZX6jVLlMXPk4cyEeCO6i57ufYKhrOMAHa2BOEgbjvTx52vUeZHh5nORqSa/mJy7ZzE2mrSG4SJ7KEZm1C7Lbnzo6WtMj+F6e1gqISfrynyNJoMrlq9uUHzm8gEbcebYncHx869F+ykNDQTZ7";
