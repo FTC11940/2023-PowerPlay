@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import static org.firstinspires.ftc.teamcode.Constants.DRIVE_SPEED;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -11,9 +10,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-// FRC 3603 Launch High
 
-public class Strafe extends LinearOpMode{
+public class StrafeRight extends LinearOpMode{
 
     Servo grabby;
     DcMotor lift;
@@ -24,13 +22,8 @@ public class Strafe extends LinearOpMode{
     private DcMotor backLeftMotor = null;
     private DcMotor backRightMotor = null;
 
+    public StrafeRight(double desiredEncoder, double Power) throws InterruptedException {
 
-    @Override
-    public void runOpMode() throws InterruptedException {
-
-    }
-
-    public void strafeLeft (double maxPower, double desiredEncoder) {
         frontLeftMotor.setPower(0);
         backRightMotor.setPower(0);
         frontRightMotor.setPower(0);
@@ -47,11 +40,11 @@ public class Strafe extends LinearOpMode{
         backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
-        frontLeftMotor.setPower(-maxPower); // (-) strafe left
-        backRightMotor.setPower(-maxPower); // (-) strafe left
+        frontLeftMotor.setPower(-Power); // (-) strafe left
+        backRightMotor.setPower(-Power); // (-) strafe left
 
-        frontRightMotor.setPower(maxPower);
-        backLeftMotor.setPower(maxPower);
+        frontRightMotor.setPower(Power);
+        backLeftMotor.setPower(Power);
 
         while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * -desiredEncoder)) ; // (-) strafe left
         while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * -desiredEncoder)); // (-) strafe left
@@ -60,7 +53,7 @@ public class Strafe extends LinearOpMode{
         while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED  * desiredEncoder)) ;
     } // end strafe left
 
-    public void strafeRight (double maxPower, double desiredEncoder) {
+    public void StrafeRight(double desiredEncoder, double Power) throws InterruptedException {
         frontLeftMotor.setPower(0);
         backRightMotor.setPower(0);
         frontRightMotor.setPower(0);
@@ -76,11 +69,11 @@ public class Strafe extends LinearOpMode{
         frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        frontLeftMotor.setPower(maxPower);
-        backRightMotor.setPower(maxPower);
+        frontLeftMotor.setPower(Power);
+        backRightMotor.setPower(Power);
 
-        frontRightMotor.setPower(-maxPower); // (-) strafe right
-        backLeftMotor.setPower(-maxPower); // (-) strafe right
+        frontRightMotor.setPower(-Power); // (-) strafe right
+        backLeftMotor.setPower(-Power); // (-) strafe right
 
         while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * desiredEncoder)) ;
         while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * desiredEncoder));
@@ -88,4 +81,9 @@ public class Strafe extends LinearOpMode{
         while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * -desiredEncoder)); // (-) strafe right
         while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED  * -desiredEncoder)) ; // (-) strafe right
     } // end of strafe right
+
+    @Override
+    public void runOpMode() throws InterruptedException {
+
+    }
 }
