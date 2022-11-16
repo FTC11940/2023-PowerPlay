@@ -31,6 +31,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Lift;
 import org.firstinspires.ftc.teamcode.Strafe;
+import org.firstinspires.ftc.teamcode.StrafeShiny;
 
 @Autonomous(name="Red-25 pts Shiny", group="Robot")
 // @Disabled
@@ -72,7 +73,7 @@ public class Mark15A_Red_25pts extends LinearOpMode {
         // Initialize the drive system variables.
         // Match our TeleOp file
         grabby = hardwareMap.servo.get("grabby");
-        grabby.setPosition(0.0); // Needs to be closed at start of Auton
+        grabby.setPosition(CLOSED); // Needs to be closed at start of Auton
 
         lift = hardwareMap.get(DcMotor.class,"lift");
         // lift.setTargetPosition(0);
@@ -136,17 +137,19 @@ public class Mark15A_Red_25pts extends LinearOpMode {
         // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
         // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
         // holdHeading( TURN_SPEED,  0.0, 0.5);     // action - hold last heading for a 1/2 second
-        * TODO Write autonomous actions below
         */
 
         // Shiny Red Auton 25 pts
 
         // Strafe towards the high junction
-        new Strafe(1450,1.0);
+        // new Strafe(1450,1.0);
 
-        sleep(3000);
+        new Lift(1000, 1.0);
 
-        // new StrafeRight(1000, 1);
+        // new StrafeShiny("right", 1400, 1);
+
+        sleep(30000);
+
 
         // sleep(3000);
 

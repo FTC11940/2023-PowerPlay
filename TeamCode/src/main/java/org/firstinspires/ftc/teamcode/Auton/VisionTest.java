@@ -56,7 +56,7 @@ import java.util.List;
  * is explained below.
  */
 @Autonomous(name = "TEST Vision", group = "Concept")
-// Disabled
+@Disabled
 public class VisionTest extends LinearOpMode {
 
     Servo grabby;

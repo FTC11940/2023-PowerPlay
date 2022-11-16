@@ -26,16 +26,14 @@ public class StrafeShiny extends LinearOpMode{
     }
 
     // Adding in perhaps to prevent the method from taking off?
-    @Override
-    public void waitForStart() {
-        super.waitForStart();
-    }
 
-    public StrafeShiny(String direction, double desiredEncoder, double Power) throws InterruptedException {
-        frontLeftMotor.setPower(0);
-        backRightMotor.setPower(0);
-        frontRightMotor.setPower(0);
-        backLeftMotor.setPower(0);
+
+    public StrafeShiny(String direction, double desiredEncoder, double Power) {
+
+        // frontLeftMotor.setPower(0.0);
+        // backRightMotor.setPower(0.0);
+        // frontRightMotor.setPower(0.0);
+        // backLeftMotor.setPower(0.0);
 
         frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
