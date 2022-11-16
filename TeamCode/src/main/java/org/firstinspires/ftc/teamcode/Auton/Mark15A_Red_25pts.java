@@ -30,9 +30,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Lift;
-import org.firstinspires.ftc.teamcode.StrafeLeft;
-import org.firstinspires.ftc.teamcode.StrafeRight;
-
+import org.firstinspires.ftc.teamcode.Strafe;
 
 @Autonomous(name="Red-25 pts Shiny", group="Robot")
 // @Disabled
@@ -144,7 +142,7 @@ public class Mark15A_Red_25pts extends LinearOpMode {
         // Shiny Red Auton 25 pts
 
         // Strafe towards the high junction
-        new StrafeLeft(1000,1);
+        new Strafe(1450,1.0);
 
         sleep(3000);
 

@@ -4,8 +4,6 @@
 * */
 package org.firstinspires.ftc.teamcode;
 
-// FIXME Don't know if this is best practice. Ask Maasser
-
 import static org.firstinspires.ftc.teamcode.Constants.CLOSED;
 import static org.firstinspires.ftc.teamcode.Constants.LIFT_GROUND;
 import static org.firstinspires.ftc.teamcode.Constants.LIFT_HIGH;
@@ -64,7 +62,6 @@ public class Mark9 extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
 
-        // TODO Added Distance Sensor
         // you can use this as a regular DistanceSensor.
         // sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
 
@@ -131,7 +128,7 @@ public class Mark9 extends LinearOpMode {
                 grabby.setPosition(CLOSED);
             }
 
-            /* TODO
+            /*
             * Code would likely be very similar to drive code because trigger is analog input
             * Input would need to keep adding power while held as well
 
@@ -304,7 +301,6 @@ public class Mark9 extends LinearOpMode {
             telemetry.addData("Lift Position", liftPos);
             telemetry.addData("Lift Power",  lift.getPower());
 
-            // TODO Distance Sensor data
             // generic DistanceSensor methods.
 
             /*

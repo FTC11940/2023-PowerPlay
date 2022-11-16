@@ -4,8 +4,6 @@
 * */
 package org.firstinspires.ftc.teamcode;
 
-// FIXME Don't know if this is best practice. Ask Maasser
-
 import static org.firstinspires.ftc.teamcode.Constants.*;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -52,8 +50,6 @@ public class Mark10 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-
-        // TODO Added Distance Sensor
         // you can use this as a regular DistanceSensor.
         // sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
 
@@ -117,7 +113,7 @@ public class Mark10 extends LinearOpMode {
                 grabby.setPosition(CLOSED);
             }
 
-            /* TODO
+            /*
             * Code would likely be very similar to drive code because trigger is analog input
             * Input would need to keep adding power while held as well
 
@@ -279,7 +275,6 @@ public class Mark10 extends LinearOpMode {
             gamepad2.dpad_up // Set lift to high junction height
             */
 
-                        // FIXME ?
                         if (isStopRequested()) return;
 
                         // Data to send to Driver Station
@@ -289,7 +284,6 @@ public class Mark10 extends LinearOpMode {
                         telemetry.addData("Lift Position", liftPos);
                         telemetry.addData("Lift Power", lift.getPower());
 
-                        // TODO Distance Sensor data
                         // generic DistanceSensor methods.
 
             /*

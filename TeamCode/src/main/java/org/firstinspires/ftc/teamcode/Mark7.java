@@ -4,7 +4,6 @@
  */
 package org.firstinspires.ftc.teamcode;
 
-// FIXME Don't know if this is best practice. Ask Maasser
 import static org.firstinspires.ftc.teamcode.Constants.*;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;

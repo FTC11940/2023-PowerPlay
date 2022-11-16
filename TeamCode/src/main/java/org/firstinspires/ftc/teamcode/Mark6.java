@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-// FIXME Don't know if this is best practice. Ask Maasser
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import static org.firstinspires.ftc.teamcode.Constants.*;
 

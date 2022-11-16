@@ -76,7 +76,7 @@ public class Mark8 extends LinearOpMode {
         // Only needed when initialized.
         lift.setMode((DcMotor.RunMode.STOP_AND_RESET_ENCODER));
 
-        // TODO Test this out
+
         lift.setTargetPosition(0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
@@ -95,7 +95,7 @@ public class Mark8 extends LinearOpMode {
                 grabby.setPosition(CLOSED);
             }
 
-            /* TODO
+            /*
             * Code would likely be very similar to drive code because trigger is analog input
             * Input would need to keep adding power while held as well
 

@@ -52,7 +52,6 @@ public class Mark11 extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
 
-        // TODO Added Distance Sensor
         // you can use this as a regular DistanceSensor.
         // sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
 
@@ -116,7 +115,7 @@ public class Mark11 extends LinearOpMode {
                 grabby.setPosition(CLOSED);
             }
 
-            /* TODO
+            /*
             * Code would likely be very similar to drive code because trigger is analog input
             * Input would need to keep adding power while held as well
 
@@ -223,7 +222,7 @@ public class Mark11 extends LinearOpMode {
                 }
             } // End of lift commands
 
-            // FIXME ?
+            //
             if (isStopRequested()) return;
 
             // Data to send to Driver Station
@@ -233,7 +232,6 @@ public class Mark11 extends LinearOpMode {
             telemetry.addData("Lift Position", liftPos);
             telemetry.addData("Lift Power", lift.getPower());
 
-            // TODO Distance Sensor data
             // generic DistanceSensor methods.
 
             /*
