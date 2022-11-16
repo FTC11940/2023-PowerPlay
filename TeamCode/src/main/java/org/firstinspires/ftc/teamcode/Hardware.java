@@ -1,3 +1,7 @@
+/*
+ Defines Hardware used across for lift, auton, teleop, etc
+ All efforts should be made to keep in daily sync across all branches
+ */
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -5,7 +9,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 
 public class Hardware {
     //create motors
@@ -16,11 +19,10 @@ public class Hardware {
 
     public DcMotor lift = null;
 
-    public Servo grabby = null;
-    public Servo YSNP = null;
+    public Servo grabby = null; // Claw
+    public Servo YSNP = null; // Gate servo
 
-     public TouchSensor touchy = null;
-    //public DigitalChannel touchy = null;
+     public TouchSensor touchy = null; // Touch sensor for gate
 
     public final static double POS_HOME = 0.0;
     public final static double POS_MIN = -1.0;
@@ -50,11 +52,10 @@ public class Hardware {
 
         lift = hardwareMap.get(DcMotor.class,"lift");
 
-        // Touch Sensor
+        // Touch Sensor for gate
          touchy = hardwareMap.get(TouchSensor.class, "touchy");
-        //touchy = hardwareMap.get(DigitalChannel.class, "touchy");
 
-        //connect servo
+        //connect servos
         grabby = hardwareMap.get(Servo.class, "grabby");
         YSNP = hardwareMap.get(Servo.class, "YSNP");
 
@@ -87,7 +88,6 @@ public class Hardware {
         frontRightMotor.setPower(0);
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
-
 
     }
 }
