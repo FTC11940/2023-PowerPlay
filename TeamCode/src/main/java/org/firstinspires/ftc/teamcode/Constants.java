@@ -23,7 +23,7 @@ public class Constants {
     public static final int lift_ground = 100; // 1" Ground junction height
     public static final int lift_low = 1200; // 13.5" Low junction height
     public static final int lift_mid = 2000; // 23.5" Medium junction height
-    public static final int lift_high = 2800; // 33.5" High junction height
+    public static final int lift_high = 3000; // 33.5" High junction height
     public static final int diplomat = 10;
 
     //constant lift power
@@ -49,11 +49,11 @@ public class Constants {
     public static final double P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
     public static final double P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
 
-    public static final double SHUT = 0.1; // Drops the servo "You Shall Not Pass" gate
-    public static final double PASS = 0.5; // Opens the servo "You Shall Not Pass" gate
+    // Sets the servo YSNP a.k.a. "You Shall Not Pass"
+    public static final double SHUT = 0.1;
+    public static final double PASS = 0.5;
 
-    // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
-    /* Define the Proportional control coefficient (or GAIN) for "heading control". */
+
     // Vuforia constants
     public static final String VUFORIA_KEY =
             "AQlm0VH/////AAABmecSieTQsU26rgeA9+8pNJ0JiCO/pfP8X82+Kv4Czexw7qCupZvMaBQROIVF3rj9aoXmjtRDTA1mHJVdaV6hWpfm0jMW8qnLFUmIJQwHIYZ9aM/sQR71rjIx9L5REWzQ9LTYIwLGaW3gwBbaOXpOZ/yi2mt4Q/RIes7idEhwoRkFQh0H+zHxO0iqZdbbUibMlTMif/0g/FqqjBY/abecyaNvfCErZX6jVLlMXPk4cyEeCO6i57ufYKhrOMAHa2BOEgbjvTx52vUeZHh5nORqSa/mJy7ZzE2mrSG4SJ7KEZm1C7Lbnzo6WtMj+F6e1gqISfrynyNJoMrlq9uUHzm8gEbcebYncHx869F+ykNDQTZ7";
@@ -64,7 +64,7 @@ public class Constants {
      * has been downloaded to the Robot Controller's SD FLASH memory, it must to be loaded using loadModelFromFile()
      * Here we assume it's an Asset.    Also see method initTfod() below .
      */
-//PASS
+
     public static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
 
     // Use this if adding custom signal images
