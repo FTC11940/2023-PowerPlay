@@ -1,30 +1,34 @@
+/*
+ Defines Hardware used across for lift, auton, teleop, etc
+ All efforts should be made to keep in daily sync across all branches
+ */
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcontroller.external.samples.SensorColor;
-
 public class Hardware {
-    // Create motors
+    //create motors
     public DcMotor frontRightMotor = null;
     public DcMotor frontLeftMotor = null;
     public DcMotor backRightMotor = null;
     public DcMotor backLeftMotor = null;
 
-    public Servo grabby = null;
+    public DcMotor lift = null;
 
-    public DcMotor lift = null; // creates the lift motor
-    public Servo grabber = null; // creates the claw servo
-    public ColorSensor color = null; // create the color sensor
-    public DistanceSensor distance = null;
+    public Servo grabby = null; // Claw
+    public Servo YSNP = null; // Gate servo
+
+    public TouchSensor touchy = null; // Touch sensor for gate
+
+    public final static double POS_HOME = 0.0;
+    public final static double POS_MIN = -1.0;
+    public final static double POS_MAX = 1.0;
 
 
-    public
     //additional variables
     HardwareMap hardwareMap = null;
 
@@ -46,35 +50,32 @@ public class Hardware {
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
         backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
 
-        //connect servo
-
         lift = hardwareMap.get(DcMotor.class,"lift");
 
+        // Touch Sensor for gate
+        touchy = hardwareMap.get(TouchSensor.class, "touchy");
+
+        //connect servos
         grabby = hardwareMap.get(Servo.class, "grabby");
+        YSNP = hardwareMap.get(Servo.class, "YSNP");
 
 
-        // Set up motor direction
+        //set up motor direction
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
         backRightMotor.setDirection(DcMotor.Direction.FORWARD);
 
-        lift.setDirection(DcMotor.Direction.REVERSE);
-
-        // Set motor mode
+        //set motor mode
         frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        // lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //set zero power behavior
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -82,15 +83,11 @@ public class Hardware {
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        // lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        // Set motors to use no power at start
+        //set motors to use no power
         frontLeftMotor.setPower(0);
         frontRightMotor.setPower(0);
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
 
-        // lift.setPower(0);
-
     }
-} // End class
+}
