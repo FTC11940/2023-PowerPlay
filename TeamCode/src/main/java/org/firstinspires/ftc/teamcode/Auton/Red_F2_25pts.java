@@ -14,13 +14,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Red-25 pts", group="Robot")
+@Autonomous(name = "Red-25 pts", group = "Robot")
 // @Disabled
 
 public class Red_F2_25pts extends LinearOpMode {
@@ -68,6 +69,7 @@ public class Red_F2_25pts extends LinearOpMode {
         YSNP.setPosition(PASS); // Needs to be closed at start of Auton
 
         lift = hardwareMap.get(DcMotor.class, "lift");
+
         // lift.setTargetPosition(0);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -114,6 +116,7 @@ public class Red_F2_25pts extends LinearOpMode {
         frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         resetHeading();
 
         // Step through each leg of the path,
@@ -123,17 +126,18 @@ public class Red_F2_25pts extends LinearOpMode {
 
         /*
 
-
         /* REFERENCE
         // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
         // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
         // holdHeading( TURN_SPEED,  0.0, 0.5);     // action - hold last heading for a 1/2 second
         */
 
-        // Autonomous RED 20pts
+
+        waitForStart();
+
         // Drive towards the high junction
-       waitForStart();
-       driveStraight(DRIVE_SPEED, -22.0, 0.0); //
+        driveStraight(DRIVE_SPEED, -22.0, 0.0); //
+
         // Lift code up high
         lift.setTargetPosition(LIFT_HIGH);
         lift.setPower(1.0);
@@ -144,13 +148,15 @@ public class Red_F2_25pts extends LinearOpMode {
             // lift.setPower(0);
         }
 
-        strafeRight();
 
-        sleep(1450);
+        strafeRight(); // Strafe towards the high terminal with preloaded cone
 
-        // Sequence towards the stack
+        sleep(1450); // Timer to stop strafing
+        //
+        // FIXME @JediScoy switch to encoder-based rather than time
 
-        YSNP.setPosition(SHUT);
+
+        YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
         while (opModeIsActive()) {
             if (touchy.isPressed()) {
                 frontLeftMotor.setPower(0);
@@ -171,15 +177,19 @@ public class Red_F2_25pts extends LinearOpMode {
         }
 
         driveStraight(DRIVE_SPEED, -6.0, 0.0); //
+
         strafeLeft();
-        sleep(120);
+        sleep(120); // FIXME @JediScoy switch to encoder-based rather than time
+
+        // TODO Just gonna put this here for fun testing later :)
+        // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
 
         lift.setTargetPosition(LIFT_TOP_STACK);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
         if ((LIFT_TOP_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_TOP_STACK + TOLERANCE)) {
-            telemetry.addData("Lift Stack Status", "You've arrived at your top stack destination");
+            telemetry.addData("Lift Stack Status", "You've arrived at your destination");
         }
 
         driveStraight(DRIVE_SPEED, 53.0, 0.0); // Drive to substation
@@ -191,16 +201,17 @@ public class Red_F2_25pts extends LinearOpMode {
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
         if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
-            telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
+            telemetry.addData("Lift High Status", "You've arrived at your destination");
         }
 
         driveStraight(DRIVE_SPEED, -53.0, 0.0); // Drive to substation
 
-        // Lift code up high
+        // FIXME Lift code up high
 
         strafeRight();
-
         sleep(120);
+
+        // TODO does YSNP need to go here?
         while (opModeIsActive()) {
             if (touchy.isPressed()) {
                 frontLeftMotor.setPower(0);
@@ -219,19 +230,24 @@ public class Red_F2_25pts extends LinearOpMode {
             }
 
         }
+
         driveStraight(DRIVE_SPEED, -6.0, 0.0); //
+
         // Insert lift code down here
         lift.setTargetPosition(LIFT_THREE_STACK);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
         if ((LIFT_THREE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_THREE_STACK + TOLERANCE)) {
-            telemetry.addData("Lift Stack Status", "You've arrived at your 3/4 cone destination");
-
+            telemetry.addData("Lift 3/4 Stack Status", "You've arrived at your 3/4 cone destination");
         }
+
         strafeLeft();
         sleep(100);
+
         driveStraight(DRIVE_SPEED, 25.0, 0.0); //
+
+        // TODO YSNP?
         while (opModeIsActive()) {
             if (touchy.isPressed()) {
                 frontLeftMotor.setPower(0);
@@ -250,6 +266,7 @@ public class Red_F2_25pts extends LinearOpMode {
             }
 
         }
+
         // Lift code up high
         lift.setTargetPosition(LIFT_HIGH);
         lift.setPower(1.0);
@@ -259,27 +276,43 @@ public class Red_F2_25pts extends LinearOpMode {
             telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
             //lift.setPower(0);
         }
+
         driveStraight(DRIVE_SPEED, -25.0, 0.0);
+
         grabby.setPosition(OPEN);
         driveStraight(DRIVE_SPEED, -2.0, 0.0);
+
         // Lift code down
         lift.setTargetPosition(166);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         // Test the telemetry statement before setting power to zero.
         if ((166 - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (166 + TOLERANCE)) {
             telemetry.addData("Lift Ground Status", "You've arrived at your GROUND destination");
         }
 
-
         driveStraight(DRIVE_SPEED, -33.0, 0.0); //
         turnToHeading(TURN_SPEED, 180); //
         driveStraight(DRIVE_SPEED, 30.0, 0.0); //
 
-
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.
+
+        /*
+        * TODO Write specific parking code in the methods of this file (near botttom)
+        * Comment out or uncomment as needed for testing purposes
+         */
+
+        // TODO Test before adding in vision
+        signalOnePark();
+
+        // TODO Test before adding in vision
+        // signalTwoPark();
+
+        // TODO Test before adding in vision
+        // signalThreePark(); //
     }
 
     /*
@@ -567,71 +600,113 @@ public class Red_F2_25pts extends LinearOpMode {
         grabby.setPosition(CLOSED);
         sleep(20000);
     }
-        private void strafeLeft() {
-            frontLeftMotor.setPower(0);
-            backRightMotor.setPower(0);
-            frontRightMotor.setPower(0);
-            backLeftMotor.setPower(0);
 
-            frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    private void strafeLeft() {
+        frontLeftMotor.setPower(0);
+        backRightMotor.setPower(0);
+        frontRightMotor.setPower(0);
+        backLeftMotor.setPower(0);
 
-            frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-
-            frontLeftMotor.setPower(-1.0); // (-) strafe left
-            backRightMotor.setPower(-1.0); // (-) strafe left
-
-            frontRightMotor.setPower(1.0);
-            backLeftMotor.setPower(1.0);
-
-            while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * -480))
-                ; // (-) strafe left
-            while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * -480))
-                ; // (-) strafe left
-
-            while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * 480)) ;
-            while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED * 480)) ;
-        }
-
-        private void strafeRight () {
-            frontLeftMotor.setPower(0);
-            backRightMotor.setPower(0);
-            frontRightMotor.setPower(0);
-            backLeftMotor.setPower(0);
-
-            frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-            frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
-            frontLeftMotor.setPower(1.0); // (-) strafe left
-            backRightMotor.setPower(1.0); // (-) strafe left
+        frontLeftMotor.setPower(-1.0); // (-) strafe left
+        backRightMotor.setPower(-1.0); // (-) strafe left
 
-            frontRightMotor.setPower(-1.0);
-            backLeftMotor.setPower(-1.0);
+        frontRightMotor.setPower(1.0);
+        backLeftMotor.setPower(1.0);
 
-            while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * 480))
-                ; // (-) strafe left
-            while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * 480))
-                ; // (-) strafe left
+        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * -480))
+            ; // (-) strafe left
+        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * -480))
+            ; // (-) strafe left
 
-            while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * -480))
-                ;  // (-) strafe right
-            while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED * -480))
-                ;
-        }
+        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * 480)) ;
+        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED * 480)) ;
+    }
+
+    private void strafeRight() {
+        frontLeftMotor.setPower(0);
+        backRightMotor.setPower(0);
+        frontRightMotor.setPower(0);
+        backLeftMotor.setPower(0);
+
+        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+        frontLeftMotor.setPower(1.0); // (-) strafe left
+        backRightMotor.setPower(1.0); // (-) strafe left
+
+        frontRightMotor.setPower(-1.0);
+        backLeftMotor.setPower(-1.0);
+
+        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * 480))
+            ; // (-) strafe left
+        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * 480))
+            ; // (-) strafe left
+
+        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * -480))
+            ;  // (-) strafe right
+        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED * -480))
+            ;
+    }
+
+
+    private void strafeRightShiny(int desiredEncoder) {
+        frontLeftMotor.setPower(0);
+        backRightMotor.setPower(0);
+        frontRightMotor.setPower(0);
+        backLeftMotor.setPower(0);
+
+        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        frontLeftMotor.setPower(1.0); // (-) strafe left
+        backRightMotor.setPower(1.0); // (-) strafe left
+
+        frontRightMotor.setPower(-1.0);
+        backLeftMotor.setPower(-1.0);
+
+        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * desiredEncoder))
+            ; // (-) strafe left
+        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * desiredEncoder))
+            ; // (-) strafe left
+
+        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * -desiredEncoder))
+            ;  // (-) strafe right
+        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED * -desiredEncoder))
+            ;
+
+        // TODO Test to see if this using encoder instead of time
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+    } // end Shiny Right
 }
 
 /* Copyright (c) 2022 FIRST. All rights reserved.
