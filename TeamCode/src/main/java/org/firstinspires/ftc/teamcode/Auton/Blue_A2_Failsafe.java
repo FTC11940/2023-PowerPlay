@@ -7,6 +7,7 @@ import static org.firstinspires.ftc.teamcode.Constants.*;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -21,7 +22,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
 @Autonomous(name="Blue-A2 Failsafe", group="Robot")
-// @Disabled
+@Disabled
 
 public class Blue_A2_Failsafe extends LinearOpMode {
 
@@ -143,6 +144,7 @@ public class Blue_A2_Failsafe extends LinearOpMode {
         driveStraight(DRIVE_SPEED, 4.0, 0.0); //c
         grabby.setPosition(OPEN);
         driveStraight(DRIVE_SPEED, -4.0, 0.0); //
+
         lift.setTargetPosition(LIFT_GROUND);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);

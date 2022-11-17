@@ -1,18 +1,18 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.teamcode.Constants.CLOSED;
-import static org.firstinspires.ftc.teamcode.Constants.OPEN;
-import static org.firstinspires.ftc.teamcode.Constants.TOLERANCE;
+import static org.firstinspires.ftc.teamcode.Constants.*;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.robocol.Command;
 
-public class Lift extends LinearOpMode  {
+public class Lift extends LinearOpMode {
 
-    private Servo grabby;
-    private DcMotor lift;
+    // Needed to initialize the variables?!
+    private Servo grabby = null;
+    private DcMotor lift = null;
 
     @Override
     public void runOpMode() {
@@ -27,9 +27,10 @@ public class Lift extends LinearOpMode  {
     }
      */
 
-    int height = 1000;
+    int height = 0;
+    double power = 0.0;
 
-    public Lift(int height, double Power) {
+    public Lift(int height, double power) {
 
         lift.setTargetPosition(height);
         lift.setPower(OPEN);
@@ -40,11 +41,6 @@ public class Lift extends LinearOpMode  {
             telemetry.addData("Lift Low Status", "You've arrived at your destination");
             // lift.setPower(0);
 
-            sleep(300); // this may vary too much? Or figure out when this needs to be time triggered
-
-            grabby.setPosition(OPEN);
-
-            sleep(300);
         }
         // lift.setPower(0.0);
     };

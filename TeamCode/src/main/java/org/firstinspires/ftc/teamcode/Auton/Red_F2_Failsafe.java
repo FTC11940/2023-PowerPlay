@@ -7,6 +7,7 @@ package org.firstinspires.ftc.teamcode.Auton;
 import static org.firstinspires.ftc.teamcode.Constants.*;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -21,7 +22,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
 @Autonomous(name="Red-F2 Failsafe", group="Robot")
-// @Disabled
+@Disabled
 
 public class Red_F2_Failsafe extends LinearOpMode {
 

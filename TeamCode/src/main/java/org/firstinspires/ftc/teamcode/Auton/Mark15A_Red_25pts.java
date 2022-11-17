@@ -3,18 +3,7 @@
 
 package org.firstinspires.ftc.teamcode.Auton;
 
-import static org.firstinspires.ftc.teamcode.Constants.CLOSED;
-import static org.firstinspires.ftc.teamcode.Constants.DRIVE_COUNTS_PER_INCH;
-import static org.firstinspires.ftc.teamcode.Constants.DRIVE_SPEED;
-import static org.firstinspires.ftc.teamcode.Constants.HEADING_THRESHOLD;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_HIGH;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_THREE_STACK;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_TOP_STACK;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_TWO_STACK;
-import static org.firstinspires.ftc.teamcode.Constants.OPEN;
-import static org.firstinspires.ftc.teamcode.Constants.P_DRIVE_GAIN;
-import static org.firstinspires.ftc.teamcode.Constants.P_TURN_GAIN;
-import static org.firstinspires.ftc.teamcode.Constants.TURN_SPEED;
+import static org.firstinspires.ftc.teamcode.Constants.*;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -142,11 +131,13 @@ public class Mark15A_Red_25pts extends LinearOpMode {
         // Shiny Red Auton 25 pts
 
         // Strafe towards the high junction
-        // new Strafe(1450,1.0);
+        new Strafe(1450,1.0);
 
-        new Lift(1000, 1.0);
+        // lift = new Lift();
 
-        // new StrafeShiny("right", 1400, 1);
+        new Lift(LIFT_HIGH, 1.0);
+
+        new StrafeShiny("right", 1400, 1);
 
         sleep(30000);
 
