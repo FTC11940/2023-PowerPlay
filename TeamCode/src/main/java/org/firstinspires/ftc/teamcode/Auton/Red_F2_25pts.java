@@ -128,7 +128,6 @@ public class Red_F2_25pts extends LinearOpMode {
         // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
         // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
         // holdHeading( TURN_SPEED,  0.0, 0.5);     // action - hold last heading for a 1/2 second
-        * TODO Write autonomous actions below
         */
 
         // Autonomous RED 20pts
@@ -145,9 +144,10 @@ public class Red_F2_25pts extends LinearOpMode {
             // lift.setPower(0);
         }
 
-
         strafeRight();
+
         sleep(1450);
+
         // Sequence towards the stack
 
         YSNP.setPosition(SHUT);
@@ -173,7 +173,7 @@ public class Red_F2_25pts extends LinearOpMode {
         driveStraight(DRIVE_SPEED, -6.0, 0.0); //
         strafeLeft();
         sleep(120);
-        // lift.setTargetPosition(612);
+
         lift.setTargetPosition(LIFT_TOP_STACK);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -182,26 +182,10 @@ public class Red_F2_25pts extends LinearOpMode {
             telemetry.addData("Lift Stack Status", "You've arrived at your top stack destination");
         }
 
-        // Sequence towards the substation stack
-        driveStraight(DRIVE_SPEED, 25.0, 0.0); // Drive to substation
-        while (opModeIsActive()) {
-            if (touchy.isPressed()) {
-                frontLeftMotor.setPower(0);
-                backLeftMotor.setPower(0);
-                frontRightMotor.setPower(0);
-                backRightMotor.setPower(0);
-                sleep(500);
-                grabby.setPosition(CLOSED);
-                break;
-            } else {
-                grabby.setPosition(OPEN);
-                frontLeftMotor.setPower(0.2);
-                backLeftMotor.setPower(0.2);
-                frontRightMotor.setPower(0.2);
-                backRightMotor.setPower(0.2);
-            }
+        driveStraight(DRIVE_SPEED, 53.0, 0.0); // Drive to substation
 
-        }
+        grabby.setPosition(CLOSED);
+
         lift.setTargetPosition(LIFT_HIGH);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -209,11 +193,13 @@ public class Red_F2_25pts extends LinearOpMode {
         if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
             telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
         }
+
         driveStraight(DRIVE_SPEED, -53.0, 0.0); // Drive to substation
 
         // Lift code up high
 
         strafeRight();
+
         sleep(120);
         while (opModeIsActive()) {
             if (touchy.isPressed()) {
@@ -354,7 +340,7 @@ public class Red_F2_25pts extends LinearOpMode {
 
             // keep looping while we are still active, and BOTH motors are running.
             while (opModeIsActive() &&
-                    (frontLeftMotor.isBusy() && frontRightMotor.isBusy())) { // TODO consider adding backLeftMotor and backRightMotor
+                    (frontLeftMotor.isBusy() && frontRightMotor.isBusy())) {
 
                 // Determine required steering to keep on heading
                 turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
@@ -487,7 +473,7 @@ public class Red_F2_25pts extends LinearOpMode {
         driveSpeed = drive;     // save this value as a class member so it can be used by telemetry.
         turnSpeed = turn;      // save this value as a class member so it can be used by telemetry.
 
-        leftSpeed = drive - turn; //TODO adjust for mecanum?
+        leftSpeed = drive - turn;
         rightSpeed = drive + turn;
 
         // Scale speeds down if either one exceeds +/- 1.0;
@@ -499,7 +485,7 @@ public class Red_F2_25pts extends LinearOpMode {
 
         frontLeftMotor.setPower(leftSpeed);
         frontRightMotor.setPower(rightSpeed);
-        backLeftMotor.setPower(leftSpeed); // TODO adjust for mecanum?
+        backLeftMotor.setPower(leftSpeed);
         backRightMotor.setPower(rightSpeed);
     }
 

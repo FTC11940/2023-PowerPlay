@@ -125,7 +125,6 @@ public class Blue_A2_Failsafe extends LinearOpMode {
         // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
         // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
         // holdHeading( TURN_SPEED,  0.0, 0.5);     // action - hold last heading for a 1/2 second
-        * TODO Write autonomous actions below
         */
 
 
@@ -151,6 +150,7 @@ public class Blue_A2_Failsafe extends LinearOpMode {
             telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
             // lift.setPower(0);
         }
+
         turnToHeading( TURN_SPEED,  -90.0);//Turn 90 to face direction of terminal
         driveStraight(DRIVE_SPEED, 14.00, 0.0); // Drive to terminal
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
@@ -218,7 +218,7 @@ public class Blue_A2_Failsafe extends LinearOpMode {
 
             // keep looping while we are still active, and BOTH motors are running.
             while (opModeIsActive() &&
-                    (frontLeftMotor.isBusy() && frontRightMotor.isBusy())) { // TODO consider adding backLeftMotor and backRightMotor
+                    (frontLeftMotor.isBusy() && frontRightMotor.isBusy())) {
 
                 // Determine required steering to keep on heading
                 turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
@@ -350,7 +350,7 @@ public class Blue_A2_Failsafe extends LinearOpMode {
         driveSpeed = drive;     // save this value as a class member so it can be used by telemetry.
         turnSpeed  = turn;      // save this value as a class member so it can be used by telemetry.
 
-        leftSpeed  = drive - turn; //TODO adjust for mecanum?
+        leftSpeed  = drive - turn;
         rightSpeed = drive + turn;
 
         // Scale speeds down if either one exceeds +/- 1.0;
@@ -363,7 +363,7 @@ public class Blue_A2_Failsafe extends LinearOpMode {
 
         frontLeftMotor.setPower(leftSpeed);
         frontRightMotor.setPower(rightSpeed);
-        backLeftMotor.setPower(leftSpeed); // TODO adjust for mecanum?
+        backLeftMotor.setPower(leftSpeed);
         backRightMotor.setPower(rightSpeed);
     }
 
