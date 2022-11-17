@@ -21,7 +21,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Blue-A2 Failsafe Skinny", group="Robot")
+@Autonomous(name = "Blue-A2 Failsafe Skinny", group = "Robot")
 // @Disabled
 
 public class Failsafe_Skinny extends LinearOpMode {
@@ -36,24 +36,24 @@ public class Failsafe_Skinny extends LinearOpMode {
     private DcMotor backRightMotor = null;
 
     // Declare IMU and variables
-    private BNO055IMU       imu         = null;      // Control/Expansion Hub IMU
-    private double          robotHeading  = 0;
-    private double          headingOffset = 0;
-    private double          headingError  = 0;
+    private BNO055IMU imu = null;      // Control/Expansion Hub IMU
+    private double robotHeading = 0;
+    private double headingOffset = 0;
+    private double headingError = 0;
 
     /*
     These variable are declared here (as class members) so they can be updated in various methods,
     but still be displayed by sendTelemetry()
      */
-    private double  targetHeading = 0;
-    private double  driveSpeed    = 0;
-    private double  turnSpeed     = 0;
-    private double  leftSpeed     = 0;
-    private double  rightSpeed    = 0;
-    private int     frontLeftTarget    = 0;
-    private int     frontRightTarget   = 0;
-    private int     backLeftTarget = 0;
-    private int     backRightTarget =0;
+    private double targetHeading = 0;
+    private double driveSpeed = 0;
+    private double turnSpeed = 0;
+    private double leftSpeed = 0;
+    private double rightSpeed = 0;
+    private int frontLeftTarget = 0;
+    private int frontRightTarget = 0;
+    private int backLeftTarget = 0;
+    private int backRightTarget = 0;
 
     @Override
     public void runOpMode() {
@@ -62,13 +62,13 @@ public class Failsafe_Skinny extends LinearOpMode {
         // Match our TeleOp file
         grabby = hardwareMap.servo.get("grabby");
         grabby.setPosition(0.0); // Needs to be closed at start of Auton
-        lift = hardwareMap.get(DcMotor.class,"lift");
+        lift = hardwareMap.get(DcMotor.class, "lift");
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
-        frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
-        backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
-        backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
+        frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeftMotor");
+        frontRightMotor = hardwareMap.get(DcMotor.class, "frontRightMotor");
+        backLeftMotor = hardwareMap.get(DcMotor.class, "backLeftMotor");
+        backRightMotor = hardwareMap.get(DcMotor.class, "backRightMotor");
 
         // Define initialization values for IMU, and then initialize it.
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -109,7 +109,7 @@ public class Failsafe_Skinny extends LinearOpMode {
             telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
             // lift.setPower(0);
         }
-        turnToHeading( TURN_SPEED,  45.0);//Turn 90 to face diretion of terminal
+        turnToHeading(TURN_SPEED, 45.0);//Turn 90 to face diretion of terminal
         driveStraight(DRIVE_SPEED, 8.0, 0.0); //c
         grabby.setPosition(OPEN);
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
@@ -121,25 +121,25 @@ public class Failsafe_Skinny extends LinearOpMode {
             telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
             // lift.setPower(0);
         }
-        turnToHeading( TURN_SPEED,  -90.0);//Turn 90 to face direction of terminal
+        turnToHeading(TURN_SPEED, -90.0);//Turn 90 to face direction of terminal
         driveStraight(DRIVE_SPEED, 22.00, 0.0); // Drive to terminal
-        turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
+        turnToHeading(TURN_SPEED, 0.0); // Turn back to face forward
         driveStraight(DRIVE_SPEED, -4.00, 0.0); // park
 
         driveStraight(DRIVE_SPEED, 5.0, 0.0); // Drive forward to get off the wall
-        turnToHeading( TURN_SPEED,  35.0);//Turn 35 to junction
+        turnToHeading(TURN_SPEED, 35.0);//Turn 35 to junction
         // Inset servo release code here
-        turnToHeading( TURN_SPEED,  215.0);// Turn to substation
+        turnToHeading(TURN_SPEED, 215.0);// Turn to substation
         driveStraight(DRIVE_SPEED, 28.00, 0.0); // Drive to substation
         // Insert servo code to pickup cone
 
-        turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
+        turnToHeading(TURN_SPEED, 0.0); // Turn back to face forward
         driveStraight(DRIVE_SPEED, 60.0, 0.0); //
-        turnToHeading( TURN_SPEED,  -25.0); // Turn to face junction
+        turnToHeading(TURN_SPEED, -25.0); // Turn to face junction
         // Insert lift code up
         // Inset servo release code here
         // Insert lift code down here
-        turnToHeading( TURN_SPEED,  0.0); // realignment
+        turnToHeading(TURN_SPEED, 0.0); // realignment
         driveStraight(DRIVE_SPEED, -60.0, 0.0); // Park in Substation
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -156,16 +156,16 @@ public class Failsafe_Skinny extends LinearOpMode {
     // **********  HIGH Level driving functions.  ********************
 
     /**
-     *  Method to drive in a straight line, on a fixed compass heading (angle), based on encoder counts.
-     *  Move will stop if either of these conditions occur:
-     *  1) Move gets to the desired position
-     *  2) Driver stops the OpMode running.
+     * Method to drive in a straight line, on a fixed compass heading (angle), based on encoder counts.
+     * Move will stop if either of these conditions occur:
+     * 1) Move gets to the desired position
+     * 2) Driver stops the OpMode running.
      *
      * @param maxDriveSpeed MAX Speed for forward/rev motion (range 0 to +1.0) .
-     * @param distance   Distance (in inches) to move from current position.  Negative distance means move backward.
-     * @param heading      Absolute Heading Angle (in Degrees) relative to last gyro reset.
-     *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
-     *                   If a relative angle is required, add/subtract from the current robotHeading.
+     * @param distance      Distance (in inches) to move from current position.  Negative distance means move backward.
+     * @param heading       Absolute Heading Angle (in Degrees) relative to last gyro reset.
+     *                      0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
+     *                      If a relative angle is required, add/subtract from the current robotHeading.
      */
     public void driveStraight(double maxDriveSpeed,
                               double distance,
@@ -175,7 +175,7 @@ public class Failsafe_Skinny extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            int moveCounts = (int)(distance * DRIVE_COUNTS_PER_INCH);
+            int moveCounts = (int) (distance * DRIVE_COUNTS_PER_INCH);
             frontLeftTarget = frontLeftMotor.getCurrentPosition() + moveCounts;
             frontRightTarget = frontRightMotor.getCurrentPosition() + moveCounts;
             backLeftTarget = backLeftMotor.getCurrentPosition() + moveCounts;
@@ -230,15 +230,15 @@ public class Failsafe_Skinny extends LinearOpMode {
     }
 
     /**
-     *  Method to spin on central axis to point in a new direction.
-     *  Move will stop if either of these conditions occur:
-     *  1) Move gets to the heading (angle)
-     *  2) Driver stops the OpMode running.
+     * Method to spin on central axis to point in a new direction.
+     * Move will stop if either of these conditions occur:
+     * 1) Move gets to the heading (angle)
+     * 2) Driver stops the OpMode running.
      *
      * @param maxTurnSpeed Desired MAX speed of turn. (range 0 to +1.0)
-     * @param heading Absolute Heading Angle (in Degrees) relative to last gyro reset.
-     *              0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
-     *              If a relative angle is required, add/subtract from current heading.
+     * @param heading      Absolute Heading Angle (in Degrees) relative to last gyro reset.
+     *                     0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
+     *                     If a relative angle is required, add/subtract from current heading.
      */
     public void turnToHeading(double maxTurnSpeed, double heading) {
 
@@ -266,15 +266,15 @@ public class Failsafe_Skinny extends LinearOpMode {
     }
 
     /**
-     *  Method to obtain & hold a heading for a finite amount of time
-     *  Move will stop once the requested time has elapsed
-     *  This function is useful for giving the robot a moment to stabilize it's heading between movements.
+     * Method to obtain & hold a heading for a finite amount of time
+     * Move will stop once the requested time has elapsed
+     * This function is useful for giving the robot a moment to stabilize it's heading between movements.
      *
-     * @param maxTurnSpeed      Maximum differential turn speed (range 0 to +1.0)
-     * @param heading    Absolute Heading Angle (in Degrees) relative to last gyro reset.
-     *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
-     *                   If a relative angle is required, add/subtract from current heading.
-     * @param holdTime   Length of time (in seconds) to hold the specified heading.
+     * @param maxTurnSpeed Maximum differential turn speed (range 0 to +1.0)
+     * @param heading      Absolute Heading Angle (in Degrees) relative to last gyro reset.
+     *                     0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
+     *                     If a relative angle is required, add/subtract from current heading.
+     * @param holdTime     Length of time (in seconds) to hold the specified heading.
      */
     public void holdHeading(double maxTurnSpeed, double heading, double holdTime) {
 
@@ -305,9 +305,9 @@ public class Failsafe_Skinny extends LinearOpMode {
     /**
      * This method uses a Proportional Controller to determine how much steering correction is required.
      *
-     * @param desiredHeading        The desired absolute heading (relative to last heading reset)
-     * @param proportionalGain      Gain factor applied to heading error to obtain turning power.
-     * @return                      Turning power needed to get to required heading.
+     * @param desiredHeading   The desired absolute heading (relative to last heading reset)
+     * @param proportionalGain Gain factor applied to heading error to obtain turning power.
+     * @return Turning power needed to get to required heading.
      */
     public double getSteeringCorrection(double desiredHeading, double proportionalGain) {
         targetHeading = desiredHeading;  // Save for telemetry
@@ -319,7 +319,7 @@ public class Failsafe_Skinny extends LinearOpMode {
         headingError = targetHeading - robotHeading;
 
         // Normalize the error to be within +/- 180 degrees
-        while (headingError > 180)  headingError -= 360;
+        while (headingError > 180) headingError -= 360;
         while (headingError <= -180) headingError += 360;
 
         // Multiply the error by the gain to determine the required steering correction/  Limit the result to +/- 1.0
@@ -329,20 +329,20 @@ public class Failsafe_Skinny extends LinearOpMode {
     /**
      * This method takes separate drive (fwd/rev) and turn (right/left) requests,
      * combines them, and applies the appropriate speed commands to the left and right wheel motors.
+     *
      * @param drive forward motor speed
      * @param turn  clockwise turning motor speed.
      */
     public void moveRobot(double drive, double turn) {
         driveSpeed = drive;     // save this value as a class member so it can be used by telemetry.
-        turnSpeed  = turn;      // save this value as a class member so it can be used by telemetry.
+        turnSpeed = turn;      // save this value as a class member so it can be used by telemetry.
 
-        leftSpeed  = drive - turn;
+        leftSpeed = drive - turn;
         rightSpeed = drive + turn;
 
         // Scale speeds down if either one exceeds +/- 1.0;
         double max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
-        if (max > 1.0)
-        {
+        if (max > 1.0) {
             leftSpeed /= max;
             rightSpeed /= max;
         }
@@ -354,24 +354,24 @@ public class Failsafe_Skinny extends LinearOpMode {
     }
 
     /**
-     *  Display the various control parameters while driving
+     * Display the various control parameters while driving
      *
-     * @param straight  Set to true if we are driving straight, and the encoder positions should be included in the telemetry.
+     * @param straight Set to true if we are driving straight, and the encoder positions should be included in the telemetry.
      */
     private void sendTelemetry(boolean straight) {
 
         if (straight) {
             telemetry.addData("Motion", "Drive Straight");
-            telemetry.addData("Target Pos L:R",  "%7d:%7d",      frontLeftTarget,  frontRightTarget);
-            telemetry.addData("Target Pos L:R",  "%7d:%7d",      backLeftTarget,  backRightTarget);
-            telemetry.addData("Actual Pos L:R",  "%7d:%7d",      frontLeftMotor.getCurrentPosition(),
+            telemetry.addData("Target Pos L:R", "%7d:%7d", frontLeftTarget, frontRightTarget);
+            telemetry.addData("Target Pos L:R", "%7d:%7d", backLeftTarget, backRightTarget);
+            telemetry.addData("Actual Pos L:R", "%7d:%7d", frontLeftMotor.getCurrentPosition(),
                     frontRightMotor.getCurrentPosition());
         } else {
             telemetry.addData("Motion", "Turning");
         }
 
         telemetry.addData("Angle Target:Current", "%5.2f:%5.0f", targetHeading, robotHeading);
-        telemetry.addData("Error:Steer",  "%5.1f:%5.1f", headingError, turnSpeed);
+        telemetry.addData("Error:Steer", "%5.1f:%5.1f", headingError, turnSpeed);
         telemetry.addData("Wheel Speeds L:R.", "%5.2f : %5.2f", leftSpeed, rightSpeed);
         telemetry.update();
     }
@@ -380,7 +380,7 @@ public class Failsafe_Skinny extends LinearOpMode {
      * read the raw (un-offset Gyro heading) directly from the IMU
      */
     public double getRawHeading() {
-        Orientation angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         return angles.firstAngle;
     }
 

@@ -46,8 +46,8 @@ public class Constants {
     public static final double TURN_SPEED = 0.45;
     public static final double HEADING_THRESHOLD = 1.0;
 
-    public static final double P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
-    public static final double P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
+    public static final double P_TURN_GAIN = 0.02;     // Larger is more responsive, but also less stable
+    public static final double P_DRIVE_GAIN = 0.00;     // Larger is more responsive, but also less stable
 
     // Sets the servo YSNP a.k.a. "You Shall Not Pass"
     public static final double SHUT = 0.1;
@@ -83,17 +83,17 @@ public class Constants {
     */
 
     // Failsafe
-    public static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
-    public static final double LIFT_DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
-    public static final double PULLEY_DIAMETER_INCHES = 2.0 ; // For figuring circumference
+    public static final double COUNTS_PER_MOTOR_REV = 537.7; // GoBILDA 312 RPM Yellow Jacket
+    public static final double LIFT_DRIVE_GEAR_REDUCTION = 1.0; // No External Gearing
+    public static final double PULLEY_DIAMETER_INCHES = 2.0; // For figuring circumference
     public static final double FAILSAFE_COUNTS_PER_INCH =
             (COUNTS_PER_MOTOR_REV * LIFT_DRIVE_GEAR_REDUCTION) / (PULLEY_DIAMETER_INCHES * 3.1415);
 
 
     // Conversions from encoder ticks to inches with the Drivetrain.
     // public static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket - same as above
-    public static final double DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
-    public static final double WHEEL_DIAMETER_INCHES = 4.01575  ; // For figuring circumference // website 3.93701
+    public static final double DRIVE_GEAR_REDUCTION = 1.0; // No External Gearing
+    public static final double WHEEL_DIAMETER_INCHES = 4.01575; // For figuring circumference // website 3.93701
     public static final double DRIVE_COUNTS_PER_INCH =
             (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
 

@@ -17,7 +17,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Autonomous(name = "Mark VII.", group="Linear OpMode")
+@Autonomous(name = "Mark VII.", group = "Linear OpMode")
 @Disabled
 
 public class Mark7 extends LinearOpMode {
@@ -81,8 +81,8 @@ public class Mark7 extends LinearOpMode {
         waitForStart();
 
         /*
-        * This is the proper sequence for functional lift code.
-        */
+         * This is the proper sequence for functional lift code.
+         */
 
         // Grab Cone 1
         grabby.setPosition(CLOSED);

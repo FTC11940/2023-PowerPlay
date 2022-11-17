@@ -9,7 +9,7 @@ public class Drive {
     private DcMotor backLeftMotor = null;
     private DcMotor backRightMotor = null;
 
-    public void stop(){
+    public void stop() {
         frontLeftMotor.setPower(0);
         frontRightMotor.setPower(0);
         backLeftMotor.setPower(0);

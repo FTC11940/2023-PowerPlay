@@ -18,10 +18,10 @@ public class Lift extends LinearOpMode {
     public void runOpMode() {
         grabby = hardwareMap.servo.get("grabby");
         grabby.setPosition(CLOSED); // Needs to be closed at start of Auton
-        lift = hardwareMap.get(DcMotor.class,"lift");
+        lift = hardwareMap.get(DcMotor.class, "lift");
     }
 
-    /* TODO See if needed
+    /*
     while (void opModeIsActive()) {
 
     }
@@ -43,6 +43,8 @@ public class Lift extends LinearOpMode {
 
         }
         // lift.setPower(0.0);
-    };
+    }
+
+    ;
 
 }

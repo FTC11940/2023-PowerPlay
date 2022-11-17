@@ -35,9 +35,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  returns !isStarted() && !isStopRequested() and does not call idle().
  *****************************/
 
-@TeleOp(name = "Mark XII.", group="Linear OpMode")
+@TeleOp(name = "Mark XII.", group = "Linear OpMode")
 @Disabled
-public class Mark12  extends LinearOpMode {
+public class Mark12 extends LinearOpMode {
 
     private Servo grabby;
     private DcMotor lift;
@@ -51,9 +51,9 @@ public class Mark12  extends LinearOpMode {
     BNO055IMU imu;
 
     // for lift
-    static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
-    static final double DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
-    static final double PULLEY_DIAMETER_INCHES = 2.0 ; // For figuring circumference
+    static final double COUNTS_PER_MOTOR_REV = 537.7; // GoBILDA 312 RPM Yellow Jacket
+    static final double DRIVE_GEAR_REDUCTION = 1.0; // No External Gearing
+    static final double PULLEY_DIAMETER_INCHES = 2.0; // For figuring circumference
     static final double COUNTS_PER_INCH =
             (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (PULLEY_DIAMETER_INCHES * 3.1415);
 
@@ -63,7 +63,7 @@ public class Mark12  extends LinearOpMode {
         telemetry.update();
 
         grabby = hardwareMap.servo.get("grabby");
-        lift = hardwareMap.get(DcMotor.class,"lift");
+        lift = hardwareMap.get(DcMotor.class, "lift");
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -71,10 +71,10 @@ public class Mark12  extends LinearOpMode {
         grabby.setPosition(OPEN);
         lift.setTargetPosition(lift_floor);
 
-        frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
-        frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
-        backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
-        backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
+        frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeftMotor");
+        frontRightMotor = hardwareMap.get(DcMotor.class, "frontRightMotor");
+        backRightMotor = hardwareMap.get(DcMotor.class, "backRightMotor");
+        backLeftMotor = hardwareMap.get(DcMotor.class, "backLeftMotor");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         /*
@@ -98,7 +98,7 @@ public class Mark12  extends LinearOpMode {
             if (gamepad1.b) {
                 grabby.setPosition(OPEN);
             }
-            if (gamepad1.a){
+            if (gamepad1.a) {
                 grabby.setPosition(CLOSED);
             }
 
@@ -150,43 +150,43 @@ public class Mark12  extends LinearOpMode {
                 //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); is supposed to stop sending power to motor after the motor has finished its tasks, but does not work
             }
 
-            if((lift_high - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_high + diplomat)){
+            if ((lift_high - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_high + diplomat)) {
                 liftpos = "high"; // tell the gamepad to say "lift is at high position"
                 //lift.setPower(0); // stops the robot from purposeless neurotic twitching after all tasks have been fulfilled
             }
 
-            if (gamepad1.dpad_right){
+            if (gamepad1.dpad_right) {
                 lift.setTargetPosition(lift_mid);
                 lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
 
-            if((lift_mid - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_mid + diplomat)){
+            if ((lift_mid - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_mid + diplomat)) {
                 liftpos = "medium";
                 //lift.setPower(0);
             }
 
-            if (gamepad1.dpad_left){
+            if (gamepad1.dpad_left) {
                 lift.setTargetPosition(lift_low);
                 lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
 
-            if((lift_low - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_low + diplomat)){
+            if ((lift_low - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_low + diplomat)) {
                 liftpos = "low";
                 //lift.setPower(0);
             }
 
-            if (gamepad1.dpad_down){
+            if (gamepad1.dpad_down) {
                 lift.setTargetPosition(lift_floor);
                 lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
 
-            if((lift_floor - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_floor + diplomat)){
+            if ((lift_floor - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_floor + diplomat)) {
                 /* ^
                    | if the lift's current position is greater than the high position minus 10 and is less than the high position plus 10 execute the following code
                    we are doing this instead of just checking if the lift's current position is equal to the low position because robots are neurotic perfectionists who,
@@ -197,18 +197,17 @@ public class Mark12  extends LinearOpMode {
                 lift.setPower(0);
             }
 
-            if (gamepad1.y){
+            if (gamepad1.y) {
                 lift.setTargetPosition(lift_ground);
                 lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
 
-            if((lift_ground - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_ground + diplomat)){
+            if ((lift_ground - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_ground + diplomat)) {
                 liftpos = "ground";
                 //lift.setPower(0);
             }
-
 
 
             telemetry.addData("Lift Position: ", liftpos);

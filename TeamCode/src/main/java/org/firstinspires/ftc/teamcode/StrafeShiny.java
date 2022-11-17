@@ -1,16 +1,20 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.teamcode.Constants.DRIVE_SPEED;
+import static org.firstinspires.ftc.teamcode.Constants.*;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+public class StrafeShiny extends LinearOpMode {
 
-public class StrafeShiny extends LinearOpMode{
+    // Needed to initialize the variables?!
+    private Servo grabby = null;
+    private DcMotor lift = null;
 
     // Declare OpMode members.
     private DcMotor frontLeftMotor = null;
@@ -68,13 +72,17 @@ public class StrafeShiny extends LinearOpMode{
             frontRightMotor.setPower(-Power); // (-) strafe right
             backLeftMotor.setPower(-Power); // (-) strafe right
 
-            while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * desiredEncoder)) ;
-            while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * desiredEncoder));
+            while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * desiredEncoder))
+                ;
+            while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * desiredEncoder))
+                ;
 
-            while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * -desiredEncoder)); // (-) strafe right
-            while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED  * -desiredEncoder)) ; // (-) strafe right
+            while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * -desiredEncoder))
+                ; // (-) strafe right
+            while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED * -desiredEncoder))
+                ; // (-) strafe right
         }
 
-        } // end of strafe
+    } // end of strafe
 
 }

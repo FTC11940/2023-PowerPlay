@@ -1,7 +1,7 @@
 /*
-* Mark VIII. is a teleop design to have functional drive code, claw code, and preset lift
-* positions assigned to buttons
-* */
+ * Mark VIII. is a teleop design to have functional drive code, claw code, and preset lift
+ * positions assigned to buttons
+ * */
 package org.firstinspires.ftc.teamcode;
 
 import static org.firstinspires.ftc.teamcode.Constants.*;
@@ -17,7 +17,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name = "Mark VIII.", group="Linear OpMode")
+@TeleOp(name = "Mark VIII.", group = "Linear OpMode")
 @Disabled
 
 public class Mark8 extends LinearOpMode {
@@ -37,9 +37,9 @@ public class Mark8 extends LinearOpMode {
     private DcMotor backLeftMotor = null; // assigned 3 in Driver Hub
 
     // Lift encoder conversions
-    static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
-    static final double DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
-    static final double PULLEY_DIAMETER_INCHES = 2.0 ; // For figuring circumference
+    static final double COUNTS_PER_MOTOR_REV = 537.7; // GoBILDA 312 RPM Yellow Jacket
+    static final double DRIVE_GEAR_REDUCTION = 1.0; // No External Gearing
+    static final double PULLEY_DIAMETER_INCHES = 2.0; // For figuring circumference
     static final double COUNTS_PER_INCH =
             (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (PULLEY_DIAMETER_INCHES * 3.1415);
 
@@ -245,7 +245,7 @@ public class Mark8 extends LinearOpMode {
             telemetry.addData("Motors", "Front L (%.2f), Front R (%.2f)", frontLeftPower, frontRightPower);
             telemetry.addData("Motors", "Back L (%.2f), Back R (%.2f)", backLeftPower, backRightPower);
             telemetry.addData("Lift Position", liftPos);
-            telemetry.addData("Lift Power",  lift.getPower());
+            telemetry.addData("Lift Power", lift.getPower());
 
         }
     }

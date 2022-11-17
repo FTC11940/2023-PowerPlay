@@ -27,24 +27,24 @@ public class Hardwell {
     private DistanceSensor distance = null; // creates the distance sensor
 
     // Define a constructor that allows the OpMode to pass a reference to itself.
-    public Hardwell (LinearOpMode opmode) {
+    public Hardwell(LinearOpMode opmode) {
         opForce = opmode;
     }
 
     /**
      * Initialize all the robot's hardware.
      * This method must be called ONCE when the OpMode is initialized.
-     *
+     * <p>
      * All of the hardware devices are accessed via the hardware map, and initialized.
      */
     public void init() {
 
         // Define and Initialize Motors (note: need to use reference to actual OpMode).
-        frontLeftMotor = opForce.hardwareMap.get(DcMotor.class,"frontLeftMotor");
-        frontRightMotor = opForce.hardwareMap.get(DcMotor.class,"frontRightMotor");
-        backLeftMotor = opForce.hardwareMap.get(DcMotor.class,"backLeftMotor");
-        backRightMotor = opForce.hardwareMap.get(DcMotor.class,"backRightMotor");
-        lift = opForce.hardwareMap.get(DcMotor.class,"lift");
+        frontLeftMotor = opForce.hardwareMap.get(DcMotor.class, "frontLeftMotor");
+        frontRightMotor = opForce.hardwareMap.get(DcMotor.class, "frontRightMotor");
+        backLeftMotor = opForce.hardwareMap.get(DcMotor.class, "backLeftMotor");
+        backRightMotor = opForce.hardwareMap.get(DcMotor.class, "backRightMotor");
+        lift = opForce.hardwareMap.get(DcMotor.class, "lift");
 
         // Set up motor direction
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);

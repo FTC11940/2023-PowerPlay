@@ -34,7 +34,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  returns !isStarted() && !isStopRequested() and does not call idle().
  *****************************/
 
-@Autonomous(name = "Mark VI.", group="Linear OpMode")
+@Autonomous(name = "Mark VI.", group = "Linear OpMode")
 @Disabled
 public class Mark6 extends LinearOpMode {
 

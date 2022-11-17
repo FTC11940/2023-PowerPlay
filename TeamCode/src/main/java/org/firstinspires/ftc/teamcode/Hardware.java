@@ -34,7 +34,7 @@ public class Hardware {
 
     public ElapsedTime runtime = new ElapsedTime();
 
-    public Hardware(HardwareMap hwMap){
+    public Hardware(HardwareMap hwMap) {
         initialize(hwMap);
     }
 
@@ -42,15 +42,15 @@ public class Hardware {
 
     }
 
-    private void initialize(HardwareMap hwMap){
+    private void initialize(HardwareMap hwMap) {
         hardwareMap = hwMap;
 
-        frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
-        frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
-        backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
-        backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
+        frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeftMotor");
+        frontRightMotor = hardwareMap.get(DcMotor.class, "frontRightMotor");
+        backLeftMotor = hardwareMap.get(DcMotor.class, "backLeftMotor");
+        backRightMotor = hardwareMap.get(DcMotor.class, "backRightMotor");
 
-        lift = hardwareMap.get(DcMotor.class,"lift");
+        lift = hardwareMap.get(DcMotor.class, "lift");
 
         // Touch Sensor for gate
         touchy = hardwareMap.get(TouchSensor.class, "touchy");

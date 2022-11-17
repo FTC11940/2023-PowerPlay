@@ -4,20 +4,24 @@ import static org.firstinspires.ftc.teamcode.Constants.DRIVE_SPEED;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
 
-public class Strafe extends LinearOpMode{
+public class Strafe extends LinearOpMode {
+
+    // Needed to initialize the variables?!
+    private Servo grabby = null;
+    private DcMotor lift = null;
 
     // Declare OpMode members.
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
     private DcMotor backLeftMotor = null;
     private DcMotor backRightMotor = null;
-
 
 
     @Override
@@ -57,11 +61,15 @@ public class Strafe extends LinearOpMode{
         backLeftMotor.setPower(Power);
 
 
-        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * -desiredEncoder)) ;
-        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * -desiredEncoder));
+        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * -desiredEncoder))
+            ;
+        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * -desiredEncoder))
+            ;
 
-        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * desiredEncoder));
-        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED  * desiredEncoder)) ;
+        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * desiredEncoder))
+            ;
+        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED * desiredEncoder))
+            ;
 
         /*
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);

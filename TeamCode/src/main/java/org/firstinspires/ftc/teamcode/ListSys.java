@@ -25,12 +25,12 @@ public class ListSys {
     /**
      * Initialize all the robot's hardware.
      * This method must be called ONCE when the OpMode is initialized.
-     *
+     * <p>
      * All of the hardware devices are accessed via the hardware map, and initialized.
      */
     public void init() {
 
-        lift = opForce.hardwareMap.get(DcMotor.class,"lift");
+        lift = opForce.hardwareMap.get(DcMotor.class, "lift");
 
         lift.setDirection(DcMotor.Direction.REVERSE);
 
@@ -43,7 +43,6 @@ public class ListSys {
         lift.setPower(0);
 
         lift.setTargetPosition(LIFT_FLOOR);
-
 
 
     } // end of init
