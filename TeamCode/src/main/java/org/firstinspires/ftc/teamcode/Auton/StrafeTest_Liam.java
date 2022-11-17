@@ -115,10 +115,7 @@ public class StrafeTest_Liam extends LinearOpMode {
         // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
         // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
         // holdHeading( TURN_SPEED,  0.0, 0.5);     // action - hold last heading for a 1/2 second
-        * TODO Write autonomous actions below
         */
-
-        // TODO Write autonomous actions below
 
         driveStraight(DRIVE_SPEED, -25.0, 0.0);
         strafeRight();
@@ -187,7 +184,7 @@ public class StrafeTest_Liam extends LinearOpMode {
 
             // keep looping while we are still active, and BOTH motors are running.
             while (opModeIsActive() &&
-                    (frontLeftMotor.isBusy() && frontRightMotor.isBusy())) { // TODO consider adding backLeftMotor and backRightMotor
+                    (frontLeftMotor.isBusy() && frontRightMotor.isBusy())) {
 
                 // Determine required steering to keep on heading
                // turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
@@ -319,7 +316,7 @@ public class StrafeTest_Liam extends LinearOpMode {
         driveSpeed = drive;     // save this value as a class member so it can be used by telemetry.
         turnSpeed  = turn;      // save this value as a class member so it can be used by telemetry.
 
-        leftSpeed  = drive - turn; //TODO adjust for mecanum?
+        leftSpeed  = drive - turn;
         rightSpeed = drive + turn;
 
         // Scale speeds down if either one exceeds +/- 1.0;
@@ -332,7 +329,7 @@ public class StrafeTest_Liam extends LinearOpMode {
 
         frontLeftMotor.setPower(leftSpeed);
         frontRightMotor.setPower(rightSpeed);
-        backLeftMotor.setPower(leftSpeed); // TODO adjust for mecanum?
+        backLeftMotor.setPower(leftSpeed);
         backRightMotor.setPower(rightSpeed);
     }
 
