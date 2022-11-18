@@ -250,22 +250,33 @@ public class Red_F2_25pts extends LinearOpMode {
         turnToHeading(TURN_SPEED, 180); //
         driveStraight(DRIVE_SPEED, 30.0, 0.0); //
 
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
-        sleep(1000);  // Pause to display last telemetry message.
+        // TODO Backup to Position Two tile?
+
 
         /*
          * TODO Write specific parking code in the methods of this file (near botttom)
          * Comment out or uncomment as needed for testing purposes
          */
-        // TODO Test before adding in vision
-        signalOnePark();
 
         // TODO Test before adding in vision
-        // signalTwoPark();
+
+        signalParkOne();
+        // Strafe Left
 
         // TODO Test before adding in vision
-        // signalThreePark(); //
+        // signalParkTwo();
+        // Should already be in position by default just by backing up after last cone
+
+
+        // TODO Test before adding in vision
+        // signalParkThree();
+        // Strafe Right
+
+        telemetry.addData("Path", "Complete");
+        telemetry.update();
+
+        sleep(1000);  // Pause to display last telemetry message.
+
     }
 
     /*
@@ -521,37 +532,25 @@ public class Red_F2_25pts extends LinearOpMode {
      * which should make it make it more reusable in various autonomous files
      * without messing with the logic */
 
-    private void signalOnePark() {
+    private void signalParkOne() {
+       strafeLeft();
+       sleep(1000);
+    }
+
+    private void signalParkTwo() {
+        grabby.setPosition(OPEN);
+        sleep(500);
+        grabby.setPosition(CLOSED);
+        sleep(500);
         grabby.setPosition(OPEN);
         sleep(500);
         grabby.setPosition(CLOSED);
         sleep(20000);
     }
 
-    private void signalTwoPark() {
-        grabby.setPosition(OPEN);
-        sleep(500);
-        grabby.setPosition(CLOSED);
-        sleep(500);
-        grabby.setPosition(OPEN);
-        sleep(500);
-        grabby.setPosition(CLOSED);
-        sleep(20000);
-    }
-
-    private void signalThreePark() {
-        grabby.setPosition(OPEN);
-        sleep(500);
-        grabby.setPosition(CLOSED);
-        sleep(500);
-        grabby.setPosition(OPEN);
-        sleep(500);
-        grabby.setPosition(CLOSED);
-        sleep(500);
-        grabby.setPosition(OPEN);
-        sleep(500);
-        grabby.setPosition(CLOSED);
-        sleep(20000);
+    private void signalParkThree() {
+        strafeRight();
+        sleep(1000);
     }
 
     private void strafeLeft() {
