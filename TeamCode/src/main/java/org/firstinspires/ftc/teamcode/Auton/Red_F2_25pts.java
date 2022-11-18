@@ -149,10 +149,7 @@ public class Red_F2_25pts extends LinearOpMode {
         }
 
 
-        turnToHeading( TURN_SPEED,  -40.0);
-        //
-        // FIXME @JediScoy switch to encoder-based rather than time
-
+        turnToHeading(TURN_SPEED, -40.0);
 
         YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
         while (opModeIsActive()) {
@@ -179,12 +176,13 @@ public class Red_F2_25pts extends LinearOpMode {
 
         // TODO Just gonna put this here for fun testing later :)
         // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
-        turnToHeading( TURN_SPEED,  90.0);
+        turnToHeading(TURN_SPEED, 90.0);
         lift.setTargetPosition(LIFT_TOP_STACK);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
-        if ((LIFT_TOP_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_TOP_STACK + TOLERANCE));
+        if ((LIFT_TOP_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_TOP_STACK + TOLERANCE))
+            ;
 
         driveStraight(DRIVE_SPEED, 27.8, 0.0); // Drive to substation
 
@@ -200,13 +198,16 @@ public class Red_F2_25pts extends LinearOpMode {
         }
 
         driveStraight(DRIVE_SPEED, -27.8, 0.0); // Drive to substation
-        turnToHeading( TURN_SPEED,  -40.0);
+        turnToHeading(TURN_SPEED, -40.0);
 
-        driveStraight(DRIVE_SPEED, 7.0, 0.0); //
+        driveStraight(DRIVE_SPEED, 7.0, 0.0);
+
         grabby.setPosition(OPEN);
         sleep(500);
+
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
-        turnToHeading( TURN_SPEED,  90.0);
+        turnToHeading(TURN_SPEED, 90.0);
+
         // Insert lift code down here
         lift.setTargetPosition(LIFT_THREE_STACK);
         lift.setPower(1.0);
@@ -254,10 +255,9 @@ public class Red_F2_25pts extends LinearOpMode {
         sleep(1000);  // Pause to display last telemetry message.
 
         /*
-        * TODO Write specific parking code in the methods of this file (near botttom)
-        * Comment out or uncomment as needed for testing purposes
+         * TODO Write specific parking code in the methods of this file (near botttom)
+         * Comment out or uncomment as needed for testing purposes
          */
-
         // TODO Test before adding in vision
         signalOnePark();
 

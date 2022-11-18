@@ -147,7 +147,6 @@ public class Square extends LinearOpMode {
         // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
         // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
         // holdHeading( TURN_SPEED,  0.0, 0.5);     // action - hold last heading for a 1/2 second
-        * TODO Write autonomous actions below
         */
         driveStraight(DRIVE_SPEED, 24.0, 0.0); // drive away from wall
         turnToHeading(TURN_SPEED,  -90.0); // turn right
