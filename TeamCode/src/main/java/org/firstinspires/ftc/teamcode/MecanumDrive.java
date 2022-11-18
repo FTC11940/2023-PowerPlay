@@ -33,6 +33,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class MecanumDrive extends LinearOpMode {
 
     private Servo grabby; // assigns the Servo motor to the concept "grabby"
+    private Servo YSNP;
+
     private DcMotor lift;
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -64,6 +66,13 @@ public class MecanumDrive extends LinearOpMode {
         // Set starting position of the grabby claw. 0.5 is open, 0.0 is closed
         grabby.setPosition(OPEN);
         lift.setTargetPosition(lift_floor);
+
+        YSNP = hardwareMap.servo.get("you shall not pass");
+
+        // Set starting position of the grabby claw. 0.5 is open, 0.0 is closed
+        grabby.setPosition(grabby_open);
+        YSNP.setPosition(PASS);
+        lift.setTargetPosition(0);
 
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
@@ -162,7 +171,6 @@ public class MecanumDrive extends LinearOpMode {
 
             if((lift_ground - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_ground + diplomat)){
                 liftpos = "ground";
-
             }
 
             telemetry.update();
@@ -182,7 +190,6 @@ public class MecanumDrive extends LinearOpMode {
             backLeftMotor.setPower(backLeftPower);
             frontRightMotor.setPower(frontRightPower);
             backRightMotor.setPower(backRightPower);
-
 
             // String liftpos = "no input";
 
