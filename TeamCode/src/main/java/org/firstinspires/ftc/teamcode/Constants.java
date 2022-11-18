@@ -36,6 +36,7 @@ public class Constants {
     // Constants related to the claw
     public static final double OPEN = 0.33;
     public static final double CLOSED = 0.0;
+
     // what position grabby, or the claw, considers completely open
     public static final double grabby_open = 0.5;
     // what position grabby, or the claw, considers completely closed
