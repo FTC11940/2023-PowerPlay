@@ -41,9 +41,9 @@ class AprilTagDetectionPipeline extends OpenCvPipeline
 {
     private long nativeApriltagPtr;
     private Mat grey = new Mat();
-    private ArrayList<AprilTagDetectionPipeline> detections = new ArrayList<>();
+    private ArrayList<AprilTagDetection> detections = new ArrayList<>();
 
-    private ArrayList<AprilTagDetectionPipeline> detectionsUpdate = new ArrayList<>();
+    private ArrayList<AprilTagDetection> detectionsUpdate = new ArrayList<>();
     private final Object detectionsUpdateSync = new Object();
 
     Mat cameraMatrix;
@@ -124,7 +124,7 @@ class AprilTagDetectionPipeline extends OpenCvPipeline
 
         // For fun, use OpenCV to draw 6DOF markers on the image. We actually recompute the pose using
         // OpenCV because I haven't yet figured out how to re-use AprilTag's pose in OpenCV.
-        for(AprilTagDetectionPipeline detection : detections)
+        for(AprilTagDetection detection : detections)
         {
             Pose pose = poseFromTrapezoid(detection.corners, cameraMatrix, tagsizeX, tagsizeY);
             drawAxisMarker(input, tagsizeY/2.0, 6, pose.rvec, pose.tvec, cameraMatrix);
@@ -143,16 +143,16 @@ class AprilTagDetectionPipeline extends OpenCvPipeline
         }
     }
 
-    public ArrayList<AprilTagDetectionPipeline> getLatestDetections()
+    public ArrayList<AprilTagDetection> getLatestDetections()
     {
         return detections;
     }
 
-    public ArrayList<AprilTagDetectionPipeline> getDetectionsUpdate()
+    public ArrayList<AprilTagDetection> getDetectionsUpdate()
     {
         synchronized (detectionsUpdateSync)
         {
-            ArrayList<AprilTagDetectionPipeline> ret = detectionsUpdate;
+            ArrayList<AprilTagDetection> ret = detectionsUpdate;
             detectionsUpdate = null;
             return ret;
         }
