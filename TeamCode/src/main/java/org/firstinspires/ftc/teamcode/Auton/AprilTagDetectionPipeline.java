@@ -1,28 +1,49 @@
+/*
+ * Copyright (c) 2021 OpenFTC Team
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package org.firstinspires.ftc.teamcode.Auton;
 
-        import org.opencv.calib3d.Calib3d;
-        import org.opencv.core.CvType;
-        import org.opencv.core.Mat;
-        import org.opencv.core.MatOfDouble;
-        import org.opencv.core.MatOfPoint2f;
-        import org.opencv.core.MatOfPoint3f;
-        import org.opencv.core.Point;
-        import org.opencv.core.Point3;
-        import org.opencv.core.Scalar;
-        import org.opencv.imgproc.Imgproc;
-        import org.openftc.apriltag.AprilTagDetection;
-        import org.openftc.apriltag.AprilTagDetectorJNI;
-        import org.openftc.easyopencv.OpenCvPipeline;
+import org.opencv.calib3d.Calib3d;
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfDouble;
+import org.opencv.core.MatOfPoint2f;
+import org.opencv.core.MatOfPoint3f;
+import org.opencv.core.Point;
+import org.opencv.core.Point3;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
+import org.openftc.apriltag.AprilTagDetection;
+import org.openftc.apriltag.AprilTagDetectorJNI;
+import org.openftc.easyopencv.OpenCvPipeline;
 
-        import java.util.ArrayList;
+import java.util.ArrayList;
 
 class AprilTagDetectionPipeline extends OpenCvPipeline
 {
     private long nativeApriltagPtr;
     private Mat grey = new Mat();
-    private ArrayList<AprilTagDetection> detections = new ArrayList<>();
+    private ArrayList<AprilTagDetectionPipeline> detections = new ArrayList<>();
 
-    private ArrayList<AprilTagDetection> detectionsUpdate = new ArrayList<>();
+    private ArrayList<AprilTagDetectionPipeline> detectionsUpdate = new ArrayList<>();
     private final Object detectionsUpdateSync = new Object();
 
     Mat cameraMatrix;
@@ -103,7 +124,7 @@ class AprilTagDetectionPipeline extends OpenCvPipeline
 
         // For fun, use OpenCV to draw 6DOF markers on the image. We actually recompute the pose using
         // OpenCV because I haven't yet figured out how to re-use AprilTag's pose in OpenCV.
-        for(AprilTagDetection detection : detections)
+        for(AprilTagDetectionPipeline detection : detections)
         {
             Pose pose = poseFromTrapezoid(detection.corners, cameraMatrix, tagsizeX, tagsizeY);
             drawAxisMarker(input, tagsizeY/2.0, 6, pose.rvec, pose.tvec, cameraMatrix);
@@ -122,16 +143,16 @@ class AprilTagDetectionPipeline extends OpenCvPipeline
         }
     }
 
-    public ArrayList<AprilTagDetection> getLatestDetections()
+    public ArrayList<AprilTagDetectionPipeline> getLatestDetections()
     {
         return detections;
     }
 
-    public ArrayList<AprilTagDetection> getDetectionsUpdate()
+    public ArrayList<AprilTagDetectionPipeline> getDetectionsUpdate()
     {
         synchronized (detectionsUpdateSync)
         {
-            ArrayList<AprilTagDetection> ret = detectionsUpdate;
+            ArrayList<AprilTagDetectionPipeline> ret = detectionsUpdate;
             detectionsUpdate = null;
             return ret;
         }
@@ -289,23 +310,3 @@ class AprilTagDetectionPipeline extends OpenCvPipeline
         }
     }
 }
-/*
- * Copyright (c) 2021 OpenFTC Team
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
