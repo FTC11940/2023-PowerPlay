@@ -8,7 +8,7 @@ package org.firstinspires.ftc.teamcode;
 public class Constants {
 
     // Preset lift heights using encoder ticks
-    public static final int LIFT_FLOOR = 0; // 1" Ground junction height
+    public static final int LIFT_FLOOR = 0; // 0" Floor height
     public static final int LIFT_GROUND = 100; // 1" Ground junction height
     public static final int LIFT_TOP_STACK = 300; // for use in Auton
     public static final int LIFT_THREE_STACK = 232; // for use in Auton
