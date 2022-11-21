@@ -62,7 +62,7 @@ public class MecanumDrive extends LinearOpMode {
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        YSNP = hardwareMap.servo.get("you shall not pass");
+        YSNP = hardwareMap.servo.get("YSNP");
 
         // Set starting position of the grabby claw. 0.5 is open, 0.0 is closed
         grabby.setPosition(grabby_open);
