@@ -38,6 +38,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -47,9 +48,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import java.util.ArrayList;
 
-@Autonomous
-public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
-{
+@Autonomous(name = "Tag-Test", group = "Robot")
+public class AprilTagAutonomousInitDetectionExample extends LinearOpMode {
 
     Servo grabby;
     Servo YSNP;
@@ -97,15 +97,14 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
     // UNITS ARE METERS
     double tagsize = 0.166;
 
- // Tag ID 1,2,3from the 36h11 family
+    // Tag ID 1,2,3from the 36h11 family
     int LOCATION_1 = 1;
     int LOCATION_2 = 2;
     int LOCATION_3 = 3;
     AprilTagDetection tagOfInterest = null;
 
     @Override
-    public void runOpMode()
-    {
+    public void runOpMode() {
         // Initialize the drive system variables.
         // Match our TeleOp file
         grabby = hardwareMap.servo.get("grabby");
@@ -182,17 +181,14 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 
         camera.setPipeline(aprilTagDetectionPipeline);
-        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
+        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
-            public void onOpened()
-            {
-                camera.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT);
+            public void onOpened() {
+                camera.startStreaming(800, 448, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
-            public void onError(int errorCode)
-            {
+            public void onError(int errorCode) {
 
             }
         });
@@ -203,55 +199,40 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
          * The INIT-loop:
          * This REPLACES waitForStart!
          */
-        while (!isStarted() && !isStopRequested())
-        {
+        while (!isStarted() && !isStopRequested()) {
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
-            if(currentDetections.size() != 0)
-            {
+            if (currentDetections.size() != 0) {
                 boolean tagFound = false;
 
-                for(AprilTagDetection tag : currentDetections)
-                {
-                    if(tag.id == LOCATION_1 || tag.id == LOCATION_2 || tag.id == LOCATION_3)
-                    {
+                for (AprilTagDetection tag : currentDetections) {
+                    if (tag.id == LOCATION_1 || tag.id == LOCATION_2 || tag.id == LOCATION_3) {
                         tagOfInterest = tag;
                         tagFound = true;
                         break;
                     }
                 }
 
-                if(tagFound)
-                {
+                if (tagFound) {
                     telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
                     tagToTelemetry(tagOfInterest);
-                }
-                else
-                {
+                } else {
                     telemetry.addLine("Don't see tag of interest :(");
 
-                    if(tagOfInterest == null)
-                    {
+                    if (tagOfInterest == null) {
                         telemetry.addLine("(The tag has never been seen)");
-                    }
-                    else
-                    {
+                    } else {
                         telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
                         tagToTelemetry(tagOfInterest);
                     }
                 }
 
-            }
-            else
-            {
+            } else {
                 telemetry.addLine("Don't see tag of interest :(");
 
-                if(tagOfInterest == null)
-                {
+                if (tagOfInterest == null) {
                     telemetry.addLine("(The tag has never been seen)");
-                }
-                else
-                {
+                } else {
                     telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
                     tagToTelemetry(tagOfInterest);
                 }
@@ -268,49 +249,41 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
          */
 
         /* Update the telemetry */
-        if(tagOfInterest != null)
-        {
+        if (tagOfInterest != null) {
             telemetry.addLine("Tag snapshot:\n");
             tagToTelemetry(tagOfInterest);
             telemetry.update();
-        }
-        else
-        {
+        } else {
             telemetry.addLine("No tag snapshot available, it was never sighted during the init loop :(");
             telemetry.update();
         }
 
         /* Actually do something useful */
-        if(tagOfInterest == null || tagOfInterest.id == LOCATION_2 ) {
+        if (tagOfInterest == null || tagOfInterest.id == LOCATION_2) {
             //trajectory
-            grabby.setPosition(OPEN);
-          grabby.setPosition(CLOSED);
-        }else if(tagOfInterest.id == LOCATION_1){
+           AUTON_LOC_2();
+        } else if (tagOfInterest.id == LOCATION_1) {
             //trajectory
-            lift.setTargetPosition(LIFT_LOW);
-            lift.setPower(1.0);
-            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            AUTON_LOC_1();
 
-        }else{
-          //trajectory
-            lift.setTargetPosition(LIFT_MEDIUM);
-            lift.setPower(1.0);
-            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        } else {
+            //trajectory
+            AUTON_LOC_3();
         }
         /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
-     //   while (opModeIsActive()) {sleep(20);}
+        //   while (opModeIsActive()) {sleep(20);}
     }
 
-    void tagToTelemetry(AprilTagDetection detection)
-    {
+    void tagToTelemetry(AprilTagDetection detection) {
         telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
-        telemetry.addLine(String.format("Translation X: %.2f feet", detection.pose.x*FEET_PER_METER));
-        telemetry.addLine(String.format("Translation Y: %.2f feet", detection.pose.y*FEET_PER_METER));
-        telemetry.addLine(String.format("Translation Z: %.2f feet", detection.pose.z*FEET_PER_METER));
+        telemetry.addLine(String.format("Translation X: %.2f feet", detection.pose.x * FEET_PER_METER));
+        telemetry.addLine(String.format("Translation Y: %.2f feet", detection.pose.y * FEET_PER_METER));
+        telemetry.addLine(String.format("Translation Z: %.2f feet", detection.pose.z * FEET_PER_METER));
         telemetry.addLine(String.format("Rotation Yaw: %.2f degrees", Math.toDegrees(detection.pose.yaw)));
         telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", Math.toDegrees(detection.pose.pitch)));
         telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
     }
+
     /**
      * Method to drive in a straight line, on a fixed compass heading (angle), based on encoder counts.
      * Move will stop if either of these conditions occur:
@@ -558,17 +531,17 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
     private void signalParkOne() {
         strafeLeft();
         sleep(300);
-        driveStraight(DRIVE_SPEED,-12.0,0);
+        driveStraight(DRIVE_SPEED, -12.0, 0);
     }
 
     private void signalParkTwo() {
-        driveStraight(DRIVE_SPEED,-12.0,0);
+        driveStraight(DRIVE_SPEED, -12.0, 0);
     }
 
     private void signalParkThree() {
         strafeRight();
         sleep(300);
-        driveStraight(DRIVE_SPEED,-12.0,0);
+        driveStraight(DRIVE_SPEED, -12.0, 0);
     }
 
     private void strafeLeft() {
@@ -677,4 +650,408 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
         backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
     } // end Shiny Right
+
+    private void AUTON_LOC_2() {
+        waitForStart();
+
+        // Drive towards the high junction
+        driveStraight(DRIVE_SPEED, 52.0, 0.0); //
+
+        // Lift code up high
+        lift.setTargetPosition(2850);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
+            telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
+            // lift.setPower(0);
+        }
+
+
+        turnToHeading(TURN_SPEED, -39.0);
+
+        YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
+        while (opModeIsActive()) {
+            if (touchy.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(500);
+                grabby.setPosition(OPEN);
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(0.2);
+                backRightMotor.setPower(0.2);
+            }
+
+        }
+        YSNP.setPosition(PASS);
+        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
+
+
+        // TODO Just gonna put this here for fun testing later :)
+        // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
+        turnToHeading(TURN_SPEED, 90.0);
+        lift.setTargetPosition(LIFT_TOP_STACK);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_TOP_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_TOP_STACK + TOLERANCE));
+
+
+        driveStraight(DRIVE_SPEED, 27.5, 0.0); // Drive to substation
+
+        grabby.setPosition(CLOSED);
+        sleep(650);
+
+        lift.setTargetPosition(2950); // FIXME? 2850
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
+            telemetry.addData("Lift High Status", "You've arrived at your destination");
+        }
+
+        driveStraight(DRIVE_SPEED, -27.5, 0.0); // Drive to substation
+        turnToHeading(TURN_SPEED, -39.0);
+
+        YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
+        while (opModeIsActive()) {
+            if (touchy.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(700);
+                grabby.setPosition(OPEN);
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(0.2);
+                backRightMotor.setPower(0.2);
+            }
+
+        }
+
+        YSNP.setPosition(PASS);
+        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
+        turnToHeading(TURN_SPEED, 90.0);
+        // Insert lift code down here
+        lift.setTargetPosition(LIFT_THREE_STACK);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_THREE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_THREE_STACK + TOLERANCE)) {
+            telemetry.addData("Lift 3/4 Stack Status", "You've arrived at your 3/4 cone destination");
+        }
+
+        driveStraight(DRIVE_SPEED, 27.5, 0.0); //
+
+        grabby.setPosition(CLOSED);
+        sleep(650);
+
+        // Lift code up high
+        lift.setTargetPosition(2950);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
+            telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
+            //lift.setPower(0);
+        }
+
+        driveStraight(DRIVE_SPEED, -27.5, 0.0);
+        turnToHeading(TURN_SPEED, -39.0);
+        driveStraight(DRIVE_SPEED, 7.0, 0.0); //
+        sleep(650);
+        grabby.setPosition(OPEN);
+        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
+        turnToHeading(TURN_SPEED, 0.0);
+        grabby.setPosition(CLOSED);
+        // Lift code down
+        lift.setTargetPosition(LIFT_GROUND);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        signalParkTwo();
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_GROUND - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_GROUND + TOLERANCE)) {
+            telemetry.addData("Lift Ground Status", "You've arrived at your GROUND destination");
+        }
+
+    }
+    private void AUTON_LOC_1() {
+        waitForStart();
+
+        // Drive towards the high junction
+        driveStraight(DRIVE_SPEED, 52.0, 0.0); //
+
+        // Lift code up high
+        lift.setTargetPosition(2850);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
+            telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
+            // lift.setPower(0);
+        }
+
+
+        turnToHeading(TURN_SPEED, -39.0);
+
+        YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
+        while (opModeIsActive()) {
+            if (touchy.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(500);
+                grabby.setPosition(OPEN);
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(0.2);
+                backRightMotor.setPower(0.2);
+            }
+
+        }
+        YSNP.setPosition(PASS);
+        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
+
+
+        // TODO Just gonna put this here for fun testing later :)
+        // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
+        turnToHeading(TURN_SPEED, 90.0);
+        lift.setTargetPosition(LIFT_TOP_STACK);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_TOP_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_TOP_STACK + TOLERANCE));
+
+
+        driveStraight(DRIVE_SPEED, 27.5, 0.0); // Drive to substation
+
+        grabby.setPosition(CLOSED);
+        sleep(650);
+
+        lift.setTargetPosition(2950); // FIXME? 2850
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
+            telemetry.addData("Lift High Status", "You've arrived at your destination");
+        }
+
+        driveStraight(DRIVE_SPEED, -27.5, 0.0); // Drive to substation
+        turnToHeading(TURN_SPEED, -39.0);
+
+        YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
+        while (opModeIsActive()) {
+            if (touchy.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(700);
+                grabby.setPosition(OPEN);
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(0.2);
+                backRightMotor.setPower(0.2);
+            }
+
+        }
+
+        YSNP.setPosition(PASS);
+        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
+        turnToHeading(TURN_SPEED, 90.0);
+        // Insert lift code down here
+        lift.setTargetPosition(LIFT_THREE_STACK);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_THREE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_THREE_STACK + TOLERANCE)) {
+            telemetry.addData("Lift 3/4 Stack Status", "You've arrived at your 3/4 cone destination");
+        }
+
+        driveStraight(DRIVE_SPEED, 27.5, 0.0); //
+
+        grabby.setPosition(CLOSED);
+        sleep(650);
+
+        // Lift code up high
+        lift.setTargetPosition(2950);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
+            telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
+            //lift.setPower(0);
+        }
+
+        driveStraight(DRIVE_SPEED, -27.5, 0.0);
+        turnToHeading(TURN_SPEED, -39.0);
+        driveStraight(DRIVE_SPEED, 7.0, 0.0); //
+        sleep(650);
+        grabby.setPosition(OPEN);
+        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
+        turnToHeading(TURN_SPEED, 0.0);
+        grabby.setPosition(CLOSED);
+        // Lift code down
+        lift.setTargetPosition(LIFT_GROUND);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        signalParkOne();
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_GROUND - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_GROUND + TOLERANCE)) {
+            telemetry.addData("Lift Ground Status", "You've arrived at your GROUND destination");
+        }
+
+    }
+    private void AUTON_LOC_3() {
+        waitForStart();
+
+        // Drive towards the high junction
+        driveStraight(DRIVE_SPEED, 52.0, 0.0); //
+
+        // Lift code up high
+        lift.setTargetPosition(2850);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
+            telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
+            // lift.setPower(0);
+        }
+
+
+        turnToHeading(TURN_SPEED, -39.0);
+
+        YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
+        while (opModeIsActive()) {
+            if (touchy.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(500);
+                grabby.setPosition(OPEN);
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(0.2);
+                backRightMotor.setPower(0.2);
+            }
+
+        }
+        YSNP.setPosition(PASS);
+        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
+
+
+        // TODO Just gonna put this here for fun testing later :)
+        // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
+        turnToHeading(TURN_SPEED, 90.0);
+        lift.setTargetPosition(LIFT_TOP_STACK);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_TOP_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_TOP_STACK + TOLERANCE));
+
+
+        driveStraight(DRIVE_SPEED, 27.5, 0.0); // Drive to substation
+
+        grabby.setPosition(CLOSED);
+        sleep(650);
+
+        lift.setTargetPosition(2950); // FIXME? 2850
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
+            telemetry.addData("Lift High Status", "You've arrived at your destination");
+        }
+
+        driveStraight(DRIVE_SPEED, -27.5, 0.0); // Drive to substation
+        turnToHeading(TURN_SPEED, -39.0);
+
+        YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
+        while (opModeIsActive()) {
+            if (touchy.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(700);
+                grabby.setPosition(OPEN);
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(0.2);
+                backRightMotor.setPower(0.2);
+            }
+
+        }
+
+        YSNP.setPosition(PASS);
+        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
+        turnToHeading(TURN_SPEED, 90.0);
+        // Insert lift code down here
+        lift.setTargetPosition(LIFT_THREE_STACK);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_THREE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_THREE_STACK + TOLERANCE)) {
+            telemetry.addData("Lift 3/4 Stack Status", "You've arrived at your 3/4 cone destination");
+        }
+
+        driveStraight(DRIVE_SPEED, 27.5, 0.0); //
+
+        grabby.setPosition(CLOSED);
+        sleep(650);
+
+        // Lift code up high
+        lift.setTargetPosition(2950);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
+            telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
+            //lift.setPower(0);
+        }
+
+        driveStraight(DRIVE_SPEED, -27.5, 0.0);
+        turnToHeading(TURN_SPEED, -39.0);
+        driveStraight(DRIVE_SPEED, 7.0, 0.0); //
+        sleep(650);
+        grabby.setPosition(OPEN);
+        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
+        turnToHeading(TURN_SPEED, 0.0);
+        grabby.setPosition(CLOSED);
+        // Lift code down
+        
+        lift.setTargetPosition(LIFT_GROUND);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        signalParkThree();
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_GROUND - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_GROUND + TOLERANCE)) {
+            telemetry.addData("Lift Ground Status", "You've arrived at your GROUND destination");
+        }
+
+    }
 }
