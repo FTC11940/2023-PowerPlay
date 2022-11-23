@@ -23,7 +23,7 @@ public class Hardware {
     public Servo YSNP = null; // Gate servo
 
     public TouchSensor touchy = null; // Touch sensor for gate
-
+    public TouchSensor touchy2 = null; // Touch sensor for Turn
     public final static double POS_HOME = 0.0;
     public final static double POS_MIN = -1.0;
     public final static double POS_MAX = 1.0;
@@ -53,8 +53,8 @@ public class Hardware {
         lift = hardwareMap.get(DcMotor.class,"lift");
 
         // Touch Sensor for gate
-         touchy = hardwareMap.get(TouchSensor.class, "touchy");
-
+        touchy = hardwareMap.get(TouchSensor.class, "touchy");
+        touchy2 = hardwareMap.get(TouchSensor.class, "touchy2");
         //connect servos
         grabby = hardwareMap.get(Servo.class, "grabby");
         YSNP = hardwareMap.get(Servo.class, "YSNP");
