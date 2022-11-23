@@ -3,7 +3,21 @@
 
 package org.firstinspires.ftc.teamcode.Auton;
 
-import static org.firstinspires.ftc.teamcode.Constants.*;
+import static org.firstinspires.ftc.teamcode.Constants.CLOSED;
+import static org.firstinspires.ftc.teamcode.Constants.DRIVE_COUNTS_PER_INCH;
+import static org.firstinspires.ftc.teamcode.Constants.DRIVE_SPEED;
+import static org.firstinspires.ftc.teamcode.Constants.HEADING_THRESHOLD;
+import static org.firstinspires.ftc.teamcode.Constants.LIFT_GROUND;
+import static org.firstinspires.ftc.teamcode.Constants.LIFT_HIGH;
+import static org.firstinspires.ftc.teamcode.Constants.LIFT_THREE_STACK;
+import static org.firstinspires.ftc.teamcode.Constants.LIFT_TOP_STACK;
+import static org.firstinspires.ftc.teamcode.Constants.OPEN;
+import static org.firstinspires.ftc.teamcode.Constants.PASS;
+import static org.firstinspires.ftc.teamcode.Constants.P_DRIVE_GAIN;
+import static org.firstinspires.ftc.teamcode.Constants.P_TURN_GAIN;
+import static org.firstinspires.ftc.teamcode.Constants.SHUT;
+import static org.firstinspires.ftc.teamcode.Constants.TOLERANCE;
+import static org.firstinspires.ftc.teamcode.Constants.TURN_SPEED;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -21,16 +35,17 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name = "Red-25 pts", group = "Robot")
+@Autonomous(name = "Touchy Test", group = "Robot")
 // @Disabled
 
-public class Red_F2_25pts extends LinearOpMode {
+public class Touchy2 extends LinearOpMode {
 
 
     Servo grabby;
     Servo YSNP;
     DcMotor lift;
     TouchSensor touchy;
+    TouchSensor touchy2;
     // Declare OpMode members.
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
@@ -74,6 +89,7 @@ public class Red_F2_25pts extends LinearOpMode {
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
         touchy = hardwareMap.get(TouchSensor.class, "touchy");
+        touchy2 = hardwareMap.get(TouchSensor.class, "touchy2");
         frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class, "frontRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class, "backLeftMotor");
@@ -159,7 +175,6 @@ public class Red_F2_25pts extends LinearOpMode {
                 frontRightMotor.setPower(0);
                 backRightMotor.setPower(0);
                 sleep(500);
-                grabby.setPosition(OPEN);
                 break;
             } else {
                 grabby.setPosition(CLOSED);
@@ -171,7 +186,30 @@ public class Red_F2_25pts extends LinearOpMode {
 
         }
         YSNP.setPosition(PASS);
-        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
+        while (opModeIsActive()) {
+            if (touchy2.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(250);
+                frontLeftMotor.setPower(-0.05);
+                backLeftMotor.setPower(-0.05);
+                frontRightMotor.setPower(0.05);
+                backRightMotor.setPower(0.05);
+                sleep(1000);
+                grabby.setPosition(OPEN);
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(-0.2);
+                backRightMotor.setPower(-0.2);
+            }
+
+        }
+       /* driveStraight(DRIVE_SPEED, -8.0, 0.0); //
 
 
         // TODO Just gonna put this here for fun testing later :)
@@ -281,7 +319,7 @@ public class Red_F2_25pts extends LinearOpMode {
         // Strafe Left
 
         // TODO Test before adding in vision
-         signalParkTwo();
+        // signalParkTwo();
         // Should already be in position by default just by backing up after last cone
 
 
