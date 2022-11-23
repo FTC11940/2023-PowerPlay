@@ -274,7 +274,6 @@ public class MecanumDrive extends LinearOpMode {
             telemetry.addData("Motors", "Back L (%.2f), Back R (%.2f)", backLeftPower, backRightPower);
             telemetry.update(); // this is very important! without putting this code at the end of your telemetry, your telemetry will not update with new information
 
-
         }
     }
 }
