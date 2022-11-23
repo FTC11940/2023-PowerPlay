@@ -8,7 +8,7 @@ package org.firstinspires.ftc.teamcode;
 public class Constants {
 
     // Preset lift heights using encoder ticks
-    public static final int LIFT_FLOOR = 0; // 1" Ground junction height
+    public static final int LIFT_FLOOR = 0; // 0" Floor height
     public static final int LIFT_GROUND = 100; // 1" Ground junction height
     public static final int LIFT_TOP_STACK = 300; // for use in Auton
     public static final int LIFT_THREE_STACK = 232; // for use in Auton
@@ -17,29 +17,20 @@ public class Constants {
     public static final int LIFT_MEDIUM = 2000; // 23.5" Medium junction height
     public static final int LIFT_HIGH = 3000; // 33.5" High junction height
     public static final int TOLERANCE = 10;
-
-    // Same as above for lift, just different names
-    public static final int lift_floor = 0;
-    public static final int lift_ground = 100; // 1" Ground junction height
-    public static final int lift_low = 1200; // 13.5" Low junction height
-    public static final int lift_mid = 2000; // 23.5" Medium junction height
-    public static final int lift_high = 3000; // 33.5" High junction height
-    public static final int diplomat = 10;
+    public static final int DIPLOMAT = 10;
 
     //constant lift power
-    public static final double lift_power = 1;
+    public static final double LIFT_POWER = 1;
     //constant lift bumper speed
-    public static final int bee_speed = 50;
+    public static final int BEE_SPEED = 50;
     //bumper-gamepad1-strafe encoder value
-    public static final int hornet_speed = 25000;
+    public static final int HORNET_SPEED = 25000;
 
     // Constants related to the claw
-    public static final double OPEN = 0.33;
-    public static final double CLOSED = 0.0;
     // what position grabby, or the claw, considers completely open
-    public static final double grabby_open = 0.33;
+    public static final double OPEN = 0.33;
     // what position grabby, or the claw, considers completely closed
-    public static final double grabby_closed = 0.0;
+    public static final double CLOSED = 0.0;
 
     // Autonomous constants
     public static final double DRIVE_SPEED = 0.6;
