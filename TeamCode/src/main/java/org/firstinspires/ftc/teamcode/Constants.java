@@ -8,7 +8,7 @@ package org.firstinspires.ftc.teamcode;
 public class Constants {
 
     // Preset lift heights using encoder ticks
-    public static final int LIFT_FLOOR = 0; // 1" Ground junction height
+    public static final int LIFT_FLOOR = 0; // 0" Floor height
     public static final int LIFT_GROUND = 100; // 1" Ground junction height
     public static final int LIFT_TOP_STACK = 300; // for use in Auton
     public static final int LIFT_THREE_STACK = 232; // for use in Auton
@@ -17,7 +17,7 @@ public class Constants {
     public static final int LIFT_MEDIUM = 2000; // 23.5" Medium junction height
     public static final int LIFT_HIGH = 3000; // 33.5" High junction height
     public static final int TOLERANCE = 10;
-    public static final int DIPLOMAT = TOLERANCE;
+    public static final int DIPLOMAT = 10;
 
     //constant lift power
     public static final double LIFT_POWER = 1;
@@ -28,11 +28,7 @@ public class Constants {
 
     // Constants related to the claw
     // what position grabby, or the claw, considers completely open
-<<<<<<< Updated upstream
-    public static final double grabby_open = 0.5;
-=======
     public static final double OPEN = 0.33;
->>>>>>> Stashed changes
     // what position grabby, or the claw, considers completely closed
     public static final double CLOSED = 0.0;
 
