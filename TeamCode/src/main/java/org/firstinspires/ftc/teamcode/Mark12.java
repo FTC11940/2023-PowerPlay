@@ -1,12 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import static org.firstinspires.ftc.teamcode.Constants.*;
-import static org.firstinspires.ftc.teamcode.Constants.diplomat;
-import static org.firstinspires.ftc.teamcode.Constants.lift_floor;
-import static org.firstinspires.ftc.teamcode.Constants.lift_ground;
-import static org.firstinspires.ftc.teamcode.Constants.lift_high;
-import static org.firstinspires.ftc.teamcode.Constants.lift_low;
-import static org.firstinspires.ftc.teamcode.Constants.lift_mid;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -69,7 +63,7 @@ public class Mark12 extends LinearOpMode {
 
         // Set starting position of the grabby claw. 0.5 is open, 0.0 is closed
         grabby.setPosition(OPEN);
-        lift.setTargetPosition(lift_floor);
+        lift.setTargetPosition(LIFT_FLOOR);
 
         frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class, "frontRightMotor");
@@ -144,49 +138,49 @@ public class Mark12 extends LinearOpMode {
             String liftpos = "no input";
 
             if (gamepad1.dpad_up) { // if up is pressed on the dpad
-                lift.setTargetPosition(lift_high); // tell the robot it needs to go to lift_high, not to actually go
+                lift.setTargetPosition(LIFT_HIGH); // tell the robot it needs to go to lift_high, not to actually go
                 lift.setPower(0.5); // turns on the power in the lift motor
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION); // tells the robot to actually go to the target position
                 //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); is supposed to stop sending power to motor after the motor has finished its tasks, but does not work
             }
 
-            if ((lift_high - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_high + diplomat)) {
+            if ((LIFT_HIGH - DIPLOMAT) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + DIPLOMAT)) {
                 liftpos = "high"; // tell the gamepad to say "lift is at high position"
                 //lift.setPower(0); // stops the robot from purposeless neurotic twitching after all tasks have been fulfilled
             }
 
             if (gamepad1.dpad_right) {
-                lift.setTargetPosition(lift_mid);
+                lift.setTargetPosition(LIFT_MEDIUM);
                 lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
 
-            if ((lift_mid - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_mid + diplomat)) {
+            if ((LIFT_MEDIUM - DIPLOMAT) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_MEDIUM + DIPLOMAT)) {
                 liftpos = "medium";
                 //lift.setPower(0);
             }
 
             if (gamepad1.dpad_left) {
-                lift.setTargetPosition(lift_low);
+                lift.setTargetPosition(LIFT_LOW);
                 lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
 
-            if ((lift_low - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_low + diplomat)) {
+            if ((LIFT_LOW - DIPLOMAT) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_LOW + DIPLOMAT)) {
                 liftpos = "low";
                 //lift.setPower(0);
             }
 
             if (gamepad1.dpad_down) {
-                lift.setTargetPosition(lift_floor);
+                lift.setTargetPosition(LIFT_FLOOR);
                 lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
 
-            if ((lift_floor - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_floor + diplomat)) {
+            if ((LIFT_FLOOR - DIPLOMAT) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FLOOR + DIPLOMAT)) {
                 /* ^
                    | if the lift's current position is greater than the high position minus 10 and is less than the high position plus 10 execute the following code
                    we are doing this instead of just checking if the lift's current position is equal to the low position because robots are neurotic perfectionists who,
@@ -198,13 +192,13 @@ public class Mark12 extends LinearOpMode {
             }
 
             if (gamepad1.y) {
-                lift.setTargetPosition(lift_ground);
+                lift.setTargetPosition(LIFT_GROUND);
                 lift.setPower(0.5);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
 
-            if ((lift_ground - diplomat) < lift.getCurrentPosition() && lift.getCurrentPosition() < (lift_ground + diplomat)) {
+            if ((LIFT_GROUND - DIPLOMAT) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_GROUND + DIPLOMAT)) {
                 liftpos = "ground";
                 //lift.setPower(0);
             }
