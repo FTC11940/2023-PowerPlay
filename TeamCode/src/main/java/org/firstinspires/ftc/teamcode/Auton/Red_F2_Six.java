@@ -170,9 +170,9 @@ public class Red_F2_Six extends LinearOpMode {
         /*
 
         /* REFERENCE
-        // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
-        // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
-        // holdHeading( TURN_SPEED,  0.0, 0.5);     // action - hold last heading for a 1/2 second
+        // driveStraight(0.8, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
+        // turnToHeading( 0.8,  -15.0);      // action - turn 15 degrees to the right
+        // holdHeading( 0.8,  0.0, 0.5);     // action - hold last heading for a 1/2 second
         */
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
@@ -529,17 +529,17 @@ public class Red_F2_Six extends LinearOpMode {
     private void signalParkOne() {
         strafeLeft();
         sleep(300);
-        driveStraight(DRIVE_SPEED, -12.0, 0);
+        driveStraight(0.8, -12.0, 0);
     }
 
     private void signalParkTwo() {
-        driveStraight(DRIVE_SPEED, -12.0, 0);
+        driveStraight(0.8, -12.0, 0);
     }
 
     private void signalParkThree() {
         strafeRight();
         sleep(300);
-        driveStraight(DRIVE_SPEED, -12.0, 0);
+        driveStraight(0.8, -12.0, 0);
     }
 
     private void strafeLeft() {
@@ -565,13 +565,13 @@ public class Red_F2_Six extends LinearOpMode {
         frontRightMotor.setPower(1.0);
         backLeftMotor.setPower(1.0);
 
-        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * -480))
+        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > 0.8 * -480))
             ; // (-) strafe left
-        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * -480))
+        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > 0.8 * -480))
             ; // (-) strafe left
 
-        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * 480)) ;
-        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED * 480)) ;
+        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < 0.8 * 480)) ;
+        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < 0.8 * 480)) ;
     }
 
     private void strafeRight() {
@@ -597,14 +597,14 @@ public class Red_F2_Six extends LinearOpMode {
         frontRightMotor.setPower(-1.0);
         backLeftMotor.setPower(-1.0);
 
-        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * 480))
+        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > 0.8 * 480))
             ; // (-) strafe left
-        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * 480))
+        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > 0.8 * 480))
             ; // (-) strafe left
 
-        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * -480))
+        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < 0.8 * -480))
             ;  // (-) strafe right
-        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED * -480))
+        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < 0.8 * -480))
             ;
     }
 
@@ -631,14 +631,14 @@ public class Red_F2_Six extends LinearOpMode {
         frontRightMotor.setPower(-1.0);
         backLeftMotor.setPower(-1.0);
 
-        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * desiredEncoder))
+        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > 0.8 * desiredEncoder))
             ; // (-) strafe left
-        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * desiredEncoder))
+        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > 0.8 * desiredEncoder))
             ; // (-) strafe left
 
-        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * -desiredEncoder))
+        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < 0.8 * -desiredEncoder))
             ;  // (-) strafe right
-        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED * -desiredEncoder))
+        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < 0.8 * -desiredEncoder))
             ;
 
         // TODO Test to see if this using encoder instead of time
@@ -654,7 +654,7 @@ public class Red_F2_Six extends LinearOpMode {
 
         // Drive towards the mid junction
         // first cone delivery
-        driveStraight(DRIVE_SPEED, 52.0, 0.0); //
+        driveStraight(0.8, 52.0, 0.0); //
 
         // Lift code up high
         lift.setTargetPosition(LIFT_MEDIUM);
@@ -665,10 +665,84 @@ public class Red_F2_Six extends LinearOpMode {
             telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
             // lift.setPower(0);
         }
-        sleep(250);
-        driveStraight(DRIVE_SPEED, -4.0, 0.0); //
+        sleep(125);
+        driveStraight(0.8, -4.0, 0.0);
         YSNP.setPosition(SHUT);
-        turnToHeading(TURN_SPEED, -120.0);
+        turnToHeading(0.8, -120.0);
+
+        // Lift need to be up before shutting YSNP
+        while (opModeIsActive()) {
+            if (touchy.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(250);
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.3);
+                backLeftMotor.setPower(0.3);
+                frontRightMotor.setPower(0.3);
+                backRightMotor.setPower(0.3);
+            }
+
+        }
+        YSNP.setPosition(PASS);
+        while (opModeIsActive()) {
+            if (touchy2.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(300);
+                frontLeftMotor.setPower(-0.3);
+                backLeftMotor.setPower(-0.3);
+                frontRightMotor.setPower(0.3);
+                backRightMotor.setPower(0.3);
+                sleep(300);
+                grabby.setPosition(OPEN);
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(-0.2);
+                backRightMotor.setPower(-0.2);
+            }
+
+        }
+        driveStraight(0.8, -8.0, 0.0); //
+
+
+        // TODO Just gonna put this here for fun testing later :)
+        // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
+        turnToHeading(0.8, 90.0);
+        lift.setTargetPosition(LIFT_FIVE_STACK);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_FIVE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FIVE_STACK + TOLERANCE))
+            ;
+
+        driveStraight(0.8, 27.5, 0.0); // Drive to substation
+
+        grabby.setPosition(CLOSED);
+        sleep(500);
+
+        //second cone delivery
+
+        lift.setTargetPosition(LIFT_LOW); // FIXME? 2850
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
+            telemetry.addData("Lift High Status", "You've arrived at your destination");
+        }
+        sleep(250);
+        YSNP.setPosition(SHUT);
+        driveStraight(0.8, -14.0, 0.0); // Drive to substation\
+        turnToHeading(0.8, 180.0);
 
         // Lift need to be up before shutting YSNP
         while (opModeIsActive()) {
@@ -678,88 +752,13 @@ public class Red_F2_Six extends LinearOpMode {
                 frontRightMotor.setPower(0);
                 backRightMotor.setPower(0);
                 sleep(500);
-                // grabby.setPosition(OPEN);
                 break;
             } else {
                 grabby.setPosition(CLOSED);
-                frontLeftMotor.setPower(0.2);
-                backLeftMotor.setPower(0.2);
-                frontRightMotor.setPower(0.2);
-                backRightMotor.setPower(0.2);
-            }
-
-        }
-        YSNP.setPosition(PASS);
-        while (opModeIsActive()) {
-            if (touchy2.isPressed()) {
-                frontLeftMotor.setPower(0);
-                backLeftMotor.setPower(0);
-                frontRightMotor.setPower(0);
-                backRightMotor.setPower(0);
-                sleep(300);
-                frontLeftMotor.setPower(-0.3);
-                backLeftMotor.setPower(-0.3);
-                frontRightMotor.setPower(0.3);
-                backRightMotor.setPower(0.3);
-                sleep(300);
-                grabby.setPosition(OPEN);
-                break;
-            } else {
-                grabby.setPosition(CLOSED);
-                frontLeftMotor.setPower(0.2);
-                backLeftMotor.setPower(0.2);
-                frontRightMotor.setPower(-0.2);
-                backRightMotor.setPower(-0.2);
-            }
-
-        }
-        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
-
-
-        // TODO Just gonna put this here for fun testing later :)
-        // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
-        turnToHeading(TURN_SPEED, 90.0);
-        lift.setTargetPosition(LIFT_FIVE_STACK);
-        lift.setPower(1.0);
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        // Test the telemetry statement before setting power to zero.
-        if ((LIFT_FIVE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FIVE_STACK + TOLERANCE))
-            ;
-
-        driveStraight(DRIVE_SPEED, 27.5, 0.0); // Drive to substation
-
-        grabby.setPosition(CLOSED);
-        sleep(650);
-
-        //second cone delivery
-        lift.setTargetPosition(LIFT_LOW); // FIXME? 2850
-        lift.setPower(1.0);
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        // Test the telemetry statement before setting power to zero.
-        if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
-            telemetry.addData("Lift High Status", "You've arrived at your destination");
-        }
-        sleep(500);
-        YSNP.setPosition(SHUT);
-        driveStraight(DRIVE_SPEED, -12.0, 0.0); // Drive to substation\
-        turnToHeading(TURN_SPEED, 180.0);
-
-        // Lift need to be up before shutting YSNP
-        while (opModeIsActive()) {
-            if (touchy.isPressed()) {
-                frontLeftMotor.setPower(0);
-                backLeftMotor.setPower(0);
-                frontRightMotor.setPower(0);
-                backRightMotor.setPower(0);
-                sleep(700);
-                //grabby.setPosition(OPEN);
-                break;
-            } else {
-                grabby.setPosition(CLOSED);
-                frontLeftMotor.setPower(0.2);
-                backLeftMotor.setPower(0.2);
-                frontRightMotor.setPower(0.2);
-                backRightMotor.setPower(0.2);
+                frontLeftMotor.setPower(0.4);
+                backLeftMotor.setPower(0.4);
+                frontRightMotor.setPower(0.4);
+                backRightMotor.setPower(0.4);
             }
 
         }
@@ -789,8 +788,8 @@ public class Red_F2_Six extends LinearOpMode {
             }
 
         }
-        driveStraight(DRIVE_SPEED, -4.0, 0.0); //
-        turnToHeading(TURN_SPEED, 90.0);
+        driveStraight(0.8, -4.0, 0.0); //
+        turnToHeading(0.8, 90.0);
         // Insert lift code down here
         lift.setTargetPosition(LIFT_FOUR_STACK);
         lift.setPower(1.0);
@@ -800,10 +799,10 @@ public class Red_F2_Six extends LinearOpMode {
             telemetry.addData("Lift 3/4 Stack Status", "You've arrived at your 3/4 cone destination");
         }
 
-        driveStraight(DRIVE_SPEED, 14.0, 0.0); //
+        driveStraight(0.8, 17.0, 0.0); //
 
         grabby.setPosition(CLOSED);
-        sleep(650);
+        sleep(500);
 
         // Third cone delivery
 
@@ -816,26 +815,25 @@ public class Red_F2_Six extends LinearOpMode {
             telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
             //lift.setPower(0);
         }
-        sleep(500);
+        sleep(250);
 
-        driveStraight(DRIVE_SPEED, -14.0, 0.0);
+        driveStraight(0.8, -14.0, 0.0);
         YSNP.setPosition(SHUT);
-        turnToHeading(TURN_SPEED, -180.0);
+        turnToHeading(0.8, -180.0);
         while (opModeIsActive()) {
             if (touchy.isPressed()) {
                 frontLeftMotor.setPower(0);
                 backLeftMotor.setPower(0);
                 frontRightMotor.setPower(0);
                 backRightMotor.setPower(0);
-                sleep(700);
-                //grabby.setPosition(OPEN);
+                sleep(250);
                 break;
             } else {
                 grabby.setPosition(CLOSED);
-                frontLeftMotor.setPower(0.2);
-                backLeftMotor.setPower(0.2);
-                frontRightMotor.setPower(0.2);
-                backRightMotor.setPower(0.2);
+                frontLeftMotor.setPower(0.5);
+                backLeftMotor.setPower(0.5);
+                frontRightMotor.setPower(0.5);
+                backRightMotor.setPower(0.5);
             }
 
         }
@@ -856,7 +854,6 @@ public class Red_F2_Six extends LinearOpMode {
                 grabby.setPosition(OPEN);
                 break;
             } else {
-
                 grabby.setPosition(CLOSED);
                 frontLeftMotor.setPower(0.2);
                 backLeftMotor.setPower(0.2);
@@ -865,8 +862,8 @@ public class Red_F2_Six extends LinearOpMode {
             }
 
         }
-        driveStraight(DRIVE_SPEED, -4.0, 0.0); //
-        turnToHeading(TURN_SPEED, 90.0);
+        driveStraight(0.8, -4.0, 0.0); //
+        turnToHeading(0.8, 90.0);
         // Insert lift code down here
         lift.setTargetPosition(LIFT_THREE_STACK);
         lift.setPower(1.0);
@@ -876,10 +873,10 @@ public class Red_F2_Six extends LinearOpMode {
             telemetry.addData("Lift 3/4 Stack Status", "You've arrived at your 3/4 cone destination");
         }
 
-        driveStraight(DRIVE_SPEED, 15.0, 0.0); //
+        driveStraight(0.8, 16.0, 0.0); //
 
         grabby.setPosition(CLOSED);
-        sleep(650);
+        sleep(500);
 
         // Fourth cone delivery
 
@@ -892,26 +889,25 @@ public class Red_F2_Six extends LinearOpMode {
             telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
             //lift.setPower(0);
         }
-        sleep(500);
+        sleep(250);
 
-        driveStraight(DRIVE_SPEED, -15.0, 0.0);
+        driveStraight(0.8, -14.0, 0.0);
         YSNP.setPosition(SHUT);
-        turnToHeading(TURN_SPEED, -180.0);
+        turnToHeading(0.8, -180.0);
         while (opModeIsActive()) {
             if (touchy.isPressed()) {
                 frontLeftMotor.setPower(0);
                 backLeftMotor.setPower(0);
                 frontRightMotor.setPower(0);
                 backRightMotor.setPower(0);
-                sleep(700);
-                //grabby.setPosition(OPEN);
+                sleep(250);
                 break;
             } else {
                 grabby.setPosition(CLOSED);
-                frontLeftMotor.setPower(0.2);
-                backLeftMotor.setPower(0.2);
-                frontRightMotor.setPower(0.2);
-                backRightMotor.setPower(0.2);
+                frontLeftMotor.setPower(0.5);
+                backLeftMotor.setPower(0.5);
+                frontRightMotor.setPower(0.5);
+                backRightMotor.setPower(0.5);
             }
 
         }
@@ -932,15 +928,16 @@ public class Red_F2_Six extends LinearOpMode {
                 grabby.setPosition(OPEN);
                 break;
             } else {
-
                 grabby.setPosition(CLOSED);
                 frontLeftMotor.setPower(0.2);
                 backLeftMotor.setPower(0.2);
                 frontRightMotor.setPower(-0.2);
                 backRightMotor.setPower(-0.2);
             }
-            driveStraight(DRIVE_SPEED, -4.0, 0.0); //
-            turnToHeading(TURN_SPEED, 90.0);
+
+        }
+            driveStraight(0.8, -4.0, 0.0); //
+            turnToHeading(0.8, 90.0);
             // Insert lift code down here
             lift.setTargetPosition(LIFT_TWO_STACK);
             lift.setPower(1.0);
@@ -950,10 +947,10 @@ public class Red_F2_Six extends LinearOpMode {
                 telemetry.addData("Lift 3/4 Stack Status", "You've arrived at your 3/4 cone destination");
             }
 
-            driveStraight(DRIVE_SPEED, 15.0, 0.0); //
+            driveStraight(0.8, 15.0, 0.0); //
 
             grabby.setPosition(CLOSED);
-            sleep(650);
+            sleep(500);
 
             // Fifth cone delivery
 
@@ -966,26 +963,25 @@ public class Red_F2_Six extends LinearOpMode {
                 telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
                 //lift.setPower(0);
             }
-            sleep(500);
+            sleep(250);
 
-            driveStraight(DRIVE_SPEED, -15.0, 0.0);
+            driveStraight(0.8, -15.0, 0.0);
             YSNP.setPosition(SHUT);
-            turnToHeading(TURN_SPEED, -180.0);
+            turnToHeading(0.8, -180.0);
             while (opModeIsActive()) {
                 if (touchy.isPressed()) {
                     frontLeftMotor.setPower(0);
                     backLeftMotor.setPower(0);
                     frontRightMotor.setPower(0);
                     backRightMotor.setPower(0);
-                    sleep(700);
-                    //grabby.setPosition(OPEN);
+                    sleep(250);
                     break;
                 } else {
                     grabby.setPosition(CLOSED);
-                    frontLeftMotor.setPower(0.2);
-                    backLeftMotor.setPower(0.2);
-                    frontRightMotor.setPower(0.2);
-                    backRightMotor.setPower(0.2);
+                    frontLeftMotor.setPower(0.5);
+                    backLeftMotor.setPower(0.5);
+                    frontRightMotor.setPower(0.5);
+                    backRightMotor.setPower(0.5);
                 }
 
             }
@@ -1027,12 +1023,12 @@ public class Red_F2_Six extends LinearOpMode {
 
             }
         }
-    }
+
     private void AUTON_LOC_1() {
             waitForStart();
 
             // Drive towards the high junction
-            driveStraight(DRIVE_SPEED, 52.0, 0.0); //
+            driveStraight(0.8, 52.0, 0.0); //
 
             // Lift code up high
             lift.setTargetPosition(2850);
@@ -1045,7 +1041,7 @@ public class Red_F2_Six extends LinearOpMode {
             }
 
 
-            turnToHeading(TURN_SPEED, -39.0);
+            turnToHeading(0.8, -39.0);
 
             YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
             while (opModeIsActive()) {
@@ -1090,12 +1086,12 @@ public class Red_F2_Six extends LinearOpMode {
                 }
 
             }
-            driveStraight(DRIVE_SPEED, -8.0, 0.0); //
+            driveStraight(0.8, -8.0, 0.0); //
 
 
             // TODO Just gonna put this here for fun testing later :)
             // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
-            turnToHeading(TURN_SPEED, 90.0);
+            turnToHeading(0.8, 90.0);
             lift.setTargetPosition(LIFT_FIVE_STACK);
             lift.setPower(1.0);
             lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -1104,7 +1100,7 @@ public class Red_F2_Six extends LinearOpMode {
                 ;
 
 
-            driveStraight(DRIVE_SPEED, 27.5, 0.0); // Drive to substation
+            driveStraight(0.8, 27.5, 0.0); // Drive to substation
 
             grabby.setPosition(CLOSED);
             sleep(650);
@@ -1117,8 +1113,8 @@ public class Red_F2_Six extends LinearOpMode {
                 telemetry.addData("Lift High Status", "You've arrived at your destination");
             }
 
-            driveStraight(DRIVE_SPEED, -27.5, 0.0); // Drive to substation
-            turnToHeading(TURN_SPEED, -39.0);
+            driveStraight(0.8, -27.5, 0.0); // Drive to substation
+            turnToHeading(0.8, -39.0);
 
             YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
             while (opModeIsActive()) {
@@ -1141,8 +1137,8 @@ public class Red_F2_Six extends LinearOpMode {
             }
 
             YSNP.setPosition(PASS);
-            driveStraight(DRIVE_SPEED, -8.0, 0.0); //
-            turnToHeading(TURN_SPEED, 90.0);
+            driveStraight(0.8, -8.0, 0.0); //
+            turnToHeading(0.8, 90.0);
             // Insert lift code down here
             lift.setTargetPosition(LIFT_FOUR_STACK);
             lift.setPower(1.0);
@@ -1152,7 +1148,7 @@ public class Red_F2_Six extends LinearOpMode {
                 telemetry.addData("Lift 3/4 Stack Status", "You've arrived at your 3/4 cone destination");
             }
 
-            driveStraight(DRIVE_SPEED, 27.5, 0.0); //
+            driveStraight(0.8, 27.5, 0.0); //
 
             grabby.setPosition(CLOSED);
             sleep(650);
@@ -1167,13 +1163,13 @@ public class Red_F2_Six extends LinearOpMode {
                 //lift.setPower(0);
             }
 
-            driveStraight(DRIVE_SPEED, -27.5, 0.0);
-            turnToHeading(TURN_SPEED, -39.0);
-            driveStraight(DRIVE_SPEED, 7.0, 0.0); //
+            driveStraight(0.8, -27.5, 0.0);
+            turnToHeading(0.8, -39.0);
+            driveStraight(0.8, 7.0, 0.0); //
             sleep(650);
             grabby.setPosition(OPEN);
-            driveStraight(DRIVE_SPEED, -8.0, 0.0); //
-            turnToHeading(TURN_SPEED, 0.0);
+            driveStraight(0.8, -8.0, 0.0); //
+            turnToHeading(0.8, 0.0);
             grabby.setPosition(CLOSED);
             // Lift code down
             lift.setTargetPosition(LIFT_GROUND);
@@ -1190,7 +1186,7 @@ public class Red_F2_Six extends LinearOpMode {
         waitForStart();
 
         // Drive towards the high junction
-        driveStraight(DRIVE_SPEED, 52.0, 0.0); //
+        driveStraight(0.8, 52.0, 0.0); //
 
         // Lift code up high
         lift.setTargetPosition(2850);
@@ -1203,7 +1199,7 @@ public class Red_F2_Six extends LinearOpMode {
         }
 
 
-        turnToHeading(TURN_SPEED, -39.0);
+        turnToHeading(0.8, -39.0);
 
         YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
         while (opModeIsActive()) {
@@ -1248,12 +1244,12 @@ public class Red_F2_Six extends LinearOpMode {
             }
 
         }
-        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
+        driveStraight(0.8, -8.0, 0.0); //
 
 
         // TODO Just gonna put this here for fun testing later :)
         // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
-        turnToHeading(TURN_SPEED, 90.0);
+        turnToHeading(0.8, 90.0);
         lift.setTargetPosition(LIFT_FIVE_STACK);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -1261,7 +1257,7 @@ public class Red_F2_Six extends LinearOpMode {
         if ((LIFT_FIVE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FIVE_STACK + TOLERANCE));
 
 
-        driveStraight(DRIVE_SPEED, 27.5, 0.0); // Drive to substation
+        driveStraight(0.8, 27.5, 0.0); // Drive to substation
 
         grabby.setPosition(CLOSED);
         sleep(650);
@@ -1274,8 +1270,8 @@ public class Red_F2_Six extends LinearOpMode {
             telemetry.addData("Lift High Status", "You've arrived at your destination");
         }
 
-        driveStraight(DRIVE_SPEED, -27.5, 0.0); // Drive to substation
-        turnToHeading(TURN_SPEED, -39.0);
+        driveStraight(0.8, -27.5, 0.0); // Drive to substation
+        turnToHeading(0.8, -39.0);
 
         YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
         while (opModeIsActive()) {
@@ -1298,8 +1294,8 @@ public class Red_F2_Six extends LinearOpMode {
         }
 
         YSNP.setPosition(PASS);
-        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
-        turnToHeading(TURN_SPEED, 90.0);
+        driveStraight(0.8, -8.0, 0.0); //
+        turnToHeading(0.8, 90.0);
         // Insert lift code down here
         lift.setTargetPosition(LIFT_THREE_STACK);
         lift.setPower(1.0);
@@ -1309,7 +1305,7 @@ public class Red_F2_Six extends LinearOpMode {
             telemetry.addData("Lift 3/4 Stack Status", "You've arrived at your 3/4 cone destination");
         }
 
-        driveStraight(DRIVE_SPEED, 27.5, 0.0); //
+        driveStraight(0.8, 27.5, 0.0); //
 
         grabby.setPosition(CLOSED);
         sleep(650);
@@ -1324,13 +1320,13 @@ public class Red_F2_Six extends LinearOpMode {
             //lift.setPower(0);
         }
 
-        driveStraight(DRIVE_SPEED, -27.5, 0.0);
-        turnToHeading(TURN_SPEED, -39.0);
-        driveStraight(DRIVE_SPEED, 7.0, 0.0); //
+        driveStraight(0.8, -27.5, 0.0);
+        turnToHeading(0.8, -39.0);
+        driveStraight(0.8, 7.0, 0.0); //
         sleep(650);
         grabby.setPosition(OPEN);
-        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
-        turnToHeading(TURN_SPEED, 0.0);
+        driveStraight(0.8, -8.0, 0.0); //
+        turnToHeading(0.8, 0.0);
         grabby.setPosition(CLOSED);
         // Lift code down
         
