@@ -653,7 +653,7 @@ public class Red_F2_Six extends LinearOpMode {
         waitForStart();
 
         // Drive towards the high junction
-        driveStraight(DRIVE_SPEED, 42.0, 0.0); //
+        driveStraight(DRIVE_SPEED, 52.0, 0.0); //
 
         // Lift code up high
         lift.setTargetPosition(LIFT_MEDIUM);
@@ -717,11 +717,11 @@ public class Red_F2_Six extends LinearOpMode {
         // TODO Just gonna put this here for fun testing later :)
         // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
         turnToHeading(TURN_SPEED, 90.0);
-        lift.setTargetPosition(LIFT_TOP_STACK);
+        lift.setTargetPosition(LIFT_FIVE_STACK);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
-        if ((LIFT_TOP_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_TOP_STACK + TOLERANCE))
+        if ((LIFT_FIVE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FIVE_STACK + TOLERANCE))
             ;
 
 
@@ -788,7 +788,7 @@ public class Red_F2_Six extends LinearOpMode {
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
         turnToHeading(TURN_SPEED, 90.0);
         // Insert lift code down here
-        lift.setTargetPosition(LIFT_THREE_STACK);
+        lift.setTargetPosition(LIFT_FOUR_STACK);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
@@ -823,11 +823,12 @@ public class Red_F2_Six extends LinearOpMode {
         lift.setTargetPosition(LIFT_GROUND);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        signalParkTwo();
         // Test the telemetry statement before setting power to zero.
         if ((LIFT_GROUND - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_GROUND + TOLERANCE)) {
             telemetry.addData("Lift Ground Status", "You've arrived at your GROUND destination");
         }
+        signalParkTwo();
+       sleep(4000);
 
     }
     private void AUTON_LOC_1() {
@@ -898,11 +899,11 @@ public class Red_F2_Six extends LinearOpMode {
         // TODO Just gonna put this here for fun testing later :)
         // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
         turnToHeading(TURN_SPEED, 90.0);
-        lift.setTargetPosition(LIFT_TOP_STACK);
+        lift.setTargetPosition(LIFT_FIVE_STACK);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
-        if ((LIFT_TOP_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_TOP_STACK + TOLERANCE));
+        if ((LIFT_FIVE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FIVE_STACK + TOLERANCE));
 
 
         driveStraight(DRIVE_SPEED, 27.5, 0.0); // Drive to substation
@@ -910,7 +911,7 @@ public class Red_F2_Six extends LinearOpMode {
         grabby.setPosition(CLOSED);
         sleep(650);
 
-        lift.setTargetPosition(2950); // FIXME? 2850
+        lift.setTargetPosition(LIFT_LOW); // FIXME? 2850
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
@@ -945,11 +946,11 @@ public class Red_F2_Six extends LinearOpMode {
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
         turnToHeading(TURN_SPEED, 90.0);
         // Insert lift code down here
-        lift.setTargetPosition(LIFT_THREE_STACK);
+        lift.setTargetPosition(LIFT_FOUR_STACK);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
-        if ((LIFT_THREE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_THREE_STACK + TOLERANCE)) {
+        if ((LIFT_FOUR_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FOUR_STACK + TOLERANCE)) {
             telemetry.addData("Lift 3/4 Stack Status", "You've arrived at your 3/4 cone destination");
         }
 
@@ -1055,11 +1056,11 @@ public class Red_F2_Six extends LinearOpMode {
         // TODO Just gonna put this here for fun testing later :)
         // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
         turnToHeading(TURN_SPEED, 90.0);
-        lift.setTargetPosition(LIFT_TOP_STACK);
+        lift.setTargetPosition(LIFT_FIVE_STACK);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
-        if ((LIFT_TOP_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_TOP_STACK + TOLERANCE));
+        if ((LIFT_FIVE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FIVE_STACK + TOLERANCE));
 
 
         driveStraight(DRIVE_SPEED, 27.5, 0.0); // Drive to substation

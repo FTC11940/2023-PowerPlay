@@ -21,21 +21,8 @@
 
 package org.firstinspires.ftc.teamcode.Auton;
 
-import static org.firstinspires.ftc.teamcode.Constants.CLOSED;
-import static org.firstinspires.ftc.teamcode.Constants.DRIVE_COUNTS_PER_INCH;
-import static org.firstinspires.ftc.teamcode.Constants.DRIVE_SPEED;
-import static org.firstinspires.ftc.teamcode.Constants.HEADING_THRESHOLD;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_GROUND;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_HIGH;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_THREE_STACK;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_TOP_STACK;
-import static org.firstinspires.ftc.teamcode.Constants.OPEN;
-import static org.firstinspires.ftc.teamcode.Constants.PASS;
-import static org.firstinspires.ftc.teamcode.Constants.P_DRIVE_GAIN;
-import static org.firstinspires.ftc.teamcode.Constants.P_TURN_GAIN;
-import static org.firstinspires.ftc.teamcode.Constants.SHUT;
-import static org.firstinspires.ftc.teamcode.Constants.TOLERANCE;
-import static org.firstinspires.ftc.teamcode.Constants.TURN_SPEED;
+import static org.firstinspires.ftc.teamcode.Constants.*;
+
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -710,11 +697,11 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode {
                 frontRightMotor.setPower(0);
                 backRightMotor.setPower(0);
                 sleep(250);
-                frontLeftMotor.setPower(-0.05);
-                backLeftMotor.setPower(-0.05);
-                frontRightMotor.setPower(0.05);
-                backRightMotor.setPower(0.05);
-                sleep(1000);
+                frontLeftMotor.setPower(-0.3);
+                backLeftMotor.setPower(-0.3);
+                frontRightMotor.setPower(0.3);
+                backRightMotor.setPower(0.3);
+                sleep(250);
                 grabby.setPosition(OPEN);
                 break;
             } else {
@@ -732,18 +719,17 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode {
         // TODO Just gonna put this here for fun testing later :)
         // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
         turnToHeading(TURN_SPEED, 90.0);
-        lift.setTargetPosition(LIFT_TOP_STACK);
+        lift.setTargetPosition(LIFT_FIVE_STACK);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
-        if ((LIFT_TOP_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_TOP_STACK + TOLERANCE));
+        if ((LIFT_FIVE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FIVE_STACK + TOLERANCE));
 
 
         driveStraight(DRIVE_SPEED, 27.5, 0.0); // Drive to substation
 
         grabby.setPosition(CLOSED);
-        sleep(650);
-
+        sleep(250);
         lift.setTargetPosition(2950); // FIXME? 2850
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -751,7 +737,7 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode {
         if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
             telemetry.addData("Lift High Status", "You've arrived at your destination");
         }
-
+        sleep(500);
         driveStraight(DRIVE_SPEED, -27.5, 0.0); // Drive to substation
         turnToHeading(TURN_SPEED, -39.0);
 
@@ -776,21 +762,44 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode {
         }
 
         YSNP.setPosition(PASS);
+        while (opModeIsActive()) {
+            if (touchy2.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(250);
+                frontLeftMotor.setPower(-0.3);
+                backLeftMotor.setPower(-0.3);
+                frontRightMotor.setPower(0.3);
+                backRightMotor.setPower(0.3);
+                sleep(150);
+                grabby.setPosition(OPEN);
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(-0.2);
+                backRightMotor.setPower(-0.2);
+            }
+
+        }
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
         turnToHeading(TURN_SPEED, 90.0);
         // Insert lift code down here
-        lift.setTargetPosition(LIFT_THREE_STACK);
+        lift.setTargetPosition(LIFT_FOUR_STACK);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
-        if ((LIFT_THREE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_THREE_STACK + TOLERANCE)) {
+        if ((LIFT_FOUR_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FOUR_STACK + TOLERANCE)) {
             telemetry.addData("Lift 3/4 Stack Status", "You've arrived at your 3/4 cone destination");
         }
 
         driveStraight(DRIVE_SPEED, 27.5, 0.0); //
 
         grabby.setPosition(CLOSED);
-        sleep(650);
+        sleep(250);
 
         // Lift code up high
         lift.setTargetPosition(2950);
@@ -801,7 +810,7 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode {
             telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
             //lift.setPower(0);
         }
-
+        sleep(500);
         driveStraight(DRIVE_SPEED, -27.5, 0.0);
         turnToHeading(TURN_SPEED, -39.0);
         driveStraight(DRIVE_SPEED, 7.0, 0.0); //
@@ -811,15 +820,15 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode {
         turnToHeading(TURN_SPEED, 0.0);
         grabby.setPosition(CLOSED);
         // Lift code down
-        lift.setTargetPosition(LIFT_GROUND);
+        lift.setTargetPosition(LIFT_FLOOR);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         signalParkTwo();
         // Test the telemetry statement before setting power to zero.
-        if ((LIFT_GROUND - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_GROUND + TOLERANCE)) {
+        if ((LIFT_FLOOR - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FLOOR + TOLERANCE)) {
             telemetry.addData("Lift Ground Status", "You've arrived at your GROUND destination");
         }
-
+        sleep(10000);
     }
     private void AUTON_LOC_1() {
         waitForStart();
@@ -889,11 +898,11 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode {
         // TODO Just gonna put this here for fun testing later :)
         // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
         turnToHeading(TURN_SPEED, 90.0);
-        lift.setTargetPosition(LIFT_TOP_STACK);
+        lift.setTargetPosition(LIFT_FIVE_STACK);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
-        if ((LIFT_TOP_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_TOP_STACK + TOLERANCE));
+        if ((LIFT_FIVE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FIVE_STACK + TOLERANCE));
 
 
         driveStraight(DRIVE_SPEED, 27.5, 0.0); // Drive to substation
@@ -936,11 +945,11 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode {
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
         turnToHeading(TURN_SPEED, 90.0);
         // Insert lift code down here
-        lift.setTargetPosition(LIFT_THREE_STACK);
+        lift.setTargetPosition(LIFT_FOUR_STACK);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
-        if ((LIFT_THREE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_THREE_STACK + TOLERANCE)) {
+        if ((LIFT_FOUR_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FOUR_STACK + TOLERANCE)) {
             telemetry.addData("Lift 3/4 Stack Status", "You've arrived at your 3/4 cone destination");
         }
 
@@ -1046,11 +1055,11 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode {
         // TODO Just gonna put this here for fun testing later :)
         // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
         turnToHeading(TURN_SPEED, 90.0);
-        lift.setTargetPosition(LIFT_TOP_STACK);
+        lift.setTargetPosition(LIFT_FIVE_STACK);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
-        if ((LIFT_TOP_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_TOP_STACK + TOLERANCE));
+        if ((LIFT_FIVE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FIVE_STACK + TOLERANCE));
 
 
         driveStraight(DRIVE_SPEED, 27.5, 0.0); // Drive to substation
@@ -1093,11 +1102,11 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode {
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
         turnToHeading(TURN_SPEED, 90.0);
         // Insert lift code down here
-        lift.setTargetPosition(LIFT_THREE_STACK);
+        lift.setTargetPosition(LIFT_FOUR_STACK);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
-        if ((LIFT_THREE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_THREE_STACK + TOLERANCE)) {
+        if ((LIFT_FOUR_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FOUR_STACK + TOLERANCE)) {
             telemetry.addData("Lift 3/4 Stack Status", "You've arrived at your 3/4 cone destination");
         }
 
