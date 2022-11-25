@@ -21,16 +21,21 @@
 
 package org.firstinspires.ftc.teamcode.Auton;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.openftc.apriltag.AprilTagDetection;
-import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
-import static org.firstinspires.ftc.teamcode.Constants.*;
+import static org.firstinspires.ftc.teamcode.Constants.CLOSED;
+import static org.firstinspires.ftc.teamcode.Constants.DRIVE_COUNTS_PER_INCH;
+import static org.firstinspires.ftc.teamcode.Constants.DRIVE_SPEED;
+import static org.firstinspires.ftc.teamcode.Constants.HEADING_THRESHOLD;
+import static org.firstinspires.ftc.teamcode.Constants.LIFT_GROUND;
+import static org.firstinspires.ftc.teamcode.Constants.LIFT_HIGH;
+import static org.firstinspires.ftc.teamcode.Constants.LIFT_THREE_STACK;
+import static org.firstinspires.ftc.teamcode.Constants.LIFT_TOP_STACK;
+import static org.firstinspires.ftc.teamcode.Constants.OPEN;
+import static org.firstinspires.ftc.teamcode.Constants.PASS;
+import static org.firstinspires.ftc.teamcode.Constants.P_DRIVE_GAIN;
+import static org.firstinspires.ftc.teamcode.Constants.P_TURN_GAIN;
+import static org.firstinspires.ftc.teamcode.Constants.SHUT;
+import static org.firstinspires.ftc.teamcode.Constants.TOLERANCE;
+import static org.firstinspires.ftc.teamcode.Constants.TURN_SPEED;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -42,10 +47,16 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.openftc.apriltag.AprilTagDetection;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+
 import java.util.ArrayList;
 
 @Autonomous(name = "Tag-Test", group = "Robot")
@@ -55,6 +66,7 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode {
     Servo YSNP;
     DcMotor lift;
     TouchSensor touchy;
+    TouchSensor touchy2;
     // Declare OpMode members.
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
@@ -119,6 +131,7 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode {
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
         touchy = hardwareMap.get(TouchSensor.class, "touchy");
+        touchy2 = hardwareMap.get(TouchSensor.class, "touchy2");
         frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class, "frontRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class, "backLeftMotor");
@@ -690,6 +703,29 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode {
 
         }
         YSNP.setPosition(PASS);
+        while (opModeIsActive()) {
+            if (touchy2.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(250);
+                frontLeftMotor.setPower(-0.05);
+                backLeftMotor.setPower(-0.05);
+                frontRightMotor.setPower(0.05);
+                backRightMotor.setPower(0.05);
+                sleep(1000);
+                grabby.setPosition(OPEN);
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(-0.2);
+                backRightMotor.setPower(-0.2);
+            }
+
+        }
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
 
 
@@ -824,6 +860,29 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode {
 
         }
         YSNP.setPosition(PASS);
+        while (opModeIsActive()) {
+            if (touchy2.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(250);
+                frontLeftMotor.setPower(-0.05);
+                backLeftMotor.setPower(-0.05);
+                frontRightMotor.setPower(0.05);
+                backRightMotor.setPower(0.05);
+                sleep(1000);
+                grabby.setPosition(OPEN);
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(-0.2);
+                backRightMotor.setPower(-0.2);
+            }
+
+        }
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
 
 
@@ -958,6 +1017,29 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode {
 
         }
         YSNP.setPosition(PASS);
+        while (opModeIsActive()) {
+            if (touchy2.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(250);
+                frontLeftMotor.setPower(-0.05);
+                backLeftMotor.setPower(-0.05);
+                frontRightMotor.setPower(0.05);
+                backRightMotor.setPower(0.05);
+                sleep(1000);
+                grabby.setPosition(OPEN);
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(-0.2);
+                backRightMotor.setPower(-0.2);
+            }
+
+        }
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
 
 
