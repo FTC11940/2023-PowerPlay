@@ -28,12 +28,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class Blue_A2_12pts extends LinearOpMode {
 
-    // declare servos, sensors, and the lift
+
     Servo grabby;
     Servo YSNP;
     DcMotor lift;
     TouchSensor touchy;
-
     // Declare OpMode members.
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
@@ -41,24 +40,24 @@ public class Blue_A2_12pts extends LinearOpMode {
     private DcMotor backRightMotor = null;
 
     // Declare IMU and variables
-    private BNO055IMU imu = null;      // Control/Expansion Hub IMU
-    private double robotHeading = 0;
-    private double headingOffset = 0;
-    private double headingError = 0;
+    private BNO055IMU       imu         = null;      // Control/Expansion Hub IMU
+    private double          robotHeading  = 0;
+    private double          headingOffset = 0;
+    private double          headingError  = 0;
 
     /*
     These variable are declared here (as class members) so they can be updated in various methods,
     but still be displayed by sendTelemetry()
      */
-    private double targetHeading = 0;
-    private double driveSpeed = 0;
-    private double turnSpeed = 0;
-    private double leftSpeed = 0;
-    private double rightSpeed = 0;
-    private int frontLeftTarget = 0;
-    private int frontRightTarget = 0;
-    private int backLeftTarget = 0;
-    private int backRightTarget = 0;
+    private double  targetHeading = 0;
+    private double  driveSpeed    = 0;
+    private double  turnSpeed     = 0;
+    private double  leftSpeed     = 0;
+    private double  rightSpeed    = 0;
+    private int     frontLeftTarget    = 0;
+    private int     frontRightTarget   = 0;
+    private int     backLeftTarget = 0;
+    private int     backRightTarget =0;
 
     @Override
     public void runOpMode() {
@@ -69,17 +68,17 @@ public class Blue_A2_12pts extends LinearOpMode {
         grabby.setPosition(0.0); // Needs to be closed at start of Auton
         YSNP = hardwareMap.servo.get("YSNP");
         YSNP.setPosition(PASS); // Needs to be closed at start of Auton
-        lift = hardwareMap.get(DcMotor.class, "lift");
+        lift = hardwareMap.get(DcMotor.class,"lift");
         // lift.setTargetPosition(0);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        touchy = hardwareMap.get(TouchSensor.class, "touchy");
+        touchy = hardwareMap.get(TouchSensor.class,"touchy");
 
-        frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeftMotor");
-        frontRightMotor = hardwareMap.get(DcMotor.class, "frontRightMotor");
-        backLeftMotor = hardwareMap.get(DcMotor.class, "backLeftMotor");
-        backRightMotor = hardwareMap.get(DcMotor.class, "backRightMotor");
+        frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
+        frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
+        backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
+        backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
 
         // Match our TeleOp file
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -137,22 +136,26 @@ public class Blue_A2_12pts extends LinearOpMode {
         // Autonomous Blue 12 A2
         waitForStart();
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
-        turnToHeading(TURN_SPEED, 90.0); // Turn to the right
-        driveStraight(DRIVE_SPEED, 20.0, 0.0); // go twenty inches to the right
-        turnToHeading(TURN_SPEED, 0.0);// Face forward
+        turnToHeading(TURN_SPEED,  90.0); // Turn to the right
+        driveStraight(DRIVE_SPEED, 20.0, 0.0); //
+        turnToHeading(TURN_SPEED,  0.0);// Face forward
 
-        // lift go to high, early to wait for it to move
-        lift.setTargetPosition(LIFT_HIGH); // set lift's target position to high
-        lift.setPower(1.0); // set power to max
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION); // run to high
+        // Lift code up high
+        lift.setTargetPosition(LIFT_HIGH);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
+            telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
+            // lift.setPower(0);
+        }
 
-        driveStraight(DRIVE_SPEED, 21.5, 0.0); //drive to pole
+        driveStraight(DRIVE_SPEED, 21.5, 0.0); //
 
-        turnToHeading(TURN_SPEED, 44.0);// turn 44 degrees toward the pole
+        turnToHeading(TURN_SPEED,  44.0);//
         sleep(500);
         YSNP.setPosition(SHUT);// Closes the gate
 
-        // code block to adjust the robot's position with help of the touch sensor
         while (opModeIsActive()) {
             if (touchy.isPressed()) {
                 frontLeftMotor.setPower(0);
@@ -175,13 +178,17 @@ public class Blue_A2_12pts extends LinearOpMode {
         driveStraight(DRIVE_SPEED, -6.0, 0.0); // Drive to substation
         YSNP.setPosition(PASS);// Open the gate
         sleep(500);
-
-        // lift run to floor
-        lift.setTargetPosition(LIFT_FLOOR);
+        // Lift code down
+        lift.setTargetPosition(LIFT_GROUND);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        turnToHeading(TURN_SPEED, 0.0);// Turn to substation
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_GROUND - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_GROUND + TOLERANCE)) {
+            telemetry.addData("Lift Low Status", "You've arrived at your GROUND destination");
+            lift.setPower(0);
+        }
+        turnToHeading( TURN_SPEED,  0.0);// Turn to substation
         driveStraight(DRIVE_SPEED, -27, 0.0); // Drive to substation
         sleep(1000);
         telemetry.addData("Path", "Complete");
@@ -198,11 +205,18 @@ public class Blue_A2_12pts extends LinearOpMode {
 
     // **********  HIGH Level driving functions.  ********************
 
-
-    //maxDriveSpeed == MAX Speed for forward/reverse motion (range 0.0 to positive 1.0) .
-    //distance == Distance (in inches) to move from current position.  Negative distance means move backward.
-    //heading == Absolute Heading Angle (in Degrees) relative to last gyro reset.
-
+    /**
+     *  Method to drive in a straight line, on a fixed compass heading (angle), based on encoder counts.
+     *  Move will stop if either of these conditions occur:
+     *  1) Move gets to the desired position
+     *  2) Driver stops the OpMode running.
+     *
+     * @param maxDriveSpeed MAX Speed for forward/rev motion (range 0 to +1.0) .
+     * @param distance   Distance (in inches) to move from current position.  Negative distance means move backward.
+     * @param heading      Absolute Heading Angle (in Degrees) relative to last gyro reset.
+     *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
+     *                   If a relative angle is required, add/subtract from the current robotHeading.
+     */
     public void driveStraight(double maxDriveSpeed,
                               double distance,
                               double heading) {
@@ -211,7 +225,7 @@ public class Blue_A2_12pts extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            int moveCounts = (int) (distance * FAILSAFE_COUNTS_PER_INCH);
+            int moveCounts = (int)(distance * DRIVE_COUNTS_PER_INCH);
             frontLeftTarget = frontLeftMotor.getCurrentPosition() + moveCounts;
             frontRightTarget = frontRightMotor.getCurrentPosition() + moveCounts;
             backLeftTarget = backLeftMotor.getCurrentPosition() + moveCounts;
@@ -233,10 +247,10 @@ public class Blue_A2_12pts extends LinearOpMode {
             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            maxDriveSpeed = Math.abs(maxDriveSpeed); // Set the required driving speed  (must be positive for RUN_TO_POSITION)
-            moveRobot(maxDriveSpeed, 0); // Start driving straight, and then enter the control loop
-
+            // Set the required driving speed  (must be positive for RUN_TO_POSITION)
+            // Start driving straight, and then enter the control loop
+            maxDriveSpeed = Math.abs(maxDriveSpeed);
+            moveRobot(maxDriveSpeed, 0);
 
             // keep looping while we are still active, and BOTH motors are running.
             while (opModeIsActive() &&
@@ -265,16 +279,17 @@ public class Blue_A2_12pts extends LinearOpMode {
         }
     }
 
-
-    // maxTurnSpeed == Desired MAX speed of turn. (range 0 to +1.0)
-    /* heading == Absolute Heading Angle (in Degrees) relative to last gyro reset.
+    /**
+     *  Method to spin on central axis to point in a new direction.
+     *  Move will stop if either of these conditions occur:
+     *  1) Move gets to the heading (angle)
+     *  2) Driver stops the OpMode running.
+     *
+     * @param maxTurnSpeed Desired MAX speed of turn. (range 0 to +1.0)
+     * @param heading Absolute Heading Angle (in Degrees) relative to last gyro reset.
      *              0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
      *              If a relative angle is required, add/subtract from current heading.
      */
-
-
-    // spins on central axis to point in a new direction
-    // will stop if/when it reaches the desired angle or the driver ends the OpMode
     public void turnToHeading(double maxTurnSpeed, double heading) {
 
         // Run getSteeringCorrection() once to pre-calculate the current error
@@ -300,15 +315,17 @@ public class Blue_A2_12pts extends LinearOpMode {
         moveRobot(0, 0);
     }
 
-
-    // maxTurnSpeed === Maximum differential turn speed (range 0 to +1.0)
-     /* heading === Absolute Heading Angle (in Degrees) relative to last gyro reset.
-                       0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
-                       If a relative angle is required, add/subtract from current heading. */
-    // holdTime   Length of time (in seconds) to hold the specified heading.
-
-    // holds and obtains a heading until the requested time amount has elapsed
-    // used for giving a robot a minute to stabilize it's heading between movements
+    /**
+     *  Method to obtain & hold a heading for a finite amount of time
+     *  Move will stop once the requested time has elapsed
+     *  This function is useful for giving the robot a moment to stabilize it's heading between movements.
+     *
+     * @param maxTurnSpeed      Maximum differential turn speed (range 0 to +1.0)
+     * @param heading    Absolute Heading Angle (in Degrees) relative to last gyro reset.
+     *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
+     *                   If a relative angle is required, add/subtract from current heading.
+     * @param holdTime   Length of time (in seconds) to hold the specified heading.
+     */
     public void holdHeading(double maxTurnSpeed, double heading, double holdTime) {
 
         ElapsedTime holdTimer = new ElapsedTime();
@@ -335,12 +352,13 @@ public class Blue_A2_12pts extends LinearOpMode {
 
     // **********  LOW Level driving functions.  ********************
 
-
-    // desiredHeading  ===  The desired absolute heading (relative to last heading reset)
-    // proportionalGain  ===  Gain factor applied to heading error to obtain turning power.
-    // returns:                      Turning power needed to get to required heading.
-
-    // This method uses a Proportional Controller to determine how much steering correction is required.
+    /**
+     * This method uses a Proportional Controller to determine how much steering correction is required.
+     *
+     * @param desiredHeading        The desired absolute heading (relative to last heading reset)
+     * @param proportionalGain      Gain factor applied to heading error to obtain turning power.
+     * @return                      Turning power needed to get to required heading.
+     */
     public double getSteeringCorrection(double desiredHeading, double proportionalGain) {
         targetHeading = desiredHeading;  // Save for telemetry
 
@@ -351,28 +369,30 @@ public class Blue_A2_12pts extends LinearOpMode {
         headingError = targetHeading - robotHeading;
 
         // Normalize the error to be within +/- 180 degrees
-        while (headingError > 180) headingError -= 360;
+        while (headingError > 180)  headingError -= 360;
         while (headingError <= -180) headingError += 360;
 
         // Multiply the error by the gain to determine the required steering correction/  Limit the result to +/- 1.0
         return Range.clip(headingError * proportionalGain, -1, 1);
     }
 
-    //drive === forward motor speed
-    //turn === clockwise turning motor speed.
-
-    // takes the separate drive (fwd/rev) and turn (right/left) requests and combines them
-    // then it gives the appropriate speed commands to the wheel motors
+    /**
+     * This method takes separate drive (fwd/rev) and turn (right/left) requests,
+     * combines them, and applies the appropriate speed commands to the left and right wheel motors.
+     * @param drive forward motor speed
+     * @param turn  clockwise turning motor speed.
+     */
     public void moveRobot(double drive, double turn) {
         driveSpeed = drive;     // save this value as a class member so it can be used by telemetry.
-        turnSpeed = turn;      // save this value as a class member so it can be used by telemetry.
+        turnSpeed  = turn;      // save this value as a class member so it can be used by telemetry.
 
-        leftSpeed = drive - turn;
+        leftSpeed  = drive - turn;
         rightSpeed = drive + turn;
 
         // Scale speeds down if either one exceeds +/- 1.0;
         double max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
-        if (max > 1.0) {
+        if (max > 1.0)
+        {
             leftSpeed /= max;
             rightSpeed /= max;
         }
@@ -383,36 +403,40 @@ public class Blue_A2_12pts extends LinearOpMode {
         backRightMotor.setPower(rightSpeed);
     }
 
-
-    //straight === Set to true if we are driving straight, and the encoder positions should be included in the telemetry.
-
-    //Display the various control parameters while driving
+    /**
+     *  Display the various control parameters while driving
+     *
+     * @param straight  Set to true if we are driving straight, and the encoder positions should be included in the telemetry.
+     */
     private void sendTelemetry(boolean straight) {
 
         if (straight) {
             telemetry.addData("Motion", "Drive Straight");
-            telemetry.addData("Target Pos L:R", "%7d:%7d", frontLeftTarget, frontRightTarget);
-            telemetry.addData("Target Pos L:R", "%7d:%7d", backLeftTarget, backRightTarget);
-            telemetry.addData("Actual Pos L:R", "%7d:%7d", frontLeftMotor.getCurrentPosition(),
+            telemetry.addData("Target Pos L:R",  "%7d:%7d",      frontLeftTarget,  frontRightTarget);
+            telemetry.addData("Target Pos L:R",  "%7d:%7d",      backLeftTarget,  backRightTarget);
+            telemetry.addData("Actual Pos L:R",  "%7d:%7d",      frontLeftMotor.getCurrentPosition(),
                     frontRightMotor.getCurrentPosition());
         } else {
             telemetry.addData("Motion", "Turning");
         }
 
         telemetry.addData("Angle Target:Current", "%5.2f:%5.0f", targetHeading, robotHeading);
-        telemetry.addData("Error:Steer", "%5.1f:%5.1f", headingError, turnSpeed);
+        telemetry.addData("Error:Steer",  "%5.1f:%5.1f", headingError, turnSpeed);
         telemetry.addData("Wheel Speeds L:R.", "%5.2f : %5.2f", leftSpeed, rightSpeed);
         telemetry.update();
     }
 
-
-    // read the raw (un-offset Gyro heading) directly from the IMU
+    /**
+     * read the raw (un-offset Gyro heading) directly from the IMU
+     */
     public double getRawHeading() {
-        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        Orientation angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         return angles.firstAngle;
     }
 
-    // set the off-set heading back to zero
+    /**
+     * Reset the "offset" heading back to zero
+     */
     public void resetHeading() {
         // Save a new heading offset equal to the current raw heading.
         headingOffset = getRawHeading();
