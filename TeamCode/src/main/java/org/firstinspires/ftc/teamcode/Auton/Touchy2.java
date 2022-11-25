@@ -3,21 +3,7 @@
 
 package org.firstinspires.ftc.teamcode.Auton;
 
-import static org.firstinspires.ftc.teamcode.Constants.CLOSED;
-import static org.firstinspires.ftc.teamcode.Constants.DRIVE_COUNTS_PER_INCH;
-import static org.firstinspires.ftc.teamcode.Constants.DRIVE_SPEED;
-import static org.firstinspires.ftc.teamcode.Constants.HEADING_THRESHOLD;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_GROUND;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_HIGH;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_THREE_STACK;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_TOP_STACK;
-import static org.firstinspires.ftc.teamcode.Constants.OPEN;
-import static org.firstinspires.ftc.teamcode.Constants.PASS;
-import static org.firstinspires.ftc.teamcode.Constants.P_DRIVE_GAIN;
-import static org.firstinspires.ftc.teamcode.Constants.P_TURN_GAIN;
-import static org.firstinspires.ftc.teamcode.Constants.SHUT;
-import static org.firstinspires.ftc.teamcode.Constants.TOLERANCE;
-import static org.firstinspires.ftc.teamcode.Constants.TURN_SPEED;
+import static org.firstinspires.ftc.teamcode.Constants.*;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
