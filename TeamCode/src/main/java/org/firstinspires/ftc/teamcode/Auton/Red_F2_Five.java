@@ -44,8 +44,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@Autonomous(name = "SIX-CONE", group = "Robot")
-public class Red_F2_Six extends LinearOpMode {
+@Autonomous(name = "FIVE-CONE", group = "Robot")
+public class Red_F2_Five extends LinearOpMode {
 
     Servo grabby;
     Servo YSNP;

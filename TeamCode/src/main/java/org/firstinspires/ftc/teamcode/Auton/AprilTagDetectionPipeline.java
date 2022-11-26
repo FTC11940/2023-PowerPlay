@@ -309,4 +309,5 @@ class AprilTagDetectionPipeline extends OpenCvPipeline
             this.tvec = tvec;
         }
     }
+
 }
