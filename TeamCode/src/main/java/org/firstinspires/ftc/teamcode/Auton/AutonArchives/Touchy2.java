@@ -1,7 +1,7 @@
 /*
  */
 
-package org.firstinspires.ftc.teamcode.Auton;
+package org.firstinspires.ftc.teamcode.Auton.AutonArchives;
 
 import static org.firstinspires.ftc.teamcode.Constants.*;
 
