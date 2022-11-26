@@ -59,7 +59,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@Autonomous(name = "F2-A5 CA 15", group = "Robot")
+@Autonomous(name = "Arc Reactor", group = "Robot")
 public class ArcReactor extends LinearOpMode {
 
     Servo grabby;
@@ -849,7 +849,7 @@ public class ArcReactor extends LinearOpMode {
         // Drive towards the high junction
 
 
-        driveStraight(DRIVE_SPEED, 52.0, -39.0); //
+        driveStraight(DRIVE_SPEED, 32.0, -45.0); //
 
         // Lift code up high
         lift.setTargetPosition(2850);
