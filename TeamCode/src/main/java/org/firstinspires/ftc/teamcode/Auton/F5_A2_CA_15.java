@@ -59,7 +59,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@Autonomous(name = "F5-A2 CA 15", group = "Robot")
+@Autonomous(name = "F5/A2 C.A. 15", group = "Robot")
 public class F5_A2_CA_15 extends LinearOpMode {
 
     Servo grabby;

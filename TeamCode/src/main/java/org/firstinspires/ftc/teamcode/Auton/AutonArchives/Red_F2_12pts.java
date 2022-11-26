@@ -1,14 +1,27 @@
 /**
- * Other Blue 12pts auton starts in section A2, drops a cone on the high junction, backs up,
- * and parks in tile A3
+ * Red 12pts auton starts in section F2, drops a cone on the high junction, backs up,
+ * and parks in tile F3
  **/
 
-package org.firstinspires.ftc.teamcode.Auton;
+package org.firstinspires.ftc.teamcode.Auton.AutonArchives;
 
-import static org.firstinspires.ftc.teamcode.Constants.*;
+import static org.firstinspires.ftc.teamcode.Constants.CLOSED;
+import static org.firstinspires.ftc.teamcode.Constants.DRIVE_COUNTS_PER_INCH;
+import static org.firstinspires.ftc.teamcode.Constants.DRIVE_SPEED;
+import static org.firstinspires.ftc.teamcode.Constants.HEADING_THRESHOLD;
+import static org.firstinspires.ftc.teamcode.Constants.LIFT_GROUND;
+import static org.firstinspires.ftc.teamcode.Constants.LIFT_HIGH;
+import static org.firstinspires.ftc.teamcode.Constants.OPEN;
+import static org.firstinspires.ftc.teamcode.Constants.PASS;
+import static org.firstinspires.ftc.teamcode.Constants.P_DRIVE_GAIN;
+import static org.firstinspires.ftc.teamcode.Constants.P_TURN_GAIN;
+import static org.firstinspires.ftc.teamcode.Constants.SHUT;
+import static org.firstinspires.ftc.teamcode.Constants.TOLERANCE;
+import static org.firstinspires.ftc.teamcode.Constants.TURN_SPEED;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -23,16 +36,17 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Blue-A2 12pts", group="Robot")
-// @Disabled
+@Autonomous(name="Red-F2 12pts", group="Robot")
+@Disabled
 
-public class Blue_A2_12pts extends LinearOpMode {
+public class Red_F2_12pts extends LinearOpMode {
 
 
     Servo grabby;
     Servo YSNP;
     DcMotor lift;
     TouchSensor touchy;
+
     // Declare OpMode members.
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
@@ -66,14 +80,19 @@ public class Blue_A2_12pts extends LinearOpMode {
         // Match our TeleOp file
         grabby = hardwareMap.servo.get("grabby");
         grabby.setPosition(0.0); // Needs to be closed at start of Auton
+
         YSNP = hardwareMap.servo.get("YSNP");
         YSNP.setPosition(PASS); // Needs to be closed at start of Auton
+
         lift = hardwareMap.get(DcMotor.class,"lift");
         // lift.setTargetPosition(0);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        //touchy = hardwareMap.get(DigitalChannel.class,"touchy");
+        //touchy.setMode(DigitalChannel.Mode.INPUT);
         touchy = hardwareMap.get(TouchSensor.class,"touchy");
+
 
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
@@ -85,6 +104,8 @@ public class Blue_A2_12pts extends LinearOpMode {
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        // YSNP.setDirection(Servo.Direction.FORWARD);
 
         // Define initialization values for IMU, and then initialize it.
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -133,10 +154,10 @@ public class Blue_A2_12pts extends LinearOpMode {
         // holdHeading( TURN_SPEED,  0.0, 0.5);     // action - hold last heading for a 1/2 second
         */
 
-        // Autonomous Blue 12 A2
+        // Autonomous RED 25 F2
         waitForStart();
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
-        turnToHeading(TURN_SPEED,  90.0); // Turn to the right
+        turnToHeading(TURN_SPEED,  -90.0); // Turn to the right
         driveStraight(DRIVE_SPEED, 20.0, 0.0); //
         turnToHeading(TURN_SPEED,  0.0);// Face forward
 
@@ -144,15 +165,15 @@ public class Blue_A2_12pts extends LinearOpMode {
         lift.setTargetPosition(LIFT_HIGH);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        // Test the telemetry statement before setting power to zero.
-        if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
-            telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
-            // lift.setPower(0);
-        }
+            // Test the telemetry statement before setting power to zero.
+            if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
+                telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
+                // lift.setPower(0);
+            }
 
         driveStraight(DRIVE_SPEED, 21.5, 0.0); //
 
-        turnToHeading(TURN_SPEED,  44.0);//
+         turnToHeading(TURN_SPEED,  -44.0);//
         sleep(500);
         YSNP.setPosition(SHUT);// Closes the gate
 
@@ -217,6 +238,7 @@ public class Blue_A2_12pts extends LinearOpMode {
      *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
      *                   If a relative angle is required, add/subtract from the current robotHeading.
      */
+
     public void driveStraight(double maxDriveSpeed,
                               double distance,
                               double heading) {
@@ -442,6 +464,12 @@ public class Blue_A2_12pts extends LinearOpMode {
         headingOffset = getRawHeading();
         robotHeading = 0;
     }
+
+
+
+
+
+
 }
 
 /* Copyright (c) 2022 FIRST. All rights reserved.
