@@ -1,8 +1,11 @@
-/*
- * Use this base auton file as a template for all other autonomous files for the 2022-2023 season
- */
+/**
+ * Other Blue 12pts auton starts in section A2, drops a cone on the high junction, backs up,
+ * and parks in tile A3
+ **/
 
 package org.firstinspires.ftc.teamcode.Auton.AutonArchives;
+
+import static org.firstinspires.ftc.teamcode.Constants.*;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -11,6 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -20,14 +24,16 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Blue-9", group="Robot")
+@Autonomous(name="Blue-A2 12pts", group="Robot")
 @Disabled
 
-public class AutonBlueQuarter extends LinearOpMode {
+public class Blue_A2_12pts extends LinearOpMode {
 
 
     Servo grabby;
+    Servo YSNP;
     DcMotor lift;
+    TouchSensor touchy;
     // Declare OpMode members.
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
@@ -54,32 +60,6 @@ public class AutonBlueQuarter extends LinearOpMode {
     private int     backLeftTarget = 0;
     private int     backRightTarget =0;
 
-    // Calculate the COUNTS_PER_INCH for your specific drive train.
-    // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
-    // For external drive gearing, set DRIVE_GEAR_REDUCTION as needed.
-    // For example, use a value of 2.0 for a 12-tooth spur gear driving a 24-tooth spur gear.
-    // This is gearing DOWN for less speed and more torque.
-    // For gearing UP, use a gear ratio less than 1.0. Note this will affect the direction of wheel rotation.
-    static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
-    static final double DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
-    static final double WHEEL_DIAMETER_INCHES = 4.01575 ; // For figuring circumference
-    static final double COUNTS_PER_INCH =
-            (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
-
-    // These constants define the desired driving/control characteristics
-    // They can/should be tweaked to suit the specific robot drive train.
-    static final double     DRIVE_SPEED             = 0.4;   // Max driving speed for better distance accuracy.
-    static final double     TURN_SPEED              = 0.2;   // Max Turn speed to limit turn rate
-    static final double     HEADING_THRESHOLD       = 1.0 ;  // How close must the heading get to the target before moving to next step.
-    // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
-    /* Define the Proportional control coefficient (or GAIN) for "heading control".
-    // We define one value when Turning (larger errors), and the other is used when Driving straight (smaller errors).
-    // Increase these numbers if the heading does not corrects strongly enough (eg: a heavy robot or using tracks)
-    Decrease these numbers if the heading does not settle on the correct value (eg: very agile robot with omni wheels)
-    */
-    static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_GAIN           = 0.00;     // Larger is more responsive, but also less stable
-
     @Override
     public void runOpMode() {
 
@@ -87,8 +67,15 @@ public class AutonBlueQuarter extends LinearOpMode {
         // Match our TeleOp file
         grabby = hardwareMap.servo.get("grabby");
         grabby.setPosition(0.0); // Needs to be closed at start of Auton
+        YSNP = hardwareMap.servo.get("YSNP");
+        YSNP.setPosition(PASS); // Needs to be closed at start of Auton
         lift = hardwareMap.get(DcMotor.class,"lift");
-        lift.setTargetPosition(0);
+        // lift.setTargetPosition(0);
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        touchy = hardwareMap.get(TouchSensor.class,"touchy");
+
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
@@ -140,38 +127,71 @@ public class AutonBlueQuarter extends LinearOpMode {
 
         /*
 
-        * AUTON NAME: Blue FailSafe 1
-        * REFERENCE
+
+        /* REFERENCE
         // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
         // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
         // holdHeading( TURN_SPEED,  0.0, 0.5);     // action - hold last heading for a 1/2 second
         */
 
-        // Autonomous Medium Blue 1
+        // Autonomous Blue 12 A2
+        waitForStart();
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
-        turnToHeading( TURN_SPEED,  -45.0);//Turn -45 to Low junction
-        driveStraight(DRIVE_SPEED, 9.0, 0.0); //move to low
-        sleep(1000);
-       // Lift code up low
-        grabby.setPosition(0.5);// release grabby
+        turnToHeading(TURN_SPEED,  90.0); // Turn to the right
+        driveStraight(DRIVE_SPEED, 20.0, 0.0); //
+        turnToHeading(TURN_SPEED,  0.0);// Face forward
+
+        // Lift code up high
+        lift.setTargetPosition(LIFT_HIGH);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_HIGH - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_HIGH + TOLERANCE)) {
+            telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
+            // lift.setPower(0);
+        }
+
+        driveStraight(DRIVE_SPEED, 21.5, 0.0); //
+
+        turnToHeading(TURN_SPEED,  44.0);//
+        sleep(500);
+        YSNP.setPosition(SHUT);// Closes the gate
+
+        while (opModeIsActive()) {
+            if (touchy.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(500);
+                grabby.setPosition(OPEN);
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(0.2);
+                backRightMotor.setPower(0.2);
+            }
+
+        }
+
+        driveStraight(DRIVE_SPEED, -6.0, 0.0); // Drive to substation
+        YSNP.setPosition(PASS);// Open the gate
+        sleep(500);
         // Lift code down
-        driveStraight(DRIVE_SPEED, -9.0, 0.0); // Back up
-        turnToHeading( TURN_SPEED,  -90);// Turn to substation
-        driveStraight(DRIVE_SPEED, 30, 0.0); // Drive to substation
-        //insert Lift up
-        grabby.setPosition(0.0); // Engage grabby
+        lift.setTargetPosition(LIFT_GROUND);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_GROUND - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_GROUND + TOLERANCE)) {
+            telemetry.addData("Lift Low Status", "You've arrived at your GROUND destination");
+            lift.setPower(0);
+        }
+        turnToHeading( TURN_SPEED,  0.0);// Turn to substation
+        driveStraight(DRIVE_SPEED, -27, 0.0); // Drive to substation
         sleep(1000);
-        //insert Lift down
-        turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
-        driveStraight(DRIVE_SPEED, 45.0, 0.0); // move forward toward Mid
-        turnToHeading( TURN_SPEED,  -25.0); // Turn to face High
-        driveStraight(DRIVE_SPEED, 9.0, 0.0); //move to High
-        // Insert lift code up
-        grabby.setPosition(0.5);// release grabby
-        // Insert lift code down here
-        driveStraight(DRIVE_SPEED, -9.0, 0.0); //  realignment
-        turnToHeading( TURN_SPEED,  0.0); // realignment
-        driveStraight(DRIVE_SPEED, -25.0, 0.0); // Park in Substation
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.
@@ -206,7 +226,7 @@ public class AutonBlueQuarter extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            int moveCounts = (int)(distance * COUNTS_PER_INCH);
+            int moveCounts = (int)(distance * DRIVE_COUNTS_PER_INCH);
             frontLeftTarget = frontLeftMotor.getCurrentPosition() + moveCounts;
             frontRightTarget = frontRightMotor.getCurrentPosition() + moveCounts;
             backLeftTarget = backLeftMotor.getCurrentPosition() + moveCounts;
