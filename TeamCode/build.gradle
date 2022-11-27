@@ -23,8 +23,10 @@ dependencies {
     implementation project(':FtcRobotController')
     implementation 'com.google.ar:core:1.30.0'
     annotationProcessor files('lib/OpModeAnnotationProcessor.jar')
+
     implementation'org.openftc:easyopencv:1.5.2' // April Tags & OpenCV
     implementation'org.openftc:apriltag:1.1.0'// April Tags & OpenCV
+
     implementation 'org.apache.commons:commons-math3:3.6.1' //  Road Runner
     implementation 'com.acmerobotics.roadrunner:core:0.5.5' // Road Runner
 }
