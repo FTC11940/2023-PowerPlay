@@ -152,6 +152,7 @@ public class Blue_A2_Failsafe extends LinearOpMode {
             telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
             // lift.setPower(0);
         }
+
         turnToHeading( TURN_SPEED,  -90.0);//Turn 90 to face direction of terminal
         driveStraight(DRIVE_SPEED, 14.00, 0.0); // Drive to terminal
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward

@@ -1,8 +1,9 @@
 /*
-* Use this base auton file as a template for all other autonomous files for the 2022-2023 season
-*/
+ */
 
-package org.firstinspires.ftc.teamcode.Auton;
+package org.firstinspires.ftc.teamcode.Auton.AutonArchives;
+
+import static org.firstinspires.ftc.teamcode.Constants.*;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -10,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -19,18 +21,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Auton Template", group="Robot")
-@Disabled
+@Autonomous(name="TEST Strafe version 1.5", group="Robot")
+ @Disabled
 
-public class AutonTemplate extends LinearOpMode {
+public class StrafeTest_Liam extends LinearOpMode {
 
-    /*
-    robot diagram
-    1-----2
-    |     |
-    3-----4
-    */
 
+    Servo grabby;
+    DcMotor lift;
     // Declare OpMode members.
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
@@ -39,8 +37,6 @@ public class AutonTemplate extends LinearOpMode {
 
     // Declare IMU and variables
     private BNO055IMU       imu         = null;      // Control/Expansion Hub IMU
-
-
     private double          robotHeading  = 0;
     private double          headingOffset = 0;
     private double          headingError  = 0;
@@ -59,37 +55,19 @@ public class AutonTemplate extends LinearOpMode {
     private int     backLeftTarget = 0;
     private int     backRightTarget =0;
 
-    // Calculate the COUNTS_PER_INCH for your specific drive train.
-    // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
-    // For external drive gearing, set DRIVE_GEAR_REDUCTION as needed.
-    // For example, use a value of 2.0 for a 12-tooth spur gear driving a 24-tooth spur gear.
-    // This is gearing DOWN for less speed and more torque.
-    // For gearing UP, use a gear ratio less than 1.0. Note this will affect the direction of wheel rotation.
-    static final double COUNTS_PER_MOTOR_REV = 537.7 ; // GoBILDA 312 RPM Yellow Jacket
-    static final double DRIVE_GEAR_REDUCTION = 1.0 ; // No External Gearing
-    static final double WHEEL_DIAMETER_INCHES = 4.01575 ; // For figuring circumference
-    static final double COUNTS_PER_INCH =
-            (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
-
-    // These constants define the desired driving/control characteristics
-    // They can/should be tweaked to suit the specific robot drive train.
-    static final double     DRIVE_SPEED             = 0.4;   // Max driving speed for better distance accuracy.
-    static final double     TURN_SPEED              = 0.2;   // Max Turn speed to limit turn rate
-    static final double     HEADING_THRESHOLD       = 1.0 ;  // How close must the heading get to the target before moving to next step.
-    // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
-    /* Define the Proportional control coefficient (or GAIN) for "heading control".
-    // We define one value when Turning (larger errors), and the other is used when Driving straight (smaller errors).
-    // Increase these numbers if the heading does not corrects strongly enough (eg: a heavy robot or using tracks)
-    Decrease these numbers if the heading does not settle on the correct value (eg: very agile robot with omni wheels)
-    */
-    static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_GAIN           = 0.03;     // Larger is more responsive, but also less stable
-
     @Override
     public void runOpMode() {
 
         // Initialize the drive system variables.
         // Match our TeleOp file
+        grabby = hardwareMap.servo.get("grabby");
+        grabby.setPosition(0.0); // Needs to be closed at start of Auton
+
+        lift = hardwareMap.get(DcMotor.class,"lift");
+        // lift.setTargetPosition(0);
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setDirection(DcMotorSimple.Direction.REVERSE);
+
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
@@ -101,7 +79,7 @@ public class AutonTemplate extends LinearOpMode {
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        // define initialization values for IMU, and then initialize it.
+        // Define initialization values for IMU, and then initialize it.
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         imu = hardwareMap.get(BNO055IMU.class, "imu");
@@ -134,24 +112,20 @@ public class AutonTemplate extends LinearOpMode {
         backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         resetHeading();
 
-        // Step through each leg of the path,
-        // Notes:   Reverse movement is obtained by setting a negative distance (not speed)
-        //          holdHeading() is used after turns to let the heading stabilize
-        //          Add a sleep(2000) after any step to keep the telemetry data visible for review
-
-        /*
-
-        * AUTON NAME:
-        * REFERENCE
+        /* REFERENCE
         // driveStraight(DRIVE_SPEED, 10.0, 45.0);  // action - e.g. turn 45 Degrees to the left
         // turnToHeading( TURN_SPEED,  -15.0);      // action - turn 15 degrees to the right
         // holdHeading( TURN_SPEED,  0.0, 0.5);     // action - hold last heading for a 1/2 second
         */
 
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
-        sleep(1000);  // Pause to display last telemetry message.
-    }
+        driveStraight(DRIVE_SPEED, -25.0, 0.0);
+        strafeRight();
+
+        // sleep(1450);
+        // strafeLeft();
+        // sleep(2000);
+
+        }
 
     /*
      * ====================================================================================================
@@ -163,17 +137,17 @@ public class AutonTemplate extends LinearOpMode {
     // **********  HIGH Level driving functions.  ********************
 
     /**
-    *  Method to drive in a straight line, on a fixed compass heading (angle), based on encoder counts.
-    *  Move will stop if either of these conditions occur:
-    *  1) Move gets to the desired position
-    *  2) Driver stops the OpMode running.
-    *
-    * @param maxDriveSpeed MAX Speed for forward/rev motion (range 0 to +1.0) .
-    * @param distance   Distance (in inches) to move from current position.  Negative distance means move backward.
-    * @param heading      Absolute Heading Angle (in Degrees) relative to last gyro reset.
-    *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
-    *                   If a relative angle is required, add/subtract from the current robotHeading.
-    */
+     *  Method to drive in a straight line, on a fixed compass heading (angle), based on encoder counts.
+     *  Move will stop if either of these conditions occur:
+     *  1) Move gets to the desired position
+     *  2) Driver stops the OpMode running.
+     *
+     * @param maxDriveSpeed MAX Speed for forward/rev motion (range 0 to +1.0) .
+     * @param distance   Distance (in inches) to move from current position.  Negative distance means move backward.
+     * @param heading      Absolute Heading Angle (in Degrees) relative to last gyro reset.
+     *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
+     *                   If a relative angle is required, add/subtract from the current robotHeading.
+     */
     public void driveStraight(double maxDriveSpeed,
                               double distance,
                               double heading) {
@@ -182,7 +156,7 @@ public class AutonTemplate extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            int moveCounts = (int)(distance * COUNTS_PER_INCH);
+            int moveCounts = (int)(distance * DRIVE_COUNTS_PER_INCH);
             frontLeftTarget = frontLeftMotor.getCurrentPosition() + moveCounts;
             frontRightTarget = frontRightMotor.getCurrentPosition() + moveCounts;
             backLeftTarget = backLeftMotor.getCurrentPosition() + moveCounts;
@@ -211,10 +185,10 @@ public class AutonTemplate extends LinearOpMode {
 
             // keep looping while we are still active, and BOTH motors are running.
             while (opModeIsActive() &&
-                   (frontLeftMotor.isBusy() && frontRightMotor.isBusy())) {
+                    (frontLeftMotor.isBusy() && frontRightMotor.isBusy())) {
 
                 // Determine required steering to keep on heading
-                turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
+               // turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
 
                 // if driving in reverse, the motor correction also needs to be reversed
                 if (distance < 0)
@@ -250,13 +224,13 @@ public class AutonTemplate extends LinearOpMode {
     public void turnToHeading(double maxTurnSpeed, double heading) {
 
         // Run getSteeringCorrection() once to pre-calculate the current error
-        getSteeringCorrection(heading, P_DRIVE_GAIN);
+       // getSteeringCorrection(heading, P_DRIVE_GAIN);
 
         // keep looping while we are still active, and not on heading.
         while (opModeIsActive() && (Math.abs(headingError) > HEADING_THRESHOLD)) {
 
             // Determine required steering to keep on heading
-            turnSpeed = getSteeringCorrection(heading, P_TURN_GAIN);
+           // turnSpeed = getSteeringCorrection(heading, P_TURN_GAIN);
 
             // Clip the speed to the maximum permitted value.
             turnSpeed = Range.clip(turnSpeed, -maxTurnSpeed, maxTurnSpeed);
@@ -291,7 +265,7 @@ public class AutonTemplate extends LinearOpMode {
         // keep looping while we have time remaining.
         while (opModeIsActive() && (holdTimer.time() < holdTime)) {
             // Determine required steering to keep on heading
-            turnSpeed = getSteeringCorrection(heading, P_TURN_GAIN);
+           // turnSpeed = getSteeringCorrection(heading, P_TURN_GAIN);
 
             // Clip the speed to the maximum permitted value.
             turnSpeed = Range.clip(turnSpeed, -maxTurnSpeed, maxTurnSpeed);
@@ -398,6 +372,66 @@ public class AutonTemplate extends LinearOpMode {
         // Save a new heading offset equal to the current raw heading.
         headingOffset = getRawHeading();
         robotHeading = 0;
+    }
+
+    private void strafeLeft () {
+        frontLeftMotor.setPower(0);
+        backRightMotor.setPower(0);
+        frontRightMotor.setPower(0);
+        backLeftMotor.setPower(0);
+
+        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+       backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+        frontLeftMotor.setPower(-1.0); // (-) strafe left
+        backRightMotor.setPower(-1.0); // (-) strafe left
+
+        frontRightMotor.setPower(1.0);
+        backLeftMotor.setPower(1.0);
+
+        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * -480)) ; // (-) strafe left
+        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * -480)); // (-) strafe left
+
+        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * 480)) ;
+        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED  * 480)) ;
+    }
+
+    private void strafeRight () {
+        frontLeftMotor.setPower(0);
+        backRightMotor.setPower(0);
+        frontRightMotor.setPower(0);
+        backLeftMotor.setPower(0);
+
+        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+        frontLeftMotor.setPower(1.0); // (-) strafe left
+        backRightMotor.setPower(1.0); // (-) strafe left
+
+        frontRightMotor.setPower(-1.0);
+        backLeftMotor.setPower(-1.0);
+
+        while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * 480)) ; // (-) strafe left
+        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * 480)); // (-) strafe left
+
+        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * -480)) ;  // (-) strafe right
+        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED  * -480)) ;
     }
 }
 

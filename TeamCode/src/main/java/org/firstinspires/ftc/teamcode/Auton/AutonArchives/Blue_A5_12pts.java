@@ -1,9 +1,9 @@
 /**
- * Other Red 12pts auton starts in section F5, drops a cone on the high junction, backs up,
- * and parks in tile F3
- **/
+ * Blue 12pts Auton starts in section A5, drops a cone on the high junction, backs up,
+ * and parks in the middle terminal (A4)
+ */
 
-package org.firstinspires.ftc.teamcode.Auton;
+package org.firstinspires.ftc.teamcode.Auton.AutonArchives;
 
 import static org.firstinspires.ftc.teamcode.Constants.*;
 
@@ -17,17 +17,17 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name="Red-F5 12pts", group="Robot")
-@Disabled
+@Autonomous(name="Blue-A5 12pts", group="Robot")
+ @Disabled
 
-public class Red_F5_12pts extends LinearOpMode {
-
+public class Blue_A5_12pts extends LinearOpMode {
 
     Servo grabby;
     Servo YSNP;
@@ -59,7 +59,6 @@ public class Red_F5_12pts extends LinearOpMode {
     private int     backLeftTarget = 0;
     private int     backRightTarget =0;
 
-
     @Override
     public void runOpMode() {
 
@@ -68,13 +67,13 @@ public class Red_F5_12pts extends LinearOpMode {
         grabby = hardwareMap.servo.get("grabby");
         grabby.setPosition(0.0); // Needs to be closed at start of Auton
 
-        YSNP = hardwareMap.servo.get("YSNP");
-        YSNP.setPosition(PASS); // Needs to be closed at start of Auton
-
         lift = hardwareMap.get(DcMotor.class,"lift");
         // lift.setTargetPosition(0);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        YSNP = hardwareMap.servo.get("YSNP");
+        YSNP.setPosition(PASS); // Needs to be closed at start of Auton
 
         touchy = hardwareMap.get(TouchSensor.class,"touchy");
 
@@ -139,7 +138,7 @@ public class Red_F5_12pts extends LinearOpMode {
         // Autonomous RED Complex 1
         waitForStart();
         driveStraight(DRIVE_SPEED, 4.0, 0.0); // Drive forward to get off the wall
-        turnToHeading(TURN_SPEED,  90.0); // Turn to the right
+        turnToHeading(TURN_SPEED,  -90.0); // Turn to the right
         driveStraight(DRIVE_SPEED, 20.0, 0.0); //
         turnToHeading(TURN_SPEED,  0.0);// Face forward
 
@@ -155,7 +154,7 @@ public class Red_F5_12pts extends LinearOpMode {
 
         driveStraight(DRIVE_SPEED, 21.5, 0.0); //
 
-        turnToHeading(TURN_SPEED,  44.0);//
+        turnToHeading(TURN_SPEED,  -44.0);//
         sleep(500);
         YSNP.setPosition(SHUT);// Closes the gate
 
@@ -193,10 +192,6 @@ public class Red_F5_12pts extends LinearOpMode {
         }
         turnToHeading( TURN_SPEED,  0.0);// Turn to substation
         driveStraight(DRIVE_SPEED, -27, 0.0); // Drive to substation
-        sleep(1000);
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
-        sleep(1000);
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.
