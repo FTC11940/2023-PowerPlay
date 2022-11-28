@@ -27,6 +27,7 @@ public class Blue_A2_Failsafe extends LinearOpMode {
 
 
     Servo grabby;
+    Servo YSNP;
     DcMotor lift;
     // Declare OpMode members
     private DcMotor frontLeftMotor = null;
@@ -66,6 +67,8 @@ public class Blue_A2_Failsafe extends LinearOpMode {
         // Match our TeleOp file
         grabby = hardwareMap.servo.get("grabby");
         grabby.setPosition(0.0); // Needs to be closed at start of Auton
+        YSNP = hardwareMap.servo.get("YSNP");
+        YSNP.setPosition(PASS);
         lift = hardwareMap.get(DcMotor.class,"lift");
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
