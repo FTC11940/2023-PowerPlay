@@ -28,6 +28,7 @@ public class Blue_A2_Failsafe extends LinearOpMode {
 
     Servo grabby;
     DcMotor lift;
+    Servo YSNP;
     // Declare OpMode members
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
@@ -69,6 +70,8 @@ public class Blue_A2_Failsafe extends LinearOpMode {
         lift = hardwareMap.get(DcMotor.class,"lift");
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
+        YSNP = hardwareMap.servo.get("YSNP");
+        YSNP.setPosition(PASS);
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");

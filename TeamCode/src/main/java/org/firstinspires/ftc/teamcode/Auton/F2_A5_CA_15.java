@@ -543,17 +543,38 @@ public class F2_A5_CA_15 extends LinearOpMode {
 
     private void signalParkOne() {
         strafeLeft();
-        sleep(300);
+        sleep(500);
+        lift.setTargetPosition(LIFT_FLOOR);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_FLOOR - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FLOOR + TOLERANCE)) {
+            telemetry.addData("Lift Ground Status", "You've arrived at your GROUND destination");
+        }
         driveStraight(DRIVE_SPEED, -12.0, 0);
     }
 
     private void signalParkTwo() {
+        lift.setTargetPosition(LIFT_FLOOR);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_FLOOR - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FLOOR + TOLERANCE)) {
+            telemetry.addData("Lift Ground Status", "You've arrived at your GROUND destination");
+        }
         driveStraight(DRIVE_SPEED, -12.0, 0);
     }
 
     private void signalParkThree() {
         strafeRight();
-        sleep(300);
+        sleep(500);
+        lift.setTargetPosition(LIFT_FLOOR);
+        lift.setPower(1.0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Test the telemetry statement before setting power to zero.
+        if ((LIFT_FLOOR - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FLOOR + TOLERANCE)) {
+            telemetry.addData("Lift Ground Status", "You've arrived at your GROUND destination");
+        }
         driveStraight(DRIVE_SPEED, -12.0, 0);
     }
 
@@ -691,7 +712,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
                 frontRightMotor.setPower(0);
                 backRightMotor.setPower(0);
                 sleep(500);
-                grabby.setPosition(OPEN);
+
                 break;
             } else {
                 grabby.setPosition(CLOSED);
@@ -762,7 +783,6 @@ public class F2_A5_CA_15 extends LinearOpMode {
                 frontRightMotor.setPower(0);
                 backRightMotor.setPower(0);
                 sleep(700);
-                grabby.setPosition(OPEN);
                 break;
             } else {
                 grabby.setPosition(CLOSED);
@@ -826,21 +846,54 @@ public class F2_A5_CA_15 extends LinearOpMode {
         sleep(500);
         driveStraight(DRIVE_SPEED, -27.5, 0.0);
         turnToHeading(TURN_SPEED, -39.0);
-        driveStraight(DRIVE_SPEED, 7.0, 0.0); //
-        sleep(650);
-        grabby.setPosition(OPEN);
+        YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
+        while (opModeIsActive()) {
+            if (touchy.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(700);
+
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(0.2);
+                backRightMotor.setPower(0.2);
+            }
+
+        }
+
+        YSNP.setPosition(PASS);
+        while (opModeIsActive()) {
+            if (touchy2.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(250);
+                frontLeftMotor.setPower(-0.3);
+                backLeftMotor.setPower(-0.3);
+                frontRightMotor.setPower(0.3);
+                backRightMotor.setPower(0.3);
+                sleep(150);
+                grabby.setPosition(OPEN);
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(-0.2);
+                backRightMotor.setPower(-0.2);
+            }
+
+        }
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
         turnToHeading(TURN_SPEED, 0.0);
-        grabby.setPosition(CLOSED);
         // Lift code down
-        lift.setTargetPosition(LIFT_FLOOR);
-        lift.setPower(1.0);
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         signalParkTwo();
-        // Test the telemetry statement before setting power to zero.
-        if ((LIFT_FLOOR - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FLOOR + TOLERANCE)) {
-            telemetry.addData("Lift Ground Status", "You've arrived at your GROUND destination");
-        }
         sleep(10000);
     }
     private void AUTON_LOC_1() {
@@ -1005,21 +1058,55 @@ public class F2_A5_CA_15 extends LinearOpMode {
         sleep(500);
         driveStraight(DRIVE_SPEED, -27.5, 0.0);
         turnToHeading(TURN_SPEED, -39.0);
-        driveStraight(DRIVE_SPEED, 7.0, 0.0); //
-        sleep(650);
-        grabby.setPosition(OPEN);
+        YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
+        while (opModeIsActive()) {
+            if (touchy.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(700);
+
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(0.2);
+                backRightMotor.setPower(0.2);
+            }
+
+        }
+
+        YSNP.setPosition(PASS);
+        while (opModeIsActive()) {
+            if (touchy2.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(250);
+                frontLeftMotor.setPower(-0.3);
+                backLeftMotor.setPower(-0.3);
+                frontRightMotor.setPower(0.3);
+                backRightMotor.setPower(0.3);
+                sleep(150);
+                grabby.setPosition(OPEN);
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(-0.2);
+                backRightMotor.setPower(-0.2);
+            }
+
+        }
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
         turnToHeading(TURN_SPEED, 0.0);
-        grabby.setPosition(CLOSED);
-        // Lift code down
-        lift.setTargetPosition(LIFT_FLOOR);
-        lift.setPower(1.0);
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         signalParkOne();
-        // Test the telemetry statement before setting power to zero.
-        if ((LIFT_FLOOR - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FLOOR + TOLERANCE)) {
-            telemetry.addData("Lift Ground Status", "You've arrived at your GROUND destination");
-        }
+        sleep(10000);
+
 
     }
     private void AUTON_LOC_3() {
@@ -1185,20 +1272,53 @@ public class F2_A5_CA_15 extends LinearOpMode {
         sleep(500);
         driveStraight(DRIVE_SPEED, -27.5, 0.0);
         turnToHeading(TURN_SPEED, -39.0);
-        driveStraight(DRIVE_SPEED, 7.0, 0.0); //
-        sleep(650);
-        grabby.setPosition(OPEN);
-        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
-        turnToHeading(TURN_SPEED, 0.0);
-        grabby.setPosition(CLOSED);
-        // Lift code down
-        lift.setTargetPosition(LIFT_FLOOR);
-        lift.setPower(1.0);
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        signalParkThree();
-        // Test the telemetry statement before setting power to zero.
-        if ((LIFT_FLOOR - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FLOOR + TOLERANCE)) {
-            telemetry.addData("Lift Ground Status", "You've arrived at your GROUND destination");
+        YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
+        while (opModeIsActive()) {
+            if (touchy.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(700);
+
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(0.2);
+                backRightMotor.setPower(0.2);
+            }
+
         }
+
+        YSNP.setPosition(PASS);
+        while (opModeIsActive()) {
+            if (touchy2.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(250);
+                frontLeftMotor.setPower(-0.3);
+                backLeftMotor.setPower(-0.3);
+                frontRightMotor.setPower(0.3);
+                backRightMotor.setPower(0.3);
+                sleep(150);
+                grabby.setPosition(OPEN);
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(-0.2);
+                backRightMotor.setPower(-0.2);
+            }
+
+        }
+        driveStraight(DRIVE_SPEED,-8.0,0.0);
+        turnToHeading(TURN_SPEED,0.0);
+        signalParkThree();
+        sleep(10000);
     }
     }
