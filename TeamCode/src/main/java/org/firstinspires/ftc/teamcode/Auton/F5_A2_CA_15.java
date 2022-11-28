@@ -543,7 +543,7 @@ public class F5_A2_CA_15 extends LinearOpMode {
 
     private void signalParkOne() {
         strafeLeft();
-        sleep(500);
+        sleep(450);
         lift.setTargetPosition(LIFT_FLOOR);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -636,13 +636,13 @@ public class F5_A2_CA_15 extends LinearOpMode {
 
         while (opModeIsActive() && (frontLeftMotor.getCurrentPosition() > DRIVE_SPEED * 480))
             ; // (-) strafe left
-        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * 480))
-            ; // (-) strafe left
+        while (opModeIsActive() && (backRightMotor.getCurrentPosition() > DRIVE_SPEED * 480));
+             // (-) strafe left
 
-        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * -480))
-            ;  // (-) strafe right
-        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED * -480))
-            ;
+        while (opModeIsActive() && (backLeftMotor.getCurrentPosition() < DRIVE_SPEED * -480));
+              // (-) strafe right
+        while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED * -480));
+
     }
 
 
