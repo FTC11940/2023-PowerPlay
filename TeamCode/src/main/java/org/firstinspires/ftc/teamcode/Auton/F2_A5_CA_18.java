@@ -675,7 +675,7 @@ public class F2_A5_CA_18 extends LinearOpMode {
 
         // Drive towards the mid junction
         // first cone delivery
-        driveStraight(DRIVE_SPEED, 52.0, 0.0); //
+        driveStraight(1.0, 39.0, 0.0); //
 
         // Lift code up high
         lift.setTargetPosition(LIFT_MEDIUM);
@@ -687,9 +687,9 @@ public class F2_A5_CA_18 extends LinearOpMode {
             // lift.setPower(0);
         }
         sleep(250);
-        driveStraight(DRIVE_SPEED, -4.0, 0.0);
+        driveStraight(DRIVE_SPEED, -10.0, 0.0);
         YSNP.setPosition(SHUT);
-        turnToHeading(TURN_SPEED, -120.0);
+        turnToHeading(TURN_SPEED, -39.0);
 
         // Lift need to be up before shutting YSNP
         while (opModeIsActive()) {
@@ -734,17 +734,21 @@ public class F2_A5_CA_18 extends LinearOpMode {
 
         }
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
-
-
+        turnToHeading(TURN_SPEED, 0.0);
+        YSNP.setPosition(SHUT);
+        driveStraight(DRIVE_SPEED, 24.0, 0.0); //
+        sleep(100);
+        YSNP.setPosition(PASS);
+        driveStraight(DRIVE_SPEED, -5.0, 0.0); //
         // TODO Just gonna put this here for fun testing later :)
         // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
-        turnToHeading(1.0, 90.0);
+        turnToHeading(TURN_SPEED, 90.0);
         lift.setTargetPosition(LIFT_FIVE_STACK);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
-        if ((LIFT_FIVE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FIVE_STACK + TOLERANCE))
-            ;
+        if ((LIFT_FIVE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FIVE_STACK + TOLERANCE));
+
 
         driveStraight(DRIVE_SPEED, 27.5, 0.0); // Drive to substation
 
@@ -762,7 +766,7 @@ public class F2_A5_CA_18 extends LinearOpMode {
         }
         sleep(250);
         YSNP.setPosition(SHUT);
-        driveStraight(DRIVE_SPEED, -49.0, 0.0); // Drive to substation\
+        driveStraight(DRIVE_SPEED, -53.0, 0.0); // Drive to substation\
         turnToHeading(TURN_SPEED, 120.0);
 
         // Lift need to be up before shutting YSNP
@@ -809,7 +813,7 @@ public class F2_A5_CA_18 extends LinearOpMode {
             }
 
         }
-        driveStraight(DRIVE_SPEED, -4.0, 0.0); //
+        driveStraight(DRIVE_SPEED, -6.0, 0.0); //
         turnToHeading(TURN_SPEED, 90.0);
         // Insert lift code down here
         lift.setTargetPosition(LIFT_FOUR_STACK);
@@ -820,7 +824,7 @@ public class F2_A5_CA_18 extends LinearOpMode {
             telemetry.addData("Lift 3/4 Stack Status", "You've arrived at your 3/4 cone destination");
         }
 
-        driveStraight(DRIVE_SPEED, 49.0, 0.0); //
+        driveStraight(DRIVE_SPEED, 53.0, 0.0); //
 
         grabby.setPosition(CLOSED);
         sleep(500);
@@ -838,9 +842,9 @@ public class F2_A5_CA_18 extends LinearOpMode {
         }
         sleep(250);
 
-        driveStraight(DRIVE_SPEED, -63.0, 0.0);
+        driveStraight(1.0, -70.0, 0.0);
         YSNP.setPosition(SHUT);
-        turnToHeading(TURN_SPEED, -120.0);
+        turnToHeading(TURN_SPEED, 120.0);
         while (opModeIsActive()) {
             if (touchy.isPressed()) {
                 frontLeftMotor.setPower(0);
