@@ -842,9 +842,9 @@ public class F2_A5_CA_18 extends LinearOpMode {
         }
         sleep(250);
 
-        driveStraight(1.0, -70.0, 0.0);
+        driveStraight(1.0, -71.0, 0.0);
         YSNP.setPosition(SHUT);
-        turnToHeading(TURN_SPEED, 120.0);
+        turnToHeading(TURN_SPEED, 135.0);
         while (opModeIsActive()) {
             if (touchy.isPressed()) {
                 frontLeftMotor.setPower(0);
