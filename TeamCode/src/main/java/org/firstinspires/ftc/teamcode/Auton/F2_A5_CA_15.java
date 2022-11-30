@@ -567,7 +567,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
 
     private void signalParkThree() {
         strafeRight();
-        sleep(550);
+        sleep(675);
         lift.setTargetPosition(LIFT_FLOOR);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -687,7 +687,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
         waitForStart();
 
         // Drive towards the high junction
-        driveStraight(1.0, 52.0, 0.0); //
+        driveStraight(DRIVE_SPEED, 52.0, 0.0); //
 
         // Lift code up high
         lift.setTargetPosition(2850);
@@ -758,7 +758,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
         if ((LIFT_FIVE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FIVE_STACK + TOLERANCE));
 
 
-        driveStraight(DRIVE_SPEED, 27.5, 0.0); // Drive to substation
+        driveStraight(DRIVE_SPEED, 28.0, 0.0); // Drive to substation
 
         grabby.setPosition(CLOSED);
         sleep(250);
@@ -770,7 +770,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
             telemetry.addData("Lift High Status", "You've arrived at your destination");
         }
         sleep(500);
-        driveStraight(DRIVE_SPEED, -27.5, 0.0); // Drive to substation
+        driveStraight(DRIVE_SPEED, -28.0, 0.0); // Drive to substation
         turnToHeading(TURN_SPEED, -39.0);
 
         YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
@@ -827,7 +827,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
             telemetry.addData("Lift 3/4 Stack Status", "You've arrived at your 3/4 cone destination");
         }
 
-        driveStraight(DRIVE_SPEED, 27.5, 0.0); //
+        driveStraight(DRIVE_SPEED, 28.0, 0.0); //
 
         grabby.setPosition(CLOSED);
         sleep(250);
@@ -842,7 +842,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
             //lift.setPower(0);
         }
         sleep(500);
-        driveStraight(DRIVE_SPEED, -27.5, 0.0);
+        driveStraight(DRIVE_SPEED, -28.0, 0.0);
         turnToHeading(TURN_SPEED, -39.0);
         YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
         while (opModeIsActive()) {
@@ -969,7 +969,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
         if ((LIFT_FIVE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FIVE_STACK + TOLERANCE));
 
 
-        driveStraight(DRIVE_SPEED, 27.5, 0.0); // Drive to substation
+        driveStraight(DRIVE_SPEED, 28.0, 0.0); // Drive to substation
 
         grabby.setPosition(CLOSED);
         sleep(250);
@@ -981,7 +981,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
             telemetry.addData("Lift High Status", "You've arrived at your destination");
         }
         sleep(500);
-        driveStraight(DRIVE_SPEED, -27.5, 0.0); // Drive to substation
+        driveStraight(DRIVE_SPEED, -28.0, 0.0); // Drive to substation
         turnToHeading(TURN_SPEED, -39.0);
 
         YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
@@ -1039,7 +1039,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
             telemetry.addData("Lift 3/4 Stack Status", "You've arrived at your 3/4 cone destination");
         }
 
-        driveStraight(DRIVE_SPEED, 27.5, 0.0); //
+        driveStraight(DRIVE_SPEED, 28.0, 0.0); //
 
         grabby.setPosition(CLOSED);
         sleep(250);
@@ -1054,7 +1054,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
             //lift.setPower(0);
         }
         sleep(500);
-        driveStraight(DRIVE_SPEED, -27.5, 0.0);
+        driveStraight(DRIVE_SPEED, -28.0, 0.0);
         turnToHeading(TURN_SPEED, -39.0);
         YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
         while (opModeIsActive()) {
@@ -1183,7 +1183,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
             ;
 
 
-        driveStraight(DRIVE_SPEED, 27.5, 0.0); // Drive to substation
+        driveStraight(DRIVE_SPEED, 28.0, 0.0); // Drive to substation
 
         grabby.setPosition(CLOSED);
         sleep(250);
@@ -1195,7 +1195,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
             telemetry.addData("Lift High Status", "You've arrived at your destination");
         }
         sleep(500);
-        driveStraight(DRIVE_SPEED, -27.5, 0.0); // Drive to substation
+        driveStraight(DRIVE_SPEED, -28.0, 0.0); // Drive to substation
         turnToHeading(TURN_SPEED, -39.0);
 
         YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
@@ -1253,7 +1253,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
             telemetry.addData("Lift 3/4 Stack Status", "You've arrived at your 3/4 cone destination");
         }
 
-        driveStraight(DRIVE_SPEED, 27.5, 0.0); //
+        driveStraight(DRIVE_SPEED, 28.0, 0.0); //
 
         grabby.setPosition(CLOSED);
         sleep(250);
@@ -1268,7 +1268,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
             //lift.setPower(0);
         }
         sleep(500);
-        driveStraight(DRIVE_SPEED, -27.5, 0.0);
+        driveStraight(DRIVE_SPEED, -28.0, 0.0);
         turnToHeading(TURN_SPEED, -39.0);
         YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
         while (opModeIsActive()) {
@@ -1314,7 +1314,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
             }
 
         }
-        driveStraight(DRIVE_SPEED,-8.0,0.0);
+        driveStraight(DRIVE_SPEED,-10.0,0.0);
         turnToHeading(TURN_SPEED,0.0);
         signalParkThree();
         sleep(10000);
