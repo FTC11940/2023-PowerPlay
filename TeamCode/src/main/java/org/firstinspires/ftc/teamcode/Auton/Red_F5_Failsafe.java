@@ -145,18 +145,18 @@ public class Red_F5_Failsafe extends LinearOpMode {
         driveStraight(DRIVE_SPEED, 4.0, 0.0); //
         grabby.setPosition(OPEN);
         driveStraight(DRIVE_SPEED, -4.0, 0.0); //
-        lift.setTargetPosition(LIFT_GROUND);
+        lift.setTargetPosition(LIFT_FLOOR);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
-        if ((LIFT_GROUND - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_GROUND + TOLERANCE)) {
+        if ((LIFT_FLOOR - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FLOOR + TOLERANCE)) {
             telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
             // lift.setPower(0);
         }
         turnToHeading( TURN_SPEED,  90.0);//Turn 90 to face direction of terminal
-        driveStraight(DRIVE_SPEED, 14.00, 0.0); // Drive to terminal
+        driveStraight(DRIVE_SPEED, 14.0, 0.0); // Drive to terminal
         turnToHeading( TURN_SPEED,  0.0); // Turn back to face forward
-        driveStraight(DRIVE_SPEED, -1.00, 0.0); // park
+        driveStraight(DRIVE_SPEED, -1.0, 0.0); // park
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.

@@ -846,7 +846,7 @@ public class F5_A2_CA_15 extends LinearOpMode {
         }
         sleep(500);
         driveStraight(DRIVE_SPEED, -28.0, 0.0);
-        turnToHeading(TURN_SPEED, -39.0);
+        turnToHeading(TURN_SPEED, 39.90);
         YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
         while (opModeIsActive()) {
             if (touchy.isPressed()) {
