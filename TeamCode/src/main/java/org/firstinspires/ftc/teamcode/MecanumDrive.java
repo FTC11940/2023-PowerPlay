@@ -93,8 +93,8 @@ public class MecanumDrive extends LinearOpMode {
                 grabby.setPosition(0); // close grabby
             }
 
-            // Reset the encoder if it is left in a non-zero starting position from autonomous
-            if (gamepad1.start) {
+            // Reset the lift encoder if the lift was not in a zero position at the start of teleop
+            if (gamepad2.start) {
                 lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
 
