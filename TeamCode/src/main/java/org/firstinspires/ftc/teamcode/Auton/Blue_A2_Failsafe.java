@@ -7,7 +7,6 @@ import static org.firstinspires.ftc.teamcode.Constants.*;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -22,13 +21,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
 @Autonomous(name="Blue-A2 Failsafe", group="Robot")
-@Disabled
+// @Disabled
 
 public class Blue_A2_Failsafe extends LinearOpMode {
 
 
     Servo grabby;
     DcMotor lift;
+    Servo YSNP;
     // Declare OpMode members
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
@@ -70,6 +70,8 @@ public class Blue_A2_Failsafe extends LinearOpMode {
         lift = hardwareMap.get(DcMotor.class,"lift");
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
+        YSNP = hardwareMap.servo.get("YSNP");
+        YSNP.setPosition(PASS);
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
@@ -143,12 +145,11 @@ public class Blue_A2_Failsafe extends LinearOpMode {
         driveStraight(DRIVE_SPEED, 4.0, 0.0); //c
         grabby.setPosition(OPEN);
         driveStraight(DRIVE_SPEED, -4.0, 0.0); //
-
-        lift.setTargetPosition(LIFT_GROUND);
+        lift.setTargetPosition(LIFT_FLOOR);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
-        if ((LIFT_GROUND - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_GROUND + TOLERANCE)) {
+        if ((LIFT_FLOOR - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FLOOR + TOLERANCE)) {
             telemetry.addData("Lift Low Status", "You've arrived at your HIGH destination");
             // lift.setPower(0);
         }
