@@ -84,6 +84,9 @@ public class MecanumDriveDEV extends LinearOpMode {
         YSNP.setPosition(PASS);
         lift.setTargetPosition(0);
 
+        touchy = hardwareMap.get(TouchSensor.class, "touchy");
+        touchy2 = hardwareMap.get(TouchSensor.class, "touchy2");
+
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
