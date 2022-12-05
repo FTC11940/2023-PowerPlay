@@ -40,7 +40,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  returns !isStarted() && !isStopRequested() and does not call idle().
  *****************************/
 
-@TeleOp(name = "Mark 18 - Mecanum", group="Linear OpMode")
+@TeleOp(name = "Mark 20 - Mecanum", group="Linear OpMode")
 // @Disabled
 public class MecanumDriveDEV extends LinearOpMode {
 
@@ -84,6 +84,9 @@ public class MecanumDriveDEV extends LinearOpMode {
         YSNP.setPosition(PASS);
         lift.setTargetPosition(0);
 
+        touchy = hardwareMap.get(TouchSensor.class, "touchy");
+        touchy2 = hardwareMap.get(TouchSensor.class, "touchy2");
+
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
@@ -95,12 +98,10 @@ public class MecanumDriveDEV extends LinearOpMode {
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        touchy = hardwareMap.get(TouchSensor.class, "touchy");
-        touchy2 = hardwareMap.get(TouchSensor.class, "touchy2");
-
         waitForStart();
 
         // while the operational mode is active...
+
         while (opModeIsActive()) {
             double y = -gamepad1.left_stick_y; // Uses the left thumbstick for left and right robot movement
             double x = gamepad1.left_stick_x; //*1.1 to counteract imperfect strafing
@@ -110,12 +111,6 @@ public class MecanumDriveDEV extends LinearOpMode {
             double backLeftPower = (y - x + rot);
             double frontRightPower = (y - x - rot);
             double backRightPower = (y + x - rot);
-
-            int slowFactor = 3;
-            double frontLeftSlowPower = (y/slowFactor + x/slowFactor + rot/slowFactor);
-            double backLeftSlowPower = (y/slowFactor - x/slowFactor + rot/slowFactor);
-            double frontRightSlowPower = (y/slowFactor - x/slowFactor - rot/slowFactor);
-            double backRightSlowPower = (y/slowFactor + x/slowFactor - rot/slowFactor);
 
             // Send calculated power to wheels
             frontLeftMotor.setPower(frontLeftPower);
@@ -212,15 +207,18 @@ public class MecanumDriveDEV extends LinearOpMode {
 
             // Runs cone alignment code
             // Drops gate, auto aligns forward and centers
-            if (gamepad1.right_bumper) {
+            if (gamepad1.a) {
 
-                // While held, uses a slower drive speed
-                frontLeftMotor.setPower(frontLeftPower/8);
-                backLeftMotor.setPower(backLeftPower/8);
-                frontRightMotor.setPower(frontRightPower/8);
-                backRightMotor.setPower(backRightPower/8);
-            }
-                /* if (touchy.isPressed()) {
+                YSNP.setPosition(SHUT);
+
+                // May need to redefine afterwards?
+                frontLeftPower = (y/4 + x/4 + rot/4);
+                backLeftPower = (y/4 - x/4 + rot/4);
+                frontRightPower = (y/4 - x/4 - rot/4);
+                backRightPower = (y/4 + x/4 - rot/4);
+
+                /*
+                if (touchy.isPressed()) {
                     grabby.setPosition(CLOSED); // redundant
                     frontLeftMotor.setPower(0);
                     backLeftMotor.setPower(0);
@@ -229,11 +227,14 @@ public class MecanumDriveDEV extends LinearOpMode {
                     sleep(700);
                     break;
                 } else {
-                   */
+                    grabby.setPosition(CLOSED);
+                    frontLeftMotor.setPower(0.2);
+                    backLeftMotor.setPower(0.2);
+                    frontRightMotor.setPower(0.2);
+                    backRightMotor.setPower(0.2);
                     // TODO Add an "Oh Crap Stop" button B
+                } // end of touchy
 
-
-                /*
                 YSNP.setPosition(PASS);
 
                 if (touchy2.isPressed()) {
@@ -256,19 +257,24 @@ public class MecanumDriveDEV extends LinearOpMode {
                         frontRightMotor.setPower(-0.2);
                         backRightMotor.setPower(-0.2);
                          // TODO Add an "Oh Crap Stop" button B
-                    }
-
-                 */
+                    } // End of touchy2
+                */
 
                 // Phase Three
                 // TODO Add an "Oh Crap Stop" button B
 
-
+            }
 
             telemetry.update();
 
             // Drives the robot forward and backwards
 
+            /*
+            frontLeftPower = (y + x + rot);
+            backLeftPower = (y - x + rot);
+            frontRightPower = (y - x - rot);
+            backRightPower = (y + x - rot);
+            */
 
             telemetry.addData("Lift Position: ", liftpos);
             telemetry.addData("Exact Lift Position", lift.getCurrentPosition());
