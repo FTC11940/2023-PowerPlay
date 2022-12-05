@@ -712,16 +712,18 @@ public class F5_A2_CA_15 extends LinearOpMode {
                 frontRightMotor.setPower(0);
                 backRightMotor.setPower(0);
                 sleep(500);
-                grabby.setPosition(OPEN);
-                break;
+
             } else {
                 grabby.setPosition(CLOSED);
                 frontLeftMotor.setPower(0.2);
                 backLeftMotor.setPower(0.2);
                 frontRightMotor.setPower(0.2);
                 backRightMotor.setPower(0.2);
+                if(sleep()) {
+                    grabby.setPosition(OPEN);
+                 //   break;
+                }
             }
-
         }
         YSNP.setPosition(PASS);
         while (opModeIsActive()) {
@@ -744,6 +746,8 @@ public class F5_A2_CA_15 extends LinearOpMode {
                 backLeftMotor.setPower(0.2);
                 frontRightMotor.setPower(-0.2);
                 backRightMotor.setPower(-0.2);
+            }if(sleep()) {
+                break;
             }
 
         }
@@ -791,6 +795,9 @@ public class F5_A2_CA_15 extends LinearOpMode {
                 backLeftMotor.setPower(0.2);
                 frontRightMotor.setPower(0.2);
                 backRightMotor.setPower(0.2);
+            }if(sleep()) {
+                grabby.setPosition(OPEN);
+                break;
             }
 
         }
@@ -816,6 +823,8 @@ public class F5_A2_CA_15 extends LinearOpMode {
                 backLeftMotor.setPower(0.2);
                 frontRightMotor.setPower(-0.2);
                 backRightMotor.setPower(-0.2);
+            }if(sleep()) {
+                break;
             }
 
         }
@@ -863,6 +872,9 @@ public class F5_A2_CA_15 extends LinearOpMode {
                 backLeftMotor.setPower(0.2);
                 frontRightMotor.setPower(0.2);
                 backRightMotor.setPower(0.2);
+            }if(sleep()) {
+                grabby.setPosition(OPEN);
+                break;
             }
 
         }
@@ -888,6 +900,8 @@ public class F5_A2_CA_15 extends LinearOpMode {
                 backLeftMotor.setPower(0.2);
                 frontRightMotor.setPower(-0.2);
                 backRightMotor.setPower(-0.2);
+            }if(sleep()) {
+                break;
             }
 
         }
@@ -897,6 +911,9 @@ public class F5_A2_CA_15 extends LinearOpMode {
         signalParkTwo();
         sleep(10000);
     }
+
+
+
     private void AUTON_LOC_1() {
         waitForStart();
 
@@ -1323,5 +1340,9 @@ public class F5_A2_CA_15 extends LinearOpMode {
         signalParkThree();
         sleep(10000);
 
+    }
+    private boolean sleep() {
+        sleep(2000);
+        return true;
     }
     }

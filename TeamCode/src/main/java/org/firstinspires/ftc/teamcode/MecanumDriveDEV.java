@@ -40,7 +40,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  returns !isStarted() && !isStopRequested() and does not call idle().
  *****************************/
 
-@TeleOp(name = "Mark 20 - Mecanum", group="Linear OpMode")
+@TeleOp(name = "Mark 21 - Mecanum", group="Linear OpMode")
 // @Disabled
 public class MecanumDriveDEV extends LinearOpMode {
 
@@ -212,10 +212,10 @@ public class MecanumDriveDEV extends LinearOpMode {
                 YSNP.setPosition(SHUT);
 
                 // May need to redefine afterwards?
-                frontLeftPower = (y/4 + x/4 + rot/4);
-                backLeftPower = (y/4 - x/4 + rot/4);
-                frontRightPower = (y/4 - x/4 - rot/4);
-                backRightPower = (y/4 + x/4 - rot/4);
+                frontLeftPower = (y/9 + x/9 + rot/9);
+                backLeftPower = (y/9 - x/9 + rot/9);
+                frontRightPower = (y/9 - x/9 - rot/9);
+                backRightPower = (y/9 + x/9 - rot/9);
 
                 /*
                 if (touchy.isPressed()) {
