@@ -101,7 +101,22 @@ public class MecanumDriveDEV extends LinearOpMode {
         waitForStart();
 
         // while the operational mode is active...
+
         while (opModeIsActive()) {
+            double y = -gamepad1.left_stick_y; // Uses the left thumbstick for left and right robot movement
+            double x = gamepad1.left_stick_x; //*1.1 to counteract imperfect strafing
+            double rot = gamepad1.right_stick_x; // Uses the right thumbstick to rotate robot movement
+
+            double frontLeftPower = (y + x + rot);
+            double backLeftPower = (y - x + rot);
+            double frontRightPower = (y - x - rot);
+            double backRightPower = (y + x - rot);
+
+            // Send calculated power to wheels
+            frontLeftMotor.setPower(frontLeftPower);
+            backLeftMotor.setPower(backLeftPower);
+            frontRightMotor.setPower(frontRightPower);
+            backRightMotor.setPower(backRightPower);
 
             // if b is pressed on gamepad 2...
             if (gamepad2.b) {
@@ -193,8 +208,16 @@ public class MecanumDriveDEV extends LinearOpMode {
             // Runs cone alignment code
             // Drops gate, auto aligns forward and centers
             if (gamepad1.a) {
+
                 YSNP.setPosition(SHUT);
 
+                // May need to redefine afterwards?
+                frontLeftPower = (y/4 + x/4 + rot/4);
+                backLeftPower = (y/4 - x/4 + rot/4);
+                frontRightPower = (y/4 - x/4 - rot/4);
+                backRightPower = (y/4 + x/4 - rot/4);
+
+                /*
                 if (touchy.isPressed()) {
                     grabby.setPosition(CLOSED); // redundant
                     frontLeftMotor.setPower(0);
@@ -234,7 +257,8 @@ public class MecanumDriveDEV extends LinearOpMode {
                         frontRightMotor.setPower(-0.2);
                         backRightMotor.setPower(-0.2);
                          // TODO Add an "Oh Crap Stop" button B
-                    }
+                    } // End of touchy2
+                */
 
                 // Phase Three
                 // TODO Add an "Oh Crap Stop" button B
@@ -244,20 +268,13 @@ public class MecanumDriveDEV extends LinearOpMode {
             telemetry.update();
 
             // Drives the robot forward and backwards
-            double y = -gamepad1.left_stick_y; // Uses the left thumbstick for left and right robot movement
-            double x = gamepad1.left_stick_x; //*1.1 to counteract imperfect strafing
-            double rot = gamepad1.right_stick_x; // Uses the right thumbstick to rotate robot movement
 
-            double frontLeftPower = (y + x + rot);
-            double backLeftPower = (y - x + rot);
-            double frontRightPower = (y - x - rot);
-            double backRightPower = (y + x - rot);
-
-            // Send calculated power to wheels
-            frontLeftMotor.setPower(frontLeftPower);
-            backLeftMotor.setPower(backLeftPower);
-            frontRightMotor.setPower(frontRightPower);
-            backRightMotor.setPower(backRightPower);
+            /*
+            frontLeftPower = (y + x + rot);
+            backLeftPower = (y - x + rot);
+            frontRightPower = (y - x - rot);
+            backRightPower = (y + x - rot);
+            */
 
             telemetry.addData("Lift Position: ", liftpos);
             telemetry.addData("Exact Lift Position", lift.getCurrentPosition());
