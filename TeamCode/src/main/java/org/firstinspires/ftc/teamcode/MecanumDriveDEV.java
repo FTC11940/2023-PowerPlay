@@ -95,10 +95,33 @@ public class MecanumDriveDEV extends LinearOpMode {
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
+        touchy = hardwareMap.get(TouchSensor.class, "touchy");
+        touchy2 = hardwareMap.get(TouchSensor.class, "touchy2");
+
         waitForStart();
 
         // while the operational mode is active...
         while (opModeIsActive()) {
+            double y = -gamepad1.left_stick_y; // Uses the left thumbstick for left and right robot movement
+            double x = gamepad1.left_stick_x; //*1.1 to counteract imperfect strafing
+            double rot = gamepad1.right_stick_x; // Uses the right thumbstick to rotate robot movement
+
+            double frontLeftPower = (y + x + rot);
+            double backLeftPower = (y - x + rot);
+            double frontRightPower = (y - x - rot);
+            double backRightPower = (y + x - rot);
+
+            int slowFactor = 3;
+            double frontLeftSlowPower = (y/slowFactor + x/slowFactor + rot/slowFactor);
+            double backLeftSlowPower = (y/slowFactor - x/slowFactor + rot/slowFactor);
+            double frontRightSlowPower = (y/slowFactor - x/slowFactor - rot/slowFactor);
+            double backRightSlowPower = (y/slowFactor + x/slowFactor - rot/slowFactor);
+
+            // Send calculated power to wheels
+            frontLeftMotor.setPower(frontLeftPower);
+            backLeftMotor.setPower(backLeftPower);
+            frontRightMotor.setPower(frontRightPower);
+            backRightMotor.setPower(backRightPower);
 
             // if b is pressed on gamepad 2...
             if (gamepad2.b) {
@@ -189,10 +212,15 @@ public class MecanumDriveDEV extends LinearOpMode {
 
             // Runs cone alignment code
             // Drops gate, auto aligns forward and centers
-            if (gamepad1.a) {
-                YSNP.setPosition(SHUT);
+            if (gamepad1.right_bumper) {
 
-                if (touchy.isPressed()) {
+                // While held, uses a slower drive speed
+                frontLeftMotor.setPower(frontLeftPower/8);
+                backLeftMotor.setPower(backLeftPower/8);
+                frontRightMotor.setPower(frontRightPower/8);
+                backRightMotor.setPower(backRightPower/8);
+            }
+                /* if (touchy.isPressed()) {
                     grabby.setPosition(CLOSED); // redundant
                     frontLeftMotor.setPower(0);
                     backLeftMotor.setPower(0);
@@ -201,14 +229,11 @@ public class MecanumDriveDEV extends LinearOpMode {
                     sleep(700);
                     break;
                 } else {
-                    grabby.setPosition(CLOSED);
-                    frontLeftMotor.setPower(0.2);
-                    backLeftMotor.setPower(0.2);
-                    frontRightMotor.setPower(0.2);
-                    backRightMotor.setPower(0.2);
+                   */
                     // TODO Add an "Oh Crap Stop" button B
-                } // end of touchy
 
+
+                /*
                 YSNP.setPosition(PASS);
 
                 if (touchy2.isPressed()) {
@@ -233,28 +258,17 @@ public class MecanumDriveDEV extends LinearOpMode {
                          // TODO Add an "Oh Crap Stop" button B
                     }
 
+                 */
+
                 // Phase Three
                 // TODO Add an "Oh Crap Stop" button B
 
-            }
+
 
             telemetry.update();
 
             // Drives the robot forward and backwards
-            double y = -gamepad1.left_stick_y; // Uses the left thumbstick for left and right robot movement
-            double x = gamepad1.left_stick_x; //*1.1 to counteract imperfect strafing
-            double rot = gamepad1.right_stick_x; // Uses the right thumbstick to rotate robot movement
 
-            double frontLeftPower = (y + x + rot);
-            double backLeftPower = (y - x + rot);
-            double frontRightPower = (y - x - rot);
-            double backRightPower = (y + x - rot);
-
-            // Send calculated power to wheels
-            frontLeftMotor.setPower(frontLeftPower);
-            backLeftMotor.setPower(backLeftPower);
-            frontRightMotor.setPower(frontRightPower);
-            backRightMotor.setPower(backRightPower);
 
             telemetry.addData("Lift Position: ", liftpos);
             telemetry.addData("Exact Lift Position", lift.getCurrentPosition());
