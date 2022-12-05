@@ -40,7 +40,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name = "Mark 18 - Mecanum", group="Linear OpMode")
 // @Disabled
-public class MecanumDEV3 extends LinearOpMode {
+public class MecanumDriveDEV2 extends LinearOpMode {
 
     private Servo grabby;
     private Servo YSNP;

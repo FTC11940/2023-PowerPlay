@@ -207,7 +207,7 @@ public class MecanumDriveDEV extends LinearOpMode {
 
             // Runs cone alignment code
             // Drops gate, auto aligns forward and centers
-            if (gamepad1.a) {
+            if (gamepad1.right_bumper) {
 
                 YSNP.setPosition(SHUT);
 
