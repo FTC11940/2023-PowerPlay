@@ -744,7 +744,6 @@ public class F2_A5_CA_18 extends LinearOpMode {
         sleep(100);
         YSNP.setPosition(PASS);
         driveStraight(DRIVE_SPEED, -4.0, 0.0); //
-        // TODO Just gonna put this here for fun testing later :)
         // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
         turnToHeading(TURN_SPEED, 90.0);
         lift.setTargetPosition(LIFT_FIVE_STACK);

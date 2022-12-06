@@ -12,6 +12,8 @@ import static org.firstinspires.ftc.teamcode.Constants.LIFT_POWER;
 import static org.firstinspires.ftc.teamcode.Constants.OPEN;
 import static org.firstinspires.ftc.teamcode.Constants.PASS;
 
+import android.widget.ToggleButton;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -39,7 +41,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  returns !isStarted() && !isStopRequested() and does not call idle().
  *****************************/
 
-@TeleOp(name = "Mark 24 - Mecanum", group="Linear OpMode")
+@TeleOp(name = "Mark 27 - Mecanum", group="Linear OpMode")
 // @Disabled
 public class MecanumDriveDEV extends LinearOpMode {
 
@@ -210,12 +212,12 @@ public class MecanumDriveDEV extends LinearOpMode {
                 mTouchy();
             }
 
+
             if (gamepad1.right_bumper) {
-                while (opModeIsActive()) {
+                {
                     slowMo(); // Sets drivetrain to a slower speed
                 }
             }
-            else {}
 
             telemetry.update();
 
@@ -242,7 +244,6 @@ public class MecanumDriveDEV extends LinearOpMode {
 
             telemetry.update(); // this is very important! without putting this code at the end of your telemetry, your telemetry will not update with new information
 
-
         }
     }
 
@@ -264,6 +265,9 @@ public class MecanumDriveDEV extends LinearOpMode {
             backLeftMotor.setPower(backLeftPowerSlow);
             frontRightMotor.setPower(frontRightPowerSlow);
             backRightMotor.setPower(backRightPowerSlow);
+
+
+            // sleep(100); // Works but adds a stutter
 
     } // end of slowMo method
 
