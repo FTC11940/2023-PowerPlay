@@ -1,22 +1,5 @@
 /*
- * Copyright (c) 2021 OpenFTC Team
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+
  */
 
 package org.firstinspires.ftc.teamcode.Auton;
@@ -25,10 +8,9 @@ import static org.firstinspires.ftc.teamcode.Constants.CLOSED;
 import static org.firstinspires.ftc.teamcode.Constants.DRIVE_COUNTS_PER_INCH;
 import static org.firstinspires.ftc.teamcode.Constants.DRIVE_SPEED;
 import static org.firstinspires.ftc.teamcode.Constants.HEADING_THRESHOLD;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_FIVE_STACK;
 import static org.firstinspires.ftc.teamcode.Constants.LIFT_FLOOR;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_FOUR_STACK;
 import static org.firstinspires.ftc.teamcode.Constants.LIFT_HIGH;
+import static org.firstinspires.ftc.teamcode.Constants.LIFT_MEDIUM;
 import static org.firstinspires.ftc.teamcode.Constants.OPEN;
 import static org.firstinspires.ftc.teamcode.Constants.PASS;
 import static org.firstinspires.ftc.teamcode.Constants.P_DRIVE_GAIN;
@@ -59,8 +41,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@Autonomous(name = "F5/A2 C.A. 15", group = "Robot")
-public class F5_A2_CA_15 extends LinearOpMode {
+@Autonomous(name = "F2/A5 C.A. 04", group = "Robot")
+public class F2_A5_CA_04 extends LinearOpMode {
 
     Servo grabby;
     Servo YSNP;
@@ -689,10 +671,10 @@ public class F5_A2_CA_15 extends LinearOpMode {
         waitForStart();
 
         // Drive towards the high junction
-        driveStraight(DRIVE_SPEED, 52.0, 0.0); //
+        driveStraight(DRIVE_SPEED, 39.0, 0.0); //
 
         // Lift code up high
-        lift.setTargetPosition(2850);
+        lift.setTargetPosition(LIFT_MEDIUM);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
@@ -700,9 +682,10 @@ public class F5_A2_CA_15 extends LinearOpMode {
             telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
             // lift.setPower(0);
         }
-
-
-        turnToHeading(TURN_SPEED, 39.0);
+        sleep(250);
+        driveStraight(DRIVE_SPEED, -10.0, 0.0);
+        YSNP.setPosition(SHUT);
+        turnToHeading(TURN_SPEED, -39.0);
 
         YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
         while (opModeIsActive()) {
@@ -712,15 +695,16 @@ public class F5_A2_CA_15 extends LinearOpMode {
                 frontRightMotor.setPower(0);
                 backRightMotor.setPower(0);
                 sleep(500);
-
+                grabby.setPosition(OPEN);
+                break;
             } else {
                 grabby.setPosition(CLOSED);
                 frontLeftMotor.setPower(0.2);
                 backLeftMotor.setPower(0.2);
                 frontRightMotor.setPower(0.2);
                 backRightMotor.setPower(0.2);
-
             }
+
         }
         YSNP.setPosition(PASS);
         while (opModeIsActive()) {
@@ -744,9 +728,16 @@ public class F5_A2_CA_15 extends LinearOpMode {
                 frontRightMotor.setPower(-0.2);
                 backRightMotor.setPower(-0.2);
             }
+
         }
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
-
+        turnToHeading(TURN_SPEED, 0.0);
+        YSNP.setPosition(SHUT);
+        driveStraight(DRIVE_SPEED, 24.0, 0.0); //
+        sleep(100);
+        YSNP.setPosition(PASS);
+        driveStraight(DRIVE_SPEED, -4.0, 0.0); //
+/*
 
         // TODO Just gonna put this here for fun testing later :)
         // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
@@ -890,22 +881,18 @@ public class F5_A2_CA_15 extends LinearOpMode {
 
         }
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
+        */
         turnToHeading(TURN_SPEED, 0.0);
-        grabby.setPosition(CLOSED);
         signalParkTwo();
         sleep(10000);
     }
-
-
-
     private void AUTON_LOC_1() {
         waitForStart();
 
-        // Drive towards the high junction
-        driveStraight(DRIVE_SPEED, 52.0, 0.0); //
+        driveStraight(DRIVE_SPEED, 39.0, 0.0); //
 
         // Lift code up high
-        lift.setTargetPosition(2850);
+        lift.setTargetPosition(LIFT_MEDIUM);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
@@ -913,9 +900,10 @@ public class F5_A2_CA_15 extends LinearOpMode {
             telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
             // lift.setPower(0);
         }
-
-
-        turnToHeading(TURN_SPEED, 39.0);
+        sleep(250);
+        driveStraight(DRIVE_SPEED, -10.0, 0.0);
+        YSNP.setPosition(SHUT);
+        turnToHeading(TURN_SPEED, -39.0);
 
         YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
         while (opModeIsActive()) {
@@ -961,7 +949,13 @@ public class F5_A2_CA_15 extends LinearOpMode {
 
         }
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
-
+        turnToHeading(TURN_SPEED, 0.0);
+        YSNP.setPosition(SHUT);
+        driveStraight(DRIVE_SPEED, 24.0, 0.0); //
+        sleep(100);
+        YSNP.setPosition(PASS);
+        driveStraight(DRIVE_SPEED, -4.0, 0.0); //
+        /*
 
         // TODO Just gonna put this here for fun testing later :)
         // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
@@ -1105,6 +1099,7 @@ public class F5_A2_CA_15 extends LinearOpMode {
 
         }
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
+       */
         turnToHeading(TURN_SPEED, 0.0);
         grabby.setPosition(CLOSED);
         signalParkOne();
@@ -1115,10 +1110,10 @@ public class F5_A2_CA_15 extends LinearOpMode {
         waitForStart();
 
         // Drive towards the high junction
-        driveStraight(DRIVE_SPEED, 52.0, 0.0); //
+        driveStraight(DRIVE_SPEED, 39.0, 0.0); //
 
         // Lift code up high
-        lift.setTargetPosition(2850);
+        lift.setTargetPosition(LIFT_MEDIUM);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
@@ -1126,9 +1121,10 @@ public class F5_A2_CA_15 extends LinearOpMode {
             telemetry.addData("Lift High Status", "You've arrived at your HIGH destination");
             // lift.setPower(0);
         }
-
-
-        turnToHeading(TURN_SPEED, 39.0);
+        sleep(250);
+        driveStraight(DRIVE_SPEED, -10.0, 0.0);
+        YSNP.setPosition(SHUT);
+        turnToHeading(TURN_SPEED, -39.0);
 
         YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
         while (opModeIsActive()) {
@@ -1174,7 +1170,13 @@ public class F5_A2_CA_15 extends LinearOpMode {
 
         }
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
-
+        turnToHeading(TURN_SPEED, 0.0);
+        YSNP.setPosition(SHUT);
+        driveStraight(DRIVE_SPEED, 24.0, 0.0); //
+        sleep(100);
+        YSNP.setPosition(PASS);
+        driveStraight(DRIVE_SPEED, -4.0, 0.0); //
+        /*
 
         // TODO Just gonna put this here for fun testing later :)
         // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
@@ -1319,14 +1321,11 @@ public class F5_A2_CA_15 extends LinearOpMode {
 
         }
         driveStraight(DRIVE_SPEED, -10.0, 0.0); //
-        turnToHeading(TURN_SPEED, 0.0);
-        grabby.setPosition(CLOSED);
+
+ */
+
         signalParkThree();
         sleep(10000);
 
-    }
-    private boolean sleep() {
-        sleep(2000);
-        return true;
     }
     }
