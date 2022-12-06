@@ -39,7 +39,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  returns !isStarted() && !isStopRequested() and does not call idle().
  *****************************/
 
-@TeleOp(name = "Mark 21 - Mecanum", group="Linear OpMode")
+@TeleOp(name = "Mark 24 - Mecanum", group="Linear OpMode")
 // @Disabled
 public class MecanumDriveDEV extends LinearOpMode {
 
@@ -206,62 +206,12 @@ public class MecanumDriveDEV extends LinearOpMode {
 
             // Runs cone alignment code
             // Drops gate, auto aligns forward and centers
-            if (gamepad1.right_bumper) {
+            if (gamepad1.a) {
                 mTouchy();
+            }
 
-                // May need to redefine afterwards?
-                /*
-                frontLeftPower = (y/9 + x/9 + rot/9);
-                backLeftPower = (y/9 - x/9 + rot/9);
-                frontRightPower = (y/9 - x/9 - rot/9);
-                backRightPower = (y/9 + x/9 - rot/9);
-*/
-                /*
-                if (touchy.isPressed()) {
-                    grabby.setPosition(CLOSED); // redundant
-                    frontLeftMotor.setPower(0);
-                    backLeftMotor.setPower(0);
-                    frontRightMotor.setPower(0);
-                    backRightMotor.setPower(0);
-                    sleep(700);
-                    break;
-                } else {
-                    grabby.setPosition(CLOSED);
-                    frontLeftMotor.setPower(0.2);
-                    backLeftMotor.setPower(0.2);
-                    frontRightMotor.setPower(0.2);
-                    backRightMotor.setPower(0.2);
-                    // TODO Add an "Oh Crap Stop" button B
-                } // end of touchy
-
-                YSNP.setPosition(PASS);
-
-                if (touchy2.isPressed()) {
-                        frontLeftMotor.setPower(0);
-                        backLeftMotor.setPower(0);
-                        frontRightMotor.setPower(0);
-                        backRightMotor.setPower(0);
-                        sleep(250); // pause
-                        frontLeftMotor.setPower(-0.3);
-                        backLeftMotor.setPower(-0.3);
-                        frontRightMotor.setPower(0.3);
-                        backRightMotor.setPower(0.3);
-                        sleep(150); // timer to turn to middle for cone drop
-                        grabby.setPosition(OPEN);
-                        break;
-                    } else {
-                        grabby.setPosition(CLOSED);
-                        frontLeftMotor.setPower(0.2);
-                        backLeftMotor.setPower(0.2);
-                        frontRightMotor.setPower(-0.2);
-                        backRightMotor.setPower(-0.2);
-                         // TODO Add an "Oh Crap Stop" button B
-                    } // End of touchy2
-                */
-
-                // Phase Three
-                // TODO Add an "Oh Crap Stop" button B
-
+            if (gamepad1.right_bumper) {
+                slowMo(); // Sets drivetrain to a slower speed
             }
 
             telemetry.update();
@@ -291,7 +241,33 @@ public class MecanumDriveDEV extends LinearOpMode {
         }
     }
 
+    // FIXME
+    private void slowMo() {
+        // while (opModeIsActive()) {
+            double ySlow = -gamepad1.left_stick_y; // Uses the left thumbstick for left and right robot movement
+            double xSlow = gamepad1.left_stick_x; //*1.1 to counteract imperfect strafing
+            double rotSlow = gamepad1.right_stick_x; // Uses the right thumbstick to rotate robot movement
+            int slowFactor = 4;
+
+            double frontLeftPowerSlow = (ySlow/slowFactor + xSlow/slowFactor + rotSlow/slowFactor);
+            double backLeftPowerSlow = (ySlow/slowFactor - xSlow/slowFactor + rotSlow/slowFactor);
+            double frontRightPowerSlow = (ySlow/slowFactor - xSlow/slowFactor - rotSlow/slowFactor);
+            double backRightPowerSlow = (ySlow/slowFactor + xSlow/slowFactor - rotSlow/slowFactor);
+
+            // Send calculated power to wheels
+            frontLeftMotor.setPower(frontLeftPowerSlow);
+            backLeftMotor.setPower(backLeftPowerSlow);
+            frontRightMotor.setPower(frontRightPowerSlow);
+            backRightMotor.setPower(backRightPowerSlow);
+
+
+        // }
+
+    } // end of slowMo method
+
     private void mTouchy() {
+
+        YSNP.setPosition(CLOSED);
 
         while (opModeIsActive()) {
             if (touchy.isPressed()) {

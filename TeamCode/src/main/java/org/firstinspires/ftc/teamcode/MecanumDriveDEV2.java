@@ -12,6 +12,7 @@ import static org.firstinspires.ftc.teamcode.Constants.OPEN;
 import static org.firstinspires.ftc.teamcode.Constants.PASS;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -39,7 +40,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *****************************/
 
 @TeleOp(name = "Mark 18 - Mecanum", group="Linear OpMode")
-// @Disabled
+
+@Disabled
+
 public class MecanumDriveDEV2 extends LinearOpMode {
 
     private Servo grabby;
