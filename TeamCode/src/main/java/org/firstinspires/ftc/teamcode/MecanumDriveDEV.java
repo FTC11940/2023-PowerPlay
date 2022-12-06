@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import static org.firstinspires.ftc.teamcode.Constants.BEE_SPEED;
-import static org.firstinspires.ftc.teamcode.Constants.CLOSED;
 import static org.firstinspires.ftc.teamcode.Constants.DIPLOMAT;
 import static org.firstinspires.ftc.teamcode.Constants.LIFT_FLOOR;
 import static org.firstinspires.ftc.teamcode.Constants.LIFT_GROUND;
@@ -208,7 +207,7 @@ public class MecanumDriveDEV extends LinearOpMode {
             // Runs cone alignment code
             // Drops gate, auto aligns forward and centers
             if (gamepad1.right_bumper) {
-
+                yesTouchy();
                 YSNP.setPosition(SHUT);
 
                 // May need to redefine afterwards?
@@ -266,6 +265,21 @@ public class MecanumDriveDEV extends LinearOpMode {
             }
 
             telemetry.update();
+
+        // double touch_speed = 9;
+
+        public void m_touchy;(double touch_speed);{
+                if (opModeIsActive()) {
+                    YSNP.setPosition(SHUT);
+
+                    // May need to redefine afterwards?
+                    frontLeftPower = (y / 9 + x / 9 + rot / 9);
+                    backLeftPower = (y / 9 - x / 9 + rot / 9);
+                    frontRightPower = (y / 9 - x / 9 - rot / 9);
+                    backRightPower = (y / 9 + x / 9 - rot / 9);
+                }
+                ;
+            }
 
             // Drives the robot forward and backwards
 
