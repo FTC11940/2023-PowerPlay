@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import static org.firstinspires.ftc.teamcode.Constants.BEE_SPEED;
+import static org.firstinspires.ftc.teamcode.Constants.CLOSED;
 import static org.firstinspires.ftc.teamcode.Constants.DIPLOMAT;
 import static org.firstinspires.ftc.teamcode.Constants.LIFT_FLOOR;
 import static org.firstinspires.ftc.teamcode.Constants.LIFT_GROUND;
@@ -10,7 +11,6 @@ import static org.firstinspires.ftc.teamcode.Constants.LIFT_MEDIUM;
 import static org.firstinspires.ftc.teamcode.Constants.LIFT_POWER;
 import static org.firstinspires.ftc.teamcode.Constants.OPEN;
 import static org.firstinspires.ftc.teamcode.Constants.PASS;
-import static org.firstinspires.ftc.teamcode.Constants.SHUT;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -207,15 +207,15 @@ public class MecanumDriveDEV extends LinearOpMode {
             // Runs cone alignment code
             // Drops gate, auto aligns forward and centers
             if (gamepad1.right_bumper) {
-                yesTouchy();
-                YSNP.setPosition(SHUT);
+                mTouchy();
 
                 // May need to redefine afterwards?
+                /*
                 frontLeftPower = (y/9 + x/9 + rot/9);
                 backLeftPower = (y/9 - x/9 + rot/9);
                 frontRightPower = (y/9 - x/9 - rot/9);
                 backRightPower = (y/9 + x/9 - rot/9);
-
+*/
                 /*
                 if (touchy.isPressed()) {
                     grabby.setPosition(CLOSED); // redundant
@@ -266,20 +266,7 @@ public class MecanumDriveDEV extends LinearOpMode {
 
             telemetry.update();
 
-        // double touch_speed = 9;
 
-        public void m_touchy;(double touch_speed);{
-                if (opModeIsActive()) {
-                    YSNP.setPosition(SHUT);
-
-                    // May need to redefine afterwards?
-                    frontLeftPower = (y / 9 + x / 9 + rot / 9);
-                    backLeftPower = (y / 9 - x / 9 + rot / 9);
-                    frontRightPower = (y / 9 - x / 9 - rot / 9);
-                    backRightPower = (y / 9 + x / 9 - rot / 9);
-                }
-                ;
-            }
 
             // Drives the robot forward and backwards
 
@@ -303,5 +290,55 @@ public class MecanumDriveDEV extends LinearOpMode {
 
         }
     }
-}
-// End of Class
+
+    private void mTouchy() {
+
+        while (opModeIsActive()) {
+            if (touchy.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(700);
+
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(0.2);
+                backRightMotor.setPower(0.2);
+            }
+
+        }
+        /*
+        YSNP.setPosition(PASS);
+        while (opModeIsActive()) {
+            if (touchy2.isPressed()) {
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
+                sleep(250);
+                frontLeftMotor.setPower(-0.3);
+                backLeftMotor.setPower(-0.3);
+                frontRightMotor.setPower(0.3);
+                backRightMotor.setPower(0.3);
+                sleep(150);
+                grabby.setPosition(OPEN);
+                break;
+            } else {
+                grabby.setPosition(CLOSED);
+                frontLeftMotor.setPower(0.2);
+                backLeftMotor.setPower(0.2);
+                frontRightMotor.setPower(-0.2);
+                backRightMotor.setPower(-0.2);
+            }
+
+        }
+
+         */
+    }
+
+
+}// End of Class
