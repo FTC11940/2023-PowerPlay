@@ -211,8 +211,11 @@ public class MecanumDriveDEV extends LinearOpMode {
             }
 
             if (gamepad1.right_bumper) {
-                slowMo(); // Sets drivetrain to a slower speed
+                while (opModeIsActive()) {
+                    slowMo(); // Sets drivetrain to a slower speed
+                }
             }
+            else {}
 
             telemetry.update();
 
@@ -235,6 +238,8 @@ public class MecanumDriveDEV extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "Front L (%.2f), Front R (%.2f)", frontLeftPower, frontRightPower);
             telemetry.addData("Motors", "Back L (%.2f), Back R (%.2f)", backLeftPower, backRightPower);
+            telemetry.addData("Right Bumper Status", gamepad1.right_bumper);
+
             telemetry.update(); // this is very important! without putting this code at the end of your telemetry, your telemetry will not update with new information
 
 
@@ -243,7 +248,7 @@ public class MecanumDriveDEV extends LinearOpMode {
 
     // FIXME
     private void slowMo() {
-        // while (opModeIsActive()) {
+
             double ySlow = -gamepad1.left_stick_y; // Uses the left thumbstick for left and right robot movement
             double xSlow = gamepad1.left_stick_x; //*1.1 to counteract imperfect strafing
             double rotSlow = gamepad1.right_stick_x; // Uses the right thumbstick to rotate robot movement
@@ -259,9 +264,6 @@ public class MecanumDriveDEV extends LinearOpMode {
             backLeftMotor.setPower(backLeftPowerSlow);
             frontRightMotor.setPower(frontRightPowerSlow);
             backRightMotor.setPower(backRightPowerSlow);
-
-
-        // }
 
     } // end of slowMo method
 
