@@ -1,16 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.teamcode.Constants.BEE_SPEED;
-import static org.firstinspires.ftc.teamcode.Constants.CLOSED;
-import static org.firstinspires.ftc.teamcode.Constants.DIPLOMAT;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_FLOOR;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_GROUND;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_HIGH;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_LOW;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_MEDIUM;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_POWER;
-import static org.firstinspires.ftc.teamcode.Constants.OPEN;
-import static org.firstinspires.ftc.teamcode.Constants.PASS;
+import static org.firstinspires.ftc.teamcode.Constants.*;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -212,6 +202,11 @@ public class MecanumDriveDEV extends LinearOpMode {
                     break;
             }
 
+            if (gamepad1.y) {
+                new TouchyAction();
+            }
+
+            // FIXME sloMo Method
             if (gamepad1.right_bumper) {
                 while (opModeIsActive()) {
                     slowMo(); // Sets drivetrain to a slower speed
