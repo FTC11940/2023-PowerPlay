@@ -199,10 +199,11 @@ public class MecanumDriveDEV extends LinearOpMode {
             if (gamepad1.a) {
                 mTouchy();
             } else if (gamepad1.b) {
-                    break;
+                    return;
             }
 
             if (gamepad1.y) {
+
                 new TouchyAction();
             }
 
@@ -211,6 +212,11 @@ public class MecanumDriveDEV extends LinearOpMode {
                 while (opModeIsActive()) {
                     slowMo(); // Sets drivetrain to a slower speed
                 }
+                // does work, no buttons on either controller, everything locked out.
+            } else if (gamepad1.left_bumper) {
+
+                return;
+
             }
 
             telemetry.update();
