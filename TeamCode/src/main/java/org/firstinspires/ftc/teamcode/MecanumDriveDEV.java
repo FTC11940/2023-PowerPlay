@@ -12,8 +12,6 @@ import static org.firstinspires.ftc.teamcode.Constants.LIFT_POWER;
 import static org.firstinspires.ftc.teamcode.Constants.OPEN;
 import static org.firstinspires.ftc.teamcode.Constants.PASS;
 
-import android.widget.ToggleButton;
-
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -212,25 +210,13 @@ public class MecanumDriveDEV extends LinearOpMode {
                 mTouchy();
             }
 
-
             if (gamepad1.right_bumper) {
-                {
+                while (opModeIsActive()) {
                     slowMo(); // Sets drivetrain to a slower speed
                 }
             }
 
             telemetry.update();
-
-
-
-            // Drives the robot forward and backwards
-
-            /*
-            frontLeftPower = (y + x + rot);
-            backLeftPower = (y - x + rot);
-            frontRightPower = (y - x - rot);
-            backRightPower = (y + x - rot);
-            */
 
             telemetry.addData("Lift Position: ", liftpos);
             telemetry.addData("Exact Lift Position", lift.getCurrentPosition());
@@ -249,16 +235,15 @@ public class MecanumDriveDEV extends LinearOpMode {
 
     // FIXME
     private void slowMo() {
-
             double ySlow = -gamepad1.left_stick_y; // Uses the left thumbstick for left and right robot movement
             double xSlow = gamepad1.left_stick_x; //*1.1 to counteract imperfect strafing
             double rotSlow = gamepad1.right_stick_x; // Uses the right thumbstick to rotate robot movement
             int slowFactor = 4;
 
-            double frontLeftPowerSlow = (ySlow/slowFactor + xSlow/slowFactor + rotSlow/slowFactor);
-            double backLeftPowerSlow = (ySlow/slowFactor - xSlow/slowFactor + rotSlow/slowFactor);
-            double frontRightPowerSlow = (ySlow/slowFactor - xSlow/slowFactor - rotSlow/slowFactor);
-            double backRightPowerSlow = (ySlow/slowFactor + xSlow/slowFactor - rotSlow/slowFactor);
+            double frontLeftPowerSlow = (ySlow / slowFactor + xSlow / slowFactor + rotSlow / slowFactor);
+            double backLeftPowerSlow = (ySlow / slowFactor - xSlow / slowFactor + rotSlow / slowFactor);
+            double frontRightPowerSlow = (ySlow / slowFactor - xSlow / slowFactor - rotSlow / slowFactor);
+            double backRightPowerSlow = (ySlow / slowFactor + xSlow / slowFactor - rotSlow / slowFactor);
 
             // Send calculated power to wheels
             frontLeftMotor.setPower(frontLeftPowerSlow);
@@ -269,9 +254,15 @@ public class MecanumDriveDEV extends LinearOpMode {
 
             // sleep(100); // Works but adds a stutter
 
+
     } // end of slowMo method
 
     private void mTouchy() {
+
+        /*
+        Robot drops the closes the and drives forward until the button, touchy, is pressed.
+        This sets the correct distance/depth from the terminal pole
+         */
 
         YSNP.setPosition(CLOSED);
 
@@ -293,8 +284,12 @@ public class MecanumDriveDEV extends LinearOpMode {
             }
 
         }
+
         /*
+        Robot raises the gate
+         */
         YSNP.setPosition(PASS);
+
         while (opModeIsActive()) {
             if (touchy2.isPressed()) {
                 frontLeftMotor.setPower(0);
@@ -319,7 +314,6 @@ public class MecanumDriveDEV extends LinearOpMode {
 
         }
 
-         */
     }
 
 
