@@ -39,7 +39,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  returns !isStarted() && !isStopRequested() and does not call idle().
  *****************************/
 
-@TeleOp(name = "Mark 27 - Mecanum", group="Linear OpMode")
+@TeleOp(name = "Mark 29 - Mecanum", group="Linear OpMode")
 // @Disabled
 public class MecanumDriveDEV extends LinearOpMode {
 
@@ -208,6 +208,8 @@ public class MecanumDriveDEV extends LinearOpMode {
             // Drops gate, auto aligns forward and centers
             if (gamepad1.a) {
                 mTouchy();
+            } else if (gamepad1.b) {
+                    break;
             }
 
             if (gamepad1.right_bumper) {
@@ -288,6 +290,7 @@ public class MecanumDriveDEV extends LinearOpMode {
         /*
         Robot raises the gate
          */
+
         YSNP.setPosition(PASS);
 
         while (opModeIsActive()) {
