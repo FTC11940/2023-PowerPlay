@@ -85,6 +85,23 @@ public class MecanumDrive extends LinearOpMode {
         // while the operational mode is active...
         while (opModeIsActive()) {
 
+            double y = -gamepad1.left_stick_y; // Uses the left thumbstick for left and right robot movement
+            double x = gamepad1.left_stick_x; //*1.1 to counteract imperfect strafing
+            double rot = gamepad1.right_stick_x; // Uses the right thumbstick to rotate robot movement
+
+            double motoSpeed = 1.0;
+
+            double frontLeftPower = (y + x + rot) * motoSpeed;
+            double backLeftPower = (y - x + rot) * motoSpeed;
+            double frontRightPower = (y - x - rot) * motoSpeed;
+            double backRightPower = (y + x - rot) * motoSpeed;
+
+            // Send calculated power to wheels
+            frontLeftMotor.setPower((frontLeftPower) * motoSpeed);
+            backLeftMotor.setPower((backLeftPower) * motoSpeed);
+            frontRightMotor.setPower((frontRightPower) * motoSpeed);
+            backRightMotor.setPower((backRightPower) * motoSpeed);
+
             // if b is pressed on gamepad 2...
             if (gamepad2.b) {
                 grabby.setPosition(OPEN); // set claw, or "grabby" position to open
@@ -172,23 +189,26 @@ public class MecanumDrive extends LinearOpMode {
                 liftpos = "ground";
             }
 
+            if (gamepad1.right_bumper) {
+
+                motoSpeed = 0.01; // Sets drivetrain to a slower speed
+
+                frontLeftMotor.setPower((frontLeftPower) * motoSpeed);
+                backLeftMotor.setPower((backLeftPower) * motoSpeed);
+                frontRightMotor.setPower((frontRightPower) * motoSpeed);
+                backRightMotor.setPower((backRightPower) * motoSpeed);
+
+            } else {
+
+                motoSpeed = 1.0;
+
+                frontLeftMotor.setPower((frontLeftPower) * motoSpeed);
+                backLeftMotor.setPower((backLeftPower) * motoSpeed);
+                frontRightMotor.setPower((frontRightPower) * motoSpeed);
+                backRightMotor.setPower((backRightPower) * motoSpeed);
+            }
+
             telemetry.update();
-
-            // Drives the robot forward and backwards
-            double y = -gamepad1.left_stick_y; // Uses the left thumbstick for left and right robot movement
-            double x = gamepad1.left_stick_x; //*1.1 to counteract imperfect strafing
-            double rot = gamepad1.right_stick_x; // Uses the right thumbstick to rotate robot movement
-
-            double frontLeftPower = (y + x + rot);
-            double backLeftPower = (y - x + rot);
-            double frontRightPower = (y - x - rot);
-            double backRightPower = (y + x - rot);
-
-            // Send calculated power to wheels
-            frontLeftMotor.setPower(frontLeftPower);
-            backLeftMotor.setPower(backLeftPower);
-            frontRightMotor.setPower(frontRightPower);
-            backRightMotor.setPower(backRightPower);
 
             telemetry.addData("Lift Position: ", liftpos);
             telemetry.addData("Exact Lift Position", lift.getCurrentPosition());

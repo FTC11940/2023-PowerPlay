@@ -134,7 +134,7 @@ public class MecanumDrive_Mark30 extends LinearOpMode {
 
             if (gamepad1.right_bumper) {
 
-                motoSpeed = 0.5; // Sets drivetrain to a slower speed
+                motoSpeed = 0.01; // Sets drivetrain to a slower speed
 
                 frontLeftMotor.setPower((frontLeftPower) * motoSpeed);
                 backLeftMotor.setPower((backLeftPower) * motoSpeed);
