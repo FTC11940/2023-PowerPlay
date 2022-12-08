@@ -712,16 +712,15 @@ public class F5_A2_CA_15 extends LinearOpMode {
                 frontRightMotor.setPower(0);
                 backRightMotor.setPower(0);
                 sleep(500);
-                grabby.setPosition(OPEN);
-                break;
+
             } else {
                 grabby.setPosition(CLOSED);
                 frontLeftMotor.setPower(0.2);
                 backLeftMotor.setPower(0.2);
                 frontRightMotor.setPower(0.2);
                 backRightMotor.setPower(0.2);
-            }
 
+            }
         }
         YSNP.setPosition(PASS);
         while (opModeIsActive()) {
@@ -745,12 +744,11 @@ public class F5_A2_CA_15 extends LinearOpMode {
                 frontRightMotor.setPower(-0.2);
                 backRightMotor.setPower(-0.2);
             }
-
         }
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
 
 
-        // TODO Just gonna put this here for fun testing later :)
+
         // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
         turnToHeading(TURN_SPEED, -90.0);
         lift.setTargetPosition(LIFT_FIVE_STACK);
@@ -764,7 +762,7 @@ public class F5_A2_CA_15 extends LinearOpMode {
 
         grabby.setPosition(CLOSED);
         sleep(250);
-        lift.setTargetPosition(2950); // FIXME? 2850
+        lift.setTargetPosition(2950);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
@@ -897,6 +895,9 @@ public class F5_A2_CA_15 extends LinearOpMode {
         signalParkTwo();
         sleep(10000);
     }
+
+
+
     private void AUTON_LOC_1() {
         waitForStart();
 
@@ -1323,5 +1324,9 @@ public class F5_A2_CA_15 extends LinearOpMode {
         signalParkThree();
         sleep(10000);
 
+    }
+    private boolean sleep() {
+        sleep(2000);
+        return true;
     }
     }
