@@ -541,7 +541,7 @@ public class F5_A2_CA_05 extends LinearOpMode {
 
     private void signalParkOne() {
         strafeLeft();
-        sleep(425);
+        sleep(400);
         lift.setTargetPosition(LIFT_FLOOR);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
