@@ -175,7 +175,6 @@ public class Red_F2_25pts extends LinearOpMode {
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
 
 
-        // TODO Just gonna put this here for fun testing later :)
         // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
         turnToHeading(TURN_SPEED, 90.0);
         lift.setTargetPosition(LIFT_FIVE_STACK);
@@ -190,7 +189,7 @@ public class Red_F2_25pts extends LinearOpMode {
         grabby.setPosition(CLOSED);
         sleep(650);
 
-        lift.setTargetPosition(2950); // FIXME? 2850
+        lift.setTargetPosition(2950);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
@@ -267,26 +266,17 @@ public class Red_F2_25pts extends LinearOpMode {
         }
 
 
-
-        // TODO Backup to Position Two tile?
-
-
         /*
-         * TODO Write specific parking code in the methods of this file (near botttom)
          * Comment out or uncomment as needed for testing purposes
          */
-
-        // TODO Test before adding in vision
 
         //signalParkOne();
         // Strafe Left
 
-        // TODO Test before adding in vision
          signalParkTwo();
         // Should already be in position by default just by backing up after last cone
 
 
-        // TODO Test before adding in vision
         // signalParkThree();
         // Strafe Right
 
@@ -665,7 +655,6 @@ public class Red_F2_25pts extends LinearOpMode {
         while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED * -desiredEncoder))
             ;
 
-        // TODO Test to see if this using encoder instead of time
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);

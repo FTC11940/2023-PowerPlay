@@ -207,9 +207,9 @@ public class MecanumDrive_Mark29 extends LinearOpMode {
                 new TouchyAction();
             }
 
-            // FIXME sloMo Method
+
             if (gamepad1.right_bumper) {
-                while (opModeIsActive()) {
+                while (opModeIsActive()) { // While creates a loop
                     slowMo(); // Sets drivetrain to a slower speed
                 }
                 // does work, no buttons on either controller, everything locked out.

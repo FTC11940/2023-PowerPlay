@@ -675,7 +675,6 @@ public class F5_A2_CA_05 extends LinearOpMode {
         while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED * -desiredEncoder))
             ;
 
-        // TODO Test to see if this using encoder instead of time
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -748,7 +747,6 @@ public class F5_A2_CA_05 extends LinearOpMode {
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
 /*
 
-        // TODO Just gonna put this here for fun testing later :)
         // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
         turnToHeading(TURN_SPEED, -90.0);
         lift.setTargetPosition(LIFT_FIVE_STACK);
@@ -762,7 +760,7 @@ public class F5_A2_CA_05 extends LinearOpMode {
 
         grabby.setPosition(CLOSED);
         sleep(250);
-        lift.setTargetPosition(2950); // FIXME? 2850
+        lift.setTargetPosition(2950);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
@@ -960,7 +958,6 @@ public class F5_A2_CA_05 extends LinearOpMode {
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
 /*
 
-        // TODO Just gonna put this here for fun testing later :)
         // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
         turnToHeading(TURN_SPEED, -90.0);
         lift.setTargetPosition(LIFT_FIVE_STACK);
@@ -974,7 +971,7 @@ public class F5_A2_CA_05 extends LinearOpMode {
 
         grabby.setPosition(CLOSED);
         sleep(250);
-        lift.setTargetPosition(2950); // FIXME? 2850
+        lift.setTargetPosition(2950);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
@@ -1174,8 +1171,7 @@ public class F5_A2_CA_05 extends LinearOpMode {
         driveStraight(DRIVE_SPEED, -10.0, 0.0); //
 /*
 
-        // TODO Just gonna put this here for fun testing later :)
-        // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
+                // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
         turnToHeading(TURN_SPEED, -90.0);
         lift.setTargetPosition(LIFT_FIVE_STACK);
         lift.setPower(1.0);
@@ -1189,7 +1185,7 @@ public class F5_A2_CA_05 extends LinearOpMode {
 
         grabby.setPosition(CLOSED);
         sleep(250);
-        lift.setTargetPosition(2950); // FIXME? 2850
+        lift.setTargetPosition(2950);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
