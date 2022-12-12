@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import static org.firstinspires.ftc.teamcode.Constants.*;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -31,6 +32,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name = "Mark 30 - Mecanum", group="Linear OpMode")
 // @Disabled
+
 public class MecanumDrive_Mark30 extends LinearOpMode {
 
     private Servo grabby;
@@ -111,6 +113,7 @@ public class MecanumDrive_Mark30 extends LinearOpMode {
 
             // Runs cone alignment code
             // Drops gate, auto aligns forward and centers
+            /*
             if (gamepad1.a) {
                 mTouchy();
             } else if (gamepad1.b) {
@@ -121,6 +124,7 @@ public class MecanumDrive_Mark30 extends LinearOpMode {
 
                 new TouchyAction();
             }
+            */
 
             if (gamepad1.right_bumper) {
 
