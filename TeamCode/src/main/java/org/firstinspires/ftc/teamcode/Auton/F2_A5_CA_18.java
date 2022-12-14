@@ -32,7 +32,6 @@ import static org.firstinspires.ftc.teamcode.Constants.LIFT_HIGH;
 import static org.firstinspires.ftc.teamcode.Constants.LIFT_LOW;
 import static org.firstinspires.ftc.teamcode.Constants.LIFT_MEDIUM;
 import static org.firstinspires.ftc.teamcode.Constants.LIFT_THREE_STACK;
-import static org.firstinspires.ftc.teamcode.Constants.LIFT_TWO_STACK;
 import static org.firstinspires.ftc.teamcode.Constants.OPEN;
 import static org.firstinspires.ftc.teamcode.Constants.PASS;
 import static org.firstinspires.ftc.teamcode.Constants.P_DRIVE_GAIN;
@@ -666,7 +665,6 @@ public class F2_A5_CA_18 extends LinearOpMode {
         while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED * -desiredEncoder))
             ;
 
-        // TODO Test to see if this using encoder instead of time
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -744,6 +742,7 @@ public class F2_A5_CA_18 extends LinearOpMode {
         sleep(100);
         YSNP.setPosition(PASS);
         driveStraight(DRIVE_SPEED, -4.0, 0.0); //
+
         // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
         turnToHeading(TURN_SPEED, 90.0);
         lift.setTargetPosition(LIFT_FIVE_STACK);
@@ -760,7 +759,7 @@ public class F2_A5_CA_18 extends LinearOpMode {
 
         //second cone delivery
 
-        lift.setTargetPosition(LIFT_MEDIUM); // FIXME? 2850
+        lift.setTargetPosition(LIFT_MEDIUM);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
@@ -1122,7 +1121,6 @@ public class F2_A5_CA_18 extends LinearOpMode {
             driveStraight(1.0, -8.0, 0.0); //
 
 
-            // TODO Just gonna put this here for fun testing later :)
             // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
             turnToHeading(1.0, 90.0);
             lift.setTargetPosition(LIFT_FIVE_STACK);
@@ -1138,7 +1136,7 @@ public class F2_A5_CA_18 extends LinearOpMode {
             grabby.setPosition(CLOSED);
             sleep(650);
 
-            lift.setTargetPosition(LIFT_LOW); // FIXME? 2850
+            lift.setTargetPosition(LIFT_LOW);
             lift.setPower(1.0);
             lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             // Test the telemetry statement before setting power to zero.
@@ -1279,8 +1277,6 @@ public class F2_A5_CA_18 extends LinearOpMode {
         }
         driveStraight(1.0, -8.0, 0.0); //
 
-
-        // TODO Just gonna put this here for fun testing later :)
         // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
         turnToHeading(1.0, 90.0);
         lift.setTargetPosition(LIFT_FIVE_STACK);
@@ -1295,7 +1291,7 @@ public class F2_A5_CA_18 extends LinearOpMode {
         grabby.setPosition(CLOSED);
         sleep(650);
 
-        lift.setTargetPosition(2950); // FIXME? 2850
+        lift.setTargetPosition(2950);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.

@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /****************************
@@ -35,6 +36,9 @@ public class MecanumDrive extends LinearOpMode {
     private Servo grabby;
     private Servo YSNP;
     private DcMotor lift;
+    TouchSensor touchy;
+    TouchSensor touchy2;
+
     private ElapsedTime runtime = new ElapsedTime();
 
     // Located in the Hardware file and matches with the Drive Hub robot settings
@@ -69,6 +73,9 @@ public class MecanumDrive extends LinearOpMode {
         YSNP.setPosition(PASS);
         lift.setTargetPosition(0);
 
+        touchy = hardwareMap.get(TouchSensor.class, "touchy");
+        touchy2 = hardwareMap.get(TouchSensor.class, "touchy2");
+
         frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class,"frontRightMotor");
         backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
@@ -101,6 +108,38 @@ public class MecanumDrive extends LinearOpMode {
             backLeftMotor.setPower((backLeftPower) * motoSpeed);
             frontRightMotor.setPower((frontRightPower) * motoSpeed);
             backRightMotor.setPower((backRightPower) * motoSpeed);
+
+            /* Runs cone alignment code
+            // Drops gate, auto aligns forward and centers
+            if (gamepad1.a) {
+                mTouchy();
+            } else if (gamepad1.b) {
+                return;
+            }
+
+            if (gamepad1.y) {
+
+                new TouchyAction();
+            } */
+
+            if (gamepad1.right_bumper) {
+
+                motoSpeed = 0.01; // Sets drivetrain to a slower speed
+
+                frontLeftMotor.setPower((frontLeftPower) * motoSpeed);
+                backLeftMotor.setPower((backLeftPower) * motoSpeed);
+                frontRightMotor.setPower((frontRightPower) * motoSpeed);
+                backRightMotor.setPower((backRightPower) * motoSpeed);
+
+            } else {
+
+                motoSpeed = 1.0;
+
+                frontLeftMotor.setPower((frontLeftPower) * motoSpeed);
+                backLeftMotor.setPower((backLeftPower) * motoSpeed);
+                frontRightMotor.setPower((frontRightPower) * motoSpeed);
+                backRightMotor.setPower((backRightPower) * motoSpeed);
+            }
 
             // if b is pressed on gamepad 2...
             if (gamepad2.b) {
@@ -189,24 +228,7 @@ public class MecanumDrive extends LinearOpMode {
                 liftpos = "ground";
             }
 
-            if (gamepad1.right_bumper) {
 
-                motoSpeed = 0.01; // Sets drivetrain to a slower speed
-
-                frontLeftMotor.setPower((frontLeftPower) * motoSpeed);
-                backLeftMotor.setPower((backLeftPower) * motoSpeed);
-                frontRightMotor.setPower((frontRightPower) * motoSpeed);
-                backRightMotor.setPower((backRightPower) * motoSpeed);
-
-            } else {
-
-                motoSpeed = 1.0;
-
-                frontLeftMotor.setPower((frontLeftPower) * motoSpeed);
-                backLeftMotor.setPower((backLeftPower) * motoSpeed);
-                frontRightMotor.setPower((frontRightPower) * motoSpeed);
-                backRightMotor.setPower((backRightPower) * motoSpeed);
-            }
 
             telemetry.update();
 

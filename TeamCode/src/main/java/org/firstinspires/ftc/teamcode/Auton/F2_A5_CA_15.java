@@ -274,7 +274,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
         /* Actually do something useful */
         if (tagOfInterest == null || tagOfInterest.id == LOCATION_2) {
             //trajectory
-           AUTON_LOC_2();
+            AUTON_LOC_2();
         } else if (tagOfInterest.id == LOCATION_1) {
             //trajectory
             AUTON_LOC_1();
@@ -675,7 +675,6 @@ public class F2_A5_CA_15 extends LinearOpMode {
         while (opModeIsActive() && (frontRightMotor.getCurrentPosition() < DRIVE_SPEED * -desiredEncoder))
             ;
 
-        // TODO Test to see if this using encoder instead of time
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -710,7 +709,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
                 frontRightMotor.setPower(0);
                 backRightMotor.setPower(0);
                 sleep(500);
-
+                grabby.setPosition(OPEN);
                 break;
             } else {
                 grabby.setPosition(CLOSED);
@@ -745,12 +744,12 @@ public class F2_A5_CA_15 extends LinearOpMode {
             }
 
         }
-        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
+        driveStraight(DRIVE_SPEED, -7.0, 0.0); //
 
 
         // TODO Just gonna put this here for fun testing later :)
         // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
-        turnToHeading(TURN_SPEED, 90.0);
+        turnToHeading(TURN_SPEED, 88.5);
         lift.setTargetPosition(LIFT_FIVE_STACK);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -771,7 +770,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
         }
         sleep(500);
         driveStraight(DRIVE_SPEED, -28.0, 0.0); // Drive to substation
-        turnToHeading(TURN_SPEED, -39.0);
+        turnToHeading(TURN_SPEED, 37.0);
 
         YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
         while (opModeIsActive()) {
@@ -781,6 +780,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
                 frontRightMotor.setPower(0);
                 backRightMotor.setPower(0);
                 sleep(700);
+                grabby.setPosition(OPEN);
                 break;
             } else {
                 grabby.setPosition(CLOSED);
@@ -816,8 +816,8 @@ public class F2_A5_CA_15 extends LinearOpMode {
             }
 
         }
-        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
-        turnToHeading(TURN_SPEED, 90.0);
+        driveStraight(DRIVE_SPEED, -7.0, 0.0); //
+        turnToHeading(TURN_SPEED, 87.0);
         // Insert lift code down here
         lift.setTargetPosition(LIFT_FOUR_STACK);
         lift.setPower(1.0);
@@ -827,7 +827,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
             telemetry.addData("Lift 3/4 Stack Status", "You've arrived at your 3/4 cone destination");
         }
 
-        driveStraight(DRIVE_SPEED, 28.0, 0.0); //
+        driveStraight(DRIVE_SPEED, 29.0, 0.0); //
 
         grabby.setPosition(CLOSED);
         sleep(250);
@@ -890,10 +890,10 @@ public class F2_A5_CA_15 extends LinearOpMode {
         }
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
         turnToHeading(TURN_SPEED, 0.0);
-        // Lift code down
         signalParkTwo();
         sleep(10000);
     }
+
     private void AUTON_LOC_1() {
         waitForStart();
 
@@ -956,24 +956,24 @@ public class F2_A5_CA_15 extends LinearOpMode {
             }
 
         }
-        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
+        driveStraight(DRIVE_SPEED, -7.0, 0.0); //
 
 
-        // TODO Just gonna put this here for fun testing later :)
         // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
-        turnToHeading(TURN_SPEED, 90.0);
+        turnToHeading(TURN_SPEED, 88.5);
         lift.setTargetPosition(LIFT_FIVE_STACK);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
-        if ((LIFT_FIVE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FIVE_STACK + TOLERANCE));
+        if ((LIFT_FIVE_STACK - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FIVE_STACK + TOLERANCE))
+            ;
 
 
         driveStraight(DRIVE_SPEED, 28.0, 0.0); // Drive to substation
 
         grabby.setPosition(CLOSED);
         sleep(250);
-        lift.setTargetPosition(2950); // FIXME? 2850
+        lift.setTargetPosition(2950);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
@@ -982,7 +982,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
         }
         sleep(500);
         driveStraight(DRIVE_SPEED, -28.0, 0.0); // Drive to substation
-        turnToHeading(TURN_SPEED, -39.0);
+        turnToHeading(TURN_SPEED, 37.0);
 
         YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
         while (opModeIsActive()) {
@@ -1028,8 +1028,8 @@ public class F2_A5_CA_15 extends LinearOpMode {
             }
 
         }
-        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
-        turnToHeading(TURN_SPEED, 90.0);
+        driveStraight(DRIVE_SPEED, -7.0, 0.0); //
+        turnToHeading(TURN_SPEED, 87.0);
         // Insert lift code down here
         lift.setTargetPosition(LIFT_FOUR_STACK);
         lift.setPower(1.0);
@@ -1039,7 +1039,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
             telemetry.addData("Lift 3/4 Stack Status", "You've arrived at your 3/4 cone destination");
         }
 
-        driveStraight(DRIVE_SPEED, 28.0, 0.0); //
+        driveStraight(DRIVE_SPEED, 29.0, 0.0); //
 
         grabby.setPosition(CLOSED);
         sleep(250);
@@ -1102,11 +1102,12 @@ public class F2_A5_CA_15 extends LinearOpMode {
         }
         driveStraight(DRIVE_SPEED, -8.0, 0.0); //
         turnToHeading(TURN_SPEED, 0.0);
+        grabby.setPosition(CLOSED);
         signalParkOne();
         sleep(10000);
 
-
     }
+
     private void AUTON_LOC_3() {
         waitForStart();
 
@@ -1169,12 +1170,11 @@ public class F2_A5_CA_15 extends LinearOpMode {
             }
 
         }
-        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
+        driveStraight(DRIVE_SPEED, -7.0, 0.0); //
 
 
-        // TODO Just gonna put this here for fun testing later :)
         // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
-        turnToHeading(TURN_SPEED, 90.0);
+        turnToHeading(TURN_SPEED, 88.5);
         lift.setTargetPosition(LIFT_FIVE_STACK);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -1187,7 +1187,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
 
         grabby.setPosition(CLOSED);
         sleep(250);
-        lift.setTargetPosition(2950); // FIXME? 2850
+        lift.setTargetPosition(2950);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // Test the telemetry statement before setting power to zero.
@@ -1196,7 +1196,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
         }
         sleep(500);
         driveStraight(DRIVE_SPEED, -28.0, 0.0); // Drive to substation
-        turnToHeading(TURN_SPEED, -39.0);
+        turnToHeading(TURN_SPEED, 37.0);
 
         YSNP.setPosition(SHUT); // Lift need to be up before shutting YSNP
         while (opModeIsActive()) {
@@ -1242,8 +1242,8 @@ public class F2_A5_CA_15 extends LinearOpMode {
             }
 
         }
-        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
-        turnToHeading(TURN_SPEED, 90.0);
+        driveStraight(DRIVE_SPEED, -7.0, 0.0); //
+        turnToHeading(TURN_SPEED, 87.0);
         // Insert lift code down here
         lift.setTargetPosition(LIFT_FOUR_STACK);
         lift.setPower(1.0);
@@ -1253,7 +1253,7 @@ public class F2_A5_CA_15 extends LinearOpMode {
             telemetry.addData("Lift 3/4 Stack Status", "You've arrived at your 3/4 cone destination");
         }
 
-        driveStraight(DRIVE_SPEED, 28.0, 0.0); //
+        driveStraight(DRIVE_SPEED, 29.0, 0.0); //
 
         grabby.setPosition(CLOSED);
         sleep(250);
@@ -1314,9 +1314,11 @@ public class F2_A5_CA_15 extends LinearOpMode {
             }
 
         }
-        driveStraight(DRIVE_SPEED,-10.0,0.0);
-        turnToHeading(TURN_SPEED,0.0);
+        driveStraight(DRIVE_SPEED, -8.0, 0.0); //
+        turnToHeading(TURN_SPEED, 0.0);
+        grabby.setPosition(CLOSED);
         signalParkThree();
         sleep(10000);
     }
-    }
+}
+    
