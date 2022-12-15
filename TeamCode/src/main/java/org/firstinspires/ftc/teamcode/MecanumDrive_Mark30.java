@@ -113,7 +113,7 @@ public class MecanumDrive_Mark30 extends LinearOpMode {
 
             // Runs cone alignment code
             // Drops gate, auto aligns forward and centers
-            /*
+
             if (gamepad1.a) {
                 mTouchy();
             } else if (gamepad1.b) {
@@ -124,7 +124,7 @@ public class MecanumDrive_Mark30 extends LinearOpMode {
 
                 new TouchyAction();
             }
-            */
+
 
             if (gamepad1.right_bumper) {
 

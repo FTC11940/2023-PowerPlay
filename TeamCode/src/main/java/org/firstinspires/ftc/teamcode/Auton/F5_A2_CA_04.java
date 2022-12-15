@@ -542,7 +542,7 @@ public class F5_A2_CA_04 extends LinearOpMode {
 
     private void signalParkOne() {
         strafeLeft();
-        sleep(400);
+        sleep(350);
         lift.setTargetPosition(LIFT_FLOOR);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -969,7 +969,7 @@ public class F5_A2_CA_04 extends LinearOpMode {
         driveStraight(DRIVE_SPEED, 24.0, 0.0); //
         sleep(100);
         YSNP.setPosition(PASS);
-        driveStraight(DRIVE_SPEED, -4.0, 0.0); //
+        driveStraight(DRIVE_SPEED, -1.0, 0.0); //
         /*
 
                // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now

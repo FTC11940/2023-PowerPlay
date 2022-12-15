@@ -39,6 +39,7 @@ import static org.firstinspires.ftc.teamcode.Constants.TURN_SPEED;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -60,6 +61,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import java.util.ArrayList;
 
 @Autonomous(name = "F2/A5 C.A. 15", group = "Robot")
+@Disabled
 public class F2_A5_CA_15 extends LinearOpMode {
 
     Servo grabby;

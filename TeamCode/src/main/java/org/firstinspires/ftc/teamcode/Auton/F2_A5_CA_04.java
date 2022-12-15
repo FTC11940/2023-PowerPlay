@@ -525,7 +525,7 @@ public class F2_A5_CA_04 extends LinearOpMode {
 
     private void signalParkOne() {
         strafeLeft();
-        sleep(425);
+        sleep(350);
         lift.setTargetPosition(LIFT_FLOOR);
         lift.setPower(1.0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -911,7 +911,6 @@ public class F2_A5_CA_04 extends LinearOpMode {
                 frontRightMotor.setPower(0);
                 backRightMotor.setPower(0);
                 sleep(500);
-                grabby.setPosition(OPEN);
                 break;
             } else {
                 grabby.setPosition(CLOSED);
@@ -952,7 +951,7 @@ public class F2_A5_CA_04 extends LinearOpMode {
         driveStraight(DRIVE_SPEED, 24.0, 0.0); //
         sleep(100);
         YSNP.setPosition(PASS);
-        driveStraight(DRIVE_SPEED, -4.0, 0.0); //
+        driveStraight(DRIVE_SPEED, -1.0, 0.0); //
         /*
 
         // strafeRightShiny(-480); // Made it negative so it goes left rather write a left for now
@@ -1131,7 +1130,7 @@ public class F2_A5_CA_04 extends LinearOpMode {
                 frontRightMotor.setPower(0);
                 backRightMotor.setPower(0);
                 sleep(500);
-                grabby.setPosition(OPEN);
+
                 break;
             } else {
                 grabby.setPosition(CLOSED);
