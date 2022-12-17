@@ -550,7 +550,7 @@ public class F5_A2_CA_112 extends LinearOpMode {
         if ((LIFT_FLOOR - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FLOOR + TOLERANCE)) {
             telemetry.addData("Lift Ground Status", "You've arrived at your GROUND destination");
         }
-        driveStraight(1.0, 47.0, 0);
+
     }
 
     private void signalParkTwo() {
@@ -572,7 +572,7 @@ public class F5_A2_CA_112 extends LinearOpMode {
         if ((LIFT_FLOOR - TOLERANCE) < lift.getCurrentPosition() && lift.getCurrentPosition() < (LIFT_FLOOR + TOLERANCE)) {
             telemetry.addData("Lift Ground Status", "You've arrived at your GROUND destination");
         }
-
+        driveStraight(1.0, 47.0, 0);
     }
 
     private void strafeLeft() {
